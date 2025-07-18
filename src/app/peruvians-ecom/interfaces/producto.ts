@@ -3,6 +3,7 @@ export interface Producto{
     nombre:string,
     descuento:string,
     tienda:string,
+    cantidad:number,
     categoria:string,
     descripcion:string,
     precio_antes:number,

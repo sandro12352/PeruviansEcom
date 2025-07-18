@@ -56,8 +56,75 @@
       <div class="d-flex align-items-center gap-3">
         <a routerLink="/perfil"><i class="bi bi-person fs-3 icon-hover"></i></a>
         <a routerLink="/favoritos"><i class="bi bi-heart fs-3 icon-hover"></i></a>
-        <a routerLink="/carrito"><i class="bi bi-cart fs-3 icon-hover"></i></a>
+        <a type="button" class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" ><i class="bi bi-cart fs-3 icon-hover"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{cartCount}}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+        </a>
       </div>
+        <!-- Offcanvas del carrito -->
+   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasCarritoLabel">Carrito</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+  </div>
+
+  <!-- Contenedor con scroll -->
+  <div class="offcanvas-body p-0">
+    <div class="productos-scroll px-3 py-2">
+      <div *ngFor="let producto of productosEnCarrito" class="mb-3 border rounded p-2">
+        <div class="d-flex align-items-center gap-3 justify-content-center">
+          <!-- Imagen -->
+          <div style="width: 120px; height: 120px; flex-shrink: 0;">
+            <img [src]="producto.img" class="img-fluid rounded" alt="producto" style="object-fit: cover; width: 100%; height: 100%;">
+          </div>
+
+          <!-- Información -->
+          <div class="flex-grow-1">
+            <strong>{{ producto.nombre }}</strong><br>
+            <small class="text-muted">{{ producto.tienda }}</small><br>
+
+            <!-- Contador de cantidad -->
+            <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
+              <button class="cantidad-btn" (click)="disminuirCantidad(producto)" >−</button>
+              <span>{{ producto.cantidad }}</span>
+              <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
+            </div>
+
+            S/. {{ producto.precio | number:'1.2-2' }}<br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resumen fijo abajo -->
+  <div class="resumen-footer border-top bg-white p-3">
+    <div class="d-flex justify-content-between">
+      <span>Subtotal:</span>
+      <span>S/. {{ calcularSubtotal() | number:'1.2-2' }}</span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span>Descuento:</span>
+      <span>S/. {{ calcularDescuento() | number:'1.2-2' }} </span>
+    </div>
+    <hr class="my-2">
+    <div class="d-flex justify-content-between fw-bold">
+      <span>Total:</span>
+      <span>S/. {{ calcularTotal() | number:'1.2-2' }}</span>
+    </div>
+  </div>
+        <!-- Botón estilizado -->
+<div class="d-grid mt-3 p-2">
+  <button class="btn btn-finalizar-compra">
+    🛒 Finalizar compra
+  </button>
+</div>
+
+</div>
+
+
 
     </div>
   </div>

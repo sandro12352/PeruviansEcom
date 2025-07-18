@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
 import { PeruviansService } from '../../services/peruvians.service';
+import { LiquidacionService } from '../../services/liquidacion.service';
 
 @Component({
   selector: 'app-inicio-page',
@@ -12,8 +13,11 @@ export class InicioPageComponent implements OnInit{
   public productos:Producto[]=[];
   public masVendido:Producto[] = [];
   public masNuevo:Producto[] = [];
-
-  constructor(private peruviansService:PeruviansService){}
+  public liquidacion:Producto[] =[];
+  constructor(
+    private peruviansService:PeruviansService,
+    private liquidacionService:LiquidacionService,
+  ){}
   
   ngOnInit(): void {
     this.peruviansService.todosProductos()
@@ -31,7 +35,13 @@ export class InicioPageComponent implements OnInit{
     this.peruviansService.masNuevo()
     .subscribe(masNuevo=>{
       this.masNuevo = masNuevo;
-      console.log(masNuevo)
+     
+    })
+
+    this.liquidacionService.getProductosLiquidacion()
+    .subscribe(productos=>{
+      this.liquidacion = productos;
+    
     })
   }
   

@@ -1,6 +1,6 @@
 [
     {
-        "id":1,
+        "id":7,
         "nombre":"Aceite de romero",
         "tienda":"FRANSTORE",
         "categoria":"aceites-portador",
@@ -11,10 +11,10 @@
         "beneficios":" Estimula el crecimiento del cabello, mejora la circulación, alivia dolores musculares y favorece la concentración.",
         "modo_de_uso":"Se recomienda usar la cantidad necesaria para el cuero cabelludo, masajear unos minutos, hasta cubrir toda la zona. Dejar reposar entre 40 – 60 minutos y luego enjuagar (importante para evitar caspa). ",
         "detalle":" Planta aromática originaria del Mediterráneo. Se usa comúnmente para estimular el crecimiento capilar y mejorar la circulación. Ayuda a fortalecer el cuero cabelludo, calmar dolores musculares y mejorar la concentración. De uso tópico, 100% natural. ",
-        "img":"imagenes/LIQUIDACION_ACEITE_DE_ROMERO.png"
+        "img":"imagenes/LIQUIDACION_ACEITE_DE_ROMERO.jpg"
     },
      {
-        "id":2,
+        "id":8,
         "nombre":"Cartílago de tiburón",
         "tienda":"LUKING4",
         "categoria":"suplementos",
@@ -25,10 +25,10 @@
         "beneficios":"Regenera articulaciones, reduce inflamación, fortalece huesos y mejora la movilidad. ",
         "modo_de_uso":"Consumir una cápsula después de cada comida (desayuno, almuerzo, cena). ",
         "detalle":" Extraído de las aletas del tiburón. Se utiliza frecuentemente para aliviar dolores articulares y fortalecer huesos. Ayuda a regenerar tejidos, disminuir la inflamación y mejorar la movilidad. Ideal en casos de artritis, desgaste o lesiones.",
-        "img":"imagenes/LIQUIDACION_CARTILAGO.png"
+        "img":"imagenes/LIQUIDACION_CARTILAGO.jpg"
     },
     {
-        "id":3,
+        "id":9,
         "nombre":"Carticolágeno",
         "tienda":"LUKING4",
         "categoria":"polvo",
@@ -39,10 +39,10 @@
         "beneficios":" Alivia dolores articulares, mejora la elasticidad de la piel, regenera tejidos y fortalece el cuerpo.",
         "modo_de_uso":" Consumir una o dos veces al día con agua, jugo de naranja o bebida favorita. ",
         "detalle":"Combinación de colágeno hidrolizado y cartílago de tiburón. Se emplea para proteger articulaciones, piel y huesos. Favorece la regeneración del tejido conectivo, mejora la elasticidad y alivia molestias articulares. Suplemento natural y de acción integral. ",
-        "img":"imagenes/LIQUIDACION_CARTICOLAGENO.png"
+        "img":"imagenes/LIQUIDACION_CARTICOLAGENO.jpg"
     },
     {
-        "id":4,
+        "id":10,
         "nombre":"Cartical D",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
@@ -53,10 +53,10 @@
         "beneficios":"Fortalece huesos y dientes, mejora la absorción de calcio, previene fracturas y alivia calambres.",
         "modo_de_uso":" Consumir dos cápsulas 3 veces al día (desayuno, almuerzo y cena), después de cada comida. ",
         "detalle":"Suplemento con calcio, vitamina D y minerales esenciales. Se usa para prevenir el debilitamiento óseo y fortalecer los dientes. Ayuda a mejorar la absorción de calcio, proteger la estructura ósea y evitar fracturas. Recomendado para adultos mayores y personas con deficiencias minerales.",
-        "img":"imagenes/LIQUIDACION_CARTICALD.png"
+        "img":"imagenes/LIQUIDACION_CARTICALD.jpg"
     },
     {
-        "id":5,
+        "id":11,
         "nombre":"Moringa",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
@@ -67,10 +67,10 @@
         "beneficios":" Aumenta la energía, regula el azúcar, refuerza el sistema inmune y reduce la inflamación. ",
         "modo_de_uso":"Consumir dos cápsulas 3 veces al día (desayuno, almuerzo y cena), después de cada comida. ",
         "detalle":"Árbol que crece en regiones tropicales como Asia, África y América Latina. Se usa como multivitamínico natural. Ayuda a controlar los niveles de azúcar, reducir inflamaciones y fortalecer el sistema inmune. Rica en antioxidantes, proteínas y minerales. Cápsulas 100% veganas. ",
-        "img":"imagenes/LIQUIDACION_MORINGA.png"
+        "img":"imagenes/LIQUIDACION_MORINGA.jpg"
     },
     {
-        "id":6,
+        "id":12,
         "nombre":"Masajeador eléctrico de pies",
         "tienda":"FRANSTORE",
         "descuento":"44%",
@@ -80,6 +80,6 @@
         "beneficios":"  Alivia el cansancio, mejora la circulación, relaja los músculos y reduce el estrés físico.",
         "modo_de_uso":" Coloca el tapete sobre una superficie plana, conecta el equipo al tape, introduce los pies y selecciona el tipo de masaje y la intensidad que prefieras. Úsalo durante 15 minutos al día. ",
         "detalle":"Dispositivo de origen tecnológico, diseñado para relajar y activar la circulación. Se utiliza para aliviar el dolor, reducir el estrés físico y mejorar el descanso. Ayuda a desinflamar, relajar músculos tensos y revitalizar pies cansados. Recomendado para personas con largas jornadas de pie o mala circulación",
-        "img":"imagenes/LIQUIDACION_MASAJEADOR.png"
+        "img":"imagenes/LIQUIDACION_MASAJEADOR.jpg"
     }
 ]

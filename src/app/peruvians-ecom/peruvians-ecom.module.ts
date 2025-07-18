@@ -13,6 +13,7 @@ import { CarruselComentariosComponent } from './components/carrusel-comentarios/
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
+import { CarritoComponent } from './components/carrito/carrito.component';
 
 
 
@@ -29,6 +30,7 @@ import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-produ
     CarruselComentariosComponent,
     ContactanosComponent,
     MostrarProductoComponent,
+    CarritoComponent,
   ],
   exports: [
     LayoutPageComponent,

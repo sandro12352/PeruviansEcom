@@ -17,7 +17,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
     PeruviansEcomModule,
   ],
   providers: [
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent]
 })

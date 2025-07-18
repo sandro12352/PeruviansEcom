@@ -2,30 +2,31 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Producto } from '../interfaces/producto';
+import { envs } from '../../config/envs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PeruviansService {
 
-  private url = './data';
+  
 
   constructor(private http: HttpClient) {}
 
   todosProductos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.url}/productos.json`);
+    return this.http.get<Producto[]>(`${envs.apiUrl}/productos.json`);
   }
 
   masVendidos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.url}/masVendidos.json`);
+    return this.http.get<Producto[]>(`${envs.apiUrl}/masVendidos.json`);
   }
 
   masNuevo():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.url}/masNuevo.json`);
+    return this.http.get<Producto[]>(`${envs.apiUrl}/masNuevo.json`);
   }
 
   getProductosPorCategoria(categoria: string): Observable<Producto[]> {
-  return this.http.get<Producto[]>(`${this.url}/productos.json`).pipe(
+  return this.http.get<Producto[]>(`${envs.apiUrl}/productos.json`).pipe(
     map(productos => productos.filter(p => p.categoria === categoria))
     );
   }

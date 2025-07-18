@@ -97,7 +97,7 @@
 
 
 <section class="container my-5">
-
+<h2 class=" mb-4">CyberWow</h2>
   <!-- Fila 1 -->
   <div class="d-flex gap-3">
     <div class="promo-card position-relative overflow-hidden rounded-3">
@@ -132,11 +132,12 @@
 
 </section>
 
-
+<!-- Producos Liquidacion -->
 <section class="container my-5">
+   <h2 class=" mb-4">Productos en Liquidación</h2>
   <div class="row gy-4">
     <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-6" *ngFor="let i of [1,2,3,4,5,6]">
+    <div class="col-md-6" *ngFor="let producto of liquidacion">
       <div class="promo-rect-card d-flex align-items-center p-3 rounded shadow-sm">
         <!-- Izquierda: Texto -->
         <div class="w-60 pe-3">
@@ -147,7 +148,7 @@
 
         <!-- Derecha: Imagen -->
         <div class="w-40 text-end">
-          <img src="imagenes/liquidacionRomero.jpg" alt="oferta" class="img-fluid rounded" />
+          <img [src]="producto.img" alt="oferta" class="img-fluid rounded" />
         </div>
       </div>
     </div>

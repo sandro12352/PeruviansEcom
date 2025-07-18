@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
 import { ActivatedRoute } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -15,13 +16,14 @@ export class MostrarProductoComponent implements OnInit {
 
    constructor(
     private route: ActivatedRoute,
-    private peruviansService: PeruviansService
+    private peruviansService: PeruviansService,
+    private carritoService:CarritoService,
   ) {}
 
   ngOnInit(): void {
   this.route.paramMap.subscribe(params => {
     this.categoria = params.get('categorias') || '';
-    console.log(this.categoria);
+    
 
     if (this.categoria === 'mas-vendidos') {
       this.obtenerProductosMasVendidos();
@@ -56,4 +58,10 @@ export class MostrarProductoComponent implements OnInit {
   }
 
 
-}
+  AgregarCarrito(producto:Producto){
+    this.carritoService.agregarProducto(producto);
+    
+  }   
+
+
+} 
