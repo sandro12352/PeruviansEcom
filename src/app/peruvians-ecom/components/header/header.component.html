@@ -9,15 +9,36 @@
     <div class="d-flex align-items-center justify-content-between">
 
       <!-- Logo y hamburguesa -->
-      <div class="d-flex align-items-center">
-        <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-          aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="bi bi-list fs-1"></i>
-        </button>
-        <a routerLink="/" class="d-inline-block">
-          <img src="logo.png" alt="Logo" width="120" height="70">
-        </a>
-      </div>
+     <!-- HEADER -->
+<div class="d-flex align-items-center">
+  <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+    aria-controls="offcanvasMenu" aria-label="Toggle navigation">
+    <i class="bi bi-list fs-1"></i>
+  </button>
+
+  <a routerLink="/" class="d-inline-block">
+    <img src="logo.png" alt="Logo" width="120" height="70">
+  </a>
+</div>
+
+<!-- OFFCANVAS MENU -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled">
+      <li><a routerLink="/" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">INICIO<i class="bi bi-chevron-right  text-success fs-2"></i></a></li>
+       <li><a [routerLink]="['/productos','gomitas']" data-bs-dismiss="offcanvas" class="nav-link border-bottom nav-link d-flex justify-content-between align-items-center">SUPLEMENTOS EN GOMITAS <i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/productos','aceites-portador']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">ACEITES NATURALES<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/productos','polvo']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN POLVO<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/productos','suplementos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN CAPSULAS<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+     
+    </ul>
+  </div>
+</div>
+
 
 
      

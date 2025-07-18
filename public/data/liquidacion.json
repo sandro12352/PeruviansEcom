@@ -25,7 +25,7 @@
         "beneficios":"Regenera articulaciones, reduce inflamación, fortalece huesos y mejora la movilidad. ",
         "modo_de_uso":"Consumir una cápsula después de cada comida (desayuno, almuerzo, cena). ",
         "detalle":" Extraído de las aletas del tiburón. Se utiliza frecuentemente para aliviar dolores articulares y fortalecer huesos. Ayuda a regenerar tejidos, disminuir la inflamación y mejorar la movilidad. Ideal en casos de artritis, desgaste o lesiones.",
-        "img":"imagenes/cartilagoTiburon.png"
+        "img":"imagenes/LIQUIDACION_CARTILAGO.png"
     },
     {
         "id":3,
@@ -39,7 +39,7 @@
         "beneficios":" Alivia dolores articulares, mejora la elasticidad de la piel, regenera tejidos y fortalece el cuerpo.",
         "modo_de_uso":" Consumir una o dos veces al día con agua, jugo de naranja o bebida favorita. ",
         "detalle":"Combinación de colágeno hidrolizado y cartílago de tiburón. Se emplea para proteger articulaciones, piel y huesos. Favorece la regeneración del tejido conectivo, mejora la elasticidad y alivia molestias articulares. Suplemento natural y de acción integral. ",
-        "img":"imagenes/carticolageno.png"
+        "img":"imagenes/LIQUIDACION_CARTICOLAGENO.png"
     },
     {
         "id":4,
@@ -53,7 +53,7 @@
         "beneficios":"Fortalece huesos y dientes, mejora la absorción de calcio, previene fracturas y alivia calambres.",
         "modo_de_uso":" Consumir dos cápsulas 3 veces al día (desayuno, almuerzo y cena), después de cada comida. ",
         "detalle":"Suplemento con calcio, vitamina D y minerales esenciales. Se usa para prevenir el debilitamiento óseo y fortalecer los dientes. Ayuda a mejorar la absorción de calcio, proteger la estructura ósea y evitar fracturas. Recomendado para adultos mayores y personas con deficiencias minerales.",
-        "img":"imagenes/carticalD.png"
+        "img":"imagenes/LIQUIDACION_CARTICALD.png"
     },
     {
         "id":5,
@@ -67,7 +67,7 @@
         "beneficios":" Aumenta la energía, regula el azúcar, refuerza el sistema inmune y reduce la inflamación. ",
         "modo_de_uso":"Consumir dos cápsulas 3 veces al día (desayuno, almuerzo y cena), después de cada comida. ",
         "detalle":"Árbol que crece en regiones tropicales como Asia, África y América Latina. Se usa como multivitamínico natural. Ayuda a controlar los niveles de azúcar, reducir inflamaciones y fortalecer el sistema inmune. Rica en antioxidantes, proteínas y minerales. Cápsulas 100% veganas. ",
-        "img":"imagenes/moringa.png"
+        "img":"imagenes/LIQUIDACION_MORINGA.png"
     },
     {
         "id":6,
@@ -80,6 +80,6 @@
         "beneficios":"  Alivia el cansancio, mejora la circulación, relaja los músculos y reduce el estrés físico.",
         "modo_de_uso":" Coloca el tapete sobre una superficie plana, conecta el equipo al tape, introduce los pies y selecciona el tipo de masaje y la intensidad que prefieras. Úsalo durante 15 minutos al día. ",
         "detalle":"Dispositivo de origen tecnológico, diseñado para relajar y activar la circulación. Se utiliza para aliviar el dolor, reducir el estrés físico y mejorar el descanso. Ayuda a desinflamar, relajar músculos tensos y revitalizar pies cansados. Recomendado para personas con largas jornadas de pie o mala circulación",
-        "img":"imagenes/moringa.png"
+        "img":"imagenes/LIQUIDACION_MASAJEADOR.png"
     }
 ]

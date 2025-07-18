@@ -1,3 +1,22 @@
+.offcanvas-body .nav-link {
+  padding: 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+  
+}
+
+.offcanvas-body .nav-link:hover {
+  color: #56ab2f;
+  text-decoration: none;
+}
+
+.offcanvas-header{
+  background:  linear-gradient(to right, #a8e063, #56ab2f);
+}
+
+
+
+
 .search-icon-rounded {
     background-color: #f48a3e;
     border-radius: 50%;
