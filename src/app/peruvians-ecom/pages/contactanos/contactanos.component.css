@@ -1,0 +1,18 @@
+.banner-natural {
+  background: linear-gradient(to right, #a8e063, #56ab2f);
+}
+
+.btn-natural {
+  background-color: #56ab2f;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-natural:hover {
+  background-color: #3e8e1f;
+}
+
+p {
+  margin-bottom: 1rem;
+}

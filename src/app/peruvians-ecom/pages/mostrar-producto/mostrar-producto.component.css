@@ -1,0 +1,64 @@
+.producto-card {
+  
+  transition: transform 0.2s;
+}
+
+
+
+.marca-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #4CAF50; /* verde claro */
+  background-color: #eafaea;
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.3rem;
+}
+
+
+.boton-agregar {
+  border: 2px solid #f48a3e;      /* verde Bootstrap */
+  background-color: white;
+  color: #f48a3e;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.boton-agregar:hover {
+  background-color: #f48a3e;
+  color: white;
+}
+
+
+
+.producto-card .card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 360px; /* Altura fija que se ajusta bien */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.producto-card .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+
+.descuento-badge {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  background-color: #f31d1d; /* rojo Bootstrap */
+  color: white;
+  padding: 0.4rem .8rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  
+  z-index: 1;
+}

@@ -1,0 +1,78 @@
+<div class="container mt-5">
+
+  <!-- Banner superior -->
+  <div class="p-4 mb-4 text-white text-center banner-natural rounded">
+    <h2>Contáctanos Aquí</h2>
+    <p>Queremos ayudarte a cuidar tu cuerpo de forma natural 🌿</p>
+  </div>
+
+  <!-- Contenido dividido en dos columnas -->
+  <div class="d-md-flex gap-3">
+
+    <!-- Izquierda: Información de contacto -->
+    <div class="col-md-5 col-12 bg-light p-4 rounded shadow-sm  ">
+
+      <h5 class="text-success mb-4 fw-bold">🕒 Horarios de Atención</h5>
+
+      <p>𐤟 <strong>Compras online:</strong><br>
+        Lunes a Sábado de 9:00am a 6:00pm</p>
+
+      <p>𐤟 <strong>Despacho:</strong><br>
+        Lunes a Sábado de 9:00am a 6:00pm</p>
+
+      <hr>
+
+      <p><strong>📞 Comunícate al:</strong><br>
+        +51 932 321 295</p>
+
+      <p><strong>✉️ Escríbenos:</strong><br>
+        contacto&#64;correo.com.pe</p>
+    </div>
+
+    <!-- Derecha: Formulario -->
+    <div class="col-md  col-12  p-4  rounded shadow-sm bg-white">
+
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+          <label for="nombres" class="form-label">Nombres y Apellidos</label>
+          <input formControlName="nombre" type="text" class="form-control" id="nombres" placeholder="Ej: María López">
+            <div class="text-danger small mt-1" *ngIf="campoInvalido('nombre')">
+                El nombre es obligatorio.
+            </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail</label>
+          <input formControlName="email" type="email" class="form-control" id="email" placeholder="Ej: maria@email.com">
+            <div class="text-danger small mt-1" *ngIf="campoInvalido('email')">
+                Ingresa un correo válido.
+            </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="celular" class="form-label">Celular</label>
+          <input formControlName="celular" type="tel" class="form-control" id="celular" placeholder="Ej: 987654321">
+            <div class="text-danger small mt-1" *ngIf="campoInvalido('celular')">
+                El celular debe tener 9 dígitos numéricos.
+            </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="mensaje" class="form-label">Mensaje</label>
+          <textarea formControlName="mensaje" class="form-control" id="mensaje" rows="4" placeholder="Escríbenos tu consulta..."></textarea>
+            <div class="text-danger small mt-1" *ngIf="campoInvalido('mensaje')">
+                El mensaje no puede estar vacío.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-natural w-100" [disabled]="contactForm.invalid">
+          Enviar Mensaje
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+

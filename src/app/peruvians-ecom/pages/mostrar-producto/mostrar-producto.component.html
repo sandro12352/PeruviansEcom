@@ -1,0 +1,44 @@
+<section *ngIf="categoria" style="background: linear-gradient(to right, #a8e063, #56ab2f);">
+  <div class="text-center text-white">
+    <h2 class="p-5 text-capitalize">{{ categoria.replace('-', ' ') }}</h2>
+  </div>
+</section>
+
+
+
+<section class="container my-5">
+  
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3 mb-4">
+      <div class="card p-3">
+        <h5>Filtrar por:</h5>
+        <!-- filtros de ejemplo -->
+        <label><input type="checkbox" /> En oferta</label>
+      </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="col-lg-9">
+      <div class="row gx-3 gy-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let producto of productos">
+          <div class=" producto-card  h-100 ">
+            <div class="card">
+              <span class="descuento-badge">{{ producto.descuento }}</span>
+            <img [src]="producto.img" class="img-fluid rounded" alt="Producto" />
+            <div class="card-body-custom p-2">
+              <span class="marca-badge">{{ producto.tienda }}</span>
+              <h6 class="mt-2 fw-bold">{{ producto.nombre }}</h6>
+              <s class="text-danger small">S/.{{ producto.precio_antes }}.00</s>
+              <p class="fw-semibold mb-2">S/.{{ producto.precio }}.00</p>
+              <button class="btn boton-agregar btn-sm w-100">Agregar</button>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,20 @@
+.footer-natural {
+  background-color: #363636;
+  border-top: 1px solid #ea730a;
+  overflow: hidden;
+}
+
+.footer-natural .text-accent {
+  color: #ffffffff;
+}
+
+/* Fondo decorativo con hojas SVG */
+.footer-bg {
+ background: #000;
+   
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 3rem 1rem;
+}

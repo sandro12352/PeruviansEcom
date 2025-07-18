@@ -1,0 +1,134 @@
+.search-icon-rounded {
+    background-color: #f48a3e;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: none;
+  }
+
+  .search-icon-rounded i {
+    color: white;
+    font-size: 16px;
+  }
+
+  .search-input {
+    border-radius: 0 0.375rem 0.375rem 0 ; /* Bootstrap border radius */
+    transition: box-shadow 0.3s ease;
+  }
+
+  .search-input:focus {
+    box-shadow: none; /* sombra verde */
+    outline: none;
+    border-color: #f48a3e;
+  }
+
+  .input-group.no-gap > .search-icon-rounded {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+
+.icon-hover {
+  color: #212529; /* texto oscuro por defecto */
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.icon-hover:hover {
+  color: #f48a3e; /* azul Bootstrap */
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+
+.menu-icon i {
+  font-size: 1.5rem;         /* Tamaño del ícono */
+  line-height: 1;          /* Ajuste vertical */
+  color: #212529;
+  text-shadow: 0 0 1px #000;
+  transition: transform 0.2s ease;
+}
+
+.menu-icon i:hover {
+  transform: scale(1.1);
+  color: #f48a3e;
+}
+
+
+
+/* Hover verde cálido */
+  .navbar-nav .nav-link {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #f48a3e ;
+  }
+
+  /* WhatsApp ícono */
+  .whatsapp-contact {
+    color: #25D366;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .whatsapp-contact:hover {
+    color: #1da851;
+    text-decoration: underline;
+  }
+
+  .whatsapp-icon {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+
+ .envio-banner {
+  background: linear-gradient(270deg, #4caf50, #ff9800, #fbc02d, #4caf50);
+  background-size: 800% 800%;
+  animation: bannerGradient 10s ease infinite;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+@keyframes bannerGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+
+.category-item:hover,
+.category-item.active {
+  background-color: #d4edda; /* verde suave */
+  font-weight: 600;
+}
+
+.products-list:hover #products-gomugomix {
+  color: #155724;
+  padding-left: 8px;
+  display: block;
+}
+
+.products-list ul.products li a:hover {
+  text-decoration: underline;
+}

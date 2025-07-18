@@ -1,0 +1,170 @@
+<header class="fire-gradient  shadow-sm">
+ <div class="container-fluid text-center text-white p-1 envio-banner">
+  <strong>ENVIOS GRATIS A TODO EL PERÚ - CONTRA ENTREGA</strong>
+</div>
+
+
+
+  <div class="container ">
+    <div class="d-flex align-items-center justify-content-between">
+
+      <!-- Logo y hamburguesa -->
+      <div class="d-flex align-items-center">
+        <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+          aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-1"></i>
+        </button>
+        <a routerLink="/" class="d-inline-block">
+          <img src="logo.png" alt="Logo" width="120" height="70">
+        </a>
+      </div>
+
+
+     
+      <!-- Barra de búsqueda -->
+     <form class="d-none d-md-flex mx-4 w-50">
+      <div class="input-group w-100 no-gap">
+        <span class="search-icon-rounded">
+          <i class="bi bi-search fs-4"></i>
+        </span>
+        <input class="form-control search-input p-2" type="search" placeholder="¿Qué estás buscando hoy?" aria-label="Buscar">
+      </div>
+    </form>
+
+      <!-- Íconos -->
+      <div class="d-flex align-items-center gap-3">
+        <a routerLink="/perfil"><i class="bi bi-person fs-3 icon-hover"></i></a>
+        <a routerLink="/favoritos"><i class="bi bi-heart fs-3 icon-hover"></i></a>
+        <a routerLink="/carrito"><i class="bi bi-cart fs-3 icon-hover"></i></a>
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-md  px-3 shadow-sm border">
+  <div class="container-fluid">
+
+    <!-- Menú colapsable -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+    <div class="d-flex align-items-center me-auto">
+
+    <!-- Ícono de menú (solo en escritorio) como dropdown -->
+    <div class="dropdown d-none d-md-block">
+      <button 
+        class="nav-link btn btn-link p-0 d-flex align-items-center menu-icon me-3"
+        id="menuDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        type="button"
+      >
+        <i class="bi bi-list fs-3"></i>
+      </button>
+
+      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 900px;"
+      (mouseleave)="ocultarProductos()">
+  <div class="d-flex">
+
+    <!-- Categorías (izquierda) -->
+    <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
+      <h2>CATEGORIAS</h2>
+      <li 
+      class="category-item" data-products="products-gomugomix" 
+      (mouseenter)="mostrarProductos('gomugomix')"
+      [ngClass]="{ 'active': activeCategory === 'gomugomix' }"
+       [routerLink]="['/productos','gomitas']">
+        Gomugomix<i class="bi bi-chevron-right ms-5"></i>
+      </li>
+      <li 
+      class="category-item" data-products="products-aceites"
+      (mouseenter)="mostrarProductos('aceites')"
+      [ngClass]="{ 'active': activeCategory === 'aceites' }"
+       [routerLink]="['/productos','aceites-portador']">
+        Aceites Portadores<i class="bi bi-chevron-right"></i>
+      </li>
+      <li class="category-item" data-products="products-polvo" 
+        (mouseenter)="mostrarProductos('polvo')"
+        [ngClass]="{ 'active': activeCategory === 'polvo' }"
+        [routerLink]="['/productos','polvo']">
+          Suplemento en Polvo<i class="bi bi-chevron-right"></i>
+        </li>
+      <li class="category-item" data-products="products-capsulas"
+      (mouseenter)="mostrarProductos('capsulas')"
+      [ngClass]="{ 'active': activeCategory === 'capsulas' }"
+         [routerLink]="['/productos','suplementos']" >
+        Suplementos en Capsulas<i class="bi bi-chevron-right"></i></li>
+    </ul>
+
+    <!-- Productos (derecha) -->
+    <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
+        <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
+          <h3>Gomitas</h3>
+            <li><a routerLink="gomugomix-prod1" class="dropdown-item">Colageno</a></li>
+            <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
+             <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
+        </ul>
+
+      <ul *ngIf="activeCategory === 'aceites'" class="products list-unstyled ">
+        <h3>Aceites</h3>
+        <li><a routerLink="aceite-prod1" class="dropdown-item">Semillas de Oregano</a></li>
+        <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
+      </ul>
+
+      <ul *ngIf="activeCategory === 'polvo'" class="products list-unstyled ">
+         <h3>Polvo</h3>
+        <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
+       
+      </ul>
+
+      <ul *ngIf="activeCategory === 'capsulas'" class="products list-unstyled ">
+        <h3>Capsulas</h3>        
+        <li><a routerLink="capsulas-prod1" class="dropdown-item">Melena de León</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Moringa</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Cartilago de Tiburón</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Blood Sugar</a></li>
+      </ul>
+    </div>
+
+
+  </div>
+      </div>
+
+    </div>
+
+    <!-- Nuevas secciones -->
+    <ul class="navbar-nav flex-row gap-3 d-none d-md-flex">
+      <li class="nav-item">
+        <a [routerLink]="['/productos','mas-vendidos']" class="nav-link">MÁS VENDIDO</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/productos','mas-nuevos']" class="nav-link">NOVEDADES</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Menú alineado a la derecha -->
+  <ul class="navbar-nav mb-2 mb-md-0 d-none d-md-flex">
+    <li class="nav-item">
+      <a routerLink="/catalogo" class="nav-link">CATÁLOGO</a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/contactanos" class="nav-link">CONTÁCTANOS</a>
+    </li>
+  </ul>
+    </div>
+
+
+    <!-- Búsqueda en móvil -->
+    <form class="d-md-none w-100 mt-3">
+      <div class="input-group w-100 no-gap">
+        <span class="search-icon-rounded">
+          <i class="bi bi-search"></i>
+        </span>
+        <input class="form-control search-input p-2" type="search" placeholder="¿Qué estás buscando hoy..." aria-label="Buscar">
+      </div>
+    </form>
+
+  </div>
+</nav>
+
+
+</header>

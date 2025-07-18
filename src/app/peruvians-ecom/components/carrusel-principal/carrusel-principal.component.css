@@ -1,0 +1,55 @@
+.carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* Esto los convierte en círculos */
+  background-color: #888; /* Color base */
+  border: none;
+  margin: 0 6px;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-indicators button.active {
+  background-color: #ffffff; /* Color activo (azul Bootstrap) */
+}
+
+
+.carousel-img-container {
+  position: relative;
+ 
+  cursor: pointer;
+}
+
+.carousel-img {
+  transition: transform 0.5s ease;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.carousel-img-container:hover .carousel-img {
+  transform: scale(1.1) rotate(2deg);
+  filter: brightness(0.9);
+}
+
+.btn-lo-quiero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #117ca3; /* verde Bootstrap */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  opacity: 0;
+  box-shadow: 0 8px 15px rgba(0, 128, 0, 0.3);
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-img-container:hover  .btn-lo-quiero {
+  opacity: 1;
+}

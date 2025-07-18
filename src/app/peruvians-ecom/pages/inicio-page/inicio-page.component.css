@@ -1,0 +1,202 @@
+/* Contenedor principal que se comporta como carrusel horizontal en móvil */
+.categoria-wrapper {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+
+@media (min-width: 768px) {
+  .categoria-wrapper {
+    flex-wrap: wrap; /* grilla en escritorio */
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+/* Tarjeta */
+.categoria-card {
+  flex: 0 0 auto;
+  width: 196px;
+  text-align: center;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+
+/* Hover sobre la tarjeta que afecta IMG y H6 */
+.categoria-card:hover .categoria-img {
+  box-shadow: 0 0 10px #225201;
+  transform: scale(1.05); /* 🔍 Zoom suave */
+  transition: transform 0.5s ease,box-shadow 0.3s ease;
+}
+
+.categoria-card:hover .categoria-title {
+  color: #387e0d;
+  transition: color 0.3s ease;
+}
+
+
+/* Imagen */
+.categoria-img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+/* Título */
+.categoria-title {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #333;
+  transition: color 0.3s;
+}
+
+
+
+
+
+.categoria-wrapper1 {
+    display: flex;
+    
+    justify-content: space-between; /* Espacio entre tarjetas */
+    gap: 1rem;
+  }
+
+  .categoria-card1 {
+    cursor: pointer;
+    flex: 1 1 calc(20% - 1rem); /* 5 tarjetas por fila con espacio entre ellas */
+    box-sizing: border-box;
+  }
+
+  .categoria-card1:hover .categoria-img {
+  
+  transform: scale(1.05); /* 🔍 Zoom suave */
+  transition: transform 0.5s ease,box-shadow 0.3s ease;
+}
+
+  @media (max-width: 768px) {
+    .categoria-wrapper1 {
+    flex-wrap: wrap; /* grilla en escritorio */
+    
+  }
+
+
+    .categoria-card1 {
+      flex: 1 1 calc(50% - 1rem); /* 2 por fila en pantallas pequeñas */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .categoria-card1 {
+      flex: 1 1 100%; /* 1 por fila en móviles */
+    }
+  }
+
+
+
+
+
+.promo-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: scale(1.01);
+}
+
+/* Imagen que se vuelve pálida en hover */
+.promo-img {
+  transition: all 0.4s ease;
+  width: 100%;
+  height: auto;
+}
+
+.promo-card:hover .promo-img {
+   filter: grayscale(30%) brightness(80%) blur(1px);
+}
+
+.promo-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  z-index: 2;
+  padding: 0.8rem 1.8rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #117ca3; /* verde Bootstrap */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 8px 15px rgba(0, 128, 0, 0.3);
+}
+
+/* Mostrar botón en hover */
+.promo-card:hover .promo-btn {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Efecto rebote al hacer hover en el botón */
+.promo-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background-color: #218838;
+  box-shadow: 0 10px 20px rgba(0, 128, 0, 0.4);
+}
+
+
+
+.promo-rect-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 160px;
+}
+
+.promo-rect-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.w-60 {
+  width: 60%;
+}
+.w-40 {
+  width: 40%;
+}
+
+/* Botón llamativo */
+.promo-btn1 {
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  background-color: #f48515;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.promo-btn1:hover {
+  background-color: #218838;
+  box-shadow: 0 6px 18px rgba(33, 136, 56, 0.5);
+  transform: scale(1.05);
+}
+
+
+
+
+
+

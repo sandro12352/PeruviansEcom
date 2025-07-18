@@ -1,0 +1,15 @@
+[
+        {
+                "id":1,
+                "nombre":"Blood Sugar",
+                "tienda":"VICKSTORE",
+                "descuento":"23%",
+                "descripcion":" ¡Controla tu azúcar de forma natural! Suplemento americano que apoya el equilibrio de la glucosa, mejora la sensibilidad a la insulina y previene picos de azúcar. Ideal para personas con prediabetes o diabetes tipo 2. 100% natural, seguro y fácil de incluir en tu rutina diaria.",
+                "precio_antes":129,
+                "precio":99,
+                "beneficios":" Regula el azúcar en sangre, mejora la respuesta a la insulina,reduce los antojos y protege el metabolismo. ",
+                "modo_de_uso":"Consumir solo dos cápsulas al día, media hora antes del almuerzo. ",
+                "detalle":" Fórmula de origen americano con extractos naturales como canela, cromo y ácido alfa lipoico. Se usa para regular los niveles de glucosa en sangre. Ayuda a mejorar la sensibilidad a la insulina, prevenir picos de azúcar y reducir el riesgo de diabetes tipo 2. Ideal para personas con prediabetes o resistencia a la insulina.",
+                "img":"imagenes/bloodSugar.png"
+        }
+]

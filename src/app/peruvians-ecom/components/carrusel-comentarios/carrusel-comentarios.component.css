@@ -1,0 +1,33 @@
+.card-custom {
+  background-color: #ffffff; /* blanco fuerte */
+  min-height: 350px;         /* asegura altura uniforme */
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  border-radius:6px;
+}
+.card-body {
+    display: flex;
+  flex-grow: 1;
+}
+
+
+.custom-arrow {
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel-control-prev {
+  left: -15px;  /* más cerca del borde izquierdo */
+  width: 40px; /* controla ancho para evitar tapar contenido */
+  
+}
+
+.carousel-control-next {
+  right: -15px; /* más cerca del borde derecho */
+  width: 40px;
+
+}

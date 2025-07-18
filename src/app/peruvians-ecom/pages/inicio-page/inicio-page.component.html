@@ -1,0 +1,163 @@
+<peruvians-carrusel-principal></peruvians-carrusel-principal>
+
+<!-- Categorias -->
+<section class="container my-5">
+  <h2 class=" mb-4">Categorías</h2>
+
+  <div class="categoria-wrapper gap-4">
+
+  <div class="categoria-card text-center" [routerLink]="['/productos', 'aceites-portador']">
+    <img src="imagenes/categoriaAceites.jpg" alt="Aceites" class="categoria-img">
+    <h6 class="categoria-title mt-2">Aceites Portador</h6>
+  </div>
+
+  <div class="categoria-card text-center" [routerLink]="['/productos', 'suplementos']">
+    <img src="imagenes/categoriaCapsulas.jpg" alt="Suplementos" class="categoria-img">
+    <h6 class="categoria-title mt-2">Suplementos</h6>
+  </div>
+
+  <div class="categoria-card text-center" [routerLink]="['/productos', 'gomitas']">
+    <img src="imagenes/categoriaGomitas.jpg" alt="Gomitas" class="categoria-img">
+    <h6 class="categoria-title mt-2">Gomitas</h6>
+  </div>
+
+  <div class="categoria-card text-center" [routerLink]="['/productos', 'polvo']">
+    <img src="imagenes/categoriaPolvo.jpg" alt="Suplementos en Polvo" class="categoria-img">
+    <h6 class="categoria-title mt-2">Suplementos en Polvo</h6>
+  </div>
+
+  </div>
+
+</section>
+
+<section class="container">
+     <h2 class="mb-4">Lo Más Vendido</h2>
+     <peruvians-carrusel-productos 
+    [productos]="masVendido" 
+    [carouselId]="'ProductosCarrusel1'">
+  </peruvians-carrusel-productos>
+</section>
+
+
+<section class="container">
+     <h2 class="mb-4">Lo Más Nuevo</h2>
+    <peruvians-carrusel-productos 
+    [productos]="masNuevo" 
+    [carouselId]="'ProductosCarrusel2'">
+  </peruvians-carrusel-productos>
+</section>
+
+
+
+
+<!-- Tiendas -->
+<section class="container my-5">
+  <h2 class=" mb-4">Nuestras Tiendas</h2>
+
+  <div class="categoria-wrapper1  gap-4">
+    <div class="categoria-card1 text-center">
+      <img src="logos/3boutique.jpg" alt="Vitaminas" class="categoria-img">
+      <h6 class="categoria-title mt-2">Vitaminas</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/alestore.jpg" alt="Suplementos" class="categoria-img">
+      <h6 class="categoria-title mt-2">ALESTORE</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/franstore.jpg" alt="Abarrotes" class="categoria-img">
+      <h6 class="categoria-title mt-2">FRANSTORE</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/kastroperu.jpg" alt="Frescos" class="categoria-img">
+      <h6 class="categoria-title mt-2">KASTRO PERÚ</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/mymstore.jpg" alt="Congelados" class="categoria-img">
+      <h6 class="categoria-title mt-2">MYMSTORE</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/quickstore.jpg" alt="Congelados" class="categoria-img">
+      <h6 class="categoria-title mt-2">QUICKSTORE</h6>
+    </div>
+
+    <div class="categoria-card1 text-center">
+      <img src="logos/vicstore.jpg" alt="Congelados" class="categoria-img">
+      <h6 class="categoria-title mt-2">VICSTORE</h6>
+    </div>
+   
+  </div>
+</section>
+
+
+
+
+<section class="container my-5">
+
+  <!-- Fila 1 -->
+  <div class="d-flex gap-3">
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/cyberGomitas.jpg" width="100%" class="promo-img rounded-3" alt="cyberGomitas">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/cyberComplementos.jpg" width="100%" class="promo-img rounded-3" alt="cyberComplementos">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="d-flex gap-3 my-4">
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/descuento_cartilago_de_tiburon.jpg" width="100%" class="promo-img rounded-3" alt="cartílago de tiburón">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/descuento_aceite_de_oregano.jpg" width="100%" class="promo-img rounded-3" alt="aceite de orégano">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/descuento_carticolageno.jpg" width="100%" class="promo-img rounded-3" alt="carticolágeno">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+    <div class="promo-card position-relative overflow-hidden rounded-3">
+      <img src="imagenes/descuento_moringa.jpg" width="100%" class="promo-img rounded-3" alt="moringa">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="container my-5">
+  <div class="row gy-4">
+    <!-- Repite esto 3 veces para 3 filas -->
+    <div class="col-md-6" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="promo-rect-card d-flex align-items-center p-3 rounded shadow-sm">
+        <!-- Izquierda: Texto -->
+        <div class="w-60 pe-3">
+          <h5 class="text-warning fw-bold mb-1">¡Oferta exclusiva!</h5>
+          <p class="mb-0 text-muted">Compra 2 y lleva 1 gratis en suplementos seleccionados.</p>
+         <button class="btn btn-success promo-btn1">¡Lo quiero!</button>
+        </div>
+
+        <!-- Derecha: Imagen -->
+        <div class="w-40 text-end">
+          <img src="imagenes/liquidacionRomero.jpg" alt="oferta" class="img-fluid rounded" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="container ">
+  <h2 class=" mb-4">Testimonios</h2>
+  <peruvians-carrusel-comentarios></peruvians-carrusel-comentarios>
+</section>
