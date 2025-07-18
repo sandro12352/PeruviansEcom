@@ -19,7 +19,21 @@
     max-width: calc(20% - 0.8rem);
   }
 }
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 767.98px) {
+  .producto-card {
+    flex: 0 0 48%;  /* o usa 100% si quieres full ancho */
+    height: 380px;
+    min-height: 100%;
+  }
+  .card {
+    height: 100%;
+  
+    }
+    
 
+  
+}
 
 .card {
   height: 100%;
