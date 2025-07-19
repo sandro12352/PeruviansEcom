@@ -17,12 +17,13 @@
     overflow-x: visible;
     scroll-snap-type: none;
   }
+  
 }
 
 /* Tarjeta */
 .categoria-card {
   flex: 0 0 auto;
-  width: 196px;
+  width: 164px;
   text-align: center;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
@@ -89,8 +90,6 @@
     flex-wrap: wrap; /* grilla en escritorio */
     
   }
-
-
     .categoria-card1 {
       flex: 1 1 calc(50% - 1rem); /* 2 por fila en pantallas pequeñas */
     }
@@ -100,6 +99,7 @@
     .categoria-card1 {
       flex: 1 1 100%; /* 1 por fila en móviles */
     }
+    
   }
 
 

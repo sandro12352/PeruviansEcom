@@ -24,7 +24,7 @@
   .producto-card {
     flex: 0 0 48%;  /* o usa 100% si quieres full ancho */
     height: 400px;
-    min-height: 100%;
+    max-height: 100%;
   }
   .card {
     height: 100%;

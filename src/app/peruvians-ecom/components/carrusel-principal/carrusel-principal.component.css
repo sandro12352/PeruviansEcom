@@ -1,29 +1,58 @@
-.carousel-indicators button {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%; /* Esto los convierte en círculos */
-  background-color: #888; /* Color base */
-  border: none;
-  margin: 0 6px;
-  transition: background-color 0.3s ease;
+@media (max-width: 767.98px) {
+  /* Apilar imágenes si hay dos en una slide */
+  .carousel-item > .d-flex {
+    flex-direction: column;
+  }
+
+  /* Ocultar segunda imagen en móvil */
+  .carousel-item > .d-flex > .carousel-img-container.half-width:not(:first-child) {
+    display: none;
+  }
+
+  /* Mostrar solo una imagen por slide */
+  .carousel-item > .d-flex > .carousel-img-container.half-width:first-child,
+  .carousel-item .carousel-img-container.full-width {
+    width: 100%;
+  }
+
+  /* Ajustes de imagen */
+  .carousel-img-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* Ajuste de altura opcional si quieres limitarlo */
+  .carousel-img-container {
+    max-height: 100vh;
+  }
+
+  /* Elimina altura fija si hay (por si estaba forzada antes) */
+  .carousel-img-container.full-width img,
+  .carousel-img-container.half-width img {
+    height: auto ;
+  }
+  
 }
 
-.carousel-indicators button.active {
-  background-color: #ffffff; /* Color activo (azul Bootstrap) */
-}
 
 
+
+/* Estilos base */
 .carousel-img-container {
   position: relative;
- 
   cursor: pointer;
+  overflow: hidden;
 }
 
 .carousel-img {
-  transition: transform 0.5s ease;
   width: 100%;
   height: auto;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
 .carousel-img-container:hover .carousel-img {
@@ -40,8 +69,7 @@
   padding: 12px 20px;
   font-size: 1.1rem;
   font-weight: bold;
-  background-color: #117ca3; /* verde Bootstrap */
-  color: white;
+  background-color: #117ca3;
   border: none;
   border-radius: 50px;
   opacity: 0;
@@ -50,6 +78,33 @@
   cursor: pointer;
 }
 
-.carousel-img-container:hover  .btn-lo-quiero {
+.carousel-img-container:hover .btn-lo-quiero {
   opacity: 1;
+}
+
+/* Indicadores */
+.carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #888;
+  border: none;
+  margin: 0 6px;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-indicators button.active {
+  background-color: #ffffff;
+}
+
+/* Responsive ajustes para móviles */
+@media (max-width: 767.98px) {
+  .carousel-inner {
+    height: auto;
+  }
+
+  .carousel-img-container img {
+    height: 500px;
+    object-fit: cover;
+  }
 }

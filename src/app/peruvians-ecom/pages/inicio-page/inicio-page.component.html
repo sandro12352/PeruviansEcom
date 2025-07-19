@@ -50,48 +50,6 @@
 
 
 
-<!-- Tiendas -->
-<section class="container my-5">
-  <h2 class=" mb-4">Nuestras Tiendas</h2>
-
-  <div class="categoria-wrapper1  gap-4">
-    <div class="categoria-card1 text-center">
-      <img src="logos/3boutique.jpg" alt="Vitaminas" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">Vitaminas</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/alestore.jpg" alt="Suplementos" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">ALESTORE</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/franstore.jpg" alt="Abarrotes" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">FRANSTORE</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/kastroperu.jpg" alt="Frescos" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">KASTRO PERÚ</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/mymstore.jpg" alt="Congelados" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">MYMSTORE</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/quickstore.jpg" alt="Congelados" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">QUICKSTORE</h6>
-    </div>
-
-    <div class="categoria-card1 text-center">
-      <img src="logos/vicstore.jpg" alt="Congelados" class="categoria-img img-fluid">
-      <h6 class="categoria-title mt-2">VICSTORE</h6>
-    </div>
-   
-  </div>
-</section>
 
 
 
@@ -99,32 +57,32 @@
 <section class="container my-5">
 <h2 class=" mb-4">CyberWow</h2>
   <!-- Fila 1 -->
-  <div class="d-flex gap-3">
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+  <div class="row gy-4"> 
+    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3">
       <img src="imagenes/cyberGomitas.jpg" width="100%" class="promo-img rounded-3" alt="cyberGomitas">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3">
       <img src="imagenes/cyberComplementos.jpg" width="100%" class="promo-img rounded-3" alt="cyberComplementos">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
   </div>
 
   <!-- Fila 2 -->
-  <div class="d-flex gap-3 my-4">
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+  <div class="row my-4">
+    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
       <img src="imagenes/descuento_cartilago_de_tiburon.jpg" width="100%" class="promo-img rounded-3" alt="cartílago de tiburón">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
       <img src="imagenes/descuento_aceite_de_oregano.jpg" width="100%" class="promo-img rounded-3" alt="aceite de orégano">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
       <img src="imagenes/descuento_carticolageno.jpg" width="100%" class="promo-img rounded-3" alt="carticolágeno">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
-    <div class="promo-card position-relative overflow-hidden rounded-3">
+    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
       <img src="imagenes/descuento_moringa.jpg" width="100%" class="promo-img rounded-3" alt="moringa">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
@@ -137,7 +95,7 @@
    <h2 class=" mb-4">Productos en Liquidación</h2>
   <div class="row gy-4">
     <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-6" *ngFor="let producto of liquidacion">
+    <div class="col-md-6 col-" *ngFor="let producto of liquidacion">
       <div class="promo-rect-card d-flex align-items-center p-3 rounded shadow-sm">
         <!-- Izquierda: Texto -->
         <div class="w-60 pe-3">
@@ -155,6 +113,48 @@
   </div>
 </section>
 
+<!-- Tiendas -->
+<section class="container my-5">
+  <h2 class=" mb-4">Nuestras Tiendas</h2>
+
+  <div class="categoria-wrapper  gap-4">
+    <div class="categoria-card text-center">
+      <img src="logos/3boutique.jpg" alt="Vitaminas" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">Vitaminas</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/alestore.jpg" alt="Suplementos" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">ALESTORE</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/franstore.jpg" alt="Abarrotes" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">FRANSTORE</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/kastroperu.jpg" alt="Frescos" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">KASTRO PERÚ</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/mymstore.jpg" alt="Congelados" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">MYMSTORE</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/quickstore.jpg" alt="Congelados" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">QUICKSTORE</h6>
+    </div>
+
+    <div class="categoria-card text-center">
+      <img src="logos/vicstore.jpg" alt="Congelados" class="categoria-img img-fluid">
+      <h6 class="categoria-title mt-2">VICSTORE</h6>
+    </div>
+   
+  </div>
+</section>
 
 
 
