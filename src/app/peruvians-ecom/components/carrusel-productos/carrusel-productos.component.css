@@ -9,7 +9,7 @@
 .producto-card {
   flex: 0 0 calc(50% - 0.5rem);
   max-width: calc(50% - 0.5rem);
-  padding: 0.5rem;
+ 
 }
 
 /* En escritorio: 5 productos, cada uno 20% ancho menos gap */
@@ -23,7 +23,7 @@
 @media (max-width: 767.98px) {
   .producto-card {
     flex: 0 0 48%;  /* o usa 100% si quieres full ancho */
-    height: 380px;
+    height: 400px;
     min-height: 100%;
   }
   .card {
