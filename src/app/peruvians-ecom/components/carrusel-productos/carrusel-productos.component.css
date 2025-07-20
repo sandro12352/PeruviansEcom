@@ -23,20 +23,12 @@
 @media (max-width: 767.98px) {
   .producto-card {
     flex: 0 0 48%;  /* o usa 100% si quieres full ancho */
-    height: 400px;
+   height: 390px;
     max-height: 100%;
   }
-  .card {
-    height: 100%;
   
-    }
     
 
-  
-}
-
-.card {
-  height: 100%;
   
 }
 
@@ -53,15 +45,17 @@
 
 
 .boton-agregar {
-  border: 2px solid #f48a3e;      /* verde Bootstrap */
+  border:1px solid #32c525;      /* verde Bootstrap */
   background-color: white;
-  color: #f48a3e;
+  color:#0bbc1a;
   transition: all 0.3s ease;
   font-weight: 600;
+  border-radius: 10px;
+  
 }
 
 .boton-agregar:hover {
-  background-color: #f48a3e;
+  background-color: #32c525;
   color: white;
 }
 

@@ -18,12 +18,13 @@
           <span class="descuento-badge">-{{ producto.descuento }}</span>
           <img [src]="producto.img" class="img-fluid rounded" alt="Producto" />
           <div class="card-body-custom">
-            <span class="marca-badge">{{ producto.tienda }}</span>
-            <h6 class="mt-2 fw-bold">{{ producto.nombre }}</h6>
-            <s class="text-danger">S/.{{ producto.precio_antes }}.00</s>
+            <span class="marca-badge">{{ producto.tienda }}</span>         
+            <h6 class="fw-bold">ASHWAGANDHA 60 CAPS VEGANA HERBAL & HEALTH</h6>
+            <s class="text-body-tertiary">S/.{{ producto.precio_antes }}.00</s>
             <p class="fw-semibold mb-2">S/.{{ producto.precio }}.00</p>
-            <button class="btn boton-agregar btn-sm w-100 p-2" (click)="AgregarCarrito(producto)">Agregar</button>
+            <button class="btn boton-agregar btn-sm w-100 p-2" (click)="AgregarCarrito(producto)">AGREGAR</button>
           </div>
+         
         </div>
       </div>
     </div>

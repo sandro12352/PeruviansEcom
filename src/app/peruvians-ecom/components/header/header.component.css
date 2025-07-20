@@ -1,3 +1,17 @@
+.header-container {
+  justify-content: evenly;
+  padding: 0;
+  
+}
+
+@media (max-width: 767.98px) {
+  .header-container {
+    justify-content: space-between !important;
+    padding: 0 1rem;
+  }
+}
+
+
 .btn-finalizar-compra {
   background: #27c04a;
   color: #fff;

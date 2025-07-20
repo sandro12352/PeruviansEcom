@@ -1,15 +1,17 @@
 .card-custom {
-  background-color: #ffffff; /* blanco fuerte */
-  min-height: 350px;         /* asegura altura uniforme */
+  background-color: #ffffff;
+  border-radius: 6px;
+  
+  height: 420px;     /* altura fija */
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
-  border-radius:6px;
 }
-.card-body {
-    display: flex;
-  flex-grow: 1;
-}
+
+
+
+
+
+
 
 
 .custom-arrow {
