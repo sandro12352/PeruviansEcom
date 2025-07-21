@@ -18,7 +18,7 @@ export class CarruselProductosComponent implements OnChanges {
     @Inject(PLATFORM_ID) private platformId: Object
   ){}
 
-  gruposProductos: any[][] = [];
+  gruposProductos: Producto[][] = [];
 
   ngOnChanges () {
     this.calcularGrupos();

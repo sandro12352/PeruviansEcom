@@ -14,6 +14,7 @@ import { ContactanosComponent } from './pages/contactanos/contactanos.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
+import { BlogPageComponent } from './pages/blog-page/blog-page.component';
 
 
 
@@ -31,6 +32,7 @@ import { CarritoComponent } from './components/carrito/carrito.component';
     ContactanosComponent,
     MostrarProductoComponent,
     CarritoComponent,
+    BlogPageComponent,
   ],
   exports: [
     LayoutPageComponent,

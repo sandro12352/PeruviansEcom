@@ -1,24 +1,118 @@
 <header class="fire-gradient  shadow-sm">
- <div class="container-fluid text-center text-white p-1 envio-banner">
-  <strong>ENVIOS GRATIS A TODO EL PERÚ</strong>
+ <div class="container-fluid p-3 envio-banner ">
+  <div class="scroll-text">
+    <strong>ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ - 
+      ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ -
+      ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ -
+      ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ - ENVIOS GRATIS A TODO EL PERÚ 
+    </strong>
+  </div>
 </div>
+
 
 
 
   <div class=" ">
     <div class="d-flex align-items-center justify-content-evenly header-container">
-
+      
       <!-- Logo y hamburguesa -->
      <!-- HEADER -->
 <div class="d-flex align-items-center">
-  <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+
+    <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
     aria-controls="offcanvasMenu" aria-label="Toggle navigation">
     <i class="bi bi-list fs-1"></i>
   </button>
 
+  
+  <!-- Logo -->
   <a routerLink="/" class="d-inline-block">
     <img src="logo.png" loading="lazy" alt="Logo" width="120" height="70">
   </a>
+  <!-- Ícono de menú (solo en escritorio) como dropdown -->
+    <div class="dropdown d-none d-md-block ms-4">
+      <button 
+        class="nav-link btn btn-link p-0 d-flex align-items-center menu-icon me-3"
+        id="menuDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        type="button"
+      >
+        <i class="bi bi-list fs-2"></i>
+        <span style="font-weight: 200px;font-size: 1.5rem;margin-left: 10px;">Menú</span>
+      </button>
+
+      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 98vw;height: 50vh;
+      background-color: #fffffff2;"
+      (mouseleave)="ocultarProductos()">
+  <div class="d-flex">
+
+    <!-- Categorías (izquierda) -->
+    <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
+      <h2>CATEGORIAS</h2>
+      <li 
+      class="category-item" data-products="products-gomugomix" 
+      (mouseenter)="mostrarProductos('gomugomix')"
+      [ngClass]="{ 'active': activeCategory === 'gomugomix' }"
+       [routerLink]="['/','gomitas']">
+        Gomugomix<i class="bi bi-chevron-right ms-5"></i>
+      </li>
+      <li 
+      class="category-item" data-products="products-aceites"
+      (mouseenter)="mostrarProductos('aceites')"
+      [ngClass]="{ 'active': activeCategory === 'aceites' }"
+       [routerLink]="['/','aceites-portador']">
+        Aceites Portadores<i class="bi bi-chevron-right"></i>
+      </li>
+      <li class="category-item" data-products="products-polvo" 
+        (mouseenter)="mostrarProductos('polvo')"
+        [ngClass]="{ 'active': activeCategory === 'polvo' }"
+        [routerLink]="['/','polvo']">
+          Suplemento en Polvo<i class="bi bi-chevron-right"></i>
+        </li>
+      <li class="category-item" data-products="products-capsulas"
+      (mouseenter)="mostrarProductos('capsulas')"
+      [ngClass]="{ 'active': activeCategory === 'capsulas' }"
+         [routerLink]="['/','suplementos']" >
+        Suplementos en Capsulas<i class="bi bi-chevron-right"></i></li>
+    </ul>
+
+    <!-- Productos (derecha) -->
+    <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
+        <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
+          <h3>Gomitas</h3>
+            <li><a routerLink="gomugomix-prod1" class="dropdown-item">Colageno</a></li>
+            <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
+             <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
+        </ul>
+
+      <ul *ngIf="activeCategory === 'aceites'" class="products list-unstyled ">
+        <h3>Aceites</h3>
+        <li><a routerLink="aceite-prod1" class="dropdown-item">Semillas de Oregano</a></li>
+        <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
+      </ul>
+
+      <ul *ngIf="activeCategory === 'polvo'" class="products list-unstyled ">
+         <h3>Polvo</h3>
+        <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
+       
+      </ul>
+
+      <ul *ngIf="activeCategory === 'capsulas'" class="products list-unstyled ">
+        <h3>Capsulas</h3>        
+        <li><a routerLink="capsulas-prod1" class="dropdown-item">Melena de León</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Moringa</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Cartilago de Tiburón</a></li>
+        <li><a routerLink="capsulas-prod2" class="dropdown-item">Blood Sugar</a></li>
+      </ul>
+    </div>
+    
+
+  </div>
+      </div>
+
+    </div>
+    
 </div>
 
 <!-- OFFCANVAS MENU -->
@@ -30,10 +124,10 @@
   <div class="offcanvas-body">
     <ul class="list-unstyled">
       <li><a routerLink="/" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">INICIO<i class="bi bi-chevron-right  text-success fs-2"></i></a></li>
-       <li><a [routerLink]="['/productos','gomitas']" data-bs-dismiss="offcanvas" class="nav-link border-bottom nav-link d-flex justify-content-between align-items-center">SUPLEMENTOS EN GOMITAS <i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/productos','aceites-portador']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">ACEITES NATURALES<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/productos','polvo']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN POLVO<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/productos','suplementos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN CAPSULAS<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+       <li><a [routerLink]="['/','gomitas']" data-bs-dismiss="offcanvas" class="nav-link border-bottom nav-link d-flex justify-content-between align-items-center">SUPLEMENTOS EN GOMITAS <i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/','aceites-portador']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">ACEITES NATURALES<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/','polvo']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN POLVO<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+      <li><a [routerLink]="['/','suplementos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN CAPSULAS<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
      
     </ul>
   </div>
@@ -56,7 +150,8 @@
       <div class="d-flex align-items-center gap-3">
         <a routerLink="/perfil"><i class="bi bi-person fs-3 icon-hover"></i></a>
         <a routerLink="/favoritos"><i class="bi bi-heart fs-3 icon-hover"></i></a>
-        <a type="button" class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" ><i class="bi bi-cart fs-3 icon-hover"></i>
+        <a type="button" class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" ><i class="bi bi-cart fs-3 icon-hover cart-bg"></i>
+
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
           {{cartCount}}
           <span class="visually-hidden">unread messages</span>
@@ -73,8 +168,9 @@
   <!-- Contenedor con scroll -->
   <div class="offcanvas-body p-0">
     <div class="productos-scroll px-3 py-2">
-      <div *ngFor="let producto of productosEnCarrito" class="mb-3 border rounded p-2">
-        <div class="d-flex align-items-center gap-3 justify-content-center">
+      <div *ngFor="let producto of productosEnCarrito" class="mb-3 border rounded p-2 position-relative">
+        
+        <div class="d-flex  gap-3 ">
           <!-- Imagen -->
           <div style="width: 120px; height: 120px; flex-shrink: 0;">
             <img [src]="producto.img" class="img-fluid rounded" alt="producto" style="object-fit: cover; width: 100%; height: 100%;">
@@ -82,19 +178,29 @@
 
           <!-- Información -->
           <div class="flex-grow-1">
-            <strong>{{ producto.nombre }}</strong><br>
-            <small class="text-muted">{{ producto.tienda }}</small><br>
+    <div class="d-flex justify-content-between align-items-start gap-2">
+      <div>
+        <strong>{{ producto.nombre }}</strong><br>
+        <small class="text-muted">{{ producto.tienda }}</small>
+      </div>
+      <div class="cursor-pointer">
+        <i class="bi bi-trash3-fill fs-5 text-danger " title="Eliminar producto"></i>
+      </div>
+    </div>
 
-            <!-- Contador de cantidad -->
-            <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
-              <button class="cantidad-btn" (click)="disminuirCantidad(producto)" >−</button>
-              <span>{{ producto.cantidad }}</span>
-              <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
-            </div>
+    <!-- Contador de cantidad -->
+    <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
+      <button class="cantidad-btn" (click)="disminuirCantidad(producto)">−</button>
+      <span>{{ producto.cantidad }}</span>
+      <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
+    </div>
 
-            S/. {{ producto.precio | number:'1.2-2' }}<br>
-          </div>
+    S/. {{ producto.precio | number:'1.2-2' }}<br>
+  </div>
+           <!-- Tachito arriba -->
+          
         </div>
+        
       </div>
     </div>
   </div>
@@ -129,116 +235,31 @@
     </div>
   </div>
 
-  <nav class="navbar navbar-expand-md  px-3 shadow-sm border">
+  <nav class="navbar navbar-expand-md   shadow-sm border"  style="background-color: #f7f7f7;">
   <div class="container-fluid">
 
     <!-- Menú colapsable -->
-    <div class="collapse navbar-collapse" id="mainNavbar">
-    <div class="d-flex align-items-center me-auto">
-
-    <!-- Ícono de menú (solo en escritorio) como dropdown -->
-    <div class="dropdown d-none d-md-block">
-      <button 
-        class="nav-link btn btn-link p-0 d-flex align-items-center menu-icon me-3"
-        id="menuDropdown"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        type="button"
-      >
-        <i class="bi bi-list fs-3"></i>
-      </button>
-
-      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 900px;"
-      (mouseleave)="ocultarProductos()">
-  <div class="d-flex">
-
-    <!-- Categorías (izquierda) -->
-    <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
-      <h2>CATEGORIAS</h2>
-      <li 
-      class="category-item" data-products="products-gomugomix" 
-      (mouseenter)="mostrarProductos('gomugomix')"
-      [ngClass]="{ 'active': activeCategory === 'gomugomix' }"
-       [routerLink]="['/productos','gomitas']">
-        Gomugomix<i class="bi bi-chevron-right ms-5"></i>
-      </li>
-      <li 
-      class="category-item" data-products="products-aceites"
-      (mouseenter)="mostrarProductos('aceites')"
-      [ngClass]="{ 'active': activeCategory === 'aceites' }"
-       [routerLink]="['/productos','aceites-portador']">
-        Aceites Portadores<i class="bi bi-chevron-right"></i>
-      </li>
-      <li class="category-item" data-products="products-polvo" 
-        (mouseenter)="mostrarProductos('polvo')"
-        [ngClass]="{ 'active': activeCategory === 'polvo' }"
-        [routerLink]="['/productos','polvo']">
-          Suplemento en Polvo<i class="bi bi-chevron-right"></i>
-        </li>
-      <li class="category-item" data-products="products-capsulas"
-      (mouseenter)="mostrarProductos('capsulas')"
-      [ngClass]="{ 'active': activeCategory === 'capsulas' }"
-         [routerLink]="['/productos','suplementos']" >
-        Suplementos en Capsulas<i class="bi bi-chevron-right"></i></li>
-    </ul>
-
-    <!-- Productos (derecha) -->
-    <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
-        <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
-          <h3>Gomitas</h3>
-            <li><a routerLink="gomugomix-prod1" class="dropdown-item">Colageno</a></li>
-            <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
-             <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
-        </ul>
-
-      <ul *ngIf="activeCategory === 'aceites'" class="products list-unstyled ">
-        <h3>Aceites</h3>
-        <li><a routerLink="aceite-prod1" class="dropdown-item">Semillas de Oregano</a></li>
-        <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
-      </ul>
-
-      <ul *ngIf="activeCategory === 'polvo'" class="products list-unstyled ">
-         <h3>Polvo</h3>
-        <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
-       
-      </ul>
-
-      <ul *ngIf="activeCategory === 'capsulas'" class="products list-unstyled ">
-        <h3>Capsulas</h3>        
-        <li><a routerLink="capsulas-prod1" class="dropdown-item">Melena de León</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Moringa</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Cartilago de Tiburón</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Blood Sugar</a></li>
-      </ul>
-    </div>
-
-
-  </div>
-      </div>
-
-    </div>
-
-    <!-- Nuevas secciones -->
-    <ul class="navbar-nav flex-row gap-3 d-none d-md-flex">
-      <li class="nav-item">
-        <a [routerLink]="['/productos','mas-vendidos']" class="nav-link">MÁS VENDIDO</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="['/productos','mas-nuevos']" class="nav-link">NOVEDADES</a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Menú alineado a la derecha -->
-  <ul class="navbar-nav mb-2 mb-md-0 d-none d-md-flex">
+   <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+  <ul class="navbar-nav flex-row gap-4 d-none d-md-flex align-items-center">
+    <!-- Secciones del centro -->
     <li class="nav-item">
-      <a routerLink="/catalogo" class="nav-link">CATÁLOGO</a>
+      <a [routerLink]="['/','mas-vendidos']" class="nav-link"><strong>MÁS VENDIDO</strong> </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/contactanos" class="nav-link">CONTÁCTANOS</a>
+      <a [routerLink]="['/','mas-nuevos']" class="nav-link"><strong>NOVEDADES</strong> </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="blog" class="nav-link"><strong>BLOG</strong> </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="" class="nav-link"><strong>PROMOCIONES</strong> </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="contactanos" class="nav-link"><strong>CONTÁCTANOS</strong> </a>
     </li>
   </ul>
-    </div>
+</div>
+
 
 
     <!-- Búsqueda en móvil -->

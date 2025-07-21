@@ -6,22 +6,22 @@
 
   <div class="categoria-wrapper gap-4">
 
-  <div class="categoria-card text-center" [routerLink]="['/productos', 'aceites-portador']">
+  <div class="categoria-card text-center" [routerLink]="['/', 'aceites-portador']">
     <img src="imagenes/categoriaAceites.jpg" loading="lazy" alt="Aceites" class="categoria-img">
     <h6 class="categoria-title mt-2">Aceites Portador</h6>
   </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/productos', 'suplementos']">
+  <div class="categoria-card text-center" [routerLink]="['/', 'suplementos']">
     <img src="imagenes/categoriaCapsulas.jpg" loading="lazy" alt="Suplementos" class="categoria-img">
     <h6 class="categoria-title mt-2">Suplementos</h6>
   </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/productos', 'gomitas']">
+  <div class="categoria-card text-center" [routerLink]="['/', 'gomitas']">
     <img src="imagenes/categoriaGomitas.jpg" loading="lazy" alt="Gomitas" class="categoria-img">
     <h6 class="categoria-title mt-2">Gomitas</h6>
   </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/productos', 'polvo']">
+  <div class="categoria-card text-center" [routerLink]="['/', 'polvo']">
     <img src="imagenes/categoriaPolvo.jpg" loading="lazy" alt="Suplementos en Polvo" class="categoria-img">
     <h6 class="categoria-title mt-2">Suplementos en Polvo</h6>
   </div>
@@ -95,17 +95,10 @@
    <h2 class=" mb-4">Productos en Liquidación</h2>
   <div class="row gy-4">
     <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-6 col-" *ngFor="let producto of liquidacion">
-      <div class="promo-rect-card d-flex align-items-center p-3 rounded shadow-sm">
-        <!-- Izquierda: Texto -->
-        <div class="w-60 pe-3">
-          <h5 class="text-warning fw-bold mb-1">¡Oferta exclusiva!</h5>
-          <p class="mb-0 text-muted">Compra 2 y lleva 1 gratis en suplementos seleccionados.</p>
-         <button class="btn btn-success promo-btn1">¡Lo quiero!</button>
-        </div>
-
+    <div class="col-md-6 col-6 col-" *ngFor="let producto of liquidacion">
+      <div class="promo-rect-card  align-items-center   shadow-sm">
         <!-- Derecha: Imagen -->
-        <div class="w-40 text-end">
+        <div class="w-100 text-end">
           <img [src]="producto.img" alt="oferta" class="img-fluid rounded" />
         </div>
       </div>

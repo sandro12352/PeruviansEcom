@@ -1,7 +1,7 @@
 [
     {
         "id":1,
-        "nombre":"Colágeno Hidrolizado",
+        "nombre":"COLÁGENO HIDROLIZADO 60 GOMITAS NATURALES",
         "tienda":"GOMUGOMIX",
         "descuento":"23%",
         "categoria":"gomitas",
@@ -15,7 +15,7 @@
     },
     {
         "id":2,
-        "nombre":"Omega 3,6 y 9",
+        "nombre":"OMEGA 3, 6 Y 9 60 GOMITAS NATURALES",
         "tienda":"GOMUGOMIX",
         "categoria":"gomitas",
         "descuento":"23%",
@@ -29,7 +29,7 @@
     },
      {
         "id":3,
-        "nombre":"Sleep Gomix",
+        "nombre":"SLEEP GOMIX 60 GOMITAS NATURALES",
         "tienda":"GOMUGOMIX",
         "categoria":"gomitas",
         "descuento":"22%",
@@ -43,7 +43,7 @@
     },
     {
         "id":4,
-        "nombre":"Aceite de orégano",
+        "nombre":"ACEITE DE ORÉGANO 30 ML 100% NATURAL",
         "tienda":"FRANSTORE",
         "categoria":"aceites-portador",
         "descuento":"22%",
@@ -57,7 +57,7 @@
     },
     {
         "id":5,
-        "nombre":"Melena de león",
+        "nombre":"MELENA DE LEÓN 60 CAPS VEGANA NATURALES",
         "tienda":"QUICKSTORE",
         "categoria":"suplementos",
         "descuento":"23%",
@@ -71,7 +71,7 @@
     },
     {
         "id":6,
-        "nombre":"Blood Sugar",
+        "nombre":"BLOOD SUGAR 60 CAPS NATURAL",
         "tienda":"VICKSTORE",
         "descuento":"23%",
         "descripcion":" ¡Controla tu azúcar de forma natural! Suplemento americano que apoya el equilibrio de la glucosa, mejora la sensibilidad a la insulina y previene picos de azúcar. Ideal para personas con prediabetes o diabetes tipo 2. 100% natural, seguro y fácil de incluir en tu rutina diaria.",
@@ -84,7 +84,7 @@
     },
     {
         "id":7,
-        "nombre":"Aceite de romero",
+        "nombre":"ACEITE DE ROMERO 30 ML 100% NATURAL",
         "tienda":"FRANSTORE",
         "categoria":"aceites-portador",
         "descuento":"40%",
@@ -98,7 +98,7 @@
     },
      {
         "id":8,
-        "nombre":"Cartílago de tiburón",
+        "nombre":"CARTÍLAGO DE TIBURÓN 60 CAPS NATURAL ",
         "tienda":"LUKING4",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -112,7 +112,7 @@
     },
     {
         "id":9,
-        "nombre":"Carticolágeno",
+        "nombre":"CARTICOLÁGENO 350 GR",
         "tienda":"LUKING4",
         "categoria":"polvo",
         "descuento":"40%",
@@ -126,7 +126,7 @@
     },
     {
         "id":10,
-        "nombre":"Cartical D",
+        "nombre":"CARTICAL D 60 CAPS NATURAL",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -140,7 +140,7 @@
     },
     {
         "id":11,
-        "nombre":"Moringa",
+        "nombre":"MORINGA 60 CAPS NATURALac",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -154,7 +154,7 @@
     },
     {
         "id":12,
-        "nombre":"Masajeador eléctrico de pies",
+        "nombre":"MASAJEADOR ELÉCTRICO DE PIES RECARGABLE",
         "tienda":"FRANSTORE",
         "descuento":"44%",
         "descripcion":"¡Tu momento de alivio y relajación! Relaja los músculos, activa la circulación y alivia la tensión acumulada en pies y piernas. Ideal para quienes pasan muchas horas de pie o sufren de cansancio crónico. Fácil de usar, portátil y con varios niveles de intensidad. ",

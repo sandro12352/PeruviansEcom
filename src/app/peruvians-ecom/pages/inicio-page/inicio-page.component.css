@@ -160,10 +160,9 @@
 
 
 .promo-rect-card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 160px;
+ 
 }
 
 .promo-rect-card:hover {

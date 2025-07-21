@@ -21,19 +21,22 @@
     <!-- Productos -->
     <div class="col-lg-9">
       <div class="row gx-3 gy-4">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let producto of productos">
+        <div class="col-6 col-sm-6 col-md-4 col-lg-3" *ngFor="let producto of productos">
           <div class=" producto-card  h-100 ">
-            <div class="card">
-              <span class="descuento-badge">{{ producto.descuento }}</span>
-            <img [src]="producto.img" class="img-fluid rounded" alt="Producto" />
-            <div class="card-body-custom p-2">
-              <span class="marca-badge">{{ producto.tienda }}</span>
-              <h6 class="mt-2 fw-bold">{{ producto.nombre }}</h6>
-              <s class="text-danger small">S/.{{ producto.precio_antes }}.00</s>
+            <div class="card d-flex flex-column h-100">
+          <span class="descuento-badge">-{{ producto.descuento }}</span>
+          <img [src]="producto.img" class="img-fluid rounded" alt="Producto" />
+          <div class="card-body-custom d-flex flex-column justify-content-between">
+            <div class="contenido-scrollable"> 
+                <span class="marca-badge">{{ producto.tienda }}</span>         
+              <h6 class="fw-bold">{{producto.nombre}}</h6>
+              <s class="text-body-tertiary">S/.{{ producto.precio_antes }}.00</s>
               <p class="fw-semibold mb-2">S/.{{ producto.precio }}.00</p>
-              <button class="btn boton-agregar btn-sm w-100" (click)="AgregarCarrito(producto)">Agregar</button>
             </div>
-            </div>
+          <button class="btn boton-agregar btn-sm p-2" (click)="AgregarCarrito(producto)">AGREGAR</button> 
+          </div>
+         
+        </div>
             
           </div>
         </div>
