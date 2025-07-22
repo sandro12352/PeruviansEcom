@@ -1,5 +1,5 @@
 <div *ngIf="producto" class="detalle-producto container py-4">
-  <div class="row  shadow-sm p-4 rounded-4 bg-white">
+  <div class="row  shadow-sm p-4 rounded-4 bg-white align-items-center">
     <!-- Imagen -->
     <div class="col-md-6 col-12">
       <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid " />
@@ -33,20 +33,22 @@
       
 
       <!-- Cantidad -->
-     <div class="d-flex align-items-center justify-content-between my-1 py-1 w-100">
+     <div class="d-flex align-items-center justify-content-between my-1 py-1 " >
     <!-- Botones de cantidad (30%) -->
-    <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
+    <div class="cantidad-box d-flex align-items-center justify-content-between my-1  ">
       <button class="cantidad-btn " (click)="disminuirCantidad()">−</button>
       <span>{{ producto.cantidad }}</span>
       <button class="cantidad-btn" (click)="aumentarCantidad()">+</button>
     </div>
 
     <!-- Botón agregar al carrito (70%) -->
-    <div class="ms-3 w-70" style="width: 70%;">
-        <button class="btn btn-success w-100 py-2">
-         <i class="bi bi-bag-heart"></i> Agregar al carrito
+   <!-- Botón agregar al carrito (70%) -->
+        <div class="ms-3 " style="width: 100%;">
+        <button class="btn btn-success w-100 py-2 boton-animado" >
+            <i class="bi bi-bag-heart me-2 fs-5"></i> Agregar al carrito
         </button>
-    </div>
+        </div>
+
 </div>
 
 

@@ -86,6 +86,8 @@ private cargarCategoriaDesdeRuta(): void {
     this.carritoService.agregarProducto(producto);
     
   }   
-
+  generarSlugConId(producto: Producto): string {
+    return `${producto.nombre.replace(/\s+/g, '-').toLowerCase()}-${producto.id}`;
+  }
 
 } 

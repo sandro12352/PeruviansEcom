@@ -11,10 +11,15 @@
 .cantidad-btn {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #333;
-  padding: 0 8px;
+  padding: 3px 8px;
   cursor: pointer;
+}
+
+.cantidad-btn:hover {
+  background: #f0f0f0;
+ 
 }
 
 .cantidad-btn:focus {
@@ -23,8 +28,26 @@
 }
 
 .cantidad-box {
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc94;
   border-radius: 5px;
-  width: 30%;
+  width: 35%;
   
 }
+
+.boton-animado {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  
+}
+
+.boton-animado:hover {
+ 
+  transform: scale(1.01);
+  box-shadow: 0 6px 16px rgba(16, 193, 66, 0.438);
+}
+
+
