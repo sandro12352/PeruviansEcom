@@ -16,7 +16,7 @@
       >
         <div class="card d-flex flex-column h-100" >
           <span class="descuento-badge">-{{ producto.descuento }}</span>
-          <img [src]="producto.img" class="img-fluid rounded" [alt]="producto.nombre" [routerLink]="['',producto.categoria,producto.nombre]"/>
+          <img [src]="producto.img" class="img-fluid rounded" [alt]="producto.nombre" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"/>
           <div class="card-body-custom d-flex flex-column  justify-content-between">
             <div class="contenido-scrollable"> 
                 <span class="marca-badge">{{ producto.tienda }}</span>         

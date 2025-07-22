@@ -1,0 +1,30 @@
+.detalle-producto img {
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.precios span {
+  font-size: .9rem;
+}
+
+
+.cantidad-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.cantidad-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.cantidad-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 30%;
+  
+}

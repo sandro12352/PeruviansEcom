@@ -27,5 +27,12 @@ export class PeruviansService {
     map(productos => productos.filter(p => p.categoria === categoria))
     );
   }
-  
+
+
+  getProductoPorId(id: number): Observable<Producto | undefined> {
+  return this.http.get<Producto[]>(`${envs.apiUrl}/productos.json`)
+    .pipe(
+      map(productos => productos.find(p => p.id === id))
+    );
+}
 }

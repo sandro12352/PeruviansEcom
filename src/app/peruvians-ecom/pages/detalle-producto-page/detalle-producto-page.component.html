@@ -1,1 +1,63 @@
-<p>detalle-producto-page works!</p>
+<div *ngIf="producto" class="detalle-producto container py-4">
+  <div class="row  shadow-sm p-4 rounded-4 bg-white">
+    <!-- Imagen -->
+    <div class="col-md-6 col-12">
+      <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid " />
+    </div>
+
+    <!-- Detalles -->
+    <div class="col-md-6 col-12 ">
+    <p style="color: #03a943;font-size: 12px;">{{producto.tienda}} <span style="color: #000;">| SKU: 9283823812398</span></p>
+      <h2 class="fw-bold"><span style="font-weight: 10rem;">{{ producto.titulo }}</span></h2>
+
+      <!-- Descripción -->
+       <div class="mt-5 border-bottom pb-3">
+            <p class="fw-bold">{{ producto.descripcion }}</p>
+
+       </div>
+      <!-- Precio -->
+      <div class="precios mt-3">
+      
+        <span class="text-muted" [ngClass]="{ 'text-decoration-line-through': producto.descuento }">
+          S/ .{{ producto.precio_antes }}
+        </span>
+         
+        <span *ngIf="producto.descuento" class="badge bg-success ms-2">
+          -{{ producto.descuento }}%
+        </span>
+        
+      </div>
+      <div class="precios">
+        <span class="fs-4 fw-bold text-danger">S/. {{ producto.precio }}.00</span>
+      </div>
+      
+
+      <!-- Cantidad -->
+     <div class="d-flex align-items-center justify-content-between my-1 py-1 w-100">
+    <!-- Botones de cantidad (30%) -->
+    <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
+      <button class="cantidad-btn " (click)="disminuirCantidad()">−</button>
+      <span>{{ producto.cantidad }}</span>
+      <button class="cantidad-btn" (click)="aumentarCantidad()">+</button>
+    </div>
+
+    <!-- Botón agregar al carrito (70%) -->
+    <div class="ms-3 w-70" style="width: 70%;">
+        <button class="btn btn-success w-100 py-2">
+         <i class="bi bi-bag-heart"></i> Agregar al carrito
+        </button>
+    </div>
+</div>
+
+
+      <!-- Agregar al carrito -->
+      
+    </div>
+  </div>
+</div>
+
+<!-- Fallback -->
+<div *ngIf="!producto" class="text-center mt-5">
+  <p class="text-muted">Cargando producto...</p>
+</div>
+
