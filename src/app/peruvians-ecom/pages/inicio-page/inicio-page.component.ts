@@ -41,7 +41,16 @@ export class InicioPageComponent implements OnInit{
     })
   }
   
-
+    generarSlugConId(producto: Producto): string {
+      const slug = producto.nombre
+        .toLowerCase()
+        .replace(/\s+/g, '-')        // espacios → guiones
+        .replace(/[^\w\-]+/g, '')    // elimina caracteres especiales
+        .replace(/\-\-+/g, '-')      // colapsa múltiples guiones
+        .trim();
+      return `${slug}-${producto.id}`;
+    }
+ 
  
 
     

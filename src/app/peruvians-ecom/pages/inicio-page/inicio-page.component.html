@@ -93,13 +93,13 @@
 <!-- Producos Liquidacion -->
 <section class="container my-5">
    <h2 class=" mb-4">Productos en Liquidación</h2>
-  <div class="row gy-4">
+  <div class="row gy-4 ">
     <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-6 col-6 col-" *ngFor="let producto of liquidacion">
+    <div class="col-md-6 col-6 " *ngFor="let producto of liquidacion" style="cursor: pointer;">
       <div class="promo-rect-card  align-items-center   shadow-sm">
         <!-- Derecha: Imagen -->
         <div class="w-100 text-end">
-          <img [src]="producto.img" alt="oferta" class="img-fluid rounded" />
+          <img [src]="producto.img" alt="oferta" class="img-fluid rounded" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"/>
         </div>
       </div>
     </div>

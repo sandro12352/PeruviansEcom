@@ -12,11 +12,12 @@
       <div
         routerLink=""
         class="producto-card"
+        [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"
         *ngFor="let producto of grupo"
       >
         <div class="card d-flex flex-column h-100" >
           <span class="descuento-badge">-{{ producto.descuento }}</span>
-          <img [src]="producto.img" class="img-fluid rounded" [alt]="producto.nombre" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"/>
+          <img [src]="producto.img" class="img-fluid rounded" [alt]="producto.nombre" />
           <div class="card-body-custom d-flex flex-column  justify-content-between">
             <div class="contenido-scrollable"> 
                 <span class="marca-badge">{{ producto.tienda }}</span>         
@@ -24,7 +25,7 @@
               <s class="text-body-tertiary">S/.{{ producto.precio_antes }}.00</s>
               <p class="fw-semibold mb-2">S/.{{ producto.precio }}.00</p>
             </div>
-          <button class="btn boton-agregar btn-sm w-100 p-2" (click)="AgregarCarrito(producto)">AGREGAR</button> 
+          <button class="btn boton-agregar btn-sm w-100 p-2" (click)="AgregarCarrito(producto); $event.stopPropagation()">AGREGAR</button> 
           </div>
          
         </div>
@@ -36,7 +37,7 @@
 
     <!-- Controles -->
     <!-- Botón anterior -->
-<button class="carousel-control-prev d-none d-md-block" type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-target="#carouselProductos" data-bs-slide="prev">
+<button class="carousel-control-prev " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-target="#carouselProductos" data-bs-slide="prev">
   <span class="custom-arrow bg-white text-success">
    <i class="bi bi-chevron-left"></i>
   </span>
@@ -44,7 +45,7 @@
 </button>
 
 <!-- Botón siguiente -->
-<button class="carousel-control-next d-none d-md-block" type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-slide="next">
+<button class="carousel-control-next " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-slide="next">
   <span class="custom-arrow bg-white text-success">
     <i class="bi bi-chevron-right"></i>
   </span>
