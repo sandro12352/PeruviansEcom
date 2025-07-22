@@ -2,24 +2,37 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
-import { ContactanosComponent } from './pages/contactanos/contactanos.component';
+import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 
 
-const routes:Routes = [
+const routes: Routes = [
   {
-    path:'',
-    children: [
-      {path: '', component:InicioPageComponent},
-      {path:':categorias', component:MostrarProductoComponent},
-      {path: '',redirectTo: '', pathMatch: 'full'},
-    ]
+    path: '',
+    component: InicioPageComponent
   },
   {
-    path:'**',
-    redirectTo:'/',
-    pathMatch:'full'
+    path: 'mas-vendidos',
+    component: MostrarProductoComponent
+  },
+  {
+    path: 'mas-nuevos',
+    component: MostrarProductoComponent
+  },
+  {
+    path: ':categorias',
+    component: MostrarProductoComponent
+  },
+  {
+    path: ':categorias/:nombreProducto',
+    component: DetalleProductoPageComponent
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
   }
 ];
+
 
 @NgModule({
  exports: [RouterModule],

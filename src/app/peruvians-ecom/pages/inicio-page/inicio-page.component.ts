@@ -20,11 +20,7 @@ export class InicioPageComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    this.peruviansService.todosProductos()
-    .subscribe(productos=>{
-      this.productos = productos;
-    })
-
+  
 
     this.peruviansService.masVendidos()
     .subscribe(masVendidos=>{

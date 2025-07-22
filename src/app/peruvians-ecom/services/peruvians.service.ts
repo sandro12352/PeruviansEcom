@@ -13,9 +13,6 @@ export class PeruviansService {
 
   constructor(private http: HttpClient) {}
 
-  todosProductos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${envs.apiUrl}/productos.json`);
-  }
 
   masVendidos():Observable<Producto[]>{
     return this.http.get<Producto[]>(`${envs.apiUrl}/masVendidos.json`);

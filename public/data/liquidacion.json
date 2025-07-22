@@ -1,9 +1,10 @@
 [
     {
         "id":7,
-        "nombre":"ACEITE DE ORÉGANO 30 ML 100% NATURAL",
+        "nombre":"aceite-de-romero",
+        "titulo":"ACEITE DE ORÉGANO 30 ML 100% NATURAL",
         "tienda":"FRANSTORE",
-        "categoria":"aceites-portador",
+        "categoria":"aceites",
         "descuento":"40%",
         "descripcion":"   ¡Cabello fuerte, mente activa! Estimula el crecimiento capilar, combate la caída y mejora la circulación del cuero cabelludo. Además, favorece la concentración y alivia dolores musculares. 100% natural, de uso tópico, ideal para rutinas de cuidado personal. ",
         "precio_antes":99.90,
@@ -14,8 +15,9 @@
         "img":"imagenes/liquidacion/liquidacionRomero.webp"
     },
      {
-        "id":8,
-        "nombre":"Cartílago de tiburón",
+        "id":8, 
+        "nombre":"cartilago-de-tiburon",
+        "titulo":"CARTÍLAGO DE TIBURÓN 60 CAPS NATURAL",
         "tienda":"LUKING4",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -29,9 +31,10 @@
     },
     {
         "id":9,
-        "nombre":"Carticolágeno",
+        "nombre":"carticolágeno",
+        "titulo":"CARTICOLÁGENO 350 GR",
         "tienda":"LUKING4",
-        "categoria":"polvo",
+        "categoria":"batidos",
         "descuento":"40%",
         "descripcion":"¡Fuerza para tus articulaciones y firmeza para tu piel! Combina colágeno con cartílago para regenerar tejidos, aliviar molestias articulares y mejorar la elasticidad de la piel. Suplemento 2 en 1, ideal para adultos mayores, deportistas o personas con desgaste físico. ",
         "precio_antes":99.90,
@@ -43,7 +46,8 @@
     },
     {
         "id":10,
-        "nombre":"Cartical D",
+        "nombre":"carticald",
+        "titulo":"CARTICAL D 60 CAPS NATURAL",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -58,6 +62,7 @@
     {
         "id":11,
         "nombre":"Moringa",
+        "titulo":"MORINGA 60 CAPS NATURAL",
         "tienda":"ALESTORE",
         "categoria":"suplementos",
         "descuento":"40%",
@@ -71,7 +76,8 @@
     },
     {
         "id":12,
-        "nombre":"Masajeador eléctrico de pies",
+        "nombre":"masajeador-de-pies",
+        "titulo":"MASAJEADOR ELÉCTRICO DE PIES RECARGABLE",
         "tienda":"FRANSTORE",
         "descuento":"44%",
         "descripcion":"¡Tu momento de alivio y relajación! Relaja los músculos, activa la circulación y alivia la tensión acumulada en pies y piernas. Ideal para quienes pasan muchas horas de pie o sufren de cansancio crónico. Fácil de usar, portátil y con varios niveles de intensidad. ",

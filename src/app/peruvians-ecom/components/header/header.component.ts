@@ -74,9 +74,15 @@ export class HeaderComponent implements OnInit {
       this.carritoService.actualizarCantidadTotal();
 
     } else {
-      // this.eliminarProducto(producto); // o deshabilitar el botón
+      this.eliminarProducto(producto); // o deshabilitar el botón
       }
     }
+
+
+  eliminarProducto(producto: Producto) {
+    this.carritoService.eliminarProducto(producto);
+    this.carritoService.actualizarCantidadTotal(); // Actualiza la lista de productos en el carrito
+  }
 
 
 

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InicioPageComponent } from './peruvians-ecom/pages/inicio-page/inicio-page.component';
 import { ContactanosComponent } from './peruvians-ecom/pages/contactanos/contactanos.component';
 import { BlogPageComponent } from './peruvians-ecom/pages/blog-page/blog-page.component';
+import { NosotrosPageComponent } from './peruvians-ecom/pages/nosotros-page/nosotros-page.component';
+import { PreguntasFrecuentesPageComponent } from './peruvians-ecom/pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,14 @@ const routes: Routes = [
   {
     path: 'blog',
     component:BlogPageComponent,
+  },
+  {
+    path: 'nosotros',
+    component:NosotrosPageComponent,
+  },
+  {
+    path:'preguntas-frecuentes',
+    component:PreguntasFrecuentesPageComponent
   },
   {
     path: '',

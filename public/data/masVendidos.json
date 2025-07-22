@@ -1,9 +1,11 @@
 [
     {
         "id":1,
-        "nombre":"COLÁGENO HIDROLIZADO 60 GOMITAS NATURALES",
+        "nombre":"colageno-hidrolizado",
+        "titulo":"COLÁGENO HIDROLIZADO 60 GOMITAS NATURALES",
         "tienda":"GOMUGOMIX",
         "descuento":"23%",
+        "categoria":"gomitas",
         "descripcion":"¡Regenera desde adentro!. El colageno hidrolizado fortalece huesos, articulaciones, piel, cabello y uñas. Su fórmula facilita la absorción para resultados visibles y duraderos. Ideal para quienes buscan juventud,movilidad y firmeza.Cápsulas 100% naturales y fáciles de tomar",
         "precio_antes":129,
         "precio":99,
@@ -14,8 +16,10 @@
     },
     {
         "id":2,
-        "nombre":"OMEGA 3, 6 Y 9 60 GOMITAS NATURALES",
+        "nombre":"omega-3-6-9",
+        "titulo":"OMEGA 3, 6 Y 9 60 GOMITAS NATURALES",
         "tienda":"GOMUGOMIX",
+        "categoria":"gomitas",
         "descuento":"23%",
         "descripcion":" ¡Nutre tu cerebro, corazón y hormonas! Este trío de ácidos grasos esenciales apoya el  sistema cardiovascular, mejora la memoria y reduce la inflamación. También equilibra las hormonas y refuerza el sistema inmune. Cápsulas puras, sin aditivos y aptas para veganos. ",
         "precio_antes":129,
@@ -27,8 +31,10 @@
     },
     {
         "id":4,
-        "nombre":"ACEITE DE ORÉGANO 30 ML 100% NATURAL",
+        "nombre":"aceite-de-oregano",
+        "titulo":"ACEITE DE ORÉGANO 30 ML 100% NATURAL",
         "tienda":"FRANSTORE",
+        "categoria":"aceites",
         "descuento":"22%",
         "descripcion":"  ¡Defensas fuertes y digestión ligera! Este aceite es un potenteantibiótico natural que combate virus, bacterias y hongos. Además, mejora la digestión y alivia malestares respiratorios. Cápsulas concentradas, naturales y sin aditivos. ",
         "precio_antes":125,
@@ -40,8 +46,10 @@
     },
     {
         "id":5,
-        "nombre":"MELENA DE LEÓN 60 CAPS VEGANA NATURALES",
+        "nombre":"melena-de-leon",
+        "titulo":"MELENA DE LEÓN 60 CAPS VEGANA NATURALES",
         "tienda":"QUICKSTORE",
+        "categoria":"suplementos",
         "descuento":"23%",
         "descripcion":"  ¡Activa tu mente con claridad! Este hongo medicinal potencia la memoria, la concentración y protege el sistema nervioso. Aliado ideal para personas con fatiga mental, ansiedad o estrés. Cápsulas veganas, 100% naturales, sin químicos.",
         "precio_antes":125,
@@ -52,17 +60,19 @@
         "img":"imagenes/melenaLeon.png"
     },
     {
-                "id":6,
-                "nombre":"BLOOD SUGAR 60 CAPS NATURAL",
-                "tienda":"VICKSTORE",
-                "descuento":"23%",
-                "descripcion":" ¡Controla tu azúcar de forma natural! Suplemento americano que apoya el equilibrio de la glucosa, mejora la sensibilidad a la insulina y previene picos de azúcar. Ideal para personas con prediabetes o diabetes tipo 2. 100% natural, seguro y fácil de incluir en tu rutina diaria.",
-                "precio_antes":129,
-                "precio":99,
-                "beneficios":" Regula el azúcar en sangre, mejora la respuesta a la insulina,reduce los antojos y protege el metabolismo. ",
-                "modo_de_uso":"Consumir solo dos cápsulas al día, media hora antes del almuerzo. ",
-                "detalle":" Fórmula de origen americano con extractos naturales como canela, cromo y ácido alfa lipoico. Se usa para regular los niveles de glucosa en sangre. Ayuda a mejorar la sensibilidad a la insulina, prevenir picos de azúcar y reducir el riesgo de diabetes tipo 2. Ideal para personas con prediabetes o resistencia a la insulina.",
-                "img":"imagenes/bloodSugar.png"
+        "id":6,
+        "nombre":"blood-sugar",
+        "categoria":"suplementos",
+        "titulo":"BLOOD SUGAR 60 CAPS NATURAL",
+        "tienda":"VICKSTORE",
+        "descuento":"23%",
+        "descripcion":" ¡Controla tu azúcar de forma natural! Suplemento americano que apoya el equilibrio de la glucosa, mejora la sensibilidad a la insulina y previene picos de azúcar. Ideal para personas con prediabetes o diabetes tipo 2. 100% natural, seguro y fácil de incluir en tu rutina diaria.",
+        "precio_antes":129,
+        "precio":99,
+        "beneficios":" Regula el azúcar en sangre, mejora la respuesta a la insulina,reduce los antojos y protege el metabolismo. ",
+        "modo_de_uso":"Consumir solo dos cápsulas al día, media hora antes del almuerzo. ",
+        "detalle":" Fórmula de origen americano con extractos naturales como canela, cromo y ácido alfa lipoico. Se usa para regular los niveles de glucosa en sangre. Ayuda a mejorar la sensibilidad a la insulina, prevenir picos de azúcar y reducir el riesgo de diabetes tipo 2. Ideal para personas con prediabetes o resistencia a la insulina.",
+        "img":"imagenes/bloodSugar.png"
     }
 ]
     

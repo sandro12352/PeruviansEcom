@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -16,31 +17,53 @@ export class MostrarProductoComponent implements OnInit {
 
    constructor(
     private route: ActivatedRoute,
+    private router: Router ,
     private peruviansService: PeruviansService,
     private carritoService:CarritoService,
   ) {}
 
   ngOnInit(): void {
-  this.route.paramMap.subscribe(params => {
-    this.categoria = params.get('categorias') || '';
-    
+  this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.cargarCategoriaDesdeRuta();
+    });
 
-    if (this.categoria === 'mas-vendidos') {
-      this.obtenerProductosMasVendidos();
-    } else if (this.categoria === 'mas-nuevos') {
-      this.obtenerProductosMasNuevos();
-    } else {
-      this.obtenerProductosPorCategoria(this.categoria);
-    }
-  });
-    }
+  // Ejecutar la primera vez
+  this.cargarCategoriaDesdeRuta();
+}
+
+private cargarCategoriaDesdeRuta(): void {
+  const path = this.route.snapshot.routeConfig?.path || '';
+  const categoria = this.route.snapshot.paramMap.get('categorias') || '';
+
+  if (path === 'mas-vendidos') {
+    this.obtenerProductosMasVendidos();
+  } else if (path === 'mas-nuevos') {
+    this.obtenerProductosMasNuevos();
+  } else {
+    this.obtenerProductosPorCategoria(categoria);
+    
+  }
+}
+
 
 
 
   obtenerProductosPorCategoria(categoria: string): void {
     this.peruviansService.getProductosPorCategoria(categoria)
-      .subscribe(resp => {
-        this.productos = resp;
+      .subscribe({
+        next: (resp) => {
+          if (resp.length === 0) {
+            // ❗ Redirigir si la categoría no tiene productos
+            
+          } else {
+            this.productos = resp;
+          }
+        },
+        error: () => {
+          // ❗ También redirigir si hay error con la API
+          this.router.navigate(['/']);
+        }
       });
   }
 
@@ -49,6 +72,7 @@ export class MostrarProductoComponent implements OnInit {
       .subscribe(resp => {
         this.productos = resp;
       });
+      
   }
     obtenerProductosMasNuevos(): void {
     this.peruviansService.masNuevo()

@@ -61,20 +61,20 @@
       class="category-item" data-products="products-aceites"
       (mouseenter)="mostrarProductos('aceites')"
       [ngClass]="{ 'active': activeCategory === 'aceites' }"
-       [routerLink]="['/','aceites-portador']">
-        Aceites Portadores<i class="bi bi-chevron-right"></i>
+       [routerLink]="['/','aceites']">
+        Aceites<i class="bi bi-chevron-right"></i>
       </li>
       <li class="category-item" data-products="products-polvo" 
-        (mouseenter)="mostrarProductos('polvo')"
-        [ngClass]="{ 'active': activeCategory === 'polvo' }"
-        [routerLink]="['/','polvo']">
-          Suplemento en Polvo<i class="bi bi-chevron-right"></i>
+        (mouseenter)="mostrarProductos('batidos')"
+        [ngClass]="{ 'active': activeCategory === 'batidos' }"
+        [routerLink]="['/','batidos']">
+          Batidos<i class="bi bi-chevron-right"></i>
         </li>
       <li class="category-item" data-products="products-capsulas"
       (mouseenter)="mostrarProductos('capsulas')"
       [ngClass]="{ 'active': activeCategory === 'capsulas' }"
          [routerLink]="['/','suplementos']" >
-        Suplementos en Capsulas<i class="bi bi-chevron-right"></i></li>
+        Suplementos<i class="bi bi-chevron-right"></i></li>
     </ul>
 
     <!-- Productos (derecha) -->
@@ -184,7 +184,10 @@
         <small class="text-muted">{{ producto.tienda }}</small>
       </div>
       <div class="cursor-pointer">
-        <i class="bi bi-trash3-fill fs-5 text-danger " title="Eliminar producto"></i>
+       <button type="button" class="btn p-0 border-0 bg-transparent" (click)="eliminarProducto(producto)" aria-label="Eliminar producto">
+        <i class="bi bi-trash3-fill fs-5 text-danger"></i>
+      </button>
+
       </div>
     </div>
 
@@ -243,10 +246,10 @@
   <ul class="navbar-nav flex-row gap-4 d-none d-md-flex align-items-center">
     <!-- Secciones del centro -->
     <li class="nav-item">
-      <a [routerLink]="['/','mas-vendidos']" class="nav-link"><strong>MÁS VENDIDO</strong> </a>
+      <a [routerLink]="['mas-vendidos']" class="nav-link"><strong>MÁS VENDIDO</strong> </a>
     </li>
     <li class="nav-item">
-      <a [routerLink]="['/','mas-nuevos']" class="nav-link"><strong>NOVEDADES</strong> </a>
+      <a [routerLink]="['mas-nuevos']" class="nav-link"><strong>NOVEDADES</strong> </a>
     </li>
     <li class="nav-item">
       <a routerLink="blog" class="nav-link"><strong>BLOG</strong> </a>

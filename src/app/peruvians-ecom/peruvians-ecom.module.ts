@@ -15,6 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { BlogPageComponent } from './pages/blog-page/blog-page.component';
+import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
+import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
+import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 
 
 
@@ -33,6 +36,9 @@ import { BlogPageComponent } from './pages/blog-page/blog-page.component';
     MostrarProductoComponent,
     CarritoComponent,
     BlogPageComponent,
+    NosotrosPageComponent,
+    PreguntasFrecuentesPageComponent,
+    DetalleProductoPageComponent,
   ],
   exports: [
     LayoutPageComponent,

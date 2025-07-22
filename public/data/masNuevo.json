@@ -1,7 +1,9 @@
 [
         {
                 "id":6,
-                "nombre":"BLOOD SUGAR 60 CAPS NATURAL",
+                "nombre":"blood-sugar",
+                "categoria":"suplementos",
+                "titulo":"BLOOD SUGAR 60 CAPS NATURAL",
                 "tienda":"VICKSTORE",
                 "descuento":"23%",
                 "descripcion":" ¡Controla tu azúcar de forma natural! Suplemento americano que apoya el equilibrio de la glucosa, mejora la sensibilidad a la insulina y previene picos de azúcar. Ideal para personas con prediabetes o diabetes tipo 2. 100% natural, seguro y fácil de incluir en tu rutina diaria.",

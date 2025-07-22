@@ -38,5 +38,14 @@ export class CarritoService {
   }
 
 
+  eliminarProducto(producto:Producto){
+    const index = this.productos.findIndex(p => p.id == producto.id);
+    if(index !== -1) {
+      this.productos.splice(index, 1);
+      this.actualizarCantidadTotal(); // Actualiza el conteo después de eliminar
+    }
+  }
+
+
 
 }
