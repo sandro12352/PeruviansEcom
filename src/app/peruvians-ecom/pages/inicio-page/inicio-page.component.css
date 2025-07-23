@@ -1,3 +1,23 @@
+.scroll {
+    overflow: hidden;
+    text-align: center;
+}
+.scroll-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+}
+.scroll-track .carrusel-item{
+    flex: 0 0 auto;
+    width: 164px; /* Ancho fijo para cada item */
+    margin-right: 1rem; /* Espacio entre items */
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
 /* Contenedor principal que se comporta como carrusel horizontal en móvil */
 .categoria-wrapper {
   display: flex;
@@ -11,14 +31,6 @@
 
 
 
-@media (min-width: 768px) {
-  .categoria-wrapper {
-    flex-wrap: wrap; /* grilla en escritorio */
-    overflow-x: visible;
-    scroll-snap-type: none;
-  }
-  
-}
 
 /* Tarjeta */
 .categoria-card {

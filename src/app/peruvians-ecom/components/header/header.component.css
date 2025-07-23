@@ -1,25 +1,37 @@
-.envio-banner {
+ .scroll {
+  width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  height: 25px;
-  display: flex;
-  align-items: center;
+  background: linear-gradient(270deg, #4caf50, #ff9800, #fbc02d, #4caf50);
+  background-size: 800% 800%;
+  animation: bannerGradient 10s ease infinite;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 5px;
 }
-
-.scroll-text {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scroll-right 300s linear infinite;
+.scroll-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 60s linear infinite;
 }
-
-@keyframes scroll-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+.scroll-track span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    font-size: 1.2rem;
+  
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    user-select: none;
+}
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 
@@ -211,15 +223,7 @@ header {
   }
 
 
- .envio-banner {
-  background: linear-gradient(270deg, #4caf50, #ff9800, #fbc02d, #4caf50);
-  background-size: 800% 800%;
-  animation: bannerGradient 10s ease infinite;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  font-weight: 700;
-  font-size: 1rem;
-}
+
 
 @keyframes bannerGradient {
   0% { background-position: 0% 50%; }
