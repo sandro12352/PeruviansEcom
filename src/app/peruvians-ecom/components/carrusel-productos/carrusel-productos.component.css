@@ -103,7 +103,7 @@
 
 .producto-card .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 13px rgba(92, 51, 134, 0.17);
 }
 
 

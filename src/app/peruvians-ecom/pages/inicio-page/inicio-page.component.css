@@ -9,9 +9,18 @@
 }
 .scroll-track .carrusel-item{
     flex: 0 0 auto;
-    width: 164px; /* Ancho fijo para cada item */
+    width: 170px; /* Ancho fijo para cada item */
     margin-right: 1rem; /* Espacio entre items */
+    
 }
+.scroll-track .carrusel-item img{
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del item */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 50%; /* Bordes redondeados */
+   
+}
+
+
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -24,48 +33,36 @@
   gap: 1rem;
   overflow-x: auto;
   padding-bottom: 0.5rem;
-
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
 
-
-
-
-/* Tarjeta */
 .categoria-card {
   flex: 0 0 auto;
   width: 164px;
-  text-align: center;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
   cursor: pointer;
 }
 
-
-/* Hover sobre la tarjeta que afecta IMG y H6 */
-.categoria-card:hover .categoria-img {
-  box-shadow: 0 0 10px #225201;
-  transform: scale(1.05); /* 🔍 Zoom suave */
-  transition: transform 0.5s ease,box-shadow 0.3s ease;
+.categoria-img-wrapper {
+  overflow: hidden;
+  border-radius: 8px;
 }
 
-.categoria-card:hover .categoria-title {
-  color: #387e0d;
-  transition: color 0.3s ease;
-}
-
-
-/* Imagen */
 .categoria-img {
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 8px;
-  transition: transform 0.3s;
+  transition: transform .6s ease, box-shadow 0.3s ease;
 }
 
-/* Título */
+/* Hover effects */
+.categoria-card:hover .categoria-img {
+  box-shadow: 0 0 10px #225201;
+  transform: scale(1.1);
+}
+
 .categoria-title {
   font-size: 1rem;
   margin-top: 0.5rem;
@@ -73,46 +70,11 @@
   transition: color 0.3s;
 }
 
-
-
-
-
-.categoria-wrapper1 {
-    display: flex;
-    
-    justify-content: space-between; /* Espacio entre tarjetas */
-    gap: 1rem;
-  }
-
-  .categoria-card1 {
-    cursor: pointer;
-    flex: 1 1 calc(20% - 1rem); /* 5 tarjetas por fila con espacio entre ellas */
-    box-sizing: border-box;
-   
-  }
-
-  .categoria-card1:hover .categoria-img {
-  
-  transform: scale(1.05); /* 🔍 Zoom suave */
-  transition: transform 0.5s ease,box-shadow 0.3s ease;
+.categoria-card:hover .categoria-title {
+  color: #387e0d;
 }
 
-  @media (max-width: 768px) {
-    .categoria-wrapper1 {
-    flex-wrap: wrap; /* grilla en escritorio */
-    
-  }
-    .categoria-card1 {
-      flex: 1 1 calc(50% - 1rem); /* 2 por fila en pantallas pequeñas */
-    }
-  }
 
-  @media (max-width: 480px) {
-    .categoria-card1 {
-      flex: 1 1 100%; /* 1 por fila en móviles */
-    }
-    
-  }
 
 
 
@@ -125,6 +87,7 @@
 
 .promo-card:hover {
   transform: scale(1.01);
+  
 }
 
 /* Imagen que se vuelve pálida en hover */
@@ -136,6 +99,7 @@
 
 .promo-card:hover .promo-img {
    filter: grayscale(30%) brightness(80%) blur(1px);
+   border: 1px solid #940fd682;
 }
 
 .promo-btn {
@@ -144,15 +108,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.4s ease, transform 0.3s ease;
+  transition: opacity 0.6s ease, transform 0.3s ease;
   z-index: 2;
-  padding: 0.8rem 1.8rem;
-  font-size: 1.1rem;
+  padding: 12px 24px;
+  font-size: 10px;
   font-weight: bold;
-  background-color: #117ca3; /* verde Bootstrap */
+  background-color: #5327abca; /* verde Bootstrap */
   color: white;
   border: none;
-  border-radius: 50px;
+  border-radius: 12px;
   box-shadow: 0 8px 15px rgba(0, 128, 0, 0.3);
 }
 
@@ -165,7 +129,7 @@
 /* Efecto rebote al hacer hover en el botón */
 .promo-btn:hover {
   transform: translate(-50%, -50%) scale(1.1);
-  background-color: #218838;
+  background-color: #cb6c24c6;
   box-shadow: 0 10px 20px rgba(0, 128, 0, 0.4);
 }
 
@@ -182,30 +146,10 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.w-60 {
-  width: 60%;
-}
-.w-40 {
-  width: 40%;
-}
 
-/* Botón llamativo */
-.promo-btn1 {
-  padding: 0.6rem 1.4rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 50px;
-  background-color: #f48515;
-  border: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-}
 
-.promo-btn1:hover {
-  background-color: #218838;
-  box-shadow: 0 6px 18px rgba(33, 136, 56, 0.5);
-  transform: scale(1.05);
-}
+
+
 
 
 

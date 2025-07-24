@@ -7,22 +7,31 @@
   <div class="categoria-wrapper gap-4">
 
   <div class="categoria-card text-center" [routerLink]="['/', 'aceites']">
+    <div class="categoria-img-wrapper">
     <img src="imagenes/categoriaAceites.jpg" loading="lazy" alt="Aceites" class="categoria-img">
+  </div>
     <h6 class="categoria-title mt-2">Aceites</h6>
   </div>
 
   <div class="categoria-card text-center" [routerLink]="['/', 'suplementos']">
-    <img src="imagenes/categoriaCapsulas.jpg" loading="lazy" alt="Suplementos" class="categoria-img">
+    <div class="categoria-img-wrapper">
+          <img src="imagenes/categoriaCapsulas.jpg" loading="lazy" alt="Suplementos" class="categoria-img">
+    </div>
     <h6 class="categoria-title mt-2">Suplementos</h6>
   </div>
 
   <div class="categoria-card text-center" [routerLink]="['/', 'gomitas']">
-    <img src="imagenes/categoriaGomitas.jpg" loading="lazy" alt="Gomitas" class="categoria-img">
+    <div class="categoria-img-wrapper">
+          <img src="imagenes/categoriaGomitas.jpg" loading="lazy" alt="Gomitas" class="categoria-img">
+    </div>
     <h6 class="categoria-title mt-2">Gomitas</h6>
   </div>
 
   <div class="categoria-card text-center" [routerLink]="['/', 'batidos']">
-    <img src="imagenes/categoriaPolvo.jpg" loading="lazy" alt="Batidos" class="categoria-img">
+    <div class="categoria-img-wrapper">
+          <img src="imagenes/categoriaPolvo.jpg" loading="lazy" alt="Batidos" class="categoria-img">
+
+    </div>
     <h6 class="categoria-title mt-2">Batidos</h6>
   </div>
 
@@ -93,13 +102,13 @@
 <!-- Producos Liquidacion -->
 <section class="container my-5">
    <h2 class=" mb-4">Productos en Liquidación</h2>
-  <div class="row gy-4 ">
+  <div class="row gy-2 ">
     <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-6 col-6 " *ngFor="let producto of liquidacion" style="cursor: pointer;">
+    <div class="col-md-4 col-6" *ngFor="let producto of liquidacion" style="cursor: pointer;">
       <div class="promo-rect-card  align-items-center   shadow-sm">
         <!-- Derecha: Imagen -->
-        <div class="w-100 text-end">
-          <img [src]="producto.img" alt="oferta" class="img-fluid rounded" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"/>
+        <div class="text-end" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]" style="width: 104%;" >
+          <img [src]="producto.img" alt="oferta" class="img-fluid full-image rounded"  />
         </div>
       </div>
     </div>
@@ -115,65 +124,54 @@
 
         <div class="carrusel-item">
           <img src="logos/3boutique.jpg" loading="lazy" alt="Vitaminas" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">3 BOUTIQUE</h6>
+          
         </div>
 
         <div class="carrusel-item">
           <img src="logos/alestore.jpg" loading="lazy" alt="Suplementos" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">ALESTORE</h6>
+          
         </div>
 
         <div class="carrusel-item">
           <img src="logos/franstore.jpg" loading="lazy" alt="Abarrotes" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">FRANSTORE</h6>
         </div>
         <div class="carrusel-item">
           <img src="logos/gomugomix.webp" loading="lazy" alt="gomugomix" class="categoria-img img-fluid bg-white">
-          <h6 class="categoria-title mt-2">GOMUGOMIX</h6>
         </div>
         <div class="carrusel-item">
           <img src="logos/kastroperu.jpg" loading="lazy" alt="Frescos" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">KASTRO PERÚ</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/mymstore.jpg" loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">MYMSTORE</h6>
         </div>
         
         <div class="carrusel-item">
           <img src="logos/quickstore.jpg"loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">QUICKSTORE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/vicstore.jpg" loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">VICSTORE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/lukin4.webp" loading="lazy" alt="lukin4" class="categoria-img img-fluid bg-white">
-          <h6 class="categoria-title mt-2">LUKIN4</h6>
         </div>
 
         <!-- Duplicados para efecto infinito -->
            <div class="carrusel-item">
           <img src="logos/3boutique.jpg" loading="lazy" alt="Vitaminas" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">3 BOUTIQUE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/alestore.jpg" loading="lazy" alt="Suplementos" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">ALESTORE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/franstore.jpg" loading="lazy" alt="Abarrotes" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">FRANSTORE</h6>
         </div>
         <div class="carrusel-item">
           <img src="logos/gomugomix.webp" loading="lazy" alt="gomugomix" class="categoria-img img-fluid bg-white">
-          <h6 class="categoria-title mt-2">GOMUGOMIX</h6>
         </div>
         <div class="carrusel-item">
           <img src="logos/kastroperu.jpg" loading="lazy" alt="Frescos" class="categoria-img img-fluid">
@@ -182,22 +180,18 @@
 
         <div class="carrusel-item">
           <img src="logos/mymstore.jpg" loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">MYMSTORE</h6>
         </div>
         
         <div class="carrusel-item">
           <img src="logos/quickstore.jpg"loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">QUICKSTORE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/vicstore.jpg" loading="lazy" alt="Congelados" class="categoria-img img-fluid">
-          <h6 class="categoria-title mt-2">VICSTORE</h6>
         </div>
 
         <div class="carrusel-item">
           <img src="logos/lukin4.webp" loading="lazy" alt="lukin4" class="categoria-img img-fluid bg-white">
-          <h6 class="categoria-title mt-2">LUKIN4</h6>
         </div>
     </div>
     
