@@ -30,7 +30,7 @@
 .cantidad-box {
   border: 1px solid #cccccc94;
   border-radius: 5px;
-  width: 35%;
+  width: 40%;
   
 }
 
@@ -41,23 +41,34 @@
   font-weight: bold;
   letter-spacing: 0.5px;
   border-radius: 8px;
-  
+  background-color: #8D48CD;
+  color: #FFFFFF;
 }
 
 .boton-animado:hover {
  
   transform: scale(1.01);
-  box-shadow: 0 6px 16px rgba(16, 193, 66, 0.438);
+  box-shadow: 0 6px 16px #722eae3c;
 }
 
 
-.accordion-button::after {
-  content: '+';
+.text-purple {
+  color: #8D48CD;
+}
+
+h6 {
   font-size: 1.2rem;
-  margin-left: auto;
-  transition: transform 0.3s;
 }
 
-.accordion-button:not(.collapsed)::after {
-  content: '−';
+p {
+  font-size: 1.1rem;
+  color: #333;
 }
+
+@media (max-width: 768px) {
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+}
+

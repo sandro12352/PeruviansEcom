@@ -1,13 +1,14 @@
-<div *ngIf="producto" class="detalle-producto container py-4">
-  <div class="row  shadow-sm p-4 rounded-4 bg-white align-items-center">
+<div *ngIf="producto" class="detalle-producto container py-4 ">
+  <div class="row  shadow-sm p-4 rounded-4 bg-white align-items-center ">
     <!-- Imagen -->
-    <div class="col-md-6 col-12">
-      <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid " />
-    </div>
 
+    <div class="col-md-6 col-12 mb-5">
+      <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid bg-light rounded-3" />
+    </div>
+    
     <!-- Detalles -->
     <div class="col-md-6 col-12 ">
-    <p style="color: #03a943;font-size: 12px;">{{producto.tienda}} <span style="color: #000;">| SKU: 9283823812398</span></p>
+    <p style="color: #8d48cd;font-size: 12px;">{{producto.tienda}} <span style="color: #000;">| SKU: 9283823812398</span></p>
       <h2 class="fw-bold"><span style="font-weight: 10rem;">{{ producto.titulo }}</span></h2>
 
       <!-- Descripción -->
@@ -22,7 +23,7 @@
           S/ .{{ producto.precio_antes }}
         </span>
          
-        <span *ngIf="producto.descuento" class="badge bg-success ms-2">
+        <span *ngIf="producto.descuento" class="badge  ms-2" style="background-color: #8d48cd;">
           -{{ producto.descuento }}
         </span>
         
@@ -44,92 +45,66 @@
     <!-- Botón agregar al carrito (70%) -->
    <!-- Botón agregar al carrito (70%) -->
         <div class="ms-3 " style="width: 100%;">
-        <button class="btn btn-success w-100 py-2 boton-animado" >
-            <i class="bi bi-bag-heart me-2 fs-5"></i> Agregar al carrito
+        <button class="btn w-100 py-2 boton-animado" >
+            <i class="bi bi-bag-heart me-2 fs-"></i> Agregar al carrito
         </button>
         </div>
 
        
     </div>
     </div>
-</div>
-
-<!-- Información adicional -->
-<!-- Información adicional -->
-<div class="mt-5 bg-white p-4 rounded-4 shadow-sm">
-  <div class="row align-items-center">
     
-    <!-- Acordeón -->
-    <div class="col-md-7">
-      <div class="accordion" id="infoAcordeon">
-        
-        <!-- Detalles -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingDetalles">
-            <button
-              class="btn w-100 d-flex justify-content-evenly align-items-center p-3 text-white"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseDetalles"
-              aria-expanded="true"
-              aria-controls="collapseDetalles"
-              style="background: #03a943;"
-            >
-              Detalles
-              <span class="ms-auto toggle-icon fs-4" [ngClass]="{ 'open': true }">+</span>
-            </button>
+    <div class="d-md-flex d-block   align-items-center border-top mt-5 pt-4">
+    <!-- Detalles -->
+    <div class="col-md-6 col-12 p-3">
+      <h2 class="fw-bold mb-5"><span style="font-weight: 10rem;">INFORMACIÓN ADICIONAL</span></h2>
 
-          </h2>
-          <div id="collapseDetalles" class="accordion-collapse collapse show" aria-labelledby="headingDetalles" data-bs-parent="#infoAcordeon">
-            <div class="accordion-body">
-              {{ producto.detalle || 'Información detallada del producto.' }}
-            </div>
-          </div>
+      <!-- Descripción -->
+      <div class="d-flex align-items-start mb-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/17671/17671318.png" width="40" class="me-3" alt="Detalles">
+        <div>
+            <strong class="fs-5">DETALLES:</strong>
+            <p class="mb-0 text-muted">{{ producto.detalle }}</p>
         </div>
-
-        <!-- Modo de uso -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingUso">
-            <button  class="btn w-100 d-flex justify-content-evenly align-items-center p-3 text-white" 
-            type="button" data-bs-toggle="collapse" data-bs-target="#collapseUso" aria-expanded="false" aria-controls="collapseUso"
-             style="background: #03a943;">
-              Modo de uso
-              <span class="ms-auto toggle-icon fs-4" [ngClass]="{ 'open': true }">+</span>
-            </button>
-          </h2>
-          <div id="collapseUso" class="accordion-collapse collapse" aria-labelledby="headingUso" data-bs-parent="#infoAcordeon">
-            <div class="accordion-body">
-              {{ producto.modo_de_uso || 'Instrucciones para el uso del producto.' }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Beneficios -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingBeneficios">
-            <button  class="btn w-100 d-flex justify-content-evenly align-items-center p-3 text-white"
-             type="button" data-bs-toggle="collapse" data-bs-target="#collapseBeneficios" aria-expanded="false" aria-controls="collapseBeneficios"  style="background: #03a943;">
-              Beneficios
-              <span class="ms-auto toggle-icon fs-4" [ngClass]="{ 'open': true }">+</span>
-            </button>
-          </h2>
-          <div id="collapseBeneficios" class="accordion-collapse collapse" aria-labelledby="headingBeneficios" data-bs-parent="#infoAcordeon">
-            <div class="accordion-body">
-              {{ producto.beneficios || 'Lista de beneficios del producto.' }}
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
 
-    <!-- Imagen referencial -->
-    <div class="col-md-5 mt-4 mt-md-0">
-      <img [src]="producto.img || 'https://via.placeholder.com/400x300'" class="img-fluid rounded shadow-sm" alt="Imagen referencial" />
+    <!-- Beneficios -->
+    <div class="d-flex align-items-start mb-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/1456/1456442.png" width="35" class="me-3" alt="Beneficios">
+        <div>
+            <strong class="fs-5">BENEFICIOS:</strong>
+            <p class="mb-0 text-muted">{{ producto.beneficios }}</p>
+        </div>
     </div>
 
-  </div>
+    <!-- Modo de uso -->
+    <div class="d-flex align-items-start">
+        <img src="   https://cdn-icons-png.flaticon.com/512/6180/6180406.png " width="30" class="me-3" alt="Modo de uso">
+        <div>
+            <strong class="fs-5">MODO DE USO:</strong>
+            <p class="mb-0 text-muted">{{ producto.modo_de_uso }}</p>
+        </div>
+    </div>
+    
+  
+     
+    </div>
+
+    <div class="col-md-6 col-12  ">
+      <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid rounded-3" />
+    </div>
+    </div>
+
+
+
+    <div class="mt-5"></div>
+    <h3 class="fw-bold mb-4">🛍️ Productos Relacionados</h3>
+    
+    
 </div>
+
+
+
 
 
 

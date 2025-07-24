@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
 import { filter } from 'rxjs';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -20,6 +21,7 @@ export class MostrarProductoComponent implements OnInit {
     private router: Router ,
     private peruviansService: PeruviansService,
     private carritoService:CarritoService,
+    private productoService: ProductoService
   ) {}
 
   ngOnInit(): void {
@@ -36,15 +38,25 @@ private cargarCategoriaDesdeRuta(): void {
   const path = this.route.snapshot.routeConfig?.path || '';
   const categoria = this.route.snapshot.paramMap.get('categorias') || '';
 
-  if (path === 'mas-vendidos') {
+ if (path === 'mas-vendidos') {
     this.obtenerProductosMasVendidos();
   } else if (path === 'mas-nuevos') {
     this.obtenerProductosMasNuevos();
+  } else if (path === 'productos') {
+    this.obtenerProductos();  // 👈 aquí
   } else {
     this.obtenerProductosPorCategoria(categoria);
-    
   }
 }
+
+
+  obtenerProductos():void{
+     this.productoService.getProductos()
+    .subscribe(resp=>{
+      this.productos = resp;
+      console.log(this.productos);
+    })
+  }
 
 
 
@@ -80,6 +92,8 @@ private cargarCategoriaDesdeRuta(): void {
         this.productos = resp;
       });
   }
+
+
 
 
   AgregarCarrito(producto:Producto){

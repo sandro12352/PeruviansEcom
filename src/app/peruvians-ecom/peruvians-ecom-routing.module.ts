@@ -19,6 +19,10 @@ const routes: Routes = [
     component: MostrarProductoComponent
   },
   {
+    path: 'productos',
+    component: MostrarProductoComponent
+  },
+  {
     path: ':categorias',
     component: MostrarProductoComponent
   },

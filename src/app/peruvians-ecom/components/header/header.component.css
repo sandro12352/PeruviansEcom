@@ -1,7 +1,7 @@
  .scroll {
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(270deg, #4caf50, #ff9800, #fbc02d, #4caf50);
+  background: #8d48cd;
   background-size: 800% 800%;
   animation: bannerGradient 10s ease infinite;
   color: white;
@@ -36,13 +36,7 @@
   }
 }
 
-.cart-bg {
-  background-color: #58d062c4; /* o cualquier color que quieras */
-  padding:5px 11px;              /* espacio interno */
-  border-radius: 50%;        /* forma circular */
-             
-  transition: background-color 0.3s ease;
-}
+
 
 
 
@@ -183,7 +177,7 @@ header {
 
 .menu-icon i:hover {
   transform: scale(1.1);
-  color: #f48a3e;
+  color: #8d48cd;
 }
 
 
@@ -195,7 +189,7 @@ header {
   }
 
   .navbar-nav .nav-link:hover {
-    color: #f48a3e ;
+    color: #8d48cd ;
   }
 
   /* WhatsApp ícono */
