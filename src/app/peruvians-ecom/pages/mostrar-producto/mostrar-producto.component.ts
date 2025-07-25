@@ -15,7 +15,8 @@ export class MostrarProductoComponent implements OnInit {
 
   public productos:Producto[]=[];
   public categoria = '';
-
+  public isLoading = true;
+  public skeletonArray = Array(8);
    constructor(
     private route: ActivatedRoute,
     private router: Router ,
@@ -50,48 +51,82 @@ private cargarCategoriaDesdeRuta(): void {
 }
 
 
-  obtenerProductos():void{
-     this.productoService.getProductos()
-    .subscribe(resp=>{
-      this.productos = resp;
-      console.log(this.productos);
-    })
-  }
+ obtenerProductos(): void {
+  this.isLoading = true;
+  this.productoService.getProductos()
+    .subscribe({
+      next: (resp) => {
+        this.productos = resp;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+}
 
 
 
 
-  obtenerProductosPorCategoria(categoria: string): void {
-    this.peruviansService.getProductosPorCategoria(categoria)
-      .subscribe({
-        next: (resp) => {
-          if (resp.length === 0) {
-            // ❗ Redirigir si la categoría no tiene productos
-            
-          } else {
-            this.productos = resp;
-          }
-        },
-        error: () => {
-          // ❗ También redirigir si hay error con la API
-          this.router.navigate(['/']);
+
+ obtenerProductosPorCategoria(categoria: string): void {
+  this.isLoading = true;
+  this.peruviansService.getProductosPorCategoria(categoria)
+    .subscribe({
+      next: (resp) => {
+        if (resp.length === 0) {
+          this.isLoading = false;
+          // Redirigir si quieres
+        } else {
+          this.productos = resp;
+          this.isLoading = false;
         }
-      });
-  }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.router.navigate(['/']);
+      }
+    });
+}
 
-  obtenerProductosMasVendidos(): void {
-    this.peruviansService.masVendidos()
-      .subscribe(resp => {
+
+
+
+
+
+ obtenerProductosMasVendidos(): void {
+  this.isLoading = true;
+  this.peruviansService.masVendidos()
+    .subscribe({
+      next: (resp) => {
         this.productos = resp;
-      });
-      
-  }
-    obtenerProductosMasNuevos(): void {
-    this.peruviansService.masNuevo()
-      .subscribe(resp => {
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+}
+
+
+
+
+
+
+   obtenerProductosMasNuevos(): void {
+  this.isLoading = true;
+  this.peruviansService.masNuevo()
+    .subscribe({
+      next: (resp) => {
         this.productos = resp;
-      });
-  }
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+}
+
 
 
 
