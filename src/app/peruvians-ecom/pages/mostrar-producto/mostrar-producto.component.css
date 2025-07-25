@@ -1,5 +1,5 @@
 .skeleton {
-  background: linear-gradient(90deg, #f0f0f0b7 25%, #e0e0e0ad 37%, #f0f0f048 63%);
+  background: linear-gradient(90deg, #48305e50 25%, #e0e0e0ad 37%, #d8c9e848 63%);
   background-size: 400% 100%;
   animation: skeleton-loading 1.2s infinite ease-in-out;
   border-radius: 5px;
