@@ -9,7 +9,7 @@
 }
 .scroll-track .carrusel-item{
     flex: 0 0 auto;
-    width: 170px; /* Ancho fijo para cada item */
+    width: 155px; /* Ancho fijo para cada item */
     margin-right: 1rem; /* Espacio entre items */
     
 }

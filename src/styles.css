@@ -1,10 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: #f3f3f3;
-}
-
-h1, h2, h3, .nav-link, .btn {
   font-family: 'Poppins', sans-serif;
+}
+h1, h2, h3 {
+  font-family: 'Chicle', cursive;
+  color: #D90076;
 }

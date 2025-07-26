@@ -6,7 +6,7 @@
 
 .card-body {
   flex-grow: 1; /* esto estira el contenido para igualar altura */
-  height: 400px;
+  height: 300px;
 }
 
 

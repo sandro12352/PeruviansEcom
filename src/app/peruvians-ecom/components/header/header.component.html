@@ -2,31 +2,28 @@
   <div class="scroll">
       <div class="scroll-track ">
         <!-- Repite suficientes veces para cubrir el ancho y duplica para el ciclo -->
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ </div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ </div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp; </div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp; </div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
         <!-- Duplicados para efecto infinito -->
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
-        <div class="carrusel-item">ENVIOS GRATIS A TODO EL PERÚ</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
+        <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
       </div>
     </div>
 
@@ -64,7 +61,7 @@
 
     <!-- Categorías (izquierda) -->
     <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
-      <h2>CATEGORIAS</h2>
+      <h2 class="fs-5">CATEGORIAS</h2>
       <li 
       class="category-item" data-products="products-gomugomix" 
       (mouseenter)="mostrarProductos('gomugomix')"
@@ -79,7 +76,7 @@
        [routerLink]="['/','aceites']">
         Aceites<i class="bi bi-chevron-right"></i>
       </li>
-      <li class="category-item" data-products="products-polvo" 
+      <li class="category-item" data-products="products-batidos" 
         (mouseenter)="mostrarProductos('batidos')"
         [ngClass]="{ 'active': activeCategory === 'batidos' }"
         [routerLink]="['/','batidos']">
@@ -96,7 +93,7 @@
     <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
         <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
           <h3>Gomitas</h3>
-            <li><a routerLink="gomugomix-prod1" class="dropdown-item">Colageno</a></li>
+            <li><a [routerLink]="['/',activeCategory,'colageno-hidrolizado-1']" class="dropdown-item">Colageno</a></li>
             <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
              <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
         </ul>
@@ -107,7 +104,7 @@
         <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
       </ul>
 
-      <ul *ngIf="activeCategory === 'polvo'" class="products list-unstyled ">
+      <ul *ngIf="activeCategory === 'batidos'" class="products list-unstyled ">
          <h3>Polvo</h3>
         <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
        
@@ -167,18 +164,27 @@
       </div>
     </form>
 
-      <!-- Íconos -->
-      <div class="d-flex align-items-center gap-3">
-        <a routerLink="/perfil"><i class="bi bi-person fs-3 icon-hover"></i></a>
-        <a routerLink="/favoritos"><i class="bi bi-heart fs-3 icon-hover"></i></a>
-        <a type="button" class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" ><i class="bi bi-cart fs-3 icon-hover "></i>
+    <!-- Íconos -->
+<div class="d-flex align-items-center gap-4">
+  
+  <!-- Botón de ingresar -->
+  <a routerLink="/perfil" class="d-flex align-items-center text-decoration-none text-dark icon-hover">
+    <i class="bi bi-person-circle fs-3 me-2 text-white"></i>
+    <span class="fw-semibold">Ingresa</span>
+  </a>
 
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-          {{cartCount}}
-          <span class="visually-hidden">unread messages</span>
-        </span>
-        </a>
-      </div>
+  <!-- Carrito -->
+  <a type="button" class="position-relative text-dark icon-hover" 
+     data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito">
+    <i class="bi bi-cart fs-3 text-white"></i>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+      {{ cartCount }}
+      <span class="visually-hidden">productos en el carrito</span>
+    </span>
+  </a>
+
+</div>
+
         <!-- Offcanvas del carrito -->
    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel">
   <div class="offcanvas-header">

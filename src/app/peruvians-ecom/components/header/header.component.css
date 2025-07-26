@@ -1,3 +1,12 @@
+.fire-gradient {
+  background: linear-gradient(90deg, #FFA800, #D90076);
+ color: white;
+  font-weight: bold;
+ 
+  white-space: nowrap;
+}
+ 
+ 
  .scroll {
   width: 100%;
   overflow: hidden;
@@ -13,7 +22,7 @@
 .scroll-track {
     display: flex;
     width: max-content;
-    animation: scroll 60s linear infinite;
+    animation: scroll 250s linear infinite;
   gap: 10px;
 }
 
@@ -139,11 +148,19 @@ header {
 .search-input {
   border: none;
   padding: 0.5rem 1rem;
+    border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #f9f9f9;
   flex: 1; /* que ocupe todo el espacio disponible */
   min-width: 0; /* evita que cause desbordes en flexbox */
   transition: box-shadow 0.3s ease;
 }
-
+.search-icon-rounded {
+  background: #ffe600;
+  padding: 6px 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
 .search-input:focus  {
   outline: none;
   border-color: #8d48cd;
@@ -156,12 +173,11 @@ header {
 }
 
 .icon-hover {
-  color: #8d48cd;
+
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .icon-hover:hover {
-  color: #8d48cd8d;
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -234,17 +250,18 @@ header {
 
 .category-item:hover,
 .category-item.active {
-  background-color: #17b23b; /* verde suave */
+  background-color: #ffe6003d;
+  color: #c5006e;
   font-weight: 600;
-  color: white;
 }
 
-.products-list:hover #products-gomugomix {
-  color: #32d959;
-  padding-left: 8px;
+.products-list li a {
+  color: #333;
+  padding: 4px 8px;
   display: block;
+  transition: background 0.2s;
 }
-
-.products-list ul.products li a:hover {
-  text-decoration: underline;
+.products-list li a:hover {
+  background-color: #fcd34d;
+  border-radius: 4px;
 }

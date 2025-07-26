@@ -54,46 +54,58 @@
     </div>
     </div>
     
-    <div class="d-md-flex d-block   align-items-center border-top mt-5 pt-4">
-    <!-- Detalles -->
-    <div class="col-md-6 col-12 p-3">
-      <h2 class="fw-bold mb-5"><span style="font-weight: 10rem;">INFORMACIÓN ADICIONAL</span></h2>
+  <div class="d-md-flex d-block align-items-center border-top mt-5 pt-5 px-3 bg-white">
 
-      <!-- Descripción -->
-      <div class="d-flex align-items-start mb-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/17671/17671318.png" width="40" class="me-3" alt="Detalles">
-        <div>
-            <strong class="fs-5">DETALLES:</strong>
-            <p class="mb-0 text-muted">{{ producto.detalle }}</p>
-        </div>
+  <!-- Informacion textual -->
+  <div class="col-md-6 col-12 pe-md-5 mb-4 mb-md-0">
+
+    <h2 class="fw-bold text-uppercase mb-4" 
+        style="color: #ff0080; letter-spacing: 1px; font-weight: 900;">
+      Información adicional
+    </h2>
+
+    <!-- Detalles -->
+    <div class="d-flex align-items-start mb-4">
+      <img src="https://cdn-icons-png.flaticon.com/512/1008/1008587.png"
+           width="40" class="me-3" alt="Detalles">
+      <div>
+        <h5 class="fw-bold mb-1" style="color: #ffdc00;">Detalles</h5>
+        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.detalle }}</p>
+      </div>
     </div>
 
     <!-- Beneficios -->
-    <div class="d-flex align-items-start mb-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/1456/1456442.png" width="35" class="me-3" alt="Beneficios">
-        <div>
-            <strong class="fs-5">BENEFICIOS:</strong>
-            <p class="mb-0 text-muted">{{ producto.beneficios }}</p>
-        </div>
+    <div class="d-flex align-items-start mb-4">
+      <img src="https://cdn-icons-png.flaticon.com/512/1302/1302266.png"
+           width="36" class="me-3" alt="Beneficios">
+      <div>
+        <h5 class="fw-bold mb-1" style="color: #00f0ff;">Beneficios</h5>
+        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.beneficios }}</p>
+      </div>
     </div>
 
     <!-- Modo de uso -->
     <div class="d-flex align-items-start">
-        <img src="   https://cdn-icons-png.flaticon.com/512/6180/6180406.png " width="30" class="me-3" alt="Modo de uso">
-        <div>
-            <strong class="fs-5">MODO DE USO:</strong>
-            <p class="mb-0 text-muted">{{ producto.modo_de_uso }}</p>
-        </div>
-    </div>
-    
-  
-     
+      <img src="https://cdn-icons-png.flaticon.com/512/1580/1580870.png"
+           width="34" class="me-3" alt="Modo de uso">
+      <div>
+        <h5 class="fw-bold mb-1" style="color: #00ff85;">Modo de uso</h5>
+        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.modo_de_uso }}</p>
+      </div>
     </div>
 
-    <div class="col-md-6 col-12  ">
-      <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid rounded-3" />
-    </div>
-    </div>
+  </div>
+
+  <!-- Imagen -->
+  <div class="col-md-6 col-12 text-center">
+    <img [src]="producto.img" [alt]="producto.nombre"
+         class="img-fluid rounded-4 shadow-lg border border-3"
+         style="max-height: 400px; object-fit: contain; border-color: #ff0080;">
+  </div>
+
+</div>
+
+
 
 
 

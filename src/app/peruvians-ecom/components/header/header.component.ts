@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
 import { Producto } from '../../interfaces/producto';
+import { PeruviansService } from '../../services/peruvians.service';
 
 @Component({
   selector: 'peruvians-header',
@@ -11,8 +12,11 @@ export class HeaderComponent implements OnInit {
   mantenerVisible = false;
   cartCount = 0;
   productosEnCarrito: Producto[] = [];
-
-  constructor(private carritoService: CarritoService) {}
+  productosFiltrados: Producto[] = [];
+  constructor(
+    private carritoService: CarritoService,
+    private peruvianService:PeruviansService
+  ) {}
 
   ngOnInit(): void {
    this.carritoService.itemsCount$.subscribe(count => {
@@ -26,6 +30,10 @@ export class HeaderComponent implements OnInit {
 
       mostrarProductos(categoria: string) {
         this.activeCategory = categoria;
+
+          this.peruvianService.getProductosPorCategoria(categoria).subscribe((productos) => {
+            this.productosFiltrados = productos;
+        });
       }
       
 
@@ -36,6 +44,9 @@ export class HeaderComponent implements OnInit {
        mantenerProductos() {
           this.mantenerVisible = true;
       }
+
+
+    
 
   calcularSubtotal():number{
     let subtotal=0;

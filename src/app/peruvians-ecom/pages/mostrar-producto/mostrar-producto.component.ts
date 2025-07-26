@@ -54,7 +54,7 @@ private cargarCategoriaDesdeRuta(): void {
 obtenerProductos(): void {
   this.isLoading = true;
 
-  setTimeout(() => {
+  
     this.productoService.getProductos().subscribe({
       next: (resp) => {
         this.productos = resp;
@@ -64,7 +64,7 @@ obtenerProductos(): void {
         this.isLoading = false;
       }
     });
-  }, 1500); // ⏱️ espera 1.5 segundos antes de hacer la petición
+  
 }
 
 

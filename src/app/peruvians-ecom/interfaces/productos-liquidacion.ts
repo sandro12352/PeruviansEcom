@@ -1,7 +1,6 @@
+import { Producto } from "./producto";
+
 export interface ProductoLiquidacion{
     id:number,
-    nombre:string,
-    marca:string,
-    precio:number,
-    imagen:string,
+    producto:Producto,
 }
