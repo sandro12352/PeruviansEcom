@@ -1,6 +1,11 @@
 .scroll {
     overflow: hidden;
     text-align: center;
+  
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #ffcc00, #ff0080);
+  
 }
 .scroll-track {
     display: flex;
@@ -11,7 +16,7 @@
     flex: 0 0 auto;
     width: 155px; /* Ancho fijo para cada item */
     margin-right: 1rem; /* Espacio entre items */
-    
+     transition: transform 0.3s ease;
 }
 .scroll-track .carrusel-item img{
     width: 100%; /* Asegura que la imagen ocupe todo el ancho del item */
@@ -20,6 +25,19 @@
    
 }
 
+.carrusel-item:hover {
+  transform: scale(1.1);
+}
+@media (max-width: 768px) {
+  .scroll-track .carrusel-item{
+    flex: 0 0 auto;
+    width: 100px; /* Ancho fijo para cada item */
+    margin-right: 1rem; /* Espacio entre items */
+    
+}
+
+  
+}
 
 @keyframes scroll {
   0% { transform: translateX(0); }
@@ -42,9 +60,16 @@
   width: 164px;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
+  background: #fff;
+  box-shadow: 0 2px 12px #ff00c822;
+   border: 2px solid #ff00c8;
   cursor: pointer;
 }
-
+.categoria-card:hover {
+ 
+  border-color: #ffea00;
+  box-shadow: 0 4px 24px #ffea00aa;
+}
 .categoria-img-wrapper {
   overflow: hidden;
   border-radius: 8px;
@@ -60,7 +85,7 @@
 /* Hover effects */
 .categoria-card:hover .categoria-img {
   box-shadow: 0 0 10px #225201;
-  transform: scale(1.1);
+  transform: scale(1.05) rotate(-2deg);
 }
 
 .categoria-title {

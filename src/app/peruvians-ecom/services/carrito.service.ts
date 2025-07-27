@@ -8,7 +8,8 @@ declare const bootstrap: any;
 export class CarritoService {
 
   private productos:Producto[] =[];
-
+  private ultimoProductoSubject = new BehaviorSubject<Producto | null>(null);
+  ultimoProducto$ = this.ultimoProductoSubject.asObservable();
    private itemsCount = new BehaviorSubject<number>(0);
   itemsCount$ = this.itemsCount.asObservable();
 
@@ -34,7 +35,7 @@ export class CarritoService {
       this.productos.push({ ...producto, cantidad: 1 });
     }
     this.actualizarCantidadTotal(); // ← Llama a la función para contar correctamente
-    
+    this.ultimoProductoSubject.next(producto); // Emite el último producto
   }
 
 

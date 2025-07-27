@@ -1,18 +1,69 @@
+/* Banner llamativo */
 .banner-natural {
-  background: linear-gradient(to right, #a8e063, #56ab2f);
+  background: linear-gradient(135deg, #ff007f, #ffcc00); /* Rosado y amarillo chicha */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  letter-spacing: 1px;
+  border: 4px double #fff700;
 }
 
+/* Botón estilo chicha */
 .btn-natural {
-  background-color: #56ab2f;
-  color: white;
+  background: linear-gradient(45deg, #ff5e00, #ffcc00);
+  color: #000;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  border: 2px solid #ff007f;
+  box-shadow: 0 4px 10px rgba(255, 0, 127, 0.5);
+  transition: transform 0.2s ease-in-out;
 }
 
 .btn-natural:hover {
-  background-color: #3e8e1f;
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #ff007f, #ffcc00);
+  color: white;
 }
 
-p {
-  margin-bottom: 1rem;
+/* Formulario y columna izquierda */
+.col-md-5,
+.col-md {
+  border: 3px solid #ff007f;
+}
+
+/* Títulos y subtítulos */
+h5,
+label {
+  font-weight: 700;
+  color: #ff007f;
+  font-family: 'Arial Black', sans-serif;
+}
+
+/* Inputs */
+input.form-control,
+textarea.form-control {
+  border: 2px solid #ffcc00;
+  background-color: #fffef5;
+}
+
+/* Placeholder */
+::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Texto de error */
+.text-danger {
+  font-weight: bold;
+  color: #d40000 !important;
+}
+
+/* Íconos de horarios */
+p strong {
+  color: #ff007f;
+}
+
+/* Fondo general si quieres hacer todo el contenedor más llamativo */
+.container {
+  background: #fff9e6;
+  border-radius: 10px;
+  padding: 20px;
 }

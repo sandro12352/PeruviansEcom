@@ -183,10 +183,53 @@
     </span>
   </a>
 
+  <div 
+  class="producto-preview animate__animated animate__fadeInDown" 
+  *ngIf="mantenerVisible && ultimoProductoAgregado">
+  <div class="d-flex align-items-start">
+    <!-- Imagen del producto -->
+    <div class="me-3">
+      <img [src]="ultimoProductoAgregado.img" alt="Imagen del producto" class="producto-img">
+    </div>
+
+    <!-- Info del producto -->
+    <div class="flex-grow-1">
+      <p class="m-0 fw-semibold text-dark producto-titulo " >
+        {{ ultimoProductoAgregado.titulo }}
+      </p>
+      <div class="d-flex align-items-center mt-1 precio ">
+        <span class="text-muted text-decoration-line-through me-2" >
+          S/ {{ ultimoProductoAgregado.precio_antes }}
+        </span>
+        <span class="badge bg-danger" >
+          -{{ ultimoProductoAgregado.descuento }}
+        </span>
+      </div>
+      <p class="fw-bold text-success mb-1" >
+        S/ {{ ultimoProductoAgregado.precio }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Botón Ver Carrito -->
+  <div class="mt-3">
+    <button 
+      class="btn btn-warning btn-sm w-100 btn-ver-carrito animate__animated animate__pulse animate__repeat-2"
+      
+    >
+    <i class="bi bi-cart-fill me-1"></i>
+       Ver carrito
+    </button>
+  </div>
+</div>
+
+
+
+
 </div>
 
         <!-- Offcanvas del carrito -->
-   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel">
+   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel" style="width: 530px;">
   <div class="offcanvas-header">
     <h5 id="offcanvasCarritoLabel">Carrito</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
@@ -206,8 +249,10 @@
           <!-- Información -->
           <div class="flex-grow-1">
     <div class="d-flex justify-content-between align-items-start gap-2">
-      <div>
-        <strong>{{ producto.nombre }}</strong><br>
+      <div class="flex-grow-1">
+        <div class="producto-titulo">
+        {{ producto.titulo }}
+      </div>
         <small class="text-muted">{{ producto.tienda }}</small>
       </div>
       <div class="cursor-pointer">
@@ -265,32 +310,45 @@
     </div>
   </div>
 
-  <nav class="navbar navbar-expand-md  "  style="background-color: #f7f7f7;">
+  <!-- ...existing code... -->
+
+<nav class="navbar navbar-expand-md chicha-navbar-minimal shadow-sm" style="background: #fff;">
   <div class="container-fluid">
 
-    <!-- Menú colapsable -->
-   <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
-  <ul class="navbar-nav flex-row gap-4 d-none d-md-flex align-items-center">
-    <!-- Secciones del centro -->
-    <li class="nav-item">
-      <a [routerLink]="['mas-vendidos']" class="nav-link"><strong>MÁS VENDIDO</strong> </a>
-    </li>
-    <li class="nav-item">
-      <a [routerLink]="['mas-nuevos']" class="nav-link"><strong>NOVEDADES</strong> </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="blog" class="nav-link"><strong>BLOG</strong> </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="" class="nav-link"><strong>PROMOCIONES</strong> </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="contactanos" class="nav-link"><strong>CONTÁCTANOS</strong> </a>
-    </li>
-  </ul>
-</div>
-
-
+    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+      <ul class="navbar-nav flex-row gap-4 d-none d-md-flex align-items-center">
+        <li class="nav-item">
+          <a [routerLink]="['mas-vendidos']" class="nav-link chicha-link-minimal">
+            <i class="bi bi-fire fs-5 me-2" style="color:#ff00c8"></i>
+            <strong>MÁS VENDIDO</strong>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['mas-nuevos']" class="nav-link chicha-link-minimal">
+            <i class="bi bi-stars fs-5 me-2" style="color:#ffea00"></i>
+            <strong>NOVEDADES</strong>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="blog" class="nav-link chicha-link-minimal">
+            <i class="bi bi-pencil fs-5 me-2" style="color:#5111c6"></i>
+            <strong>BLOG</strong>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="" class="nav-link chicha-link-minimal">
+            <i class="bi bi-gift fs-5 me-2" style="color:#00c853"></i>
+            <strong>PROMOCIONES</strong>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="contactanos" class="nav-link chicha-link-minimal">
+            <i class="bi bi-telephone fs-5 me-2" style="color:#1976d2"></i>
+            <strong>CONTÁCTANOS</strong>
+          </a>
+        </li>
+      </ul>
+    </div>
 
     <!-- Búsqueda en móvil -->
     <form class="d-md-none w-100 mt-3">
@@ -303,7 +361,9 @@
     </form>
 
   </div>
-  </nav>
+</nav>
+
+<!-- ...existing code... -->
 
 
 </header>

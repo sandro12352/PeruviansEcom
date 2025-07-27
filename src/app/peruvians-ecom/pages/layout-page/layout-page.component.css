@@ -5,8 +5,42 @@
 
 .info-card {
   background-color: #fff;
+  
   transition: box-shadow 0.3s ease;
 }
 .info-card:hover {
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+.info-card-chicha {
+  font-family: 'Impact', sans-serif;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #ff0099, #ffcc00);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  border: 3px dashed #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card-chicha:hover {
+  transform: scale(1.05) rotate(-1deg);
+  box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+.info-card-chicha h5 {
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+  color: #fff700;
+  text-shadow: 1px 1px 2px black;
+}
+
+.info-card-chicha p {
+  font-size: 1.1rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px black;
+}
+
+.info-card-chicha i {
+  font-size: 3rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 5px #000;
 }

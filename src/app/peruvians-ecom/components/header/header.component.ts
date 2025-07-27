@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   cartCount = 0;
   productosEnCarrito: Producto[] = [];
   productosFiltrados: Producto[] = [];
+  ultimoProductoAgregado!: Producto;
   constructor(
     private carritoService: CarritoService,
     private peruvianService:PeruviansService
@@ -24,6 +25,21 @@ export class HeaderComponent implements OnInit {
    
   });
    this.productosEnCarrito = this.carritoService.getProductos();
+
+
+
+   this.carritoService.ultimoProducto$.subscribe(producto => {
+  if (producto) {
+    this.ultimoProductoAgregado = producto;
+
+    // Mostramos temporalmente el preview del producto
+    this.mantenerVisible = true;
+
+    setTimeout(() => {
+      this.mantenerVisible = false;
+    }, 5000); // desaparece en 3 segundos (ajustable)
+  }
+});
   }
 
   activeCategory: string | null = null;

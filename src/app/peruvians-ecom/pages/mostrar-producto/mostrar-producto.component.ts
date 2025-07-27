@@ -37,7 +37,7 @@ export class MostrarProductoComponent implements OnInit {
 
 private cargarCategoriaDesdeRuta(): void {
   const path = this.route.snapshot.routeConfig?.path || '';
-  const categoria = this.route.snapshot.paramMap.get('categorias') || '';
+   this.categoria = this.route.snapshot.paramMap.get('categorias') || '';
 
  if (path === 'mas-vendidos') {
     this.obtenerProductosMasVendidos();
@@ -46,7 +46,7 @@ private cargarCategoriaDesdeRuta(): void {
   } else if (path === 'productos') {
     this.obtenerProductos();  // 👈 aquí
   } else {
-    this.obtenerProductosPorCategoria(categoria);
+    this.obtenerProductosPorCategoria(this.categoria);
   }
 }
 

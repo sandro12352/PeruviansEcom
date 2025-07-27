@@ -1,68 +1,55 @@
-.detalle-producto img {
-  max-height: 100%;
-  object-fit: cover;
+.chicha-title {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: 2.2rem;
+  color: #ff0080;
+  text-shadow: 2px 2px 0 #ffff00, -2px -2px 0 #00ffff;
 }
 
-.precios span {
-  font-size: .9rem;
+.chicha-badge {
+  background: linear-gradient(to right, #ffdc00, #ff0080);
+  color: black;
+  font-weight: bold;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  border: 2px solid #000;
+  border-radius: 6px;
 }
 
-
-.cantidad-btn {
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  color: #333;
-  padding: 3px 8px;
-  cursor: pointer;
+.chicha-precio-original {
+  color: #555;
+  text-decoration: line-through;
 }
 
-.cantidad-btn:hover {
-  background: #f0f0f0;
- 
-}
-
-.cantidad-btn:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.cantidad-box {
-  border: 1px solid #cccccc94;
-  border-radius: 5px;
-  width: 40%;
-  
+.chicha-precio-oferta {
+  color: #ff0000;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-shadow: 1px 1px #000;
 }
 
 .boton-animado {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s ease-in-out;
+  background: linear-gradient(to right, #ff0099, #ffff00);
+  color: #000;
+  border: 2px solid #000;
   font-weight: bold;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
-  background-color: #8D48CD;
-  color: #FFFFFF;
+  font-size: 1rem;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s;
 }
-
 .boton-animado:hover {
- 
-  transform: scale(1.01);
-  box-shadow: 0 6px 16px #722eae3c;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ff0099;
 }
 
-
-.text-purple {
-  color: #8D48CD;
-}
-
-h6 {
+.cantidad-btn {
+  background: #ffdc00;
+  border: 2px solid #000;
+  color: #000;
   font-size: 1.2rem;
-}
-
-p {
-  font-size: 1.1rem;
-  color: #333;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0 6px;
 }
 
 @media (max-width: 768px) {

@@ -1,6 +1,6 @@
 <div *ngIf="producto" class="detalle-producto container py-4 ">
   <div class="row  shadow-sm p-4 rounded-4 bg-white align-items-center ">
-    <!-- Imagen -->
+    <!-- Imagen --> 
 
     <div class="col-md-6 col-12 mb-5">
       <img [src]="producto.img" [alt]="producto.nombre" class="img-fluid bg-light rounded-3" />
@@ -9,7 +9,7 @@
     <!-- Detalles -->
     <div class="col-md-6 col-12 ">
     <p style="color: #8d48cd;font-size: 12px;">{{producto.tienda}} <span style="color: #000;">| SKU: 9283823812398</span></p>
-      <h2 class="fw-bold"><span style="font-weight: 10rem;">{{ producto.titulo }}</span></h2>
+      <h2 class="chicha-title">{{ producto.titulo }}</h2>
 
       <!-- Descripción -->
        <div class="mt-5 border-bottom pb-3">
@@ -18,39 +18,33 @@
        </div>
       <!-- Precio -->
       <div class="precios mt-3">
-      
-        <span class="text-muted" [ngClass]="{ 'text-decoration-line-through': producto.descuento }">
-          S/ .{{ producto.precio_antes }}
+        <span class="chicha-precio-original">
+          S/ .{{ producto.precio_antes | number:'1.2-2'}}
         </span>
-         
-        <span *ngIf="producto.descuento" class="badge  ms-2" style="background-color: #8d48cd;">
+        <span *ngIf="producto.descuento" class="chicha-badge ms-2">
           -{{ producto.descuento }}
         </span>
-        
       </div>
+
+      <!-- Precio con descuento -->
       <div class="precios">
-        <span class="fs-4 fw-bold text-danger">S/. {{ producto.precio }}.00</span>
+        <span class="chicha-precio-oferta">S/. {{ producto.precio | number:'1.2-2'}}</span>
       </div>
       
 
       <!-- Cantidad -->
-     <div class="d-flex align-items-center justify-content-between my-1 py-1 " >
-    <!-- Botones de cantidad (30%) -->
-    <div class="cantidad-box d-flex align-items-center justify-content-between my-1  ">
-      <button class="cantidad-btn " (click)="disminuirCantidad()">−</button>
-      <span>{{ producto.cantidad }}</span>
-      <button class="cantidad-btn" (click)="aumentarCantidad()">+</button>
-    </div>
+    <div class="d-flex align-items-center justify-content-between my-3 py-2">
+      <div class="cantidad-box d-flex align-items-center">
+        <button class="cantidad-btn" (click)="disminuirCantidad()">−</button>
+        <span class="mx-2">{{ producto.cantidad }}</span>
+        <button class="cantidad-btn" (click)="aumentarCantidad()">+</button>
+      </div>
 
-    <!-- Botón agregar al carrito (70%) -->
-   <!-- Botón agregar al carrito (70%) -->
-        <div class="ms-3 " style="width: 100%;">
-        <button class="btn w-100 py-2 boton-animado" >
-            <i class="bi bi-bag-heart me-2 fs-"></i> Agregar al carrito
+      <div class="ms-3 w-100">
+        <button class="btn w-100 py-2 boton-animado">
+          <i class="bi bi-bag-heart me-2"></i> Agregar al carrito
         </button>
-        </div>
-
-       
+      </div>
     </div>
     </div>
     
@@ -59,8 +53,7 @@
   <!-- Informacion textual -->
   <div class="col-md-6 col-12 pe-md-5 mb-4 mb-md-0">
 
-    <h2 class="fw-bold text-uppercase mb-4" 
-        style="color: #ff0080; letter-spacing: 1px; font-weight: 900;">
+      <h2 class="fw-bold text-uppercase mb-4 chicha-title">
       Información adicional
     </h2>
 
