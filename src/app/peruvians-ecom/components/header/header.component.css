@@ -41,27 +41,6 @@
   color: #555;
 }
 
-/* Precio anterior con tachado */
-.precio:first-of-type {
-  
-  color: #999;
-  margin-right: 8px;
-}
-
-/* Descuento */
-.precio:nth-of-type(2) {
-  color: red;
-  font-weight: bold;
-}
-
-/* Precio final */
-.precio:last-of-type {
-  display: block;
-  font-size: 16px;
-  color: #000;
-  font-weight: 600;
-  margin-top: 4px;
-}
 
 .btn-ver-carrito {
   background-color: #000;
@@ -78,32 +57,14 @@
   background-color: #ffc107;
   color: #000;
   transform: scale(1.05);
-  box-shadow: 0 0 10px #fff700;
+  
 }
 
 .chicha-navbar-minimal {
-  font-family: 'Impact', 'Arial Black', sans-serif;
   background: #fff;
 }
 
-.chicha-link-minimal {
-  color: #222 !important;
-  font-size: 1.1rem;
-  border-bottom: 2px solid transparent;
-  border-radius: 8px;
-  padding: 6px 16px;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-  background: none;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-.chicha-link-minimal:hover {
-  border-bottom: 2px solid #ff00c8;
-  background: #fff0fa;
-}
 
 .fire-gradient {
   background: linear-gradient(90deg, #FFA800, #D90076);
@@ -117,13 +78,12 @@
  .scroll {
   width: 100%;
   overflow: hidden;
-  background: #8d48cd;
-  background-size: 800% 800%;
+  
+  
   animation: bannerGradient 10s ease infinite;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  font-weight: 700;
-  font-size: 1rem;
+  color: #000;
+ 
+  
   padding: 5px;
 }
 .scroll-track {
@@ -147,7 +107,7 @@
 
 @media (max-width: 767.98px) {
   .header-container {
-    justify-content: space-between !important;
+    justify-content: space-between ;
     padding: 0 1rem;
   }
 }
@@ -174,10 +134,6 @@
   box-shadow: 0 6px 12px rgb(31, 183, 64);
 }
 
-.btn-finalizar-compra:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 6px rgba(33, 136, 56, 0.2);
-}
 
 
 
@@ -241,16 +197,7 @@ header {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-icon-rounded {
-  border-radius: 50%;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  flex-shrink: 0; /* evita que se reduzca el ícono */
-}
+
 
 .search-input {
   border: none;
@@ -315,23 +262,9 @@ header {
     color: #8d48cd ;
   }
 
-  /* WhatsApp ícono */
-  .whatsapp-contact {
-    color: #25D366;
-    font-weight: bold;
-    text-decoration: none;
-  }
+ 
 
-  .whatsapp-contact:hover {
-    color: #1da851;
-    text-decoration: underline;
-  }
-
-  .whatsapp-icon {
-    font-size: 1.5rem;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
+  
 
 
 
@@ -362,12 +295,7 @@ header {
   font-weight: 600;
 }
 
-.products-list li a {
-  color: #333;
-  padding: 4px 8px;
-  display: block;
-  transition: background 0.2s;
-}
+
 .products-list li a:hover {
   background-color: #fcd34d;
   border-radius: 4px;
