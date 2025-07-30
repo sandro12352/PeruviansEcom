@@ -56,22 +56,23 @@
 
 
 .btn-finalizar-compra {
-  background: #27c04a;
-  color: #fff;
+  background: #8D48CD; /* naranja suave */
+  color: white;
   font-weight: 600;
   padding: 12px 16px;
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  transition:  0.3s ease, transform 0.1s ease;
-  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+  transition: 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 10px rgba(255, 173, 51, 0.3);
 }
 
 .btn-finalizar-compra:hover {
-  background: linear-gradient(135deg, #218838, #1e7e34);
+  background: #732EAE; /* un poco más oscuro en hover */
   transform: scale(1.02);
-  box-shadow: 0 6px 12px rgb(31, 183, 64);
+  box-shadow: 0 6px 12px rgba(255, 173, 51, 0.4);
 }
+
 
 
 
@@ -120,9 +121,13 @@ header {
 }
 
 .offcanvas-header{
-  background:  linear-gradient(to right, #a8e063, #56ab2f);
+ background:  #f88742;
 }
 
+.producto-titulo {
+  word-wrap: break-word;
+  white-space: normal;
+}
 
 
 

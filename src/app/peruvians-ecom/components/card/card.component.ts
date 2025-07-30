@@ -18,13 +18,12 @@ export class CardComponent {
 
    AgregarCarrito(){
     this.carritoService.agregarProducto(this.producto);
-    
-
+    console.log(this.carritoService.getProductos());
     const offcanvasElement = document.getElementById('offcanvasCarrito');
-  if (offcanvasElement) {
-    const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
-    bsOffcanvas.show();
-  }
+    if (offcanvasElement) {
+      const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+      bsOffcanvas.show();
+    }
     
   }   
 

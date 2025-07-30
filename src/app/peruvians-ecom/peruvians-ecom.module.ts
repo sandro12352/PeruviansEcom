@@ -13,12 +13,14 @@ import { CarruselComentariosComponent } from './components/carrusel-comentarios/
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
-import { CarritoComponent } from './components/carrito/carrito.component';
 import { BlogPageComponent } from './pages/blog-page/blog-page.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 import { CardComponent } from './components/card/card.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
+import { LayoutSimpleComponent } from './pages/layout-simple/layout-simple.component';
 
 
 
@@ -35,12 +37,14 @@ import { CardComponent } from './components/card/card.component';
     CarruselComentariosComponent,
     ContactanosComponent,
     MostrarProductoComponent,
-    CarritoComponent,
     BlogPageComponent,
     NosotrosPageComponent,
     PreguntasFrecuentesPageComponent,
     DetalleProductoPageComponent,
     CardComponent,
+    CheckoutComponent,
+    CarritoComponent,
+    LayoutSimpleComponent
   ],
   exports: [
     LayoutPageComponent,

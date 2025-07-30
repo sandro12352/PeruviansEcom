@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
 import { Producto } from '../../interfaces/producto';
 import { PeruviansService } from '../../services/peruvians.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'peruvians-header',
@@ -15,7 +16,8 @@ export class HeaderComponent implements OnInit {
   productosFiltrados: Producto[] = [];
   constructor(
     private carritoService: CarritoService,
-    private peruvianService:PeruviansService
+    private peruvianService:PeruviansService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,8 +31,14 @@ export class HeaderComponent implements OnInit {
 
    
   }
-
   activeCategory: string | null = null;
+
+
+  irACheckout(): void {
+      document.body.style.overflow = '';
+      document.body.style.padding = ''; // 👈 quitar clase
+      this.router.navigate(['/checkout/carrito']);        // 👈 navegar sin recargar
+  }
 
       mostrarProductos(categoria: string) {
         this.activeCategory = categoria;
