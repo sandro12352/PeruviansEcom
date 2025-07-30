@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
 import { CarritoService } from '../../services/carrito.service';
-
+declare const bootstrap: any;
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -9,16 +9,22 @@ import { CarritoService } from '../../services/carrito.service';
 })
 export class CardComponent {
 
-  @Input() producto?:Producto;
-
+  @Input() producto!:Producto;
   
   constructor(
     private carritoService:CarritoService
   ){}
 
 
-   AgregarCarrito(producto:Producto){
-    this.carritoService.agregarProducto(producto);
+   AgregarCarrito(){
+    this.carritoService.agregarProducto(this.producto);
+    
+
+    const offcanvasElement = document.getElementById('offcanvasCarrito');
+  if (offcanvasElement) {
+    const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+    bsOffcanvas.show();
+  }
     
   }   
 

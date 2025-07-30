@@ -11,10 +11,10 @@
             </div>
           </div>
         <div class="p-2">
-        <button class="btn boton-agregar btn-sm p-2  w-100" (click)="AgregarCarrito(producto) ;$event.stopPropagation()">AGREGAR</button> 
-
+            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" class="btn boton-agregar btn-sm p-2  w-100" (click)="AgregarCarrito() ;$event.stopPropagation()" data-bs-toggle="modal" data-bs-target="#staticBackdrop">AGREGAR</button> 
         </div>
-
-         
-        </div>
+    </div>
 </ng-container>
+
+
+
