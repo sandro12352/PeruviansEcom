@@ -1,0 +1,20 @@
+<ng-container *ngIf="producto as p">
+  <div class="card d-flex flex-column h-100">
+          <span class="descuento-badge">-{{ producto.descuento }}</span>
+          <img [src]="producto.img" class="img-fluid rounded" alt="Producto" [routerLink]="['/', p.categoria, generarSlugConId(p)]"/>
+          <div class="card-body-custom d-flex flex-column justify-content-between">
+            <div class="contenido-scrollable"> 
+                <span class="marca-badge">{{ producto.tienda }}</span>         
+              <h6 class="fw-bold">{{producto.titulo}}</h6>
+              <s class="text-body-tertiary">S/.{{ producto.precio_antes | number:'1.2-2'}}</s>
+              <p class="fw-semibold mb-2 text-danger">S/.{{ producto.precio | number:'1.2-2'}}</p>
+            </div>
+          </div>
+        <div class="p-2">
+        <button class="btn boton-agregar btn-sm p-2  w-100" (click)="AgregarCarrito(producto) ;$event.stopPropagation()">AGREGAR</button> 
+
+        </div>
+
+         
+        </div>
+</ng-container>

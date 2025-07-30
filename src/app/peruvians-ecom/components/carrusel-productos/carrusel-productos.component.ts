@@ -1,6 +1,5 @@
 import { Component, HostListener, Inject, Input, OnChanges, PLATFORM_ID } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
-import { CarritoService } from '../../services/carrito.service';
 import { isPlatformBrowser } from '@angular/common';
 
 
@@ -14,7 +13,6 @@ export class CarruselProductosComponent implements OnChanges {
   @Input() public productos!: Producto[];
 
   constructor(
-    private carritoService:CarritoService,
     @Inject(PLATFORM_ID) private platformId: Object
   ){}
 
@@ -43,21 +41,9 @@ export class CarruselProductosComponent implements OnChanges {
   }
 }
   
-  AgregarCarrito(producto:Producto){
-    this.carritoService.agregarProducto(producto);
-    
-  }   
+ 
 
 
-  generarSlugConId(producto: Producto): string {
-  const slug = producto.nombre
-    .toLowerCase()
-    .replace(/\s+/g, '-')        // espacios → guiones
-    .replace(/[^\w\-]+/g, '')    // elimina caracteres especiales
-    .replace(/\-\-+/g, '-')      // colapsa múltiples guiones
-    .trim();
-  return `${slug}-${producto.id}`;
-}
  
 
 

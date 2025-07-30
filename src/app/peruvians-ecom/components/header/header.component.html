@@ -54,7 +54,7 @@
         <span style="font-weight: 200px;font-size: 1.5rem;margin-left: 10px;">Menú</span>
       </button>
 
-      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 98vw;height: 50vh;
+      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 99.2vw;height: 50vh;
       background-color: #fffffff2;"
       (mouseleave)="ocultarProductos()">
   <div class="d-flex">
@@ -182,49 +182,6 @@
       <span class="visually-hidden">productos en el carrito</span>
     </span>
   </a>
-
-  <div 
-  class="producto-preview animate__animated animate__fadeInDown" 
-  *ngIf="mantenerVisible && ultimoProductoAgregado">
-  <div class="d-flex align-items-start">
-    <!-- Imagen del producto -->
-    <div class="me-3">
-      <img [src]="ultimoProductoAgregado.img" alt="Imagen del producto" class="producto-img">
-    </div>
-
-    <!-- Info del producto -->
-    <div class="flex-grow-1">
-      <p class="m-0 fw-semibold text-dark producto-titulo " >
-        {{ ultimoProductoAgregado.titulo }}
-      </p>
-      <div class="d-flex align-items-center mt-1 precio ">
-        <span class="text-muted text-decoration-line-through me-2" >
-          S/ {{ ultimoProductoAgregado.precio_antes }}
-        </span>
-        <span class="badge bg-danger" >
-          -{{ ultimoProductoAgregado.descuento }}
-        </span>
-      </div>
-      <p class="fw-bold text-success mb-1" >
-        S/ {{ ultimoProductoAgregado.precio }}
-      </p>
-    </div>
-  </div>
-
-  <!-- Botón Ver Carrito -->
-  <div class="mt-3">
-    <button 
-      class="btn btn-warning btn-sm w-100 btn-ver-carrito animate__animated animate__pulse animate__repeat-2"
-      
-    >
-    <i class="bi bi-cart-fill me-1"></i>
-       Ver carrito
-    </button>
-  </div>
-</div>
-
-
-
 
 </div>
 

@@ -23,27 +23,10 @@
     min-height: 400px;
   }
 
-  .producto-card .card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+ 
 
-  .producto-card img {
-    padding: 0 30px;
-    height: 40%;
-    object-fit: cover;
-    width: 100%;
-  }
+ 
 
-  .card-body-custom {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 0.5rem;
-  }
 
   .contenido-scrollable {
     overflow-y: hidden;
@@ -60,84 +43,25 @@
 
 
 
-.marca-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  color: #8d48cdba; /* verde claro */
-  background-color: #faf2ea;
-  font-weight: 600;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  margin-bottom: 0.3rem;
-}
-
-
-.boton-agregar {
-  border:1px solid #8D48CD ;      /* verde Bootstrap */
-  background-color: #FFFFFF;
-  color:#8D48CD;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  border-radius: 10px;
-  
-}
-
-.boton-agregar:hover {
-  background-color: #732EAE;
-  color: white;
-}
-
-
-
-.producto-card .card {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 360px; /* Altura fija que se ajusta bien */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.producto-card .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 13px rgba(92, 51, 134, 0.17);
-}
-
-
-
 .custom-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+   width: 50px;
+  height: 50px;
   border-radius: 50%;
   font-size: 1.5rem;
-  border: 1px solid #4CAF50;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+ color: #000;
 }
 
 .carousel-control-prev,
 .carousel-control-next {
   width: auto;
 }
-
-.descuento-badge {
-  position: absolute;
-  top: 0rem;
-  left: 0rem;
-  background-color: #f31d1d ; /* rojo Bootstrap */
-  color: white;
-  padding: 0.4rem .6rem;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius:0px 0 5px;
-  z-index: 1;
+.carousel-control-next{
+  right: -60px;
 }
-.card-body-custom {
-  padding:  0.75rem;
-  
+
+.carousel-control-prev {
+  left: -60px;
 }

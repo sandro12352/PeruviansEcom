@@ -12,23 +12,10 @@
       <div
         routerLink=""
         class="producto-card"
-        [routerLink]="['/', producto.categoria, generarSlugConId(producto)]"
         *ngFor="let producto of grupo"
       >
-        <div class="card d-flex flex-column h-100" >
-          <span class="descuento-badge">-{{ producto.descuento }}</span>
-          <img [src]="producto.img" class="img-fluid rounded" [alt]="producto.nombre" />
-          <div class="card-body-custom d-flex flex-column  justify-content-between">
-            <div class="contenido-scrollable"> 
-                <span class="marca-badge">{{ producto.tienda }}</span>         
-              <h6 class="fw-bold">{{producto.titulo}}</h6>
-              <s class="text-body-tertiary">S/.{{ producto.precio_antes }}.00</s>
-              <p class="fw-semibold mb-2 text-danger">S/.{{ producto.precio }}.00</p>
-            </div>
-          <button class="btn boton-agregar btn-sm w-100 p-2" (click)="AgregarCarrito(producto); $event.stopPropagation()">AGREGAR</button> 
-          </div>
-         
-        </div>
+        <app-card [producto]="producto"></app-card>  
+
       </div>
     </div>
   </div>
@@ -38,7 +25,7 @@
     <!-- Controles -->
     <!-- Botón anterior -->
 <button class="carousel-control-prev " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-target="#carouselProductos" data-bs-slide="prev">
-  <span class="custom-arrow bg-white text-success">
+  <span class="custom-arrow ">
    <i class="bi bi-chevron-left"></i>
   </span>
   <span class="visually-hidden">Anterior</span>
@@ -46,7 +33,7 @@
 
 <!-- Botón siguiente -->
 <button class="carousel-control-next " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-slide="next">
-  <span class="custom-arrow bg-white text-success">
+  <span class="custom-arrow  ">
     <i class="bi bi-chevron-right"></i>
   </span>
   <span class="visually-hidden">Siguiente</span>

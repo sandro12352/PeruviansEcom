@@ -60,15 +60,15 @@
   width: 164px;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
-  background: #fff;
+  background: #b461f368;
   box-shadow: 0 2px 12px #ff00c822;
-   border: 2px solid #ff00c8;
+ 
   cursor: pointer;
 }
 .categoria-card:hover {
  
-  border-color: #ffea00;
-  box-shadow: 0 4px 24px #ffea00aa;
+  border-color: #ffa600;
+  box-shadow: 0 4px 24px #eea214;
 }
 .categoria-img-wrapper {
   overflow: hidden;
@@ -96,7 +96,7 @@
 }
 
 .categoria-card:hover .categoria-title {
-  color: #ffb300;
+  color: #7b37e8;
 }
 
 
@@ -162,12 +162,12 @@
 
 .promo-rect-card {
   
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
  
 }
 
 .promo-rect-card:hover {
-  transform: translateY(-6px);
+  transform: scale(1.02);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
