@@ -25,7 +25,7 @@
         <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
         <div class="carrusel-item">🚚 ENVÍOS GRATIS A TODO EL PERÚ &nbsp; • &nbsp;</div>
       </div>
-    </div>
+  </div>
 
 
 
@@ -34,235 +34,235 @@
     <div class="d-flex align-items-center justify-content-evenly header-container">
       
       <!-- Logo y hamburguesa -->
-     <!-- HEADER -->
-<div class="d-flex align-items-center">
+      <!-- HEADER -->
+      <div class="d-flex align-items-center">
+        <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+          aria-controls="offcanvasMenu" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-1"></i>
+        </button>
+        <!-- Ícono de menú (solo en escritorio) como dropdown -->
+        <div class="dropdown d-none d-md-block ">
+          <button 
+            class="nav-link btn btn-link p-0 d-flex align-items-center menu-icon me-3"
+            id="menuDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            type="button"
+          >
+            <i class="bi bi-list fs-2"></i>
+            <span style="font-weight: 200px;font-size: 1.5rem;margin-left: 10px;">Menú</span>
+          </button>
 
-    <button class="navbar-toggler d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
-    aria-controls="offcanvasMenu" aria-label="Toggle navigation">
-    <i class="bi bi-list fs-1"></i>
-  </button>
-   <!-- Ícono de menú (solo en escritorio) como dropdown -->
-    <div class="dropdown d-none d-md-block ">
-      <button 
-        class="nav-link btn btn-link p-0 d-flex align-items-center menu-icon me-3"
-        id="menuDropdown"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        type="button"
-      >
-        <i class="bi bi-list fs-2"></i>
-        <span style="font-weight: 200px;font-size: 1.5rem;margin-left: 10px;">Menú</span>
-      </button>
+          <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 99.2vw;height: 50vh;
+          background-color: #fffffff2;"
+          (mouseleave)="ocultarProductos()">
+            <div class="d-flex">
+              <!-- Categorías (izquierda) -->
+              <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
+                <h2 class="fs-5">CATEGORIAS</h2>
+                <li 
+                class="category-item" data-products="products-gomugomix" 
+                (mouseenter)="mostrarProductos('gomugomix')"
+                [ngClass]="{ 'active': activeCategory === 'gomugomix' }"
+                [routerLink]="['/','gomitas']">
+                  Gomugomix<i class="bi bi-chevron-right ms-5"></i>
+                </li>
+                <li 
+                class="category-item" data-products="products-aceites"
+                (mouseenter)="mostrarProductos('aceites')"
+                [ngClass]="{ 'active': activeCategory === 'aceites' }"
+                [routerLink]="['/','aceites']">
+                  Aceites<i class="bi bi-chevron-right"></i>
+                </li>
+                <li class="category-item" data-products="products-batidos" 
+                  (mouseenter)="mostrarProductos('batidos')"
+                  [ngClass]="{ 'active': activeCategory === 'batidos' }"
+                  [routerLink]="['/','batidos']">
+                    Batidos<i class="bi bi-chevron-right"></i>
+                  </li>
+                <li class="category-item" data-products="products-capsulas"
+                (mouseenter)="mostrarProductos('capsulas')"
+                [ngClass]="{ 'active': activeCategory === 'capsulas' }"
+                  [routerLink]="['/','suplementos']" >
+                  Suplementos<i class="bi bi-chevron-right"></i></li>
+              </ul>
+              <!-- Productos (derecha) -->
+              <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
+                  <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
+                    <h3>Gomitas</h3>
+                      <li><a [routerLink]="['/',activeCategory,'colageno-hidrolizado-1']" class="dropdown-item">Colageno</a></li>
+                      <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
+                      <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
+                  </ul>
 
-      <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" style="width: 99.2vw;height: 50vh;
-      background-color: #fffffff2;"
-      (mouseleave)="ocultarProductos()">
-  <div class="d-flex">
+                  <ul *ngIf="activeCategory === 'aceites'" class="products list-unstyled ">
+                    <h3>Aceites</h3>
+                    <li><a routerLink="aceite-prod1" class="dropdown-item">Semillas de Oregano</a></li>
+                    <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
+                  </ul>
 
-    <!-- Categorías (izquierda) -->
-    <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
-      <h2 class="fs-5">CATEGORIAS</h2>
-      <li 
-      class="category-item" data-products="products-gomugomix" 
-      (mouseenter)="mostrarProductos('gomugomix')"
-      [ngClass]="{ 'active': activeCategory === 'gomugomix' }"
-       [routerLink]="['/','gomitas']">
-        Gomugomix<i class="bi bi-chevron-right ms-5"></i>
-      </li>
-      <li 
-      class="category-item" data-products="products-aceites"
-      (mouseenter)="mostrarProductos('aceites')"
-      [ngClass]="{ 'active': activeCategory === 'aceites' }"
-       [routerLink]="['/','aceites']">
-        Aceites<i class="bi bi-chevron-right"></i>
-      </li>
-      <li class="category-item" data-products="products-batidos" 
-        (mouseenter)="mostrarProductos('batidos')"
-        [ngClass]="{ 'active': activeCategory === 'batidos' }"
-        [routerLink]="['/','batidos']">
-          Batidos<i class="bi bi-chevron-right"></i>
-        </li>
-      <li class="category-item" data-products="products-capsulas"
-      (mouseenter)="mostrarProductos('capsulas')"
-      [ngClass]="{ 'active': activeCategory === 'capsulas' }"
-         [routerLink]="['/','suplementos']" >
-        Suplementos<i class="bi bi-chevron-right"></i></li>
-    </ul>
+                  <ul *ngIf="activeCategory === 'batidos'" class="products list-unstyled ">
+                    <h3>Polvo</h3>
+                    <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
+                  
+                  </ul>
 
-    <!-- Productos (derecha) -->
-    <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
-        <ul *ngIf="activeCategory === 'gomugomix'" class="products list-unstyled ">
-          <h3>Gomitas</h3>
-            <li><a [routerLink]="['/',activeCategory,'colageno-hidrolizado-1']" class="dropdown-item">Colageno</a></li>
-            <li><a routerLink="gomugomix-prod2" class="dropdown-item">Omega 3 en 1</a></li>
-             <li><a routerLink="gomugomix-prod2" class="dropdown-item">Sleep</a></li>
-        </ul>
-
-      <ul *ngIf="activeCategory === 'aceites'" class="products list-unstyled ">
-        <h3>Aceites</h3>
-        <li><a routerLink="aceite-prod1" class="dropdown-item">Semillas de Oregano</a></li>
-        <li><a routerLink="aceite-prod2" class="dropdown-item">Romero</a></li>
-      </ul>
-
-      <ul *ngIf="activeCategory === 'batidos'" class="products list-unstyled ">
-         <h3>Polvo</h3>
-        <li><a routerLink="polvo-prod1" class="dropdown-item">Carticolageno</a></li>
-       
-      </ul>
-
-      <ul *ngIf="activeCategory === 'capsulas'" class="products list-unstyled ">
-        <h3>Capsulas</h3>        
-        <li><a routerLink="capsulas-prod1" class="dropdown-item">Melena de León</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Moringa</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Cartilago de Tiburón</a></li>
-        <li><a routerLink="capsulas-prod2" class="dropdown-item">Blood Sugar</a></li>
-      </ul>
-    </div>
-    
-
-  </div>
+                  <ul *ngIf="activeCategory === 'capsulas'" class="products list-unstyled ">
+                    <h3>Capsulas</h3>        
+                    <li><a routerLink="capsulas-prod1" class="dropdown-item">Melena de León</a></li>
+                    <li><a routerLink="capsulas-prod2" class="dropdown-item">Moringa</a></li>
+                    <li><a routerLink="capsulas-prod2" class="dropdown-item">Cartilago de Tiburón</a></li>
+                    <li><a routerLink="capsulas-prod2" class="dropdown-item">Blood Sugar</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Logo -->
+        <a routerLink="/" class="d-inline-block">
+          <img src="logo (2).png" loading="lazy" alt="Logo" width="160" height="65">
+        </a>       
       </div>
 
-    </div>
-  
-  <!-- Logo -->
-  <a routerLink="/" class="d-inline-block">
-    <img src="logo (2).png" loading="lazy" alt="Logo" width="160" height="65">
-  </a>
- 
-    
-</div>
-
-<!-- OFFCANVAS MENU -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
-  </div>
-  <div class="offcanvas-body">
-    <ul class="list-unstyled">
-      <li><a routerLink="/" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">INICIO<i class="bi bi-chevron-right  text-success fs-2"></i></a></li>
-       <li><a [routerLink]="['/','gomitas']" data-bs-dismiss="offcanvas" class="nav-link border-bottom nav-link d-flex justify-content-between align-items-center">SUPLEMENTOS EN GOMITAS <i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/','aceites']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">ACEITES NATURALES<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/','batidos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN POLVO<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-      <li><a [routerLink]="['/','suplementos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN CAPSULAS<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
-     
-    </ul>
-  </div>
-</div>
+      <!-- OFFCANVAS MENU -->
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="list-unstyled">
+            <li><a routerLink="/" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">INICIO<i class="bi bi-chevron-right  text-success fs-2"></i></a></li>
+            <li><a [routerLink]="['/','gomitas']" data-bs-dismiss="offcanvas" class="nav-link border-bottom nav-link d-flex justify-content-between align-items-center">SUPLEMENTOS EN GOMITAS <i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+            <li><a [routerLink]="['/','aceites']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">ACEITES NATURALES<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+            <li><a [routerLink]="['/','batidos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN POLVO<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+            <li><a [routerLink]="['/','suplementos']" data-bs-dismiss="offcanvas" class="nav-link border-bottom d-flex justify-content-between align-items-center">SUPLEMENTOS EN CAPSULAS<i class="bi bi-chevron-right text-success fs-2"></i></a></li>
+          
+          </ul>
+        </div>
+      </div>
 
 
 
      
       <!-- Barra de búsqueda -->
-     <form class="d-none d-md-flex mx-4 w-50">
-      <div class="input-group w-100 no-gap">
-        <span class="search-icon-rounded">
-          <i class="bi bi-search-heart fs-5" style="color: rgba(80, 17, 198, 0.383);"></i>
-        </span>
-        <input class=" search-input  " type="search" placeholder="¿Qué estás buscando hoy?" aria-label="Buscar">
+      <form class="d-none d-md-flex mx-4 w-50">
+          <div class="input-group w-100 no-gap">
+            <span class="search-icon-rounded">
+              <i class="bi bi-search-heart fs-5" style="color: rgba(80, 17, 198, 0.383);"></i>
+            </span>
+            <input class=" search-input  " type="search" placeholder="¿Qué estás buscando hoy?" aria-label="Buscar">
+          </div>
+      </form>
+
+          <!-- Íconos -->
+      <div class="d-flex align-items-center gap-4">
+        
+        <!-- Botón de ingresar -->
+        <a routerLink="/perfil" class="d-flex align-items-center text-decoration-none text-dark icon-hover">
+          <i class="bi bi-person-circle fs-3 me-2 text-white"></i>
+          <span class="fw-semibold">Ingresa</span>
+        </a>
+
+        <!-- Carrito -->
+        <a type="button" class="position-relative text-dark icon-hover" 
+          data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito">
+          <i class="bi bi-cart fs-3 text-white"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+            {{ cartCount }}
+            <span class="visually-hidden">productos en el carrito</span>
+          </span>
+        </a>
+
       </div>
-    </form>
-
-    <!-- Íconos -->
-<div class="d-flex align-items-center gap-4">
-  
-  <!-- Botón de ingresar -->
-  <a routerLink="/perfil" class="d-flex align-items-center text-decoration-none text-dark icon-hover">
-    <i class="bi bi-person-circle fs-3 me-2 text-white"></i>
-    <span class="fw-semibold">Ingresa</span>
-  </a>
-
-  <!-- Carrito -->
-  <a type="button" class="position-relative text-dark icon-hover" 
-     data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito">
-    <i class="bi bi-cart fs-3 text-white"></i>
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-      {{ cartCount }}
-      <span class="visually-hidden">productos en el carrito</span>
-    </span>
-  </a>
-
-</div>
 
         <!-- Offcanvas del carrito -->
-   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel" style="width: 530px;">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasCarritoLabel">Carrito</h5>
-    <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
-  </div>
-
-  <!-- Contenedor con scroll -->
-  <div class="offcanvas-body p-0">
-    <div class="productos-scroll px-3 py-2">
-      <div *ngFor="let producto of productosEnCarrito" class="mb-3 border rounded p-2 position-relative">
-        
-        <div class="d-flex  gap-3 ">
-          <!-- Imagen -->
-          <div style="width: 120px; height: 120px; flex-shrink: 0;">
-            <img [src]="producto.img" class="img-fluid rounded" alt="producto" style="object-fit: cover; width: 100%; height: 100%;">
-          </div>
-
-          <!-- Información -->
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start gap-2">
-              <div class="flex-grow-1">
-                <div class="producto-titulo">
-                {{ producto.titulo }}
-              </div>
-                <small class="text-muted">{{ producto.tienda }}</small>
-              </div>
-              <div class="cursor-pointer">
-              <button type="button" class="btn p-0 border-0 bg-transparent" (click)="eliminarProducto(producto)" aria-label="Eliminar producto">
-                <i class="bi bi-trash3-fill fs-5 text-danger"></i>
-              </button>
-
-              </div>
-            </div>
-
-            <!-- Contador de cantidad -->
-            <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
-              <button class="cantidad-btn" (click)="disminuirCantidad(producto)">−</button>
-              <span>{{ producto.cantidad }}</span>
-              <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
-            </div>
-
-    S/. {{ producto.precio | number:'1.2-2' }}<br>
-          </div>
-           <!-- Tachito arriba -->
-          
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" #offcanvasRef aria-labelledby="offcanvasCarritoLabel" style="width: 530px;">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasCarritoLabel">Carrito</h5>
+          <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
-        
+
+        <!-- Contenedor con scroll -->
+        <div class="offcanvas-body p-0 d-flex flex-column justify-content-between " *ngIf="productosEnCarrito.length > 0; else carritoVacio">
+          <div class="overflow-auto px-3 py-2">
+            <div *ngFor="let producto of productosEnCarrito" class="mb-3 border rounded p-2 position-relative ">
+              
+              <div class="d-flex  gap-3 ">
+                <!-- Imagen -->
+                <div style="width: 120px; height: 120px; flex-shrink: 0;">
+                  <img [src]="producto.img" class="img-fluid rounded" alt="producto" style="object-fit: cover; width: 100%; height: 100%;">
+                </div>
+
+                <!-- Información -->
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-start gap-2">
+                    <div class="flex-grow-1">
+                      <div class="producto-titulo">
+                      {{ producto.titulo }}
+                    </div>
+                      <small class="text-muted">{{ producto.tienda }}</small>
+                    </div>
+                    <div class="cursor-pointer">
+                    <button type="button" class="btn p-0 border-0 bg-transparent" (click)="eliminarProducto(producto)" aria-label="Eliminar producto">
+                      <i class="bi bi-trash3-fill fs-5 text-danger"></i>
+                    </button>
+
+                    </div>
+                  </div>
+
+                  <!-- Contador de cantidad -->
+                  <div class="cantidad-box d-flex align-items-center justify-content-between my-1 px-2 py-1">
+                    <button class="cantidad-btn" (click)="disminuirCantidad(producto)">−</button>
+                    <span>{{ producto.cantidad }}</span>
+                    <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
+                  </div>
+
+          S/. {{ producto.precio | number:'1.2-2' }}<br>
+                </div>
+                <!-- Tachito arriba -->
+                
+              </div>
+              
+            </div>
+            
+          </div>
+           <!-- Resumen fijo abajo -->
+        <div class="resumen-footer border-top bg-white p-3">
+          <div class="d-flex justify-content-between">
+            <span>Subtotal:</span>
+            <span>S/. {{ calcularSubtotal() | number:'1.2-2' }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>Descuento:</span>
+            <span>S/. {{ calcularDescuento() | number:'1.2-2' }} </span>
+          </div>
+          <hr class="my-2">
+          <div class="d-flex justify-content-between fw-bold">
+            <span>Total:</span>
+            <span>S/. {{ calcularTotal() | number:'1.2-2' }}</span>
+          </div>
+           <div class="d-grid mt-3 ">
+          <button class="btn btn-finalizar-compra" (click)="irACheckout()">
+            🛒 Finalizar compra
+          </button>
+        </div>
+        </div>
+
       </div>
-    </div>
-  </div>
 
-  <!-- Resumen fijo abajo -->
-  <div class="resumen-footer border-top bg-white p-3">
-    <div class="d-flex justify-content-between">
-      <span>Subtotal:</span>
-      <span>S/. {{ calcularSubtotal() | number:'1.2-2' }}</span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <span>Descuento:</span>
-      <span>S/. {{ calcularDescuento() | number:'1.2-2' }} </span>
-    </div>
-    <hr class="my-2">
-    <div class="d-flex justify-content-between fw-bold">
-      <span>Total:</span>
-      <span>S/. {{ calcularTotal() | number:'1.2-2' }}</span>
-    </div>
-  </div>
-        <!-- Botón estilizado -->
-<div class="d-grid mt-3 p-2">
-  <button class="btn btn-finalizar-compra" (click)="irACheckout()">
-    🛒 Finalizar compra
-  </button>
-</div>
+        <ng-template #carritoVacio>
+        <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+          <i class="bi bi-cart-x fs-1 text-muted"></i>
+          <p class="mt-3 text-muted fs-5">No tiene productos agregados en el carrito.</p>
+        </div>
+      </ng-template>
+       
+          
+        
 
-</div>
-
-
+      </div>
 
     </div>
   </div>

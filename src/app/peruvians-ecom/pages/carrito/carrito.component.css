@@ -1,0 +1,30 @@
+.card {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.cantidad-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 140px;
+  height: 36px;
+}
+
+.cantidad-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.cantidad-btn:focus {
+  outline: none;
+  box-shadow: none;
+}

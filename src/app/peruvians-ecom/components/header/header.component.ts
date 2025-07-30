@@ -61,39 +61,28 @@ export class HeaderComponent implements OnInit {
     
 
   calcularSubtotal():number{
-    let subtotal=0;
-    this.productosEnCarrito.forEach(producto=>{
-      subtotal += (producto.precio_antes)*(producto.cantidad)
-    })
-    return subtotal  
+    return this.carritoService.calcularSubtotal();
   }
 
 
   calcularDescuento():number{
-    let descuento=0;
-    this.productosEnCarrito.forEach(producto =>{
-      const porcentaje = parseInt(producto.descuento || '0', 10);
-      descuento += (producto.precio_antes * (producto.cantidad || 1)) * (porcentaje / 100);
-    })
-    return Math.round(descuento);
+   return this.carritoService.calcularDescuento();
   }
 
 
   calcularTotal():number{
-    let total=0;
-     total = this.calcularSubtotal() - this.calcularDescuento();
-     return total;
+    return this.carritoService.calcularTotal()
   }
 
 
   aumentarCantidad(producto: Producto) {
-    producto.cantidad! += 1;
+    this.carritoService.aumentarCantidad(producto);
    this.carritoService.actualizarCantidadTotal(); // actualiza total, badge, etc.
   }
 
   disminuirCantidad(producto: Producto) {
     if (producto.cantidad! > 1) {
-      producto.cantidad! -= 1;
+      this.carritoService.disminuirCantidad(producto);
       this.carritoService.actualizarCantidadTotal();
 
     } else {
