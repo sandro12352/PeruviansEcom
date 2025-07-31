@@ -10,6 +10,7 @@ import { CarritoComponent } from './pages/carrito/carrito.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
+import { PagarPageComponent } from './pages/pagar-page/pagar-page.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     LayoutSimpleComponent,
     children:[
        { path:'carrito',component:CarritoComponent},
+       {path:'pagar',component:PagarPageComponent}
     ]
   },
   {

@@ -22,12 +22,6 @@
     max-width: 48%;
     min-height: 400px;
   }
-
- 
-
- 
-
-
   .contenido-scrollable {
     overflow-y: hidden;
     flex-grow: 1;

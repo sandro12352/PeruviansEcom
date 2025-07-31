@@ -104,8 +104,7 @@ export class CarritoService {
     let descuento = 0;
     this.productos.forEach(producto => {
       const porcentaje = parseFloat(producto.descuento );
- 
-      descuento += (producto.precio_antes || 0) * (producto.cantidad || 1) * (porcentaje / 100);
+      descuento += ((producto.precio_antes || 0) * (producto.cantidad || 1) * (porcentaje / 100)) ;
     });
     return descuento;
   }

@@ -1,8 +1,12 @@
-<div class="container my-5">
+<div class="container my-5 ">
   <!-- Encabezado -->
   <div class="d-flex align-items-center gap-3 mb-5">
-    <img src="logo (2).png" alt="peruvian-ecom" width="160" height="65">
-    <h2 class="fw-bold m-0">Carrito de Compras</h2>
+    <img role="button" routerLink="/" src="logo (2).png" alt="peruvian-ecom" width="160" height="65">
+    <div> 
+        <h2 class="fw-bold m-0 p-0">CARRITO DE COMPRAS</h2>
+        <a routerLink="/">Volver</a>
+    </div>
+  
   </div>
 
   <!-- Carrito con productos -->
@@ -75,8 +79,11 @@
             <strong>Total</strong>
             <strong>S/ {{ calcularTotal() | number:'1.2-2'  }}</strong>
           </div>
-          <button class="btn   w-100 rounded-3">Ir a Pagar</button>
-          <a routerLink="/" class="text-center">seguir comprando</a>
+          <div class="d-flex flex-column gap-2 align-items-center">
+              <button routerLink="/checkout/pagar" class="btn btn-pagar  w-100 rounded-3">Ir a Pagar</button>
+              <a routerLink="/">seguir comprando</a>
+          </div>
+       
         </div>
       </div>
     </div>
