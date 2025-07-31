@@ -1,7 +1,7 @@
 .productos-slide {
   display: flex;
   gap: 1rem;
-  flex-wrap: nowrap; /* permite scroll horizontal */
+  flex-wrap: nowrap;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */

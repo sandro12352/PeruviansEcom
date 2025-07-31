@@ -42,6 +42,7 @@
 <section class="container">
      <h2 class="mb-4">Lo Más Vendido</h2>
      <peruvians-carrusel-productos 
+      *ngIf="masVendido?.length"
     [productos]="masVendido" 
     [carouselId]="'ProductosCarrusel1'">
   </peruvians-carrusel-productos>
@@ -51,6 +52,7 @@
 <section class="container">
      <h2 class="mb-4">Lo Más Nuevo</h2>
     <peruvians-carrusel-productos 
+     *ngIf="masNuevo?.length"
     [productos]="masNuevo" 
     [carouselId]="'ProductosCarrusel2'">
   </peruvians-carrusel-productos>
