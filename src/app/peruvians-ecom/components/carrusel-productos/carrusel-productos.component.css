@@ -18,20 +18,23 @@
 /* Estilos para pantallas pequeñas (móviles) */
 @media (max-width: 767.98px) {
   .producto-card {
-    flex: 0 0 48%;
+    flex: 0 0 47.9%;
     max-width: 48%;
     min-height: 400px;
   }
   .contenido-scrollable {
-    overflow-y: hidden;
+    
     flex-grow: 1;
-    padding-right: 4px; /* espacio para scrollbar si aparece */
+    padding: 4px; /* espacio para scrollbar si aparece */
   }
 
   .boton-agregar {
     width: 100%;
     flex-shrink: 0;
   }
+  .custom-arrow{
+    visibility: hidden;
+  } 
 }
 
 
