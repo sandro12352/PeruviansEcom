@@ -61,10 +61,3 @@
 .carousel-control-next {
   width: auto;
 }
-.carousel-control-next{
-  right: -60px;
-}
-
-.carousel-control-prev {
-  left: -60px;
-}
