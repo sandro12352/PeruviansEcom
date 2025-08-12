@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutSimpleComponent } from './layout-simple.component';
+import { CarritoPageComponent } from './carrito-page.component';
 
-describe('LayoutSimpleComponent', () => {
-  let component: LayoutSimpleComponent;
-  let fixture: ComponentFixture<LayoutSimpleComponent>;
+describe('CarritoPageComponent', () => {
+  let component: CarritoPageComponent;
+  let fixture: ComponentFixture<CarritoPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LayoutSimpleComponent]
+      declarations: [CarritoPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LayoutSimpleComponent);
+    fixture = TestBed.createComponent(CarritoPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

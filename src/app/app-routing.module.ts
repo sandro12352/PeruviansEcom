@@ -4,7 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
-  
+  {
+    path:'checkout',
+    loadChildren:()=>import('../app/checkout/checkout.module').then(m=>m.CheckoutModule),
+  },
   {
     path:'auth',
     loadChildren:()=>import('./auth/auth.module').then(m=>m.AuthModule)
@@ -13,6 +16,7 @@ const routes: Routes = [
     path: '',
      loadChildren: () => import('./peruvians-ecom/peruvians-ecom.module').then(m => m.PeruviansEcomModule)
   },
+  
   
   {
     path:'**',

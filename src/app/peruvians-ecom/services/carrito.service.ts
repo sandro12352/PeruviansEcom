@@ -1,7 +1,7 @@
 import { ElementRef, Injectable, ViewChild } from '@angular/core';
 import { Producto } from '../interfaces/producto';
 import { BehaviorSubject } from 'rxjs';
-declare const bootstrap: any;
+
 @Injectable({
   providedIn: 'root'
 })

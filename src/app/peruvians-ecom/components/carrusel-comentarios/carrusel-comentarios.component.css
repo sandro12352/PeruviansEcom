@@ -9,13 +9,13 @@
 }
 
 .carousel-control-prev {
-  left: -15px;  /* más cerca del borde izquierdo */
+  left: -40px;  /* más cerca del borde izquierdo */
   width: 40px; /* controla ancho para evitar tapar contenido */
   
 }
 
 .carousel-control-next {
-  right: -15px; /* más cerca del borde derecho */
+  right: -40px; /* más cerca del borde derecho */
   width: 40px;
 
 }

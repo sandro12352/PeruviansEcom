@@ -4,25 +4,14 @@ import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-produ
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
-import { LayoutSimpleComponent } from './pages/layout-simple/layout-simple.component';
 import { BlogPageComponent } from './pages/blog-page/blog-page.component';
-import { CarritoComponent } from './pages/carrito/carrito.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
-import { PagarPageComponent } from './pages/pagar-page/pagar-page.component';
+
 
 
 const routes: Routes = [
-  {
-    path:'checkout',
-    component:
-    LayoutSimpleComponent,
-    children:[
-       { path:'carrito',component:CarritoComponent},
-       {path:'pagar',component:PagarPageComponent}
-    ]
-  },
   {
     path:'',
     component:LayoutPageComponent,

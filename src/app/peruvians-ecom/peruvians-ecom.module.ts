@@ -18,9 +18,6 @@ import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.compo
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 import { CardComponent } from './components/card/card.component';
-import { CarritoComponent } from './pages/carrito/carrito.component';
-import { LayoutSimpleComponent } from './pages/layout-simple/layout-simple.component';
-import { PagarPageComponent } from './pages/pagar-page/pagar-page.component';
 
 
 
@@ -42,9 +39,6 @@ import { PagarPageComponent } from './pages/pagar-page/pagar-page.component';
     PreguntasFrecuentesPageComponent,
     DetalleProductoPageComponent,
     CardComponent,
-    CarritoComponent,
-    LayoutSimpleComponent,
-    PagarPageComponent
   ],
   exports: [
     LayoutPageComponent,
