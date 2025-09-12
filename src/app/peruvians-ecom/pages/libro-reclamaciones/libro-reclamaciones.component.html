@@ -1,356 +1,375 @@
-<div class="libro-container">
-<div class="container py-4">
-  <div class="text-center mb-4">
-    <h1 class="h3 fw-bold">Libro de Reclamaciones</h1>
-  </div>
+<div class="container-lg py-4">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-4 pb-3 border-bottom">
+                    <h1 class="display-5 fw-bold text-primary mb-3">Libro de Reclamaciones</h1>
+                    
+                    <!-- Mensajes de éxito -->
+                    <div class="alert alert-success d-flex align-items-center" *ngIf="submitMessage">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <div>
+                            <strong>{{ submitMessage }}</strong>
+                            <div *ngIf="numeroReclamoGenerado" class="numero-reclamo mt-1 ">
+                                <strong>Número de Reclamo:</strong> {{ numeroReclamoGenerado }}
+                            </div>
+                            <p class="info-text mb-0 mt-2">Guarde este número para consultar el estado de su reclamo</p>
+                        </div>
+                    </div>
 
-  <!-- Mensajes de éxito -->
-  <div *ngIf="submitMessage" class="alert alert-success">
-    <p class="mb-1"><strong>✓ {{ submitMessage }}</strong></p>
-    <p *ngIf="numeroReclamoGenerado" class="fw-semibold">
-      <strong>Número de Reclamo:</strong> {{ numeroReclamoGenerado }}
-    </p>
-    <p class="small text-muted">Guarde este número para consultar el estado de su reclamo</p>
-  </div>
+                    <!-- Mensaje de error -->
+                    <div class="alert alert-danger d-flex align-items-center" *ngIf="submitError">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>{{ submitError }}</strong>
+                    </div>
+                    
+                    <!-- Datos de la Empresa -->
+                    <div class="empresa-info">
+                        <div class="row">
+                            <div class="col-md-6 empresa-col">
+                                <p><span class="icon">›</span><strong>RUC:</strong> 20614486661</p>
+                                <p><span class="icon">›</span><strong>Razón Social:</strong> PERUVIANECOM S.A.C.</p>
+                                <p><span class="icon">›</span><strong>Dirección:</strong> Jirón Casma 267 (Covida) Los Olivos</p>
+                            </div>
+                            <div class="col-md-6 empresa-col">
+                                <p><span class="icon">›</span><strong>Teléfono:</strong> 916238316</p>
+                                <p><span class="icon">›</span><strong>Correo:</strong> 
+                                    <a href="mailto:peruvianecom@gmail.com">peruvianecom&#64;gmail.com</a>
+                                </p>
+                                <p><span class="icon">›</span><strong>Sitio Web:</strong> 
+                                    <a href="https://peruvians-ecom.vercel.app/" target="_blank">https://peruvians-ecom.vercel.app/</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <!-- Mensaje de error -->
-  <div *ngIf="submitError" class="alert alert-danger">
-    <p class="mb-0"><strong>✗ {{ submitError }}</strong></p>
-  </div>
+        <!-- Pestañas para alternar entre formulario y consulta -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <ul class="nav nav-tabs nav-fill">
+                    <li class="nav-item">
+                        <button type="button" 
+                                class="nav-link fw-semibold"
+                                [class.active]="activeTab === 'crear'"
+                                (click)="setActiveTab('crear')">
+                            <i class="bi bi-file-text me-2"></i>Crear Reclamo
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" 
+                                class="nav-link fw-semibold"
+                                [class.active]="activeTab === 'consultar'"
+                                (click)="setActiveTab('consultar')">
+                            <i class="bi bi-search me-2"></i>Consultar Estado
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-  <!-- Datos de la Empresa -->
-  <div class="row g-4 mt-3">
-    <div class="col-md-6">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>RUC:</strong> 20614486661
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>Razón Social:</strong> PERUVIANECOM S.A.C.
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>Dirección:</strong> Jirón Casma 267 (Covida) Los Olivos
-        </li>
-      </ul>
+        <!-- Contenido del tab "Crear Reclamo" -->
+        <div *ngIf="activeTab === 'crear'" class="tab-content">
+            <form [formGroup]="reclamacionForm" (ngSubmit)="onSubmit()">
+                
+                <!-- Datos del Cliente -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0"><i class="bi bi-person me-2"></i>Datos del Cliente</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tipoDocumento" class="form-label fw-semibold">Tipo de Documento <span class="text-danger">*</span></label>
+                                <select id="tipoDocumento" formControlName="tipoDocumento" 
+                                        class="form-select"
+                                        [class.is-invalid]="isFieldInvalid('tipoDocumento')">
+                                    <option value="">Seleccione tipo de documento</option>
+                                    <option *ngFor="let tipo of tiposDocumento" [value]="tipo.value">
+                                        {{ tipo.label }}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('tipoDocumento')">
+                                    {{ getFieldError('tipoDocumento') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="numeroDocumento" class="form-label fw-semibold">Número de Documento <span class="text-danger">*</span></label>
+                                <input type="text" id="numeroDocumento" formControlName="numeroDocumento" 
+                                       class="form-control" placeholder="Ingrese número de documento"
+                                       [class.is-invalid]="isFieldInvalid('numeroDocumento')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('numeroDocumento')">
+                                    {{ getFieldError('numeroDocumento') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombres" class="form-label fw-semibold">Nombres <span class="text-danger">*</span></label>
+                                <input type="text" id="nombres" formControlName="nombres" 
+                                       class="form-control" placeholder="Ingrese sus nombres"
+                                       [class.is-invalid]="isFieldInvalid('nombres')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('nombres')">
+                                    {{ getFieldError('nombres') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="apellidos" class="form-label fw-semibold">Apellidos <span class="text-danger">*</span></label>
+                                <input type="text" id="apellidos" formControlName="apellidos" 
+                                       class="form-control" placeholder="Ingrese sus apellidos"
+                                       [class.is-invalid]="isFieldInvalid('apellidos')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('apellidos')">
+                                    {{ getFieldError('apellidos') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label fw-semibold">Teléfono <span class="text-danger">*</span></label>
+                                <input type="tel" id="telefono" formControlName="telefono" 
+                                       class="form-control" placeholder="Ejemplo: 987654321"
+                                       [class.is-invalid]="isFieldInvalid('telefono')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('telefono')">
+                                    {{ getFieldError('telefono') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-semibold">Correo Electrónico <span class="text-danger">*</span></label>
+                                <input type="email" id="email" formControlName="email" 
+                                       class="form-control" placeholder="ejemplo@correo.com"
+                                       [class.is-invalid]="isFieldInvalid('email')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                                    {{ getFieldError('email') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label fw-semibold">Dirección <span class="text-danger">*</span></label>
+                            <input type="text" id="direccion" formControlName="direccion" 
+                                   class="form-control" placeholder="Ingrese su dirección completa"
+                                   [class.is-invalid]="isFieldInvalid('direccion')">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('direccion')">
+                                {{ getFieldError('direccion') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Identificación del Bien Contratado -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="card-title mb-0"><i class="bi bi-box me-2"></i>Identificación del Bien Contratado</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tipoBien" class="form-label fw-semibold">Tipo de Bien <span class="text-danger">*</span></label>
+                                <select id="tipoBien" formControlName="tipoBien" 
+                                        class="form-select"
+                                        [class.is-invalid]="isFieldInvalid('tipoBien')">
+                                    <option value="">Seleccione tipo de bien</option>
+                                    <option *ngFor="let tipo of tiposBien" [value]="tipo.value">
+                                        {{ tipo.label }}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('tipoBien')">
+                                    {{ getFieldError('tipoBien') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="montoReclamado" class="form-label fw-semibold">Monto Reclamado (S/)</label>
+                                <input type="number" id="montoReclamado" formControlName="montoReclamado" 
+                                       class="form-control" placeholder="0.00" step="0.01" min="0"
+                                       [class.is-invalid]="isFieldInvalid('montoReclamado')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('montoReclamado')">
+                                    {{ getFieldError('montoReclamado') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="descripcionBien" class="form-label fw-semibold">Descripción del Producto/Servicio <span class="text-danger">*</span></label>
+                                <textarea id="descripcionBien" formControlName="descripcionBien" 
+                                          class="form-control" rows="3" 
+                                          placeholder="Describa el producto o servicio (marca, modelo, características, etc.)"
+                                          [class.is-invalid]="isFieldInvalid('descripcionBien')"></textarea>
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('descripcionBien')">
+                                    {{ getFieldError('descripcionBien') }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="fechaIncidente" class="form-label fw-semibold">Fecha de incidente</label>
+                                <input type="date" id="fechaIncidente" formControlName="fechaIncidente" 
+                                       class="form-control" 
+                                       [class.is-invalid]="isFieldInvalid('fechaIncidente')">
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('fechaIncidente')">
+                                    {{ getFieldError('fechaIncidente') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos del Reclamo -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="card-title mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Datos del Reclamo</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tipoReclamo" class="form-label fw-semibold">Tipo de Reclamo <span class="text-danger">*</span></label>
+                                <select id="tipoReclamo" formControlName="tipoReclamo" 
+                                        class="form-select"
+                                        [class.is-invalid]="isFieldInvalid('tipoReclamo')">
+                                    <option value="">Seleccione tipo de reclamo</option>
+                                    <option *ngFor="let tipo of tiposReclamo" [value]="tipo.value">
+                                        {{ tipo.label }}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="isFieldInvalid('tipoReclamo')">
+                                    {{ getFieldError('tipoReclamo') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="detalleReclamo" class="form-label fw-semibold">Detalle del Reclamo <span class="text-danger">*</span></label>
+                            <textarea id="detalleReclamo" formControlName="detalleReclamo" 
+                                      class="form-control" rows="4" 
+                                      placeholder="Describa detalladamente su reclamo, queja o sugerencia"
+                                      [class.is-invalid]="isFieldInvalid('detalleReclamo')"></textarea>
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('detalleReclamo')">
+                                {{ getFieldError('detalleReclamo') }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pedidoConcreto" class="form-label fw-semibold">Indícanos lo que Solicitas <span class="text-danger">*</span></label>
+                            <textarea id="pedidoConcreto" formControlName="pedidoConcreto" 
+                                      class="form-control" rows="3" 
+                                      placeholder="Indique qué solución espera o qué pedido concreto tiene"
+                                      [class.is-invalid]="isFieldInvalid('pedidoConcreto')"></textarea>
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('pedidoConcreto')">
+                                {{ getFieldError('pedidoConcreto') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-center gap-3 mt-4 pt-3 border-top">
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4" 
+                            (click)="reclamacionForm.reset(); clearMessages()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg px-4" 
+                            [disabled]="reclamacionForm.invalid || isSubmitting">
+                        <i class="bi bi-send me-2"></i>
+                        {{ isSubmitting ? 'Enviando...' : 'Enviar Reclamo' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contenido del tab "Consultar Estado" -->
+        <div *ngIf="activeTab === 'consultar'" class="tab-content">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0"><i class="bi bi-search me-2"></i>Consultar Estado de Reclamo</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-4">Ingrese el número de reclamo que recibió al enviar su queja para consultar su estado actual.</p>
+                    
+                    <form [formGroup]="consultaForm" (ngSubmit)="onConsultar()">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="numeroReclamoConsulta" class="form-label fw-semibold">Número de Reclamo <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       id="numeroReclamoConsulta" 
+                                       formControlName="numeroReclamo" 
+                                       class="form-control form-control-lg" 
+                                       placeholder="Ejemplo: REC-2024-001"
+                                       [class.is-invalid]="isConsultaFieldInvalid('numeroReclamo')">
+                                <div class="invalid-feedback" *ngIf="isConsultaFieldInvalid('numeroReclamo')">
+                                    {{ getConsultaFieldError('numeroReclamo') }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="submit" 
+                                        class="btn btn-success btn-lg w-100" 
+                                        [disabled]="consultaForm.invalid || isConsultando">
+                                    <i class="bi bi-search me-2"></i>
+                                    {{ isConsultando ? 'Consultando...' : 'Consultar' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Mensaje de error en consulta -->
+                    <div class="alert alert-danger d-flex align-items-center" *ngIf="consultaError">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>{{ consultaError }}</strong>
+                    </div>
+
+                    <!-- Resultado de la consulta -->
+                    <div *ngIf="consultaResultado" class="consulta-resultado mt-4">
+                        <div class="card border-0 shadow">
+                            <div class="resultado-header text-white p-4 d-flex justify-content-between align-items-center flex-wrap">
+                                <h4 class="mb-0">Estado del Reclamo: {{ consultaResultado.numero_reclamo }}</h4>
+                                <span class="estado-badge" [ngClass]="'estado-' + consultaResultado.estado.toLowerCase()">
+                                    {{ consultaResultado.estado }}
+                                </span>
+                            </div>
+                            
+                            <div class="card-body p-4">
+                                <div class="row mb-3 pb-3 border-bottom">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1 small fw-semibold">FECHA DE REGISTRO:</p>
+                                        <p class="mb-0 fw-bold">{{ consultaResultado.fecha_registro }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1 small fw-semibold">TIPO DE RECLAMO:</p>
+                                        <p class="mb-0 fw-bold">{{ consultaResultado.tipo_reclamo }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-4 pb-3 border-bottom">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1 small fw-semibold">ÚLTIMA ACTUALIZACIÓN:</p>
+                                        <p class="mb-0 fw-bold">{{ consultaResultado.fecha_actualizacion }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Información:</h6>
+                                    <p class="mb-2">Para obtener más detalles sobre su reclamo, puede comunicarse con nosotros a través de nuestros canales de atención al cliente.</p>
+                                    <p class="mb-0">Su reclamo está siendo procesado y recibirá una respuesta en un plazo máximo de 30 días calendario.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="alert alert-secondary text-center mt-4">
+            <p class="mb-2"><strong>Nota:</strong> Los campos marcados con <span class="text-danger">(*)</span> son obligatorios.</p>
+            <p class="mb-0">Su reclamo será procesado en un plazo máximo de 30 días calendario.</p>
+        </div>
     </div>
-
-    <div class="col-md-6">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>Teléfono:</strong> 916238316
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>Correo:</strong>
-          <a href="mailto:peruvianecom@gmail.com">peruvianecom&#64;gmail.com</a>
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-caret-right-fill text-primary me-2"></i>
-          <strong>Sitio Web:</strong>
-          <a href="https://peruvians-ecom.vercel.app/" target="_blank">
-            https://peruvians-ecom.vercel.app/
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-  <!-- Pestañas para alternar entre formulario y consulta -->
-  <div class="tabs-container">
-    <div class="tabs">
-      <button type="button" 
-              class="tab-button" 
-              [class.active]="activeTab === 'crear'"
-              (click)="setActiveTab('crear')">
-        Crear Reclamo
-      </button>
-      <button type="button" 
-              class="tab-button" 
-              [class.active]="activeTab === 'consultar'"
-              (click)="setActiveTab('consultar')">
-        Consultar Estado
-      </button>
-    </div>
-  </div>
-
-  <!-- Contenido del tab "Crear Reclamo" -->
-  <div *ngIf="activeTab === 'crear'" class="tab-content">
-    <form [formGroup]="reclamacionForm" (ngSubmit)="onSubmit()" class="reclamacion-form">
-      
-      <!-- Datos del Cliente -->
-      <div class="section">
-        <h2 class="section-title">Datos del Cliente</h2>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="tipoDocumento">Tipo de Documento *</label>
-            <select id="tipoDocumento" formControlName="tipoDocumento" class="form-control"
-                    [class.error]="isFieldInvalid('tipoDocumento')">
-              <option value="">Seleccione tipo de documento</option>
-              <option *ngFor="let tipo of tiposDocumento" [value]="tipo.value">
-                {{ tipo.label }}
-              </option>
-            </select>
-            <div class="error-message" *ngIf="isFieldInvalid('tipoDocumento')">
-              {{ getFieldError('tipoDocumento') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="numeroDocumento">Número de Documento *</label>
-            <input type="text" id="numeroDocumento" formControlName="numeroDocumento" 
-                   class="form-control" placeholder="Ingrese número de documento"
-                   [class.error]="isFieldInvalid('numeroDocumento')">
-            <div class="error-message" *ngIf="isFieldInvalid('numeroDocumento')">
-              {{ getFieldError('numeroDocumento') }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nombres">Nombres *</label>
-            <input type="text" id="nombres" formControlName="nombres" 
-                   class="form-control" placeholder="Ingrese sus nombres"
-                   [class.error]="isFieldInvalid('nombres')">
-            <div class="error-message" *ngIf="isFieldInvalid('nombres')">
-              {{ getFieldError('nombres') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="apellidos">Apellidos *</label>
-            <input type="text" id="apellidos" formControlName="apellidos" 
-                   class="form-control" placeholder="Ingrese sus apellidos"
-                   [class.error]="isFieldInvalid('apellidos')">
-            <div class="error-message" *ngIf="isFieldInvalid('apellidos')">
-              {{ getFieldError('apellidos') }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="telefono">Teléfono *</label>
-            <input type="tel" id="telefono" formControlName="telefono" 
-                   class="form-control" placeholder="Ejemplo: 987654321"
-                   [class.error]="isFieldInvalid('telefono')">
-            <div class="error-message" *ngIf="isFieldInvalid('telefono')">
-              {{ getFieldError('telefono') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Correo Electrónico *</label>
-            <input type="email" id="email" formControlName="email" 
-                   class="form-control" placeholder="ejemplo@correo.com"
-                   [class.error]="isFieldInvalid('email')">
-            <div class="error-message" *ngIf="isFieldInvalid('email')">
-              {{ getFieldError('email') }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group full-width">
-          <label for="direccion">Dirección *</label>
-          <input type="text" id="direccion" formControlName="direccion" 
-                 class="form-control" placeholder="Ingrese su dirección completa"
-                 [class.error]="isFieldInvalid('direccion')">
-          <div class="error-message" *ngIf="isFieldInvalid('direccion')">
-            {{ getFieldError('direccion') }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Identificación del Bien Contratado -->
-      <div class="section">
-        <h2 class="section-title">Identificación del Bien Contratado</h2>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="tipoBien">Tipo de Bien *</label>
-            <select id="tipoBien" formControlName="tipoBien" class="form-control"
-                    [class.error]="isFieldInvalid('tipoBien')">
-              <option value="">Seleccione tipo de bien</option>
-              <option *ngFor="let tipo of tiposBien" [value]="tipo.value">
-                {{ tipo.label }}
-              </option>
-            </select>
-            <div class="error-message" *ngIf="isFieldInvalid('tipoBien')">
-              {{ getFieldError('tipoBien') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="montoReclamado">Monto Reclamado (S/)</label>
-            <input type="number" id="montoReclamado" formControlName="montoReclamado" 
-                   class="form-control" placeholder="0.00" step="0.01" min="0"
-                   [class.error]="isFieldInvalid('montoReclamado')">
-            <div class="error-message" *ngIf="isFieldInvalid('montoReclamado')">
-              {{ getFieldError('montoReclamado') }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="descripcionBien">Descripción del Producto/Servicio *</label>
-            <textarea id="descripcionBien" formControlName="descripcionBien" 
-                      class="form-control textarea" rows="3" 
-                      placeholder="Describa el producto o servicio (marca, modelo, características, etc.)"
-                      [class.error]="isFieldInvalid('descripcionBien')"></textarea>
-            <div class="error-message" *ngIf="isFieldInvalid('descripcionBien')">
-              {{ getFieldError('descripcionBien') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="fechaIncidente">Fecha de incidente</label>
-            <input type="date" id="fechaIncidente" formControlName="fechaIncidente" 
-                   class="form-control" [class.error]="isFieldInvalid('fechaIncidente')">
-            <div class="error-message" *ngIf="isFieldInvalid('fechaIncidente')">
-              {{ getFieldError('fechaIncidente') }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Datos del Reclamo -->
-      <div class="section">
-        <h2 class="section-title">Datos del Reclamo</h2>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="tipoReclamo">Tipo de Reclamo *</label>
-            <select id="tipoReclamo" formControlName="tipoReclamo" class="form-control"
-                    [class.error]="isFieldInvalid('tipoReclamo')">
-              <option value="">Seleccione tipo de reclamo</option>
-              <option *ngFor="let tipo of tiposReclamo" [value]="tipo.value">
-                {{ tipo.label }}
-              </option>
-            </select>
-            <div class="error-message" *ngIf="isFieldInvalid('tipoReclamo')">
-              {{ getFieldError('tipoReclamo') }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group full-width">
-          <label for="detalleReclamo">Detalle del Reclamo *</label>
-          <textarea id="detalleReclamo" formControlName="detalleReclamo" 
-                    class="form-control textarea" rows="4" 
-                    placeholder="Describa detalladamente su reclamo, queja o sugerencia"
-                    [class.error]="isFieldInvalid('detalleReclamo')"></textarea>
-          <div class="error-message" *ngIf="isFieldInvalid('detalleReclamo')">
-            {{ getFieldError('detalleReclamo') }}
-          </div>
-        </div>
-
-        <div class="form-group full-width">
-          <label for="pedidoConcreto">Indicanos lo que Solicitas*</label>
-          <textarea id="pedidoConcreto" formControlName="pedidoConcreto" 
-                    class="form-control textarea" rows="3" 
-                    placeholder="Indique qué solución espera o qué pedido concreto tiene"
-                    [class.error]="isFieldInvalid('pedidoConcreto')"></textarea>
-          <div class="error-message" *ngIf="isFieldInvalid('pedidoConcreto')">
-            {{ getFieldError('pedidoConcreto') }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Botones -->
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" (click)="reclamacionForm.reset(); clearMessages()">
-          Limpiar
-        </button>
-        <button type="submit" class="btn btn-primary" [disabled]="reclamacionForm.invalid || isSubmitting">
-          {{ isSubmitting ? 'Enviando...' : 'Enviar Reclamo' }}
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Contenido del tab "Consultar Estado" -->
-  <div *ngIf="activeTab === 'consultar'" class="tab-content">
-    <div class="consulta-section">
-      <h2 class="section-title">Consultar Estado de Reclamo</h2>
-      <p class="consulta-description">Ingrese el número de reclamo que recibió al enviar su queja para consultar su estado actual.</p>
-      
-      <form [formGroup]="consultaForm" (ngSubmit)="onConsultar()" class="consulta-form">
-        <div class="form-group consulta-input-group">
-          <label for="numeroReclamoConsulta">Número de Reclamo *</label>
-          <div class="input-button-group">
-            <input type="text" 
-                   id="numeroReclamoConsulta" 
-                   formControlName="numeroReclamo" 
-                   class="form-control" 
-                   placeholder="Ejemplo: REC-2024-001"
-                   [class.error]="isConsultaFieldInvalid('numeroReclamo')">
-            <button type="submit" 
-                    class="btn btn-primary btn-consultar" 
-                    [disabled]="consultaForm.invalid || isConsultando">
-              {{ isConsultando ? 'Consultando...' : 'Consultar' }}
-            </button>
-          </div>
-          <div class="error-message" *ngIf="isConsultaFieldInvalid('numeroReclamo')">
-            {{ getConsultaFieldError('numeroReclamo') }}
-          </div>
-        </div>
-      </form>
-
-      <!-- Mensaje de error en consulta -->
-      <div class="error-message-box" *ngIf="consultaError">
-        <p><strong>✗ {{ consultaError }}</strong></p>
-      </div>
-
-      <!-- Resultado de la consulta -->
-      <div *ngIf="consultaResultado" class="consulta-resultado">
-        <div class="resultado-card">
-          <div class="resultado-header">
-            <h3>Estado del Reclamo: {{ consultaResultado.numero_reclamo }}</h3>
-            <span class="estado-badge" [ngClass]="'estado-' + consultaResultado.estado.toLowerCase()">
-              {{ consultaResultado.estado }}
-            </span>
-          </div>
-          
-          <div class="resultado-body">
-            <div class="resultado-row">
-              <div class="resultado-col">
-                <p><strong>Fecha de Registro:</strong></p>
-                <p>{{ consultaResultado.fecha_registro }}</p>
-              </div>
-              <div class="resultado-col">
-                <p><strong>Tipo de Reclamo:</strong></p>
-                <p>{{ consultaResultado.tipo_reclamo }}</p>
-              </div>
-            </div>
-            
-            <div class="resultado-row">
-              <div class="resultado-col">
-                <p><strong>Última Actualización:</strong></p>
-                <p>{{ consultaResultado.fecha_actualizacion }}</p>
-              </div>
-            </div>
-            
-            <div class="resultado-info">
-              <p><strong>Información:</strong></p>
-              <p>Para obtener más detalles sobre su reclamo, puede comunicarse con nosotros a través de nuestros canales de atención al cliente.</p>
-              <p>Su reclamo está siendo procesado y recibirá una respuesta en un plazo máximo de 30 días calendario.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-info">
-    <p><strong>Nota:</strong> Los campos marcados con (*) son obligatorios.</p>
-    <p>Su reclamo será procesado en un plazo máximo de 30 días calendario.</p>
-  </div>
-</div>

@@ -1,134 +1,89 @@
-<div class="perfil-container">
-  <div class="perfil-header">
-    <h2>Mi Perfil</h2>
-    <button 
-      type="button" 
-      class="btn-edit"
-      (click)="toggleEdit()"
-      [disabled]="loading">
-      {{ isEditing ? '✕ Cancelar' : ' Editar Perfil' }}
-    </button>
-  </div>
+<div class="container py-4">
+  <div class="card shadow-lg border-0 mb-4">
+    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+      <h2 class="h4 mb-0">Mi Perfil</h2>
+      <button 
+        type="button" 
+        class="btn btn-light btn-sm"
+        (click)="toggleEdit()"
+        [disabled]="loading">
+        {{ isEditing ? '✕ Cancelar' : ' Editar Perfil' }}
+      </button>
+    </div>
 
-  <!-- Mensaje de estado -->
-  <div *ngIf="message" class="alert" [ngClass]="{'alert-success': messageType === 'success', 'alert-error': messageType === 'error'}">
-    {{ message }}
-  </div>
-
-  <!-- Loading spinner -->
-  <div *ngIf="loading" class="loading-spinner">
-    <div class="spinner"></div>
-    <p>Cargando información del perfil...</p>
-  </div>
-
-  <!-- Información del perfil -->
-  <div class="perfil-card" *ngIf="!loading">
-    <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
-      
-      <!-- Sección: Información Personal -->
-      <div class="card-section">
-        <h3 class="section-title">Información Personal</h3>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label> Email</label>
-            <input 
-              type="email" 
-              [value]="cliente?.email || ''" 
-              readonly 
-              class="form-control readonly">
-          </div>
-
-          <div class="form-group">
-            <label> DNI</label>
-            <input 
-              type="text" 
-              [value]="cliente?.dni || ''" 
-              readonly 
-              class="form-control readonly">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Nombre Completo</label>
-          <input 
-            type="text" 
-            [value]="cliente?.nombre || ''" 
-            readonly 
-            class="form-control readonly">
-        </div>
+    <div class="card-body">
+      <!-- Mensaje de estado -->
+      <div *ngIf="message" 
+           class="alert" 
+           [ngClass]="{'alert-success': messageType === 'success', 'alert-danger': messageType === 'error'}">
+        {{ message }}
       </div>
 
-      <div class="section-divider"></div>
+      <!-- Loading -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status"></div>
+        <p class="text-muted">Cargando información del perfil...</p>
+      </div>
 
-      <!-- Sección: Información de Contacto -->
-      <div class="card-section">
-        <h3 class="section-title">Información de Contacto</h3>
+      <!-- Formulario -->
+      <form *ngIf="!loading" [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
         
-        <div class="form-group">
-          <label for="telefono"> Teléfono</label>
+        <!-- Info personal -->
+        <h5 class="border-bottom pb-2 mb-3">Información Personal</h5>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" [value]="cliente?.email || ''" class="form-control" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">DNI</label>
+            <input type="text" [value]="cliente?.dni || ''" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Nombre Completo</label>
+          <input type="text" [value]="cliente?.nombre || ''" class="form-control" readonly>
+        </div>
+
+        <!-- Info contacto -->
+        <h5 class="border-bottom pb-2 mb-3 mt-4">Información de Contacto</h5>
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
           <input 
             type="text" 
-            id="telefono"
-            formControlName="telefono"
+            id="telefono" 
+            formControlName="telefono" 
             class="form-control"
             [class.is-invalid]="telefono?.invalid && telefono?.touched"
             [readonly]="!isEditing"
-            [class.readonly]="!isEditing"
             placeholder="Ejemplo: 987654321">
           <div *ngIf="telefono?.invalid && telefono?.touched" class="invalid-feedback">
             <div *ngIf="telefono?.errors?.['maxlength']">El teléfono no puede exceder 100 caracteres</div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="direccion">Dirección</label>
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
           <textarea 
             id="direccion"
             formControlName="direccion"
-            class="form-control"
             rows="3"
+            class="form-control"
             [readonly]="!isEditing"
-            [class.readonly]="!isEditing"
-            placeholder="Ingresa tu dirección completa (Calle, número, distrito, ciudad)"></textarea>
+            placeholder="Ingresa tu dirección completa"></textarea>
         </div>
 
-        <!-- Botones de acción -->
-        <div class="form-actions" *ngIf="isEditing">
-          <button 
-            type="submit" 
-            class="btn btn-primary"
-            [disabled]="loading || perfilForm.invalid">
-            <span *ngIf="loading" class="spinner-sm"></span>
+        <!-- Botones -->
+        <div *ngIf="isEditing" class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn btn-danger" [disabled]="loading || perfilForm.invalid">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
             {{ loading ? 'Guardando...' : 'Guardar Cambios' }}
           </button>
-          <button 
-            type="button" 
-            class="btn btn-secondary"
-            (click)="toggleEdit()"
-            [disabled]="loading">
+          <button type="button" class="btn btn-secondary" (click)="toggleEdit()" [disabled]="loading">
             ✕ Cancelar
           </button>
         </div>
-      </div>
-
-    </form>
+      </form>
+    </div>
   </div>
-
-  <!-- Información adicional -->
-<!--   <div class="info-adicional" *ngIf="!loading && cliente">
-    <h3>📊 Información de la Cuenta</h3>
-    <div class="info-item">
-      <strong>Tipo de cliente:</strong> 
-      <span>{{ cliente.tipo === 'registrado' ? 'Cliente Registrado' : 'Cliente Invitado' }}</span>
-    </div>
-    <div class="info-item">
-      <strong>Fecha de registro:</strong> 
-      <span>{{ cliente.created_at | date:'dd/MM/yyyy - HH:mm' }}</span>
-    </div>
-    <div class="info-item">
-      <strong>Estado de la cuenta:</strong> 
-      <span style="color: #28a745; font-weight: 600;">✅ Activa</span>
-    </div>
-  </div> -->
 </div>
