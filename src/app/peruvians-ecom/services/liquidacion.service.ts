@@ -1,19 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Producto } from '../interfaces/producto';
+import { Observable, map } from 'rxjs';
 import { envs } from '../../config/envs';
+import { Liquidacion, LiquidacionResponse } from '../interfaces/liquidacion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LiquidacionService {
 
-  constructor(private http:HttpClient) { }
+  private readonly baseUrl = `${envs.apiUrl}/liquidacion`;
 
-  getProductosLiquidacion():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${envs.apiUrl}/liquidacion.json`)
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Obtener productos en liquidación desde la API
+   */
+  getProductosLiquidacion(): Observable<Liquidacion[]> {
+    return this.http.get<LiquidacionResponse>(this.baseUrl)
+      .pipe(
+        map(response => {
+          if (response.success) {
+            return response.data;
+          }
+          return [];
+        })
+      );
   }
-
-  
 }

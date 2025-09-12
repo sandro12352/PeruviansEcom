@@ -1,0 +1,36 @@
+.blog-card {
+  border-left: 4px solid orange;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.15);
+}
+
+.blog-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.blog-subtitle {
+  font-family: 'Nunito', sans-serif;
+  color: #555;
+}
+
+.blog-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.blog-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}

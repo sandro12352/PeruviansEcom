@@ -1,20 +1,49 @@
 <ng-container *ngIf="producto as p">
-  <div class="card d-flex flex-column h-100">
-          <span class="descuento-badge">-{{ producto.descuento }}</span>
-          <img [src]="producto.img" class="img-fluid rounded" alt="Producto" [routerLink]="['/', p.categoria, generarSlugConId(p)]"/>
-          <div class="card-body-custom d-flex flex-column justify-content-between">
-            <div class="contenido-scrollable"> 
-                <span class="marca-badge">{{ producto.tienda }}</span>         
-              <h6 class="fw-bold">{{producto.titulo}}</h6>
-              <s class="text-body-tertiary">S/.{{ producto.precio_antes | number:'1.2-2'}}</s>
-              <p class="fw-semibold mb-2 text-danger">S/.{{ producto.precio | number:'1.2-2'}}</p>
-            </div>
-          </div>
-        <div class="p-2">
-            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito" class="btn boton-agregar btn-sm p-2  w-100" (click)="AgregarCarrito() ;$event.stopPropagation()" data-bs-toggle="modal" data-bs-target="#staticBackdrop">AGREGAR</button> 
-        </div>
+  <div class="card d-flex flex-column h-100" style="cursor: pointer;">
+    <span class="descuento-badge" *ngIf="producto.descuento && producto.descuento !== '0%'">
+      -{{ producto.descuento }}
+    </span>
+    
+    <!-- Imagen clickeable que redirige al detalle -->
+    <img [src]="producto.img" 
+         class="img-fluid rounded" 
+         alt="Producto" 
+         [routerLink]="['/', p.categoria, generarSlugConId(p)]"
+         style="cursor: pointer;"/>
+    
+    <div class="card-body-custom d-flex flex-column justify-content-between" 
+         [routerLink]="['/', p.categoria, generarSlugConId(p)]">
+      <div class="contenido-scrollable">
+        <span class="marca-badge">{{ producto.tienda }}</span>
+        <h6 class="fw-bold">{{ producto.titulo }}</h6>
+        
+        <!-- Precio original tachado - solo mostrar si hay descuento -->
+        <s class="text-body-tertiary" 
+           *ngIf="producto.descuento && producto.descuento !== '0%'">
+          S/.{{ producto.precio | number:'1.2-2'}}
+        </s>
+        
+        <!-- Precio final - usar precio original si no hay descuento -->
+        <p class="fw-semibold mb-2" 
+           [class.text-danger]="producto.descuento && producto.descuento !== '0%'"
+           [class.text-dark]="!producto.descuento || producto.descuento === '0%'">
+          S/.{{ (producto.descuento && producto.descuento !== '0%') ? 
+                 (producto.precio_despues | number:'1.2-2') : 
+                 (producto.precio | number:'1.2-2') }}
+        </p>
+      </div>
     </div>
+    
+    <div class="p-2">
+      <button data-bs-toggle="offcanvas" 
+              data-bs-target="#offcanvasCarrito" 
+              aria-controls="offcanvasCarrito" 
+              class="btn boton-agregar btn-sm p-2 w-100" 
+              (click)="AgregarCarrito(); $event.stopPropagation()" 
+              data-bs-toggle="modal" 
+              data-bs-target="#staticBackdrop">
+        AGREGAR
+      </button>
+    </div>
+  </div>
 </ng-container>
-
-
-

@@ -1,42 +1,56 @@
-<section class="container my-5 p-0 ">
- 
-
+<section class="container my-5 p-0">
   <div [id]="carouselId" data-bs-touch="true" class="carousel slide" data-bs-interval="false" data-bs-ride="false">
     <div class="carousel-inner">
-  <div
-    class="carousel-item active"
-    *ngFor="let grupo of gruposProductos; let i = index"
-    [class.active]="i === 0"
-  >
-    <div class="d-flex productos-slide">
       <div
-        routerLink=""
-        class="producto-card"
-        *ngFor="let producto of grupo"
+        class="carousel-item"
+        *ngFor="let grupo of gruposProductos; let i = index"
+        [class.active]="i === 0"
       >
-        <app-card [producto]="producto"></app-card>  
-
+        <div class="d-flex productos-slide">
+          <div
+            class="producto-card"
+            *ngFor="let producto of grupo"
+          >
+            <app-card [producto]="producto"></app-card>  
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <!-- Controles del carrusel -->
+    <button class="carousel-control-prev" 
+            type="button" 
+            [attr.data-bs-target]="'#' + carouselId" 
+            data-bs-slide="prev"
+            *ngIf="gruposProductos.length > 1">
+      <span class="custom-arrow">
+        <i class="bi bi-chevron-left"></i>
+      </span>
+    </button>
+
+    <button class="carousel-control-next" 
+            type="button" 
+            [attr.data-bs-target]="'#' + carouselId" 
+            data-bs-slide="next"
+            *ngIf="gruposProductos.length > 1">
+      <span class="custom-arrow">
+        <i class="bi bi-chevron-right"></i>
+      </span>
+    </button>
+
+    <!-- Indicadores del carrusel -->
+    <div class="carousel-indicators" 
+         *ngIf="gruposProductos.length > 1"
+         style="position: relative; margin-top: 20px;">
+      <button 
+        type="button" 
+        [attr.data-bs-target]="'#' + carouselId" 
+        [attr.data-bs-slide-to]="i"
+        *ngFor="let grupo of gruposProductos; let i = index"
+        [class.active]="i === 0"
+        [attr.aria-current]="i === 0 ? 'true' : null"
+        [attr.aria-label]="'Slide ' + (i + 1)">
+      </button>
     </div>
-
-
-    <!-- Controles -->
-    <!-- Botón anterior -->
-<button class="carousel-control-prev " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-target="#carouselProductos" data-bs-slide="prev">
-  <span class="custom-arrow ">
-   <i class="bi bi-chevron-left"></i>
-  </span>
-</button>
-
-<!-- Botón siguiente -->
-<button class="carousel-control-next " type="button" [attr.data-bs-target]="'#' + carouselId" data-bs-slide="next">
-  <span class="custom-arrow  ">
-    <i class="bi bi-chevron-right"></i>
-  </span>
-</button>
-
-
   </div>
 </section>

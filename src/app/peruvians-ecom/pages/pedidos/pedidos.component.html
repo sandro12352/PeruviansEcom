@@ -1,0 +1,105 @@
+<div class="pedidos-container">
+
+  <!-- Título -->
+  <h2>Mis Pedidos</h2>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <label for="estado">Estado:</label>
+    <select
+      id="estado"
+      [(ngModel)]="estadoFiltro"
+      (change)="cambiarFiltro(estadoFiltro)">
+      <option *ngFor="let opcion of opcionesEstado" [value]="opcion.value">
+        {{ opcion.label }}
+      </option>
+    </select>
+    <button (click)="refrescar()">Refrescar</button>
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="cargando" class="info">Cargando pedidos...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="!cargando && pedidos.length === 0 && !error" class="info">
+    No tienes pedidos en este estado.
+  </div>
+
+  <!-- Tabla de pedidos -->
+  <table *ngIf="!cargando && pedidos.length > 0" class="tabla-pedidos">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Resumen</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{ formatearFecha(pedido.fecha_pedido) }}</td>
+        <td>{{ getResumenPedido(pedido) }}</td>
+        <td>
+          <span [ngClass]="getEstadoClass(pedido.estado_pedido)">
+            {{ pedido.estado_pedido_texto }}
+          </span>
+        </td>
+        <td>{{ formatearPrecio(pedido.total) }}</td>
+        <td>
+          <button (click)="verDetallePedido(pedido.id)">Ver detalle</button>
+          <button *ngIf="sePuedeCancelar(pedido)">Cancelar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <div *ngIf="paginacion" class="paginacion">
+    <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+      Anterior
+    </button>
+    <button
+      *ngFor="let pagina of getPaginas()"
+      (click)="cambiarPagina(pagina)"
+      [class.activa]="pagina === paginaActual">
+      {{ pagina }}
+    </button>
+    <button
+      (click)="cambiarPagina(paginaActual + 1)"
+      [disabled]="paginaActual === paginacion.last_page">
+      Siguiente
+    </button>
+  </div>
+
+  <!-- Modal detalle -->
+  <div class="modal" *ngIf="mostrarDetalle">
+    <div class="modal-contenido">
+      <button class="cerrar" (click)="cerrarDetalle()">×</button>
+      <h3>Detalle del Pedido #{{ pedidoSeleccionado?.id }}</h3>
+
+      <div *ngIf="cargandoDetalle" class="info">Cargando detalle...</div>
+
+      <div *ngIf="pedidoSeleccionado && !cargandoDetalle">
+        <p><strong>Fecha:</strong> {{ formatearFecha(pedidoSeleccionado.fecha_pedido) }}</p>
+        <p><strong>Estado:</strong> {{ pedidoSeleccionado.estado_pedido_texto }}</p>
+        <p><strong>Total:</strong> {{ formatearPrecio(pedidoSeleccionado.total) }}</p>
+
+        <h4>Productos</h4>
+        <ul>
+          <li *ngFor="let item of pedidoSeleccionado.items">
+            <img
+              [src]="getImagenProducto(item.producto)"
+              (error)="onImageError($event)"
+              alt="{{ item.producto.nombre }}"
+              width="60"
+            />
+            <div>
+              <strong>{{ item.producto.nombre }}</strong><br />
+              {{ item.cantidad }} x {{ formatearPrecio(item.precio_venta) }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

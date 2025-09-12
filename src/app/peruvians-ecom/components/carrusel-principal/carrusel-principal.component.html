@@ -1,119 +1,88 @@
-<div id="carouselInicio" class="carousel slide mb-5 d-none d-md-block" data-bs-ride="carousel">
-  <!-- Indicadores -->
-  <!-- Indicadores para escritorio -->
-<div class="carousel-indicators d-none d-md-flex">
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="1" aria-label="Slide 2"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="3" aria-label="Slide 4"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="4" aria-label="Slide 5"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="5" aria-label="Slide 6"></button>
-  <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="6" aria-label="Slide 7"></button>
+<!-- Loading State -->
+<div *ngIf="isLoading" class="text-center p-4">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+  <p class="mt-2">Cargando carrusel...</p>
 </div>
 
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="alert alert-warning text-center" role="alert">
+  <p class="mb-2">{{ error }}</p>
+  <button type="button" class="btn btn-primary btn-sm" (click)="recargar()">
+    Reintentar
+  </button>
+</div>
 
-
+<!-- Carrusel Desktop -->
+<div *ngIf="!isLoading && !error" id="carouselInicio" class="carousel slide mb-5 d-none d-md-block" data-bs-ride="carousel">
+  
+  <!-- Indicadores para escritorio -->
+  <div class="carousel-indicators d-none d-md-flex">
+    <!-- Banner fijo siempre como primer slide -->
+    <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+    
+    <!-- Slides dinámicos -->
+    <button 
+      *ngFor="let slide of desktopSlides; let i = index" 
+      type="button" 
+      data-bs-target="#carouselInicio" 
+      [attr.data-bs-slide-to]="i + 1" 
+      [attr.aria-label]="'Slide ' + (i + 2)">
+    </button>
+  </div>
 
   <!-- Slides -->
   <div class="carousel-inner">
 
-    <!-- Slide 1 -->
-    <!-- Slide 1 (activo) -->
+    <!-- Banner fijo (slide 0) -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img src="imagenes/principal/banner.webp" class="d-block carousel-img" loading="lazy" alt="banner1">
+        <img src="imagenes/principal/banner.webp" class="d-block carousel-img" loading="lazy" alt="banner1" (error)="onImageError($event)">
         <button class="btn-lo-quiero">Lo quiero</button>
       </div>
     </div>
 
-
-    <!-- Slide 2 -->
-    <div class="carousel-item ">
+    <!-- Slides dinámicos de la API -->
+    <div *ngFor="let slide of desktopSlides; let i = index; trackBy: trackByIndex" class="carousel-item">
       <div class="d-flex">
-        <div  class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionBloodSugar.jpg" loading="lazy"  class="d-block carousel-img" alt="promocionColageno">
-          <button class="btn-lo-quiero">Lo quiero</button>
+        <!-- Primera imagen del slide -->
+        <div 
+          class="carousel-img-container half-width" 
+          (click)="onLoQuiero(slide[0])">
+          <img 
+            [src]="slide[0].imagen_url" 
+            loading="lazy" 
+            class="d-block carousel-img" 
+            [alt]="slide[0].producto?.nombre || 'Promoción'"
+            (error)="onImageError($event)">
+          <button class="btn-lo-quiero">
+            {{ slide[0].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+          </button>
         </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionOregano.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCarticolageno">
-          <button class="btn-lo-quiero">Lo quiero</button>
+
+        <!-- Segunda imagen del slide (si existe) -->
+        <div 
+          *ngIf="slide[1]" 
+          class="carousel-img-container half-width" 
+          (click)="onLoQuiero(slide[1])">
+          <img 
+            [src]="slide[1].imagen_url" 
+            loading="lazy" 
+            class="d-block carousel-img" 
+            [alt]="slide[1].producto?.nombre || 'Promoción'"
+            (error)="onImageError($event)">
+          <button class="btn-lo-quiero">
+            {{ slide[1].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+          </button>
+        </div>
+
+        <!-- Placeholder si solo hay una imagen en el slide -->
+        <div *ngIf="!slide[1]" class="carousel-img-container half-width d-flex align-items-center justify-content-center" style="background-color: #f8f9fa;">
+          <span class="text-muted">Próximamente más ofertas</span>
         </div>
       </div>
     </div>
-
-    <!-- Slide 3 -->
-    <div class="carousel-item ">
-      <div class="d-flex">
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionColageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocionRomero">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionOmega.jpg " loading="lazy" class="d-block carousel-img" alt="promocion2Colageno">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-      </div>
-    </div>
-
-
-     <!-- Slide 4  -->
-    <div class="carousel-item ">
-      <div class="d-flex">
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion2Melena.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartilago">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion3Colageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartical">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="carousel-item ">
-      <div class="d-flex">
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionSleep.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartilago">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion3BloodSugar.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartical">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-      </div>
-    </div>
-     <!-- Slide 5 -->
-    <div class="carousel-item ">
-      <div class="d-flex">
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion2Colageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartilago">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion3Omega.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartical">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 6 -->
-  <div class="carousel-item ">
-      <div class="d-flex">
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocionMelena.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartilago">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-        <div class="carousel-img-container half-width">
-          <img src="imagenes/principal/promocion2Sleep.jpg" loading="lazy" class="d-block carousel-img" alt="promocionCartical">
-          <button class="btn-lo-quiero">Lo quiero</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Móviles -->
-    
-
 
   </div>
 
@@ -128,130 +97,46 @@
   </button>
 </div>
 
-
-
-
-
-<div id="carouselInicioMobile" class="carousel slide mb-5 d-block d-md-none" data-bs-ride="carousel">
+<!-- Carrusel Móvil -->
+<div *ngIf="!isLoading && !error" id="carouselInicioMobile" class="carousel slide mb-5 d-block d-md-none" data-bs-ride="carousel">
+  
   <!-- Indicadores para móviles -->
   <div class="carousel-indicators">
+    <!-- Banner fijo siempre como primer slide -->
     <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="3" aria-label="Slide 4"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="4" aria-label="Slide 5"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="5" aria-label="Slide 6"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="6" aria-label="Slide 7"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="7" aria-label="Slide 8"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="8" aria-label="Slide 9"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="9" aria-label="Slide 10"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="10" aria-label="Slide 11"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="11" aria-label="Slide 12"></button>
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="12" aria-label="Slide 13"></button>
+    
+    <!-- Slides dinámicos -->
+    <button 
+      *ngFor="let item of mobileSlides; let i = index" 
+      type="button" 
+      data-bs-target="#carouselInicioMobile" 
+      [attr.data-bs-slide-to]="i + 1" 
+      [attr.aria-label]="'Slide ' + (i + 2)">
+    </button>
   </div>
 
   <div class="carousel-inner">
-    <!-- Slide 1 -->
+    
+    <!-- Banner fijo móvil (slide 0) -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img src="imagenes/principal/bannerMovil.webp" loading="lazy" class="d-block carousel-img" alt="banner1">
+        <img src="imagenes/principal/bannerMovil.webp" loading="lazy" class="d-block carousel-img" alt="banner1" (error)="onImageError($event)">
         <button class="btn-lo-quiero">Lo quiero</button>
       </div>
     </div>
 
-    <!-- Slide 2 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionBloodSugar.jpg" loading="lazy" class="d-block carousel-img" alt="promocionBloodSugar">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 3 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionOregano.jpg" loading="lazy" class="d-block carousel-img" alt="promocionOregano">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 4 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionColageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocionColageno">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 5 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionOmega.jpg" loading="lazy" class="d-block carousel-img" alt="promocionOmega">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 6 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion2Melena.jpg" loading="lazy" class="d-block carousel-img" alt="promocion2Melena">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 7 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion3Colageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocion3Colageno">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 8 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionSleep.jpg" loading="lazy" class="d-block carousel-img" alt="promocionSleep">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 9 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion3BloodSugar.jpg" loading="lazy" class="d-block carousel-img" alt="promocion3BloodSugar">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 10 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion2Colageno.jpg" loading="lazy" class="d-block carousel-img" alt="promocion2Colageno">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 11 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion3Omega.jpg" loading="lazy" class="d-block carousel-img" alt="promocion3Omega">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 12 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocionMelena.jpg" loading="lazy" class="d-block carousel-img" alt="promocionMelena">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slide 13 -->
-    <div class="carousel-item">
-      <div class="carousel-img-container full-width">
-        <img src="imagenes/principal/promocion2Sleep.jpg" loading="lazy" class="d-block carousel-img" alt="promocion2Sleep">
-        <button class="btn-lo-quiero">Lo quiero</button>
+    <!-- Slides dinámicos móvil -->
+    <div *ngFor="let item of mobileSlides; let i = index; trackBy: trackByIndex" class="carousel-item">
+      <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
+        <img 
+          [src]="item.imagen_url" 
+          loading="lazy" 
+          class="d-block carousel-img" 
+          [alt]="item.producto?.nombre || 'Promoción'"
+          (error)="onImageError($event)">
+        <button class="btn-lo-quiero">
+          {{ item.producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+        </button>
       </div>
     </div>
 

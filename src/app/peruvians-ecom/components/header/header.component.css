@@ -1,5 +1,4 @@
 
-
 .chicha-navbar-minimal {
   background: #fff;
 }
@@ -244,4 +243,99 @@ header {
 .products-list li a:hover {
   background-color: #fcd34d;
   border-radius: 4px;
+}
+
+/* BUSQUEDA */
+
+.position-relative {
+  position: relative;
+}
+
+.dropdown-busqueda {
+  position: absolute;
+  top: 100%;  
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 2px;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+form.d-none.d-md-flex.mx-4.w-50 {
+  position: relative;
+}
+
+.dropdown-busqueda li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #000;
+  
+}
+
+.dropdown-busqueda li:hover {
+  background: #acabab;
+}
+
+/* Mejoras para el dropdown de usuario */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  min-width: 200px; /* Ancho mínimo para que se vea bien */
+  margin-top: 8px; /* Separación del botón */
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item i {
+  width: 16px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: #f8d7da;
+  color: #721c24 !important;
+}
+
+/* Asegurar que el dropdown se posicione correctamente */
+.dropdown {
+  position: relative;
+}
+
+/* Mejoras para el botón del dropdown */
+#userDropdown {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+#userDropdown:focus {
+  box-shadow: none !important;
+}
+
+/* Responsive: ajustar en móviles */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    margin-top: 4px;
+    min-width: 180px;
+  }
 }

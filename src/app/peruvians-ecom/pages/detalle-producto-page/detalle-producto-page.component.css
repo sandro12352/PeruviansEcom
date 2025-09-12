@@ -1,61 +1,210 @@
+/* Estilos mejorados para el componente de detalle de producto */
+
 .chicha-title {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 2.2rem;
-  color: #ff0080;
-  text-shadow: 2px 2px 0 #ffff00, -2px -2px 0 #00ffff;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 .chicha-badge {
-  background: linear-gradient(to right, #ffdc00, #ff0080);
-  color: black;
-  font-weight: bold;
-  padding: 4px 10px;
-  font-size: 0.9rem;
-  border: 2px solid #000;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chicha-precio-original {
-  color: #555;
+  color: #64748b;
   text-decoration: line-through;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .chicha-precio-oferta {
-  color: #ff0000;
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-shadow: 1px 1px #000;
+  color: #dc2626;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.chicha-precio-normal {
+  color: #059669;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .boton-animado {
-  background: linear-gradient(to right, #ff0099, #ffff00);
-  color: #000;
-  border: 2px solid #000;
-  font-weight: bold;
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
   font-size: 1rem;
-  transition: transform 0.1s ease-in-out, box-shadow 0.2s;
+  border-radius: 10px;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
 }
+
 .boton-animado:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #ff0099;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(59, 130, 246, 0.35);
+  color: #ffffff;
 }
 
 .cantidad-btn {
-  background: #ffdc00;
-  border: 2px solid #000;
-  color: #000;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  color: #475569;
   font-size: 1.2rem;
-  font-weight: bold;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin: 0 6px;
+  font-weight: 600;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  margin: 0 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
+.cantidad-btn:hover {
+  background: #e2e8f0;
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transform: scale(1.05);
+}
+
+.cantidad-box {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Mejoras para las miniaturas */
+.thumb {
+  transition: all 0.3s ease;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.thumb:hover {
+  transform: scale(1.08);
+  border-color: #3b82f6 !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.thumb.active {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Mejoras para las imágenes principales */
+.img-fluid {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Mejoras para las secciones de información */
+.detalle-producto {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-radius: 16px;
+  margin-top: 2rem;
+}
+
+.detalle-producto .shadow-sm {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #f1f5f9;
+}
+
+/* Estilos para los iconos de información adicional */
+.bi-info-circle-fill {
+  color: #f59e0b !important;
+}
+
+.bi-star-fill {
+  color: #06b6d4 !important;
+}
+
+.bi-lightbulb-fill {
+  color: #10b981 !important;
+}
+
+/* Mejoras para los títulos de sección */
+h2.chicha-title {
+  font-size: 1.8rem;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+h5.fw-bold {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Mejoras para textos */
+.text-muted {
+  color: #64748b !important;
+  line-height: 1.6;
+}
+
+/* Mejoras responsivas */
 @media (max-width: 768px) {
-  .img-fluid {
-    max-width: 100%;
-    height: auto;
+  .chicha-title {
+    font-size: 2rem;
+  }
+  
+  .chicha-precio-oferta,
+  .chicha-precio-normal {
+    font-size: 1.6rem;
+  }
+  
+  .boton-animado {
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+  
+  .cantidad-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
   }
 }
 
+/* Animación sutil para la carga */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detalle-producto {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Mejoras para el spinner de carga */
+.spinner-border {
+  color: #3b82f6 !important;
+}
+
+/* Hover effects para las tarjetas de productos relacionados */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}

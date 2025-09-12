@@ -17,7 +17,6 @@ export class CarritoService {
   constructor() { 
      this.cargarDesdeLocalStorage();
       this.actualizarCantidadTotal();
-
   }
 
   private guardarEnLocalStorage(): void {
@@ -45,9 +44,9 @@ export class CarritoService {
   agregarProducto(producto: Producto) {
     const productoExistente = this.productos.find(p => p.id == producto.id);
     if (productoExistente) {
-      productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
+    productoExistente.cantidad = (productoExistente.cantidad || 1) + (producto.cantidad || 1);
     } else {
-      this.productos.push({ ...producto, cantidad: 1 });
+    this.productos.push({ ...producto });
     }
 
      this.guardarEnLocalStorage();
@@ -95,7 +94,7 @@ export class CarritoService {
    calcularSubtotal(): number {
     let subtotal = 0;
     this.productos.forEach(producto => {
-      subtotal += (producto.precio_antes || 0) * (producto.cantidad || 1);
+      subtotal += (producto.precio || 0) * (producto.cantidad || 1);
     });
     return subtotal;
   }
@@ -103,11 +102,16 @@ export class CarritoService {
   calcularDescuento(): number {
     let descuento = 0;
     this.productos.forEach(producto => {
-      const porcentaje = parseFloat(producto.descuento );
-      descuento += ((producto.precio_antes || 0) * (producto.cantidad || 1) * (porcentaje / 100)) ;
+      const precioOriginal = producto.precio || 0;
+      const precioFinal = producto.precio_despues || precioOriginal;
+      const cantidad = producto.cantidad || 1;
+
+      descuento += (precioOriginal - precioFinal) * cantidad;
     });
-    return descuento;
+    return Math.round(descuento * 100) / 100; // redondeo a 2 decimales
   }
+
+
 
   calcularTotal(): number {
     return this.calcularSubtotal() - this.calcularDescuento();

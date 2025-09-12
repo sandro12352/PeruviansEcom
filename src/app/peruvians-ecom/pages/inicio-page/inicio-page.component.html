@@ -1,72 +1,169 @@
-<peruvians-carrusel-principal></peruvians-carrusel-principal>
+<app-carrusel-principal></app-carrusel-principal>
 
 <!-- Categorias -->
 <section class="container my-5">
   <h2 class=" mb-4">Categorías</h2>
 
   <div class="categoria-wrapper gap-4">
+    <!-- Categorías dinámicas desde la base de datos -->
+    <div class="categoria-card text-center" 
+         *ngFor="let categoria of categorias" 
+         [routerLink]="['/', getCategoriaSlug(categoria.nombre)]">
+      <div class="categoria-img-wrapper">
+        <img [src]="categoria.imagen_url || 'imagenes/categorias/default.webp'" 
+             loading="lazy" 
+             [alt]="categoria.nombre" 
+             class="categoria-img">
+      </div>
+      <h6 class="categoria-title mt-2">{{categoria.nombre}}</h6>
+    </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/', 'aceites']">
-    <div class="categoria-img-wrapper">
-    <img src="imagenes/categorias/aceites.webp" loading="lazy" alt="Aceites" class="categoria-img">
-  </div>
-    <h6 class="categoria-title mt-2">Aceites</h6>
-  </div>
+    <!-- Fallback: Categorías estáticas si no hay datos de la BD -->
+    <ng-container *ngIf="categorias.length === 0 && !loading.categorias">
+      <div class="categoria-card text-center" [routerLink]="['/', 'aceites']">
+        <div class="categoria-img-wrapper">
+          <img src="imagenes/categorias/aceites.webp" loading="lazy" alt="Aceites" class="categoria-img">
+        </div>
+        <h6 class="categoria-title mt-2">Aceites</h6>
+      </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/', 'suplementos']">
-    <div class="categoria-img-wrapper">
+      <div class="categoria-card text-center" [routerLink]="['/', 'suplementos']">
+        <div class="categoria-img-wrapper">
           <img src="imagenes/categorias/suplementos.webp" loading="lazy" alt="Suplementos" class="categoria-img">
-    </div>
-    <h6 class="categoria-title mt-2">Suplementos</h6>
-  </div>
+        </div>
+        <h6 class="categoria-title mt-2">Suplementos</h6>
+      </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/', 'gomitas']">
-    <div class="categoria-img-wrapper">
+      <div class="categoria-card text-center" [routerLink]="['/', 'gomitas']">
+        <div class="categoria-img-wrapper">
           <img src="imagenes/categorias/gomitas.webp" loading="lazy" alt="Gomitas" class="categoria-img">
-    </div>
-    <h6 class="categoria-title mt-2">Gomitas</h6>
-  </div>
+        </div>
+        <h6 class="categoria-title mt-2">Gomitas</h6>
+      </div>
 
-  <div class="categoria-card text-center" [routerLink]="['/', 'batidos']">
-    <div class="categoria-img-wrapper">
+      <div class="categoria-card text-center" [routerLink]="['/', 'batidos']">
+        <div class="categoria-img-wrapper">
           <img src="imagenes/categorias/batidos.webp" loading="lazy" alt="Batidos" class="categoria-img">
+        </div>
+        <h6 class="categoria-title mt-2">Batidos</h6>
+      </div>
+    </ng-container>
 
+    <!-- Loading state -->
+    <div *ngIf="loading.categorias" class="text-center w-100">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando categorías...</span>
+      </div>
     </div>
-    <h6 class="categoria-title mt-2">Batidos</h6>
   </div>
-
-  </div>
-
 </section>
 
 <section class="container">
-     <h2 class="mb-4">Lo Más Vendido</h2>
-     <peruvians-carrusel-productos 
-      *ngIf="masVendido?.length"
+  <h2 class="mb-4">Lo Más Vendido</h2>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading.masVendido" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando productos más vendidos...</span>
+    </div>
+  </div>
+  
+  <!-- Productos más vendidos -->
+  <peruvians-carrusel-productos 
+    *ngIf="masVendido?.length && !loading.masVendido"
     [productos]="masVendido" 
     [carouselId]="'ProductosCarrusel1'">
   </peruvians-carrusel-productos>
+
+  <!-- Estado vacío -->
+  <div *ngIf="!masVendido?.length && !loading.masVendido" class="alert alert-info">
+    No hay productos más vendidos disponibles en este momento.
+  </div>
 </section>
 
-
 <section class="container">
-     <h2 class="mb-4">Lo Más Nuevo</h2>
-    <peruvians-carrusel-productos 
-     *ngIf="masNuevo?.length"
+  <h2 class="mb-4">Lo Más Nuevo</h2>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading.masNuevo" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando productos más nuevos...</span>
+    </div>
+  </div>
+  
+  <!-- Productos más nuevos -->
+  <peruvians-carrusel-productos 
+    *ngIf="masNuevo?.length && !loading.masNuevo"
     [productos]="masNuevo" 
     [carouselId]="'ProductosCarrusel2'">
   </peruvians-carrusel-productos>
+
+  <!-- Estado vacío -->
+  <div *ngIf="!masNuevo?.length && !loading.masNuevo" class="alert alert-info">
+    No hay productos nuevos disponibles en este momento.
+  </div>
 </section>
 
+<!-- CyberWow Section - Ahora dinámica -->
+<section class="container my-5" *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
+  <h2 class="mb-4">CyberWow</h2>
+  
+  <!-- Fila 1: Banners principales (categoría y tiendas) -->
+  <div class="row gy-4" *ngIf="cyberwowBanners.categoria || cyberwowBanners.tiendas"> 
+    <!-- Banner de categoría -->
+    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" 
+         *ngIf="cyberwowBanners.categoria"
+         [routerLink]="getCyberwowCategoriaRoute()">
+      <img [src]="cyberwowBanners.categoria.imagen_url" 
+           loading="lazy" 
+           width="100%" 
+           class="promo-img rounded-3" 
+           [alt]="cyberwowBanners.categoria.titulo">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+    
+    <!-- Banner de tiendas -->
+    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3"
+        *ngIf="cyberwowBanners.tiendas"
+        (click)="onCyberwowTiendasClick()"
+        style="cursor: pointer;">
+      <img [src]="cyberwowBanners.tiendas.imagen_url" 
+          loading="lazy" 
+          width="100%" 
+          class="promo-img rounded-3" 
+          [alt]="cyberwowBanners.tiendas.titulo">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+  </div>
 
+  <!-- Fila 2: Banners de productos -->
+  <div class="row my-4" *ngIf="cyberwowBanners.productos.length > 0">
+    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2"
+         *ngFor="let banner of cyberwowBanners.productos"
+         [routerLink]="getCyberwowProductoRoute(banner)">
+      <img [src]="banner.imagen_url" 
+           loading="lazy" 
+           width="100%" 
+           class="promo-img rounded-3" 
+           [alt]="banner.titulo">
+      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
+    </div>
+  </div>
+</section>
 
+<!-- Loading state para CyberWow -->
+<section class="container my-5" *ngIf="loading.cyberwow">
+  <h2 class="mb-4">CyberWow</h2>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando ofertas CyberWow...</span>
+    </div>
+  </div>
+</section>
 
-
-
-
-
-<section class="container my-5">
-<h2 class=" mb-4">CyberWow</h2>
+<!-- Fallback: CyberWow estático si no hay datos dinámicos -->
+<section class="container my-5" *ngIf="!cyberwowBanners.categoria && !cyberwowBanners.tiendas && cyberwowBanners.productos.length === 0 && !loading.cyberwow">
+  <h2 class="mb-4">CyberWow</h2>
   <!-- Fila 1 -->
   <div class="row gy-4"> 
     <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" [routerLink]="['/', 'gomitas']">
@@ -98,28 +195,47 @@
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
   </div>
+</section>  
 
-</section>
-
-<!-- Producos Liquidacion -->
+<!-- Productos Liquidación -->
 <section class="container my-5">
-   <h2 class=" mb-4">Productos en Liquidación</h2>
-  <div class="row gy-2 ">
-    <!-- Repite esto 3 veces para 3 filas -->
-    <div class="col-md-4 col-6" *ngFor="let producto of liquidacion" style="cursor: pointer;">
-      <div class="promo-rect-card  align-items-center  ">
-        <!-- Derecha: Imagen -->
-        <div class="text-end" [routerLink]="['/', producto.categoria, generarSlugConId(producto)]" style="width: 105%;" >
-          <img [src]="producto.img" alt="oferta" class="img-fluid full-image "  />
+  <h2 class="mb-4">Productos en Liquidación</h2>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading.liquidacion" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando productos en liquidación...</span>
+    </div>
+  </div>
+
+  <!-- Contenido de liquidaciones -->
+  <div class="row gy-2" *ngIf="liquidacion?.length && !loading.liquidacion">
+    <div class="col-md-4 col-6" 
+         *ngFor="let item of liquidacion" 
+         style="cursor: pointer;">
+      <div class="promo-rect-card align-items-center">
+        <!-- Imagen de liquidación -->
+        <div class="text-end" 
+             [routerLink]="['/', getCategoriaSlug(item.producto.categoria), generarSlugConId(item.producto)]" 
+             style="width: 105%;">
+          <img [src]="item.imagen_url || item.producto.img || 'imagenes/default.webp'" 
+               [alt]="item.producto.nombre" 
+               class="img-fluid full-image"
+               loading="lazy" />
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Estado vacío -->
+  <div *ngIf="!liquidacion?.length && !loading.liquidacion" class="alert alert-info">
+    No hay productos en liquidación disponibles en este momento.
   </div>
 </section>
 
 <!-- Tiendas -->
 <section class="container my-5">
-  <h2 class=" mb-4">Nuestras Tiendas</h2>
+  <h2 class="mb-4">Nuestras Tiendas</h2>
 
   <div class="scroll">
     <div class="scroll-track">
@@ -195,16 +311,10 @@
           <img src="logos/lukin4.webp" loading="lazy" alt="lukin4" class="categoria-img img-fluid bg-white">
         </div>
     </div>
-    
-
-    
-   
-  </div>
+</div>
 </section>
 
-
-
 <section class="container ">
-  <h2 class=" mb-4">Testimonios</h2>
+  <h2 class="mb-4">Testimonios</h2>
   <peruvians-carrusel-comentarios></peruvians-carrusel-comentarios>
 </section>

@@ -6,7 +6,7 @@
       <p class="text-muted small">Ingresa tus credenciales para continuar</p>
     </div>
 
-    <form >
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
       <!-- Email -->
       <div class="mb-3">
         <label for="email" class="form-label">Correo electrónico</label>
@@ -15,11 +15,12 @@
           class="form-control"
           id="email"
           name="email"
-          ngModel
+          [(ngModel)]="email"
           placeholder="ejemplo@email.com"
           required
+          #emailField="ngModel"
         >
-        <div class="text-danger small" >
+        <div class="text-danger small" *ngIf="emailField.invalid && emailField.touched">
           El correo es obligatorio.
         </div>
       </div>
@@ -32,11 +33,12 @@
           class="form-control"
           id="password"
           name="password"
-          ngModel
+          [(ngModel)]="password"
           placeholder="********"
           required
+          #passwordField="ngModel"
         >
-        <div class="text-danger small" >
+        <div class="text-danger small" *ngIf="passwordField.invalid && passwordField.touched">
           La contraseña es obligatoria.
         </div>
       </div>
@@ -44,14 +46,25 @@
       <!-- Recordarme -->
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="remember" name="remember" ngModel>
+          <input class="form-check-input" type="checkbox" id="remember" name="remember" [(ngModel)]="remember">
           <label class="form-check-label" for="remember">Recordarme</label>
         </div>
-        <a routerLink="/recuperar-password" class="text-decoration-none small">¿Olvidaste tu contraseña?</a>
+        <a routerLink="/auth/recuperar-password" class="text-decoration-none small">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <!-- Botón -->
-      <button type="submit" class="btn btn-primary w-100 rounded-pill">Ingresar</button>
+      <!-- Mensaje de error general -->
+      <div *ngIf="errorMessage" class="alert alert-danger small text-center">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botón Login -->
+      <button 
+        type="submit" 
+        class="btn btn-primary w-100 rounded-pill mb-3"
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="isLoading">Ingresando...</span>
+        <span *ngIf="!isLoading">Ingresar</span>
+      </button>
     </form>
 
     <!-- Separador -->
@@ -60,8 +73,19 @@
     </div>
 
     <!-- Botón Google -->
-    <button class="btn btn-outline-dark w-100 rounded-pill">
+    <button class="btn btn-outline-dark w-100 rounded-pill mb-3">
       <i class="bi bi-google me-2"></i> Continuar con Google
     </button>
+
+    <!-- Botón Registrarse -->
+    <div class="text-center">
+      <p class="text-muted small mb-2">¿No tienes una cuenta?</p>
+      <button 
+        type="button" 
+        class="btn btn-outline-primary w-100 rounded-pill"
+        routerLink="/auth/register">
+        Crear cuenta nueva
+      </button>
+    </div>
   </div>
 </div>

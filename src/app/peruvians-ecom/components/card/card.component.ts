@@ -27,14 +27,25 @@ export class CardComponent {
   }   
 
 
-   generarSlugConId(producto: Producto): string {
-  const slug = producto.nombre
+generarSlugConId(producto: Producto): string {
+  let nombreLimpio = producto.nombre
     .toLowerCase()
-    .replace(/\s+/g, '-')        // espacios → guiones
-    .replace(/[^\w\-]+/g, '')    // elimina caracteres especiales
-    .replace(/\-\-+/g, '-')      // colapsa múltiples guiones
+    .trim()
+    .replace(/[áàäâ]/g, 'a')
+    .replace(/[éèëê]/g, 'e')
+    .replace(/[íìïî]/g, 'i') 
+    .replace(/[óòöô]/g, 'o')
+    .replace(/[úùüû]/g, 'u')
+    .replace(/[ñ]/g, 'n')
+    .replace(/\d+\s*(ml|mg|gr|g|kg|unidades|und|piezas|pzs|%)/gi, '')
+    .replace(/\b(100|natural|puro|premium|original|autentico|de|del|la|las|el|los|para|con|sin|y|o|u)\b/gi, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, ' ')
     .trim();
-  return `${slug}-${producto.id}`;
+
+  const palabras = nombreLimpio.split(' ').filter(palabra => palabra.length > 0).slice(0, 2);
+  const nombreCorto = palabras.join('-');
+  return `${nombreCorto}-${producto.id}`;
 }
  
 }

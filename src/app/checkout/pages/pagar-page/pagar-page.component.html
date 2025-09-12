@@ -1,192 +1,273 @@
+
 <div class="container mt-4">
   <div class="row">
     <!-- Columna izquierda -->
     <div class="col-md-8">
-      <!-- Entrega -->
+      
+      <!-- Datos del Cliente -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">Datos del Cliente</h5>
+            <!-- Indicador de usuario logueado -->
+            <span *ngIf="isAuthenticated" class="badge bg-success">
+              <i class="bi bi-person-check"></i> Usuario logueado
+            </span>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Nombre completo</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="cliente.nombre"
+                [class.is-valid]="isAuthenticated && cliente.nombre"
+                placeholder="Ingrese su nombre completo"
+                [readonly]="isAuthenticated && cliente.nombre">
+              <div *ngIf="isAuthenticated && cliente.nombre" class="valid-feedback">
+                Datos cargados automáticamente
+              </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">DNI</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="cliente.dni"
+                [class.is-valid]="isAuthenticated && cliente.dni"
+                placeholder="12345678"
+                maxlength="8"
+                [readonly]="isAuthenticated && cliente.dni">
+              <div *ngIf="isAuthenticated && cliente.dni" class="valid-feedback">
+                Datos cargados automáticamente
+              </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                [(ngModel)]="cliente.email"
+                [class.is-valid]="isAuthenticated && cliente.email"
+                placeholder="ejemplo@correo.com"
+                [readonly]="isAuthenticated && cliente.email">
+              <div *ngIf="isAuthenticated && cliente.email" class="valid-feedback">
+                Datos cargados automáticamente
+              </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Teléfono</label>
+              <input 
+                type="tel" 
+                class="form-control" 
+                [(ngModel)]="cliente.telefono"
+                [class.is-valid]="isAuthenticated && cliente.telefono"
+                placeholder="987654321">
+              <small *ngIf="!isAuthenticated" class="form-text text-muted">
+                Opcional para usuarios invitados
+              </small>
+            </div>
+          </div>
+
+          <!-- Mensaje informativo para usuarios no logueados -->
+          <div *ngIf="!isAuthenticated" class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            ¿Ya tienes cuenta? <a routerLink="/auth" class="alert-link">Inicia sesión</a> para cargar automáticamente tus datos.
+          </div>
+        </div>
+      </div>
+
+      <!-- Dirección -->
       <div class="card mb-3">
         <div class="card-body d-flex justify-content-between align-items-center">
           <div>
-            <h5 class="card-title">Entrega</h5>
-            <p class="card-text mb-0">{{ direccionCliente }}</p>
+            <h5 class="card-title">Dirección de Entrega</h5>
+            <p class="card-text mb-0" 
+               [class.text-success]="isAuthenticated && currentUser?.direccion">
+              {{ direccionCliente }}
+            </p>
+            <small *ngIf="isAuthenticated && currentUser?.direccion" class="text-success">
+              <i class="bi bi-check-circle"></i> Cargada desde tu perfil
+            </small>
           </div>
-          <button class="btn btn-outline-primary" (click)="modificarDireccion()">Modificar</button>
+          <button class="btn btn-outline-primary" (click)="modificarDireccion()">
+            {{ isAuthenticated && currentUser?.direccion ? 'Cambiar' : 'Modificar' }}
+          </button>
         </div>
       </div>
 
       <!-- Medio de Pago -->
       <div class="card mb-3">
-  <div class="card-body">
-    <h5 class="card-title">Medio de Pago</h5>
+        <div class="card-body">
+          <h5 class="card-title">Medio de Pago</h5>
 
-    <div class="d-flex flex-column gap-3 mb-3">
+          <div class="d-flex flex-column gap-3 mb-3">
 
-      <label
-        class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
-        [class.selected]="selectedPayment === 'card'"
-        (click)="selectPayment('card')"
-      >
-        <div>
-            <img
-          src="https://static.vecteezy.com/system/resources/thumbnails/020/975/572/small_2x/visa-logo-visa-icon-transparent-free-png.png"
-          alt="Pago con tarjeta"
-          style="max-width: 80px"
-        />
-        <span>Pago con tarjeta</span>
-        </div>
-        <i class="bi bi-chevron-down fs-5"></i>
-      
-      </label>
-       <!-- Formulario tarjeta -->
-    <div *ngIf="selectedPayment === 'card'" class="border rounded p-3">
-      <h6>Datos de la tarjeta</h6>
-      <form #cardForm="ngForm">
-       <div class="mb-3 position-relative">
-        <input
-          type="text"
-          id="cardNumber"
-          name="cardNumber"
-          class="form-control ps-5"  
-          placeholder="Número de tarjeta"
-          maxlength="19"
-          ngModel
-          required
-        />
-        <i class="bi bi-credit-card position-absolute fs-4 text-dark" 
-          style="top: 55%; left: 15px; transform: translateY(-50%); color: #6c757d; pointer-events:none;"></i>
-      </div>
+            <label
+              class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
+              [class.selected]="selectedPayment === 'card'"
+              (click)="selectPayment('card')"
+            >
+              <div>
+                  <img
+                src="https://static.vecteezy.com/system/resources/thumbnails/020/975/572/small_2x/visa-logo-visa-icon-transparent-free-png.png"
+                alt="Pago con tarjeta"
+                style="max-width: 80px"
+              />
+              <span>Pago con tarjeta</span>
+              </div>
+              <i class="bi bi-chevron-down fs-5"></i>
+            </label>
 
+            <!-- Formulario tarjeta -->
+            <div *ngIf="selectedPayment === 'card'" class="border rounded p-3">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Datos de la tarjeta</h6>
+                <small class="text-muted">
+                  <i class="bi bi-shield-lock"></i> Información segura
+                </small>
+              </div>
+              
+              <form #cardForm="ngForm">
+               <div class="mb-3 position-relative">
+                <input
+                  type="text"
+                  id="cardNumber"
+                  name="card_number"
+                  class="form-control ps-5"
+                  placeholder="Número de tarjeta"
+                  maxlength="19"
+                  [(ngModel)]="tarjeta.card_number"
+                  (input)="onCardNumberChange($event)"
+                  required
+                />
+                <i class="bi bi-credit-card position-absolute fs-4 text-dark" 
+                  style="top: 55%; left: 15px; transform: translateY(-50%); color: #6c757d; pointer-events:none;"></i>
+              </div>
 
-        <div class="mb-3">
-          <label for="cardName" class="form-label">Nombre en la tarjeta</label>
-          <input
-            type="text"
-            id="cardName"
-            name="cardName"
-            class="form-control"
-            placeholder="Nombre completo"
-            ngModel
-            required
-          />
-        </div>
-        <div class="row">
-          <div class="col-6 mb-3">
-            <label for="expiryDate" class="form-label">Fecha expiración</label>
-            <input
-              type="text"
-              id="expiryDate"
-              name="expiryDate"
-              class="form-control"
-              placeholder="MM/AA"
-              maxlength="5"
-              ngModel
-              required
-            />
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label for="expiryDate" class="form-label">Fecha expiración</label>
+                  <input
+                    type="text"
+                    id="expiryDate"
+                    name="expiryDate"
+                    class="form-control"
+                    placeholder="MM/AA"
+                    maxlength="5"
+                    [(ngModel)]="tarjeta.expiration_month"
+                    (input)="onExpiryDateChange($event)"
+                    required
+                  />
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="cvv" class="form-label">CVV</label>
+                  <input
+                    type="password"
+                    id="cvv"
+                    name="cvv"
+                    class="form-control"
+                    placeholder="123"
+                    maxlength="3"
+                    [(ngModel)]="tarjeta.cvv"
+                    required
+                  />
+                </div>
+              </div>
+              </form>
+              
+              <div class="alert alert-warning">
+                <small>
+                  <i class="bi bi-exclamation-triangle"></i>
+                  Los datos de tarjeta no se guardan por seguridad. Deberás ingresarlos en cada compra.
+                </small>
+              </div>
+            </div>
+
+            <label
+              class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
+              [class.selected]="selectedPayment === 'yape'"
+              (click)="selectPayment('yape')"
+            >
+            <div>
+                <img
+                src="https://logosenvector.com/logo/img/yape-bcp-4390.jpg"
+                alt="Pago con Yape"
+                style="max-width: 80px"
+              />
+              <span> Pago con Yape</span>
+            </div>
+            
+              <i class="bi bi-chevron-down fs-5"></i>
+            </label>
+
+            <label
+              class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
+              [class.selected]="selectedPayment === 'plin'"
+              (click)="selectPayment('plin')"
+            >
+            <div> 
+              <img
+                src="https://images.seeklogo.com/logo-png/38/1/plin-logo-png_seeklogo-386806.png"
+                alt="Pago con Plin"
+                style="max-width: 80px"
+              />
+              <span> Pago con Plin</span>
+            </div>
+              <i class="bi bi-chevron-down fs-5"></i>
+            </label>
           </div>
-          <div class="col-6 mb-3">
-            <label for="cvv" class="form-label">CVV</label>
-            <input
-              type="password"
-              id="cvv"
-              name="cvv"
-              class="form-control"
-              placeholder="123"
-              maxlength="3"
-              ngModel
-              required
-            />
-          </div>
         </div>
-      </form>
+      </div>
     </div>
 
-      <label
-        class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
-        [class.selected]="selectedPayment === 'yape'"
-        (click)="selectPayment('yape')"
-      >
-      <div>
-          <img
-          src="https://logosenvector.com/logo/img/yape-bcp-4390.jpg"
-          alt="Pago con Yape"
-          style="max-width: 80px"
-        />
-        <span> Pago con Yape</span>
-      </div>
-      
-        <i class="bi bi-chevron-down fs-5"></i>
-      </label>
-
-      <label
-        class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
-        [class.selected]="selectedPayment === 'plin'"
-        (click)="selectPayment('plin')"
-      >
-      <div> 
-        <img
-          src="https://images.seeklogo.com/logo-png/38/1/plin-logo-png_seeklogo-386806.png"
-          alt="Pago con Plin"
-          style="max-width: 80px"
-        />
-        <span> Pago con Plin</span>
-      </div>
-        <i class="bi bi-chevron-down fs-5"></i>
-
-      </label>
-    </div>
-
-   
-  </div>
-</div>
-
-
-      <div class="card mb-3 ">
-        <div class="card-body ">
-          <h5 class="card-title">Boleta</h5>
-            <p class="mb-0">
-              La boleta se enviará al siguiente correo:
-              <span class="text-primary">{{ correoCliente }}</span>
-            </p>
-        </div>
-          
-      </div>
-    
-    </div>
-
-    <!-- Columna derecha -->
+    <!-- Columna derecha - Resumen -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Mis Productos</h5>
+          <h5 class="card-title">Resumen de Compra</h5>
 
           <!-- Lista de productos -->
           <div *ngFor="let producto of productos" class="d-flex justify-content-between align-items-center border-bottom py-2">
-            <span>{{ producto.nombre }}</span>
+          <div style="width: 100px; height: 100px; flex-shrink: 0;">
+            <img [src]="producto.img" alt="{{ producto.titulo }}" class="img-fluid rounded-3 h-100 w-100" style="object-fit: cover;">
+          </div>
             <div class="cantidad-box d-flex justify-content-between align-items-center">
               <button class="cantidad-btn" (click)="disminuirCantidad(producto)">-</button>
               <span>{{ producto.cantidad }}</span>
               <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
             </div>
-            <span class="fw-bold">S/ {{ producto.precio * producto.cantidad }}</span>
+            <span class="fw-bold">S/ {{ (producto.precio_despues || producto.precio) * producto.cantidad! | number:'1.2-2' }}</span>
           </div>
 
-          <!-- Resumen -->
+          <!-- Totales -->
           <div class="mt-3">
             <div class="d-flex justify-content-between">
               <span>Subtotal</span>
-              <span>S/ {{ subtotal }}</span>
+              <span>S/ {{ subtotal | number:'1.2-2' }}</span>
             </div>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between" *ngIf="descuento > 0">
               <span>Descuento</span>
-              <span>- S/ {{ descuento }}</span>
+              <span class="text-success">- S/ {{ descuento | number:'1.2-2' }}</span>
             </div>
             <hr>
             <div class="d-flex justify-content-between fw-bold">
               <span>Total</span>
-              <span>S/ {{ total }}</span>
+              <span>S/ {{ total | number:'1.2-2' }}</span>
             </div>
           </div>
 
-          <button class="btn-pagar w-100 mt-3" (click)="pagar()">Pagar</button>
+          <button 
+            class="btn-pagar w-100 mt-3" 
+            [disabled]="procesandoPago"
+            (click)="pagar()">
+            <span *ngIf="!procesandoPago">Pagar S/ {{ total | number:'1.2-2' }}</span>
+            <span *ngIf="procesandoPago">Procesando...</span>
+          </button>
         </div>
       </div>
     </div>

@@ -1,3 +1,3 @@
 export const envs = {
-    apiUrl : './data'
+    apiUrl: 'http://localhost:8000/api' 
 }
