@@ -73,7 +73,7 @@ ngOnInit(): void {
       next: (response) => {
         if (response.success) {
           this.tiendas = response.data;
-          console.log('Tiendas cargadas:', this.tiendas);
+          //console.log('Tiendas cargadas:', this.tiendas);
           
           // NUEVO: Verificar si venimos de CyberWow con filtros de tiendas
           this.verificarFiltrosCyberwow();
@@ -99,7 +99,7 @@ ngOnInit(): void {
       // Preseleccionar las tiendas
       this.tiendasSeleccionadas = tiendasIds;
       
-      console.log('Filtros CyberWow aplicados - Tiendas:', this.tiendasSeleccionadas);
+      //console.log('Filtros CyberWow aplicados - Tiendas:', this.tiendasSeleccionadas);
       
       // Aplicar los filtros automáticamente
       this.aplicarFiltros();
@@ -111,7 +111,7 @@ ngOnInit(): void {
       next: (response) => {
         if (response.success) {
           this.categorias = response.data;
-          console.log('Categorías cargadas en MostrarProducto:', this.categorias);
+          //console.log('Categorías cargadas en MostrarProducto:', this.categorias);
         }
       },
       error: (err) => {
@@ -239,7 +239,7 @@ private obtenerProductosPorCategoriaConFiltros(categorias: string): void {
 
 onFiltroEstadoChange(event: any): void {
     this.filtroSeleccionado = event.target.value;
-    console.log('Filtro seleccionado:', this.filtroSeleccionado);
+    //console.log('Filtro seleccionado:', this.filtroSeleccionado);
     this.aplicarFiltros();
   }
 
@@ -249,7 +249,7 @@ toggleTiendaSeleccionada(tiendaId: number | string): void {
     } else {
       this.tiendasSeleccionadas.push(tiendaId);
     }
-    console.log('Tiendas seleccionadas:', this.tiendasSeleccionadas);
+    //console.log('Tiendas seleccionadas:', this.tiendasSeleccionadas);
     this.aplicarFiltros();
   }
 
@@ -276,7 +276,7 @@ obtenerProductosMasVendidos(): void {
     filtros.categoria_id = this.categoria;
   }
 
-  console.log('Filtros para más vendidos:', filtros);
+  //console.log('Filtros para más vendidos:', filtros);
 
   this.peruviansService.masVendidos(filtros).subscribe({
     next: (resp) => {
@@ -308,7 +308,7 @@ obtenerProductosMasNuevos(): void {
     filtros.categoria_id = this.categoria;
   }
 
-  console.log('Filtros para más nuevos:', filtros);
+ //console.log('Filtros para más nuevos:', filtros);
 
   this.peruviansService.masNuevo(filtros).subscribe({
     next: (resp) => {
@@ -329,18 +329,18 @@ obtenerProductosMasNuevos(): void {
   // Métodos para manejar el filtro de precio
  onPrecioMinChange(event: any): void {
     this.precioMinActual = parseInt(event.target.value);
-    console.log('Precio min cambiado a:', this.precioMinActual);
+    //console.log('Precio min cambiado a:', this.precioMinActual);
     this.aplicarFiltros();
   }
 
   onPrecioMaxChange(event: any): void {
     this.precioMaxActual = parseInt(event.target.value);
-    console.log('Precio max cambiado a:', this.precioMaxActual);
+    //console.log('Precio max cambiado a:', this.precioMaxActual);
     this.aplicarFiltros();
   }
 
   aplicarFiltros(): void {
-    console.log('Aplicando filtros...');
+    //console.log('Aplicando filtros...');
     // Marcar como cargando para mostrar skeleton
     this.isLoading = true;
     this.cdr.detectChanges();

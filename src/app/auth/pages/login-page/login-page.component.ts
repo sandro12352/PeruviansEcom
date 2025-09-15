@@ -34,7 +34,7 @@ export class LoginPageComponent {
       this.authService.login(loginData).subscribe({
         next: (response: LoginResponse) => {
           if (response.success && response.data) {
-            console.log('Login exitoso:', response.data.cliente.nombre);
+            //console.log('Login exitoso:', response.data.cliente.nombre);
             
             // Guardar expiración del token
             const expiresAt = new Date();

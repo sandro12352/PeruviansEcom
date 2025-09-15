@@ -1,15 +1,18 @@
+// src/app/peruvians-ecom/pages/inicio-page/inicio-page.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DashboardService } from '../../services/dashboard.service';
+import { 
+  DashboardResponse,
+  Categoria as DashboardCategoria, 
+  Liquidacion, 
+  ConfiguracionCyberwow, 
+  CyberwowBannerProducto,
+  Carrusel 
+} from '../../interfaces/dashboard.interface';
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria';
-import { CyberwowBanner } from '../../interfaces/cyberwow';
-import { Liquidacion } from '../../interfaces/liquidacion';
-import { PeruviansService } from '../../services/peruvians.service';
-import { LiquidacionService } from '../../services/liquidacion.service';
-import { CategoriaService } from '../../services/categoria.service';
-import { CyberwowService } from '../../services/cyberwow.service';
-import { forkJoin } from 'rxjs';
-
 
 @Component({
   selector: 'app-inicio-page',
@@ -22,155 +25,176 @@ export class InicioPageComponent implements OnInit {
   public masVendido: Producto[] = [];
   public masNuevo: Producto[] = [];
   public liquidacion: Liquidacion[] = [];
-  public categorias: Categoria[] = [];
+  public categorias: DashboardCategoria[] = [];
+  public carrusel: Carrusel[] = [];
 
-  
   // CyberWow data
-  public cyberwowBanners = {
-    categoria: null as CyberwowBanner | null,
-    tiendas: null as CyberwowBanner | null,
-    productos: [] as CyberwowBanner[]
+  public cyberwowBanners: ConfiguracionCyberwow = {
+    categoria: null,
+    tiendas: null,
+    productos: []
   };
   
   public loading = {
+    dashboard: false,
     masVendido: false,
     masNuevo: false,
     liquidacion: false,
     categorias: false,
-    cyberwow: false
+    cyberwow: false,
+    carrusel: false
   };
 
   constructor(
-    private peruviansService: PeruviansService,
-    private liquidacionService: LiquidacionService,
-    private categoriaService: CategoriaService,
-    private cyberwowService: CyberwowService,
-    private router: Router // Agregar Router
+    private dashboardService: DashboardService,
+    private router: Router
   ) {}
   
   ngOnInit(): void {
-    this.cargarDatos();
+    this.cargarDatosDashboard();
   }
 
-  private cargarDatos(): void {
-  this.loading = {
-    categorias: true,
-    masVendido: true,
-    masNuevo: true,
-    liquidacion: true,
-    cyberwow: true
-  };
+  /**
+   * Carga todos los datos del dashboard en una sola llamada
+   */
+  private cargarDatosDashboard(): void {
+    this.loading.dashboard = true;
 
-  forkJoin({
-    categorias: this.categoriaService.obtenerCategorias(),
-    masVendido: this.peruviansService.masVendidos(),
-    masNuevo: this.peruviansService.masNuevo(),
-    liquidacion: this.liquidacionService.getProductosLiquidacion(),
-    cyberwow: this.cyberwowService.obtenerConfiguracion()
-  }).subscribe({
-    next: (res) => {
-      this.categorias = res.categorias.data; // depende de cómo viene tu API
-      this.masVendido = res.masVendido;
-      this.masNuevo = res.masNuevo;
-      this.liquidacion = res.liquidacion;
-      this.cyberwowBanners = res.cyberwow;
-    },
-    error: (err) => {
-      console.error('Error al cargar datos de inicio:', err);
-    },
-    complete: () => {
-      this.loading = {
-        categorias: false,
-        masVendido: false,
-        masNuevo: false,
-        liquidacion: false,
-        cyberwow: false
-      };
+    // Cargar todas las secciones del dashboard
+    this.dashboardService.getDashboardData('todas').subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          // Asignar categorías
+          if (response.data.categorias) {
+            this.categorias = response.data.categorias.items;
+          }
+
+          // Asignar productos más vendidos
+          if (response.data.mas_vendidos) {
+            this.masVendido = this.convertirProductosDashboard(response.data.mas_vendidos);
+          }
+
+          // Asignar productos más nuevos
+          if (response.data.mas_nuevos) {
+            this.masNuevo = this.convertirProductosDashboard(response.data.mas_nuevos);
+          }
+
+          // Asignar liquidaciones
+          if (response.data.liquidaciones) {
+            this.liquidacion = response.data.liquidaciones;
+          }
+
+          // Asignar configuración CyberWow
+          if (response.data.configuracion) {
+            this.cyberwowBanners = response.data.configuracion;
+          }
+
+          // Asignar carrusel
+          if (response.data.carrusel) {
+            this.carrusel = response.data.carrusel;
+          }
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar datos del dashboard:', error);
+        // Opcional: Mostrar mensaje de error al usuario
+        this.mostrarErrorCarga();
+      },
+      complete: () => {
+        this.loading.dashboard = false;
+      }
+    });
+  }
+
+  /**
+   * Método opcional para cargar secciones específicas
+   */
+  private cargarSeccionesEspecificas(): void {
+    this.loading = {
+      dashboard: false,
+      categorias: true,
+      masVendido: true,
+      masNuevo: true,
+      liquidacion: true,
+      cyberwow: true,
+      carrusel: true
+    };
+
+    const secciones = ['categorias', 'mas_vendidos', 'mas_nuevos', 'liquidaciones', 'configuracion', 'carrusel'];
+
+    this.dashboardService.getDashboardData(secciones).subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.procesarDatosDashboard(response.data);
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar secciones específicas:', error);
+        this.mostrarErrorCarga();
+      },
+      complete: () => {
+        this.resetearLoadingStates();
+      }
+    });
+  }
+
+  /**
+   * Convierte los productos del dashboard al formato esperado por los componentes
+   */
+  private convertirProductosDashboard(productosDashboard: any[]): Producto[] {
+    return productosDashboard.map(producto => ({
+      ...producto,
+      imagenes: producto.imagenes ? producto.imagenes.map((url: string) => ({ url })) : []
+    }));
+  }
+
+  /**
+   * Procesa los datos recibidos del dashboard
+   */
+  private procesarDatosDashboard(data: any): void {
+    if (data.categorias) {
+      this.categorias = data.categorias.items;
     }
-  });
-}
+    if (data.mas_vendidos) {
+      this.masVendido = this.convertirProductosDashboard(data.mas_vendidos);
+    }
+    if (data.mas_nuevos) {
+      this.masNuevo = this.convertirProductosDashboard(data.mas_nuevos);
+    }
+    if (data.liquidaciones) {
+      this.liquidacion = data.liquidaciones;
+    }
+    if (data.configuracion) {
+      this.cyberwowBanners = data.configuracion;
+    }
+    if (data.carrusel) {
+      this.carrusel = data.carrusel;
+    }
+  }
 
-//   private cargarCategorias(): void {
-//     this.loading.categorias = true;
-//     this.categoriaService.obtenerCategorias()
-//       .subscribe({
-//         next: (response) => {
-//           if (response.success) {
-//             this.categorias = response.data;
-//           }
-//         },
-//         error: (error) => {
-//           console.error('Error al cargar categorías:', error);
-//         },
-//         complete: () => {
-//           this.loading.categorias = false;
-//         }
-//       });
-//   }
+  /**
+   * Resetea todos los estados de loading
+   */
+  private resetearLoadingStates(): void {
+    this.loading = {
+      dashboard: false,
+      masVendido: false,
+      masNuevo: false,
+      liquidacion: false,
+      categorias: false,
+      cyberwow: false,
+      carrusel: false
+    };
+  }
 
-//   private cargarMasVendidos(): void {
-//     this.loading.masVendido = true;
-//     this.peruviansService.masVendidos()
-//       .subscribe({
-//         next: (masVendidos) => {
-//           this.masVendido = masVendidos;
-//         },
-//         error: (error) => {
-//           console.error('Error al cargar productos más vendidos:', error);
-//         },
-//         complete: () => {
-//           this.loading.masVendido = false;
-//         }
-//       });
-//   }
-
-//   private cargarMasNuevo(): void {
-//     this.loading.masNuevo = true;
-//     this.peruviansService.masNuevo()
-//       .subscribe({
-//         next: (masNuevo) => {
-//           this.masNuevo = masNuevo;
-//         },
-//         error: (error) => {
-//           console.error('Error al cargar productos más nuevos:', error);
-//         },
-//         complete: () => {
-//           this.loading.masNuevo = false;
-//         }
-//       });
-//   }
-
-//   private cargarLiquidacion(): void {
-//   this.loading.liquidacion = true;
-//   this.liquidacionService.getProductosLiquidacion()
-//     .subscribe({
-//       next: (liquidaciones) => {
-//         this.liquidacion = liquidaciones;
-//       },
-//       error: (error) => {
-//         console.error('Error al cargar productos en liquidación:', error);
-//       },
-//       complete: () => {
-//         this.loading.liquidacion = false;
-//       }
-//     });
-// }
-
-//   private cargarCyberwow(): void {
-//     this.loading.cyberwow = true;
-//     this.cyberwowService.obtenerConfiguracion()
-//       .subscribe({
-//         next: (configuracion) => {
-//           this.cyberwowBanners = configuracion;
-//         },
-//         error: (error) => {
-//           console.error('Error al cargar configuración CyberWow:', error);
-//         },
-//         complete: () => {
-//           this.loading.cyberwow = false;
-//         }
-//       });
-//   }
+  /**
+   * Muestra error de carga (opcional)
+   */
+  private mostrarErrorCarga(): void {
+    // Aquí puedes implementar tu lógica de manejo de errores
+    // Por ejemplo, mostrar un toast o mensaje de error
+    console.error('No se pudieron cargar los datos del dashboard');
+  }
   
   generarSlugConId(producto: Producto): string {
     let nombreLimpio = producto.nombre
@@ -193,34 +217,34 @@ export class InicioPageComponent implements OnInit {
     return `${nombreCorto}-${producto.id}`;
   }
 
-  // Método para obtener el slug de categoría (basado en nombre)
-getCategoriaSlug(categoria: string | Categoria | undefined): string {
-  if (!categoria) {
+  // Método para obtener el slug de categoría
+  getCategoriaSlug(categoria: string | DashboardCategoria | Categoria | undefined): string {
+    if (!categoria) {
+      return '';
+    }
+    
+    // Si es un objeto con propiedad nombre
+    if (typeof categoria === 'object' && 'nombre' in categoria) {
+      return categoria.nombre
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .trim();
+    }
+    
+    // Si es un string
+    if (typeof categoria === 'string') {
+      return categoria
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .trim();
+    }
+    
     return '';
   }
-  
-  // Si es un objeto Categoria
-  if (typeof categoria === 'object' && 'nombre' in categoria) {
-    return categoria.nombre
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]+/g, '')
-      .replace(/\-\-+/g, '-')
-      .trim();
-  }
-  
-  // Si es un string
-  if (typeof categoria === 'string') {
-    return categoria
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]+/g, '')
-      .replace(/\-\-+/g, '-')
-      .trim();
-  }
-  
-  return '';
-}
 
   // Métodos para generar rutas de CyberWow
   getCyberwowCategoriaRoute(): string[] {
@@ -230,7 +254,7 @@ getCategoriaSlug(categoria: string | Categoria | undefined): string {
     return ['/'];
   }
 
-  getCyberwowProductoRoute(banner: CyberwowBanner): string[] {
+  getCyberwowProductoRoute(banner: CyberwowBannerProducto): string[] {
     if (banner.producto && banner.producto.categoria) {
       const categoriaSlug = this.getCategoriaSlug(banner.producto.categoria.nombre);
       return ['/', categoriaSlug, this.generarSlugProductoCyberwow(banner.producto)];
@@ -254,12 +278,12 @@ getCategoriaSlug(categoria: string | Categoria | undefined): string {
       .replace(/\s+/g, ' ')
       .trim();
 
-    const palabras = nombreLimpio.split(' ').filter((palabra: String) => palabra.length > 0).slice(0, 2);
+    const palabras = nombreLimpio.split(' ').filter((palabra: string) => palabra.length > 0).slice(0, 2);
     const nombreCorto = palabras.join('-');
     return `${nombreCorto}-${producto.id}`;
   }
 
-  // NUEVO: Método para navegar cuando se hace clic en el banner de tiendas
+  // Método para navegar cuando se hace clic en el banner de tiendas
   onCyberwowTiendasClick(): void {
     if (this.cyberwowBanners.tiendas?.tiendas && this.cyberwowBanners.tiendas.tiendas.length > 0) {
       // Obtener los IDs de las tiendas asociadas al banner
@@ -287,7 +311,25 @@ getCategoriaSlug(categoria: string | Categoria | undefined): string {
     // Este método puede usarse si necesitas navegar por ID de categoría
     // Por ejemplo: this.router.navigate(['/categoria', categoriaId]);
   }
+
   generarSlugLiquidacion(liquidacion: Liquidacion): string {
-  return this.generarSlugConId(liquidacion.producto);
-}
+    return this.generarSlugConId(liquidacion.producto);
+  }
+
+  /**
+   * Método para recargar datos del dashboard
+   */
+  recargarDashboard(): void {
+    this.cargarDatosDashboard();
+  }
+
+  /**
+   * Método para verificar si hay datos cargados
+   */
+  get hayCargaDatos(): boolean {
+    return this.categorias.length > 0 || 
+           this.masVendido.length > 0 || 
+           this.masNuevo.length > 0 || 
+           this.liquidacion.length > 0;
+  }
 }

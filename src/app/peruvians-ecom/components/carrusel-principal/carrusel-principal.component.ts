@@ -78,7 +78,7 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
           this.carruselItems = response.data;
           // Procesar slides una sola vez después de cargar los datos
           this.procesarSlides();
-          console.log('Carrusel items cargados:', this.carruselItems.length);
+          //console.log('Carrusel items cargados:', this.carruselItems.length);
         } else {
           this.error = 'No se pudieron cargar las imágenes del carrusel';
         }
@@ -115,8 +115,8 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
     // Mobile slides (uno por uno)
     this.mobileSlides = [...this.carruselItems];
 
-    console.log('Desktop slides generados:', this.desktopSlides.length);
-    console.log('Mobile slides:', this.mobileSlides.length);
+    //console.log('Desktop slides generados:', this.desktopSlides.length);
+    //console.log('Mobile slides:', this.mobileSlides.length);
   }
 
 /**

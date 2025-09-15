@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const userSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.clienteNombre = user ? user.nombre : null;
-      console.log('Usuario actualizado en header:', this.clienteNombre);
+      //console.log('Usuario actualizado en header:', this.clienteNombre);
     });
     this.subscriptions.add(userSubscription);
     
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
-        console.log('Logout exitoso');
+        //console.log('Logout exitoso');
         this.router.navigate(['/']);
       },
       error: (error) => {
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       next: (response) => {
         if (response.success) {
           this.categorias = response.data;
-          console.log('Categorías cargadas:', this.categorias);
+          //console.log('Categorías cargadas:', this.categorias);
         } else {
           console.warn('No se pudieron cargar las categorías:', response.message);
         }
@@ -119,7 +119,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.productoService.getProductosPorCategoria(categoriaId).subscribe({
       next: (productos) => {
         this.productosFiltrados = productos;
-        console.log('Productos filtrados:', productos);
+        //console.log('Productos filtrados:', productos);
       },
       error: (error) => {
         console.error('Error al cargar productos de la categoría:', error);
@@ -245,7 +245,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.productoService.buscarProductos(termino).subscribe({
       next: (productos) => {
         this.productosFiltrados = productos;
-        console.log('Resultados búsqueda:', productos);
+        //console.log('Resultados búsqueda:', productos);
       },
       error: (err) => {
         console.error('Error al buscar productos:', err);
