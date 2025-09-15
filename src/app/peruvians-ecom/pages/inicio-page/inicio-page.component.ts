@@ -8,6 +8,7 @@ import { PeruviansService } from '../../services/peruvians.service';
 import { LiquidacionService } from '../../services/liquidacion.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { CyberwowService } from '../../services/cyberwow.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -52,94 +53,124 @@ export class InicioPageComponent implements OnInit {
   }
 
   private cargarDatos(): void {
-    this.cargarCategorias();
-    this.cargarMasVendidos();
-    this.cargarMasNuevo();
-    this.cargarLiquidacion();
-    this.cargarCyberwow();
-  }
+  this.loading = {
+    categorias: true,
+    masVendido: true,
+    masNuevo: true,
+    liquidacion: true,
+    cyberwow: true
+  };
 
-  private cargarCategorias(): void {
-    this.loading.categorias = true;
-    this.categoriaService.obtenerCategorias()
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.categorias = response.data;
-          }
-        },
-        error: (error) => {
-          console.error('Error al cargar categorías:', error);
-        },
-        complete: () => {
-          this.loading.categorias = false;
-        }
-      });
-  }
-
-  private cargarMasVendidos(): void {
-    this.loading.masVendido = true;
-    this.peruviansService.masVendidos()
-      .subscribe({
-        next: (masVendidos) => {
-          this.masVendido = masVendidos;
-        },
-        error: (error) => {
-          console.error('Error al cargar productos más vendidos:', error);
-        },
-        complete: () => {
-          this.loading.masVendido = false;
-        }
-      });
-  }
-
-  private cargarMasNuevo(): void {
-    this.loading.masNuevo = true;
-    this.peruviansService.masNuevo()
-      .subscribe({
-        next: (masNuevo) => {
-          this.masNuevo = masNuevo;
-        },
-        error: (error) => {
-          console.error('Error al cargar productos más nuevos:', error);
-        },
-        complete: () => {
-          this.loading.masNuevo = false;
-        }
-      });
-  }
-
-  private cargarLiquidacion(): void {
-  this.loading.liquidacion = true;
-  this.liquidacionService.getProductosLiquidacion()
-    .subscribe({
-      next: (liquidaciones) => {
-        this.liquidacion = liquidaciones;
-      },
-      error: (error) => {
-        console.error('Error al cargar productos en liquidación:', error);
-      },
-      complete: () => {
-        this.loading.liquidacion = false;
-      }
-    });
+  forkJoin({
+    categorias: this.categoriaService.obtenerCategorias(),
+    masVendido: this.peruviansService.masVendidos(),
+    masNuevo: this.peruviansService.masNuevo(),
+    liquidacion: this.liquidacionService.getProductosLiquidacion(),
+    cyberwow: this.cyberwowService.obtenerConfiguracion()
+  }).subscribe({
+    next: (res) => {
+      this.categorias = res.categorias.data; // depende de cómo viene tu API
+      this.masVendido = res.masVendido;
+      this.masNuevo = res.masNuevo;
+      this.liquidacion = res.liquidacion;
+      this.cyberwowBanners = res.cyberwow;
+    },
+    error: (err) => {
+      console.error('Error al cargar datos de inicio:', err);
+    },
+    complete: () => {
+      this.loading = {
+        categorias: false,
+        masVendido: false,
+        masNuevo: false,
+        liquidacion: false,
+        cyberwow: false
+      };
+    }
+  });
 }
 
-  private cargarCyberwow(): void {
-    this.loading.cyberwow = true;
-    this.cyberwowService.obtenerConfiguracion()
-      .subscribe({
-        next: (configuracion) => {
-          this.cyberwowBanners = configuracion;
-        },
-        error: (error) => {
-          console.error('Error al cargar configuración CyberWow:', error);
-        },
-        complete: () => {
-          this.loading.cyberwow = false;
-        }
-      });
-  }
+//   private cargarCategorias(): void {
+//     this.loading.categorias = true;
+//     this.categoriaService.obtenerCategorias()
+//       .subscribe({
+//         next: (response) => {
+//           if (response.success) {
+//             this.categorias = response.data;
+//           }
+//         },
+//         error: (error) => {
+//           console.error('Error al cargar categorías:', error);
+//         },
+//         complete: () => {
+//           this.loading.categorias = false;
+//         }
+//       });
+//   }
+
+//   private cargarMasVendidos(): void {
+//     this.loading.masVendido = true;
+//     this.peruviansService.masVendidos()
+//       .subscribe({
+//         next: (masVendidos) => {
+//           this.masVendido = masVendidos;
+//         },
+//         error: (error) => {
+//           console.error('Error al cargar productos más vendidos:', error);
+//         },
+//         complete: () => {
+//           this.loading.masVendido = false;
+//         }
+//       });
+//   }
+
+//   private cargarMasNuevo(): void {
+//     this.loading.masNuevo = true;
+//     this.peruviansService.masNuevo()
+//       .subscribe({
+//         next: (masNuevo) => {
+//           this.masNuevo = masNuevo;
+//         },
+//         error: (error) => {
+//           console.error('Error al cargar productos más nuevos:', error);
+//         },
+//         complete: () => {
+//           this.loading.masNuevo = false;
+//         }
+//       });
+//   }
+
+//   private cargarLiquidacion(): void {
+//   this.loading.liquidacion = true;
+//   this.liquidacionService.getProductosLiquidacion()
+//     .subscribe({
+//       next: (liquidaciones) => {
+//         this.liquidacion = liquidaciones;
+//       },
+//       error: (error) => {
+//         console.error('Error al cargar productos en liquidación:', error);
+//       },
+//       complete: () => {
+//         this.loading.liquidacion = false;
+//       }
+//     });
+// }
+
+//   private cargarCyberwow(): void {
+//     this.loading.cyberwow = true;
+//     this.cyberwowService.obtenerConfiguracion()
+//       .subscribe({
+//         next: (configuracion) => {
+//           this.cyberwowBanners = configuracion;
+//         },
+//         error: (error) => {
+//           console.error('Error al cargar configuración CyberWow:', error);
+//         },
+//         complete: () => {
+//           this.loading.cyberwow = false;
+//         }
+//       });
+//   }
   
   generarSlugConId(producto: Producto): string {
     let nombreLimpio = producto.nombre
