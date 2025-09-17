@@ -3,71 +3,115 @@
   <!-- Banner superior -->
   <div class="p-4 mb-4 text-white text-center banner-natural rounded">
     <h2>Contáctanos Aquí</h2>
-    <p>Queremos ayudarte a cuidar tu cuerpo de forma natural 🌿</p>
+    <p>Queremos ayudarte a cuidar tu cuerpo de forma natural <i class="bi bi-leaf"></i></p>
+  </div>
+
+  <!-- Mensajes de éxito y error - igual que forgot-password -->
+  <div class="alert alert-success alert-dismissible fade show" 
+       *ngIf="successMessage" 
+       role="alert">
+    <i class="bi bi-check-circle me-2"></i>
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade show" 
+       *ngIf="errorMessage" 
+       role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
   </div>
 
   <!-- Contenido dividido en dos columnas -->
   <div class="d-md-flex gap-3">
 
     <!-- Izquierda: Información de contacto -->
-    <div class="col-md-5 col-12 bg-light p-4 rounded shadow-sm  ">
+    <div class="col-md-5 col-12 bg-light p-4 rounded shadow-sm">
 
-      <h5 class="text-success mb-4 fw-bold">🕒 Horarios de Atención</h5>
+      <h5 class="mb-4 fw-bold"><i class="bi bi-clock me-2"></i>Horarios de Atención</h5>
 
-      <p>𐤟 <strong>Compras online:</strong><br>
+      <p><strong><i class="bi bi-cart me-2"></i>Compras online:</strong><br>
         Lunes a Domingo 24 horas</p>
 
-      <p>𐤟 <strong>Despacho:</strong><br>
+      <p><strong><i class="bi bi-truck me-2"></i>Despacho:</strong><br>
         Lunes a Sábado de 8:00am a 7:00pm</p>
 
       <hr>
 
-      <p><strong>📞 Comunícate al:</strong><br>
+      <p><strong><i class="bi bi-telephone me-2"></i>Comunícate al:</strong><br>
         +51 916 238 316</p>
 
-      <p><strong>✉️ Escríbenos:</strong><br>
+      <p><strong><i class="bi bi-envelope me-2"></i>Escríbenos:</strong><br>
         peruvianecom&#64;gmail.com</p>
     </div>
 
     <!-- Derecha: Formulario -->
-    <div class="col-md  col-12  p-4  rounded shadow-sm bg-white">
+    <div class="col-md col-12 p-4 rounded shadow-sm bg-white">
 
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
 
         <div class="mb-3">
-          <label for="nombres" class="form-label">Nombres y Apellidos</label>
-          <input formControlName="nombre" type="text" class="form-control" id="nombres" placeholder="Ej: María López">
-            <div class="text-danger small mt-1" *ngIf="campoInvalido('nombre')">
-                El nombre es obligatorio.
-            </div>
+          <label for="nombres" class="form-label"><i class="bi bi-person me-2"></i>Nombres y Apellidos</label>
+          <input formControlName="nombre" 
+                 type="text" 
+                 class="form-control" 
+                 id="nombres" 
+                 placeholder="Ej: María López"
+                 [disabled]="isLoading">
+          <div class="text-danger small mt-1" *ngIf="campoInvalido('nombre')">
+            <i class="bi bi-exclamation-circle me-1"></i>El nombre es obligatorio.
+          </div>
         </div>
 
         <div class="mb-3">
-          <label for="email" class="form-label">E-mail</label>
-          <input formControlName="email" type="email" class="form-control" id="email" placeholder="Ej: maria@email.com">
-            <div class="text-danger small mt-1" *ngIf="campoInvalido('email')">
-                Ingresa un correo válido.
-            </div>
+          <label for="email" class="form-label"><i class="bi bi-envelope me-2"></i>E-mail</label>
+          <input formControlName="email" 
+                 type="email" 
+                 class="form-control" 
+                 id="email" 
+                 placeholder="Ej: maria@email.com"
+                 [disabled]="isLoading">
+          <div class="text-danger small mt-1" *ngIf="campoInvalido('email')">
+            <i class="bi bi-exclamation-circle me-1"></i>Ingresa un correo válido.
+          </div>
         </div>
 
         <div class="mb-3">
-          <label for="celular" class="form-label">Celular</label>
-          <input formControlName="celular" type="tel" class="form-control" id="celular" placeholder="Ej: 987654321">
-            <div class="text-danger small mt-1" *ngIf="campoInvalido('celular')">
-                El celular debe tener 9 dígitos numéricos.
-            </div>
+          <label for="celular" class="form-label"><i class="bi bi-phone me-2"></i>Celular</label>
+          <input formControlName="celular" 
+                 type="tel" 
+                 class="form-control" 
+                 id="celular" 
+                 placeholder="Ej: 987654321"
+                 [disabled]="isLoading">
+          <div class="text-danger small mt-1" *ngIf="campoInvalido('celular')">
+            <i class="bi bi-exclamation-circle me-1"></i>El celular debe tener 9 dígitos numéricos.
+          </div>
         </div>
 
         <div class="mb-3">
-          <label for="mensaje" class="form-label">Mensaje</label>
-          <textarea formControlName="mensaje" class="form-control" id="mensaje" rows="4" placeholder="Escríbenos tu consulta..."></textarea>
-            <div class="text-danger small mt-1" *ngIf="campoInvalido('mensaje')">
-                El mensaje no puede estar vacío.
-            </div>
+          <label for="mensaje" class="form-label"><i class="bi bi-chat-dots me-2"></i>Mensaje</label>
+          <textarea formControlName="mensaje" 
+                    class="form-control" 
+                    id="mensaje" 
+                    rows="4" 
+                    placeholder="Escríbenos tu consulta..."
+                    [disabled]="isLoading"></textarea>
+          <div class="text-danger small mt-1" *ngIf="campoInvalido('mensaje')">
+            <i class="bi bi-exclamation-circle me-1"></i>El mensaje no puede estar vacío.
+          </div>
         </div>
 
-        <button type="submit" class="btn btn-natural w-100" [disabled]="contactForm.invalid">
-          Enviar Mensaje
+        <button type="submit" 
+                class="btn btn-natural w-100" 
+                [disabled]="contactForm.invalid || isLoading">
+          <span *ngIf="isLoading">
+            <i class="bi bi-hourglass-split me-2"></i>Enviando...
+          </span>
+          <span *ngIf="!isLoading">
+            <i class="bi bi-send me-2"></i>Enviar Mensaje
+          </span>
         </button>
       </form>
 
@@ -75,4 +119,3 @@
 
   </div>
 </div>
-

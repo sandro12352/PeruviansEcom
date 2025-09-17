@@ -1,69 +1,147 @@
-/* Banner llamativo */
+/* Banner moderno y rápido */
 .banner-natural {
-  background: linear-gradient(135deg, #ff007f, #ffcc00); /* Rosado y amarillo chicha */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  letter-spacing: 1px;
-  border: 4px double #fff700;
+  background: linear-gradient(135deg, #FF8C42, #FF7518);
+  box-shadow: 0 4px 15px rgba(255, 140, 66, 0.2);
+  font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border: none;
 }
 
-/* Botón estilo chicha */
+.banner-natural h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.banner-natural p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+/* Botón rápido y moderno */
 .btn-natural {
-  background: linear-gradient(45deg, #ff5e00, #ffcc00);
-  color: #000;
-  font-weight: bold;
-  border: 2px solid #ff007f;
-  box-shadow: 0 4px 10px rgba(255, 0, 127, 0.5);
-  transition: transform 0.2s ease-in-out;
+  background: #FF8C42;
+  color: white;
+  font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(255, 140, 66, 0.3);
+  transition: all 0.15s ease;
+  padding: 12px 24px;
 }
 
 .btn-natural:hover {
-  transform: scale(1.05);
-  background: linear-gradient(45deg, #ff007f, #ffcc00);
+  background: #FF7518;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 140, 66, 0.4);
   color: white;
 }
 
-/* Formulario y columna izquierda */
+/* Formulario y columna izquierda - limpio y rápido */
 .col-md-5,
 .col-md {
-  border: 3px solid #ff007f;
+  border: 2px solid rgba(255, 140, 66, 0.15);
+  border-radius: 12px;
+  background: white;
+}
+
+.col-md-5 {
+  background: #fef9f6;
 }
 
 /* Títulos y subtítulos */
 h5,
 label {
+  font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
   font-weight: 700;
-  color: #ff007f;
-  font-family: 'Arial Black', sans-serif;
+  color: #FF8C42;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
 }
 
-/* Inputs */
+h5 {
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+label {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+/* Inputs limpios y rápidos */
 input.form-control,
 textarea.form-control {
-  border: 2px solid #ffcc00;
-  background-color: #fffef5;
+  border: 2px solid #f0e6e0;
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease;
 }
 
-/* Placeholder */
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #FF8C42;
+  box-shadow: 0 0 0 0.15rem rgba(255, 140, 66, 0.15);
+  background-color: white;
+}
+
+/* Placeholder mejorado */
 ::placeholder {
-  color: #999;
-  font-style: italic;
+  color: #aaa;
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 /* Texto de error */
 .text-danger {
-  font-weight: bold;
-  color: #d40000 !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-weight: 600;
+  color: #dc3545 !important;
+  font-size: 0.85rem;
+}
+
+/* Información de contacto */
+.col-md-5 p {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
 /* Íconos de horarios */
 p strong {
-  color: #ff007f;
+  color: #FF8C42;
+  font-weight: 700;
+  font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
 }
 
-/* Fondo general si quieres hacer todo el contenedor más llamativo */
+/* Fondo general simple */
 .container {
-  background: #fff9e6;
-  border-radius: 10px;
-  padding: 20px;
+  background: #fffcfa;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo adicional para iconos */
+.bi {
+  color: inherit;
+}
+
+/* Estilo adicional para iconos */
+.bi {
+  color: inherit;
 }

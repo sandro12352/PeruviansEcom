@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from '../../interfaces/producto';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
-
+declare const bootstrap: any;
+  
 @Component({
   selector: 'app-detalle-producto-page',
   templateUrl: './detalle-producto-page.component.html',
@@ -128,11 +129,25 @@ export class DetalleProductoPageComponent implements OnInit {
 
 
   agregarAlCarrito(): void {
-    if (this.producto) {
-      this.carritoService.agregarProducto(this.producto);
-      this.carritoService.actualizarCantidadTotal();
+  if (this.producto) {
+    this.carritoService.agregarProducto(this.producto);
+    this.carritoService.actualizarCantidadTotal();
+
+    // Mostrar offcanvas al agregar
+    const offcanvasElement = document.getElementById('offcanvasCarrito');
+    if (offcanvasElement) {
+      const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+      bsOffcanvas.show();
+    }
+
+    // Si quieres modal también:
+    const modalElement = document.getElementById('staticBackdrop');
+    if (modalElement) {
+      const bsModal = new bootstrap.Modal(modalElement);
+      bsModal.show();
     }
   }
+}
 
   eliminarProducto(): void {
     if (this.producto) {

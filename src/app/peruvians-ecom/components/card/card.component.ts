@@ -23,7 +23,6 @@ export class CardComponent {
       const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
       bsOffcanvas.show();
     }
-    
   }   
 
 

@@ -116,3 +116,15 @@ export interface UpdateProfileResponse {
   };
   errors?: any;
 }
+export interface ContactRequest {
+  nombre: string;
+  email: string;
+  celular: string;
+  mensaje: string;
+}
+
+export interface ContactResponse {
+  success: boolean;
+  message: string;
+  errors?: any;
+}
