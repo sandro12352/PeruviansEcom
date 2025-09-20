@@ -1,10 +1,7 @@
-<!-- Loading State -->
-<div *ngIf="isLoading" class="text-center p-4">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Cargando...</span>
-  </div>
-  <p class="mt-2">Cargando carrusel...</p>
-</div>
+<!-- carrusel-principal.component.html -->
+
+<!-- Loading State - Usando el componente skeleton -->
+<app-carrusel-skeleton *ngIf="isLoading"></app-carrusel-skeleton>
 
 <!-- Error State -->
 <div *ngIf="error && !isLoading" class="alert alert-warning text-center" role="alert">
@@ -50,13 +47,24 @@
         <div 
           class="carousel-img-container half-width" 
           (click)="onLoQuiero(slide[0])">
+          
+          <!-- Skeleton por imagen individual -->
+          <div *ngIf="isImageLoading(slide[0].imagen_url)" 
+               class="image-skeleton half-width-skeleton">
+          </div>
+          
           <img 
             [src]="slide[0].imagen_url" 
-            loading="lazy" 
+            loading="eager"
             class="d-block carousel-img" 
             [alt]="slide[0].producto?.nombre || 'Promoción'"
-            (error)="onImageError($event)">
-          <button class="btn-lo-quiero">
+            [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'"
+            (load)="onImageLoad($event)"
+            (error)="onImageError($event)"
+            (loadstart)="onImageLoadStart(slide[0].imagen_url)">
+          
+          <button class="btn-lo-quiero" 
+                  [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'">
             {{ slide[0].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
           </button>
         </div>
@@ -66,13 +74,24 @@
           *ngIf="slide[1]" 
           class="carousel-img-container half-width" 
           (click)="onLoQuiero(slide[1])">
+          
+          <!-- Skeleton por imagen individual -->
+          <div *ngIf="isImageLoading(slide[1].imagen_url)" 
+               class="image-skeleton half-width-skeleton">
+          </div>
+          
           <img 
             [src]="slide[1].imagen_url" 
-            loading="lazy" 
+            loading="eager"
             class="d-block carousel-img" 
             [alt]="slide[1].producto?.nombre || 'Promoción'"
-            (error)="onImageError($event)">
-          <button class="btn-lo-quiero">
+            [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'"
+            (load)="onImageLoad($event)"
+            (error)="onImageError($event)"
+            (loadstart)="onImageLoadStart(slide[1].imagen_url)">
+          
+          <button class="btn-lo-quiero"
+                  [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'">
             {{ slide[1].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
           </button>
         </div>
@@ -128,13 +147,24 @@
     <!-- Slides dinámicos móvil -->
     <div *ngFor="let item of mobileSlides; let i = index; trackBy: trackByIndex" class="carousel-item">
       <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
+        
+        <!-- Skeleton por imagen individual móvil -->
+        <div *ngIf="isImageLoading(item.imagen_url)" 
+             class="image-skeleton full-width-skeleton">
+        </div>
+        
         <img 
           [src]="item.imagen_url" 
-          loading="lazy" 
+          loading="eager"
           class="d-block carousel-img" 
           [alt]="item.producto?.nombre || 'Promoción'"
-          (error)="onImageError($event)">
-        <button class="btn-lo-quiero">
+          [style.display]="isImageLoading(item.imagen_url) ? 'none' : 'block'"
+          (load)="onImageLoad($event)"
+          (error)="onImageError($event)"
+          (loadstart)="onImageLoadStart(item.imagen_url)">
+        
+        <button class="btn-lo-quiero"
+                [style.display]="isImageLoading(item.imagen_url) ? 'none' : 'block'">
           {{ item.producto?.disponible ? 'Lo quiero' : 'Ver más' }}
         </button>
       </div>

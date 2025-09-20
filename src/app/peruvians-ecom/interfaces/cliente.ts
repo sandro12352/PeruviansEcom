@@ -7,13 +7,18 @@ export interface Cliente {
   telefono?: string;
   direccion?: string;
   tipo?: 'registrado' | 'invitado';
+  necesita_completar_datos?: boolean;
 }
 
 export interface User {
   id?: number;
   email: string;
+  avatar?: string;
+  provider?: string;
+  is_google_user?: boolean;
 }
 
+// INTERFACES EXISTENTES...
 export interface RegisterRequest {
   email: string;
   password: string;
@@ -51,6 +56,8 @@ export interface LoginResponse {
     expires_in_minutes: number;
   };
   errors?: any;
+  suggestion?: string;
+  is_google_user?: boolean;
 }
 
 export interface ProfileResponse {
@@ -59,10 +66,53 @@ export interface ProfileResponse {
   data?: {
     user: User;
     cliente: Cliente;
+    google_info?: any;
   };
   error?: string;
 }
 
+// NUEVAS INTERFACES PARA GOOGLE OAUTH
+export interface GoogleRedirectResponse {
+  success: boolean;
+  redirect_url: string;
+  message: string;
+}
+
+export interface GoogleAuthResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    user: User;
+    cliente: Cliente;
+    token: string;
+    expires_in_minutes: number;
+    google_info: {
+      is_google_user: boolean;
+      has_avatar: boolean;
+      needs_profile_completion: boolean;
+      account_created: string;
+    };
+  };
+  redirect_to_login?: boolean;
+}
+
+export interface CompletarDatosGoogleRequest {
+  dni: string;
+  telefono?: string;
+  direccion?: string;
+  nombre?: string;
+}
+
+export interface CompletarDatosGoogleResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    cliente: Cliente;
+  };
+  errors?: any;
+}
+
+// RESTO DE INTERFACES EXISTENTES...
 export interface LogoutResponse {
   success: boolean;
   message: string;
@@ -102,6 +152,7 @@ export interface ResetPasswordResponse {
   message: string;
   errors?: any;
 }
+
 export interface UpdateProfileRequest {
   nombre?: string;
   telefono?: string;
@@ -116,6 +167,7 @@ export interface UpdateProfileResponse {
   };
   errors?: any;
 }
+
 export interface ContactRequest {
   nombre: string;
   email: string;

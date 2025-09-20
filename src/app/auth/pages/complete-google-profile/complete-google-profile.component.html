@@ -1,0 +1,155 @@
+<!-- src/app/auth/pages/complete-google-profile/complete-google-profile.component.html -->
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-4">
+  <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 500px; width: 100%;">
+    
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <img src="./logo (2).png" alt="Logo E-commerce" width="140" height="65" class="mb-3">
+      <h4 class="fw-bold text-primary">Completar Perfil</h4>
+      <p class="text-muted small">
+        Para finalizar tu registro con Google, necesitamos algunos datos adicionales
+      </p>
+      
+      <!-- Info del usuario actual -->
+      <div *ngIf="currentUser" class="alert alert-info py-2 mb-3">
+        <div class="d-flex align-items-center justify-content-center">
+          <svg width="16" height="16" fill="currentColor" class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          </svg>
+          <small class="mb-0">{{ currentUser.email }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <form #profileForm="ngForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Nombre Completo -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label">
+          Nombre Completo <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          name="nombre"
+          [(ngModel)]="nombre"
+          placeholder="Ingresa tu nombre completo"
+          required
+          #nombreField="ngModel"
+          maxlength="150"
+        >
+        <div class="text-danger small" *ngIf="nombreField.invalid && nombreField.touched">
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <!-- DNI -->
+      <div class="mb-3">
+        <label for="dni" class="form-label">
+          DNI <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="dni"
+          name="dni"
+          [(ngModel)]="dni"
+          placeholder="12345678"
+          required
+          #dniField="ngModel"
+          maxlength="8"
+          pattern="[0-9]{8}"
+          (input)="onDniInput($event)"
+        >
+        <div class="form-text">Debe tener exactamente 8 dígitos</div>
+        <div class="text-danger small" *ngIf="dniField.invalid && dniField.touched">
+          <div *ngIf="dniField.errors?.['required']">El DNI es obligatorio.</div>
+          <div *ngIf="dniField.errors?.['pattern']">El DNI debe tener exactamente 8 dígitos.</div>
+        </div>
+      </div>
+
+      <!-- Teléfono (Opcional) -->
+      <div class="mb-3">
+        <label for="telefono" class="form-label">
+          Teléfono <small class="text-muted">(opcional)</small>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="telefono"
+          name="telefono"
+          [(ngModel)]="telefono"
+          placeholder="987654321"
+          maxlength="9"
+          (input)="onTelefonoInput($event)"
+        >
+        <div class="form-text">Número de celular de 9 dígitos</div>
+      </div>
+
+      <!-- Dirección (Opcional) -->
+      <div class="mb-4">
+        <label for="direccion" class="form-label">
+          Dirección <small class="text-muted">(opcional)</small>
+        </label>
+        <textarea
+          class="form-control"
+          id="direccion"
+          name="direccion"
+          [(ngModel)]="direccion"
+          placeholder="Ingresa tu dirección completa"
+          rows="2"
+          maxlength="500"
+        ></textarea>
+        <div class="form-text">Esta información nos ayudará para futuras compras</div>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="alert alert-danger small text-center mb-3">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botones -->
+      <div class="d-grid gap-2">
+        <!-- Botón Completar Perfil -->
+        <button 
+          type="submit" 
+          class="btn btn-primary rounded-pill"
+          [disabled]="profileForm.invalid || isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          <span *ngIf="isLoading">Completando perfil...</span>
+          <span *ngIf="!isLoading">Completar y Continuar</span>
+        </button>
+
+        <!-- Botón Cerrar Sesión -->
+        <button 
+          type="button" 
+          class="btn btn-outline-secondary rounded-pill"
+          (click)="onLogout()"
+          [disabled]="isLoading">
+          Cerrar sesión y volver al login
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Información adicional -->
+    <div class="mt-4 pt-3 border-top">
+      <div class="alert alert-light py-2 mb-0">
+        <small class="text-muted d-flex align-items-start">
+          <svg width="16" height="16" fill="currentColor" class="bi bi-info-circle me-2 mt-1 flex-shrink-0" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+          <span>
+            Estos datos son necesarios para procesar pedidos y mantener tu cuenta segura. 
+            Puedes actualizar esta información más tarde desde tu perfil.
+          </span>
+        </small>
+      </div>
+    </div>
+
+  </div>
+</div>

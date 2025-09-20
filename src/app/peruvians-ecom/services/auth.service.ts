@@ -17,8 +17,11 @@ import {
   ResetPasswordRequest,
   ResetPasswordResponse,
   UpdateProfileRequest,
-  UpdateProfileResponse
-
+  UpdateProfileResponse,
+  GoogleAuthResponse,
+  GoogleRedirectResponse,
+  CompletarDatosGoogleRequest,
+  CompletarDatosGoogleResponse
 } from '../interfaces/cliente';
 import { envs } from '../../config/envs';
 
@@ -41,11 +44,11 @@ export class AuthService {
     }
   }
 
+  // MÉTODOS EXISTENTES...
   register(data: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(`${envs.apiUrl}/auth/register`, data).pipe(
       tap(response => {
         if (response.success && response.data) {
-          // Guardar token y actualizar estado
           this.setAuthData(response.data.token, response.data.cliente);
         }
       })
@@ -56,13 +59,127 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${envs.apiUrl}/auth/login`, data).pipe(
       tap(response => {
         if (response.success && response.data) {
-          // Guardar token y actualizar estado
           this.setAuthData(response.data.token, response.data.cliente);
         }
       })
     );
   }
 
+  // NUEVOS MÉTODOS PARA GOOGLE OAUTH
+
+  /**
+   * Obtiene la URL de redirección a Google
+   */
+  getGoogleRedirectUrl(): Observable<GoogleRedirectResponse> {
+    return this.http.get<GoogleRedirectResponse>(`${envs.apiUrl}/auth/google/redirect`);
+  }
+
+  /**
+   * Inicia el proceso de autenticación con Google
+   */
+  loginWithGoogle(): void {
+    this.getGoogleRedirectUrl().subscribe({
+      next: (response) => {
+        if (response.success && response.redirect_url) {
+          // Abrir ventana popup para Google OAuth
+          const popup = window.open(
+            response.redirect_url,
+            'google-login',
+            'width=500,height=600,scrollbars=yes,resizable=yes'
+          );
+
+          // Escuchar mensajes del popup
+          const messageListener = (event: MessageEvent) => {
+            // Verificar origen por seguridad
+            if (event.origin !== window.location.origin) return;
+
+            if (event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+              // Procesar respuesta exitosa
+              this.handleGoogleAuthSuccess(event.data.data);
+              popup?.close();
+              window.removeEventListener('message', messageListener);
+            } else if (event.data.type === 'GOOGLE_AUTH_ERROR') {
+              console.error('Error en autenticación con Google:', event.data.error);
+              popup?.close();
+              window.removeEventListener('message', messageListener);
+            }
+          };
+
+          window.addEventListener('message', messageListener);
+
+          // Verificar si el popup se cerró manualmente
+          const checkClosed = setInterval(() => {
+            if (popup?.closed) {
+              clearInterval(checkClosed);
+              window.removeEventListener('message', messageListener);
+            }
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        console.error('Error obteniendo URL de Google:', error);
+      }
+    });
+  }
+/**
+ * Maneja la respuesta exitosa de Google OAuth
+ */
+private handleGoogleAuthSuccess(data: any): void {
+/*   console.log('Datos recibidos de Google OAuth:', data);
+ */  
+  if (data.token && data.cliente) {
+    this.setAuthData(data.token, data.cliente);
+    
+    // Guardar información adicional si está disponible
+    if (data.expires_in_minutes) {
+      const expiresAt = new Date();
+      expiresAt.setMinutes(expiresAt.getMinutes() + data.expires_in_minutes);
+      localStorage.setItem('token_expiration', expiresAt.toISOString());
+    }
+    
+    // Verificar si necesita completar datos
+    console.log('¿Necesita completar datos?', data.cliente.necesita_completar_datos);
+    
+    if (data.cliente.necesita_completar_datos) {
+      console.log('Redirigiendo a completar perfil');
+      setTimeout(() => {
+        window.location.href = '/auth/completar-perfil-google';
+      }, 500);
+    } else {
+      console.log('Datos completos, redirigiendo al home');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 500);
+    }
+  } else {
+    console.error('Datos incompletos recibidos de Google:', data);
+  }
+}
+
+  /**
+   * Completa los datos del usuario de Google
+   */
+  completarDatosGoogle(data: CompletarDatosGoogleRequest): Observable<CompletarDatosGoogleResponse> {
+    return this.http.post<CompletarDatosGoogleResponse>(`${envs.apiUrl}/auth/completar-datos-google`, data).pipe(
+      tap(response => {
+        if (response.success && response.data) {
+          // Actualizar el usuario actual
+          this.currentUserSubject.next(response.data.cliente);
+        }
+      })
+    );
+  }
+
+  /**
+   * Muestra modal para completar perfil (implementar según tu UI)
+   */
+  private showCompleteProfileModal(): void {
+    // Aquí puedes implementar tu lógica para mostrar un modal
+    // o redirigir a una página específica para completar datos
+    console.log('Usuario necesita completar datos');
+  }
+
+  // MÉTODOS EXISTENTES CONTINUOS...
   getProfile(): Observable<ProfileResponse> {
     return this.http.get<ProfileResponse>(`${envs.apiUrl}/auth/profile`).pipe(
       tap(response => {
@@ -82,7 +199,6 @@ export class AuthService {
     );
   }
 
-  // NUEVOS MÉTODOS PARA RECUPERACIÓN DE CONTRASEÑA
   requestPasswordReset(data: RequestPasswordResetRequest): Observable<RequestPasswordResetResponse> {
     return this.http.post<RequestPasswordResetResponse>(`${envs.apiUrl}/auth/request-password-reset`, data);
   }
@@ -95,7 +211,17 @@ export class AuthService {
     return this.http.post<ResetPasswordResponse>(`${envs.apiUrl}/auth/reset-password`, data);
   }
 
-  // Métodos para manejar el estado
+  updateProfile(data: UpdateProfileRequest): Observable<UpdateProfileResponse> {
+    return this.http.put<UpdateProfileResponse>(`${envs.apiUrl}/auth/profile`, data).pipe(
+      tap(response => {
+        if (response.success && response.data) {
+          this.currentUserSubject.next(response.data.cliente);
+        }
+      })
+    );
+  }
+
+  // MÉTODOS AUXILIARES
   private setAuthData(token: string, cliente: Cliente): void {
     localStorage.setItem('token', token);
     this.currentUserSubject.next(cliente);
@@ -119,19 +245,17 @@ export class AuthService {
       return new Date() < new Date(expiration);
     }
     
-    return true; // Si no hay fecha de expiración, asumir que es válido
+    return true;
   }
 
   private loadUserProfile(): void {
     this.getProfile().subscribe({
       error: () => {
-        // Si falla cargar el perfil, limpiar datos
         this.clearAuthData();
       }
     });
   }
 
-  // Métodos públicos para obtener datos actuales
   getCurrentUser(): Cliente | null {
     return this.currentUserSubject.value;
   }
@@ -144,14 +268,4 @@ export class AuthService {
     const user = this.currentUserSubject.value;
     return user ? user.nombre : null;
   }
-  updateProfile(data: UpdateProfileRequest): Observable<UpdateProfileResponse> {
-  return this.http.put<UpdateProfileResponse>(`${envs.apiUrl}/auth/profile`, data).pipe(
-    tap(response => {
-      if (response.success && response.data) {
-        // Actualizar el usuario actual en el BehaviorSubject
-        this.currentUserSubject.next(response.data.cliente);
-      }
-    })
-  );
-}
 }
