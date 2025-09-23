@@ -12,7 +12,7 @@ import { Carrusel } from '../../interfaces/carrusel';
 export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewInit {
   
   carruselItems: Carrusel[] = [];
-  isLoading = true;
+  isLoading = false; // Cambiado a false inicialmente
   error: string | null = null;
   private subscription: Subscription = new Subscription();
 
@@ -30,14 +30,20 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
   ) {}
 
   ngOnInit(): void {
+    // Inicializar carruseles inmediatamente (solo con banner)
+    setTimeout(() => {
+      this.initializeCarousels();
+    }, 100);
+    
+    // Cargar contenido dinámico
     this.cargarCarrusel();
   }
 
   ngAfterViewInit(): void {
-    // Asegurar que Bootstrap inicialice correctamente el carrusel
+    // Segunda inicialización para asegurar que Bootstrap funcione
     setTimeout(() => {
       this.initializeCarousels();
-    }, 100);
+    }, 200);
   }
 
   ngOnDestroy(): void {
@@ -45,18 +51,19 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   /**
-   * Inicializa los carruseles de Bootstrap con eventos mejorados
+   * Inicializa los carruseles de Bootstrap
    */
   private initializeCarousels(): void {
-    const desktopCarousel = document.getElementById('carouselInicio');
-    const mobileCarousel = document.getElementById('carouselInicioMobile');
+  const desktopCarousel = document.getElementById('carouselInicio');
+  const mobileCarousel = document.getElementById('carouselInicioMobile');
 
-    // Reinicializar carrusel desktop
-    if (desktopCarousel && (window as any).bootstrap) {
+  // Reinicializar carrusel desktop
+  if (desktopCarousel && (window as any).bootstrap) {
+    try {
       const carousel = new (window as any).bootstrap.Carousel(desktopCarousel, {
-        ride: 'carousel',
+        ride: false,
         wrap: true,
-        interval: 6000, // Aumentado para dar más tiempo a las imágenes
+        interval: 3000, // ✅ 3 segundos (3000 milisegundos)
         pause: 'hover'
       });
 
@@ -64,14 +71,25 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
       desktopCarousel.addEventListener('slide.bs.carousel', (event: any) => {
         this.preloadNextSlideImages(event.to, 'desktop');
       });
-    }
 
-    // Reinicializar carrusel móvil
-    if (mobileCarousel && (window as any).bootstrap) {
+      // Activar auto-play solo si hay slides dinámicos
+      if (this.desktopSlides.length > 0) {
+        setTimeout(() => {
+          carousel.cycle();
+        }, 2000);
+      }
+    } catch (error) {
+      console.warn('Error inicializando carrusel desktop:', error);
+    }
+  }
+
+  // Reinicializar carrusel móvil
+  if (mobileCarousel && (window as any).bootstrap) {
+    try {
       const carousel = new (window as any).bootstrap.Carousel(mobileCarousel, {
-        ride: 'carousel',
+        ride: false,
         wrap: true,
-        interval: 6000, // Aumentado para dar más tiempo a las imágenes
+        interval: 3000, // ✅ 3 segundos (3000 milisegundos)
         pause: 'hover'
       });
 
@@ -79,8 +97,18 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
       mobileCarousel.addEventListener('slide.bs.carousel', (event: any) => {
         this.preloadNextSlideImages(event.to, 'mobile');
       });
+
+      // Activar auto-play solo si hay slides dinámicos
+      if (this.mobileSlides.length > 0) {
+        setTimeout(() => {
+          carousel.cycle();
+        }, 2000);
+      }
+    } catch (error) {
+      console.warn('Error inicializando carrusel móvil:', error);
     }
   }
+}
 
   /**
    * Precarga las imágenes del siguiente slide
@@ -88,7 +116,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
   private preloadNextSlideImages(slideIndex: number, type: 'desktop' | 'mobile'): void {
     try {
       if (type === 'desktop' && slideIndex > 0) {
-        // Para desktop, precargar las imágenes del slide (son arrays de 2)
         const slide = this.desktopSlides[slideIndex - 1];
         if (slide) {
           slide.forEach(item => {
@@ -98,7 +125,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
           });
         }
       } else if (type === 'mobile' && slideIndex > 0) {
-        // Para móvil, precargar la imagen del slide
         const item = this.mobileSlides[slideIndex - 1];
         if (item && item.imagen_url) {
           this.preloadImage(item.imagen_url);
@@ -137,25 +163,26 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
 
     const sub = this.carruselService.getCarrusel().subscribe({
       next: (response) => {
-        if (response.success && response.data) {
-          this.carruselItems = response.data;
-          // Procesar slides una sola vez después de cargar los datos
-          this.procesarSlides();
-          // Precargar las primeras imágenes
-          this.preloadInitialImages();
-        } else {
-          this.error = 'No se pudieron cargar las imágenes del carrusel';
-        }
         this.isLoading = false;
         
-        // Reinicializar carruseles después de cargar datos
-        setTimeout(() => {
-          this.initializeCarousels();
-        }, 50);
+        if (response.success && response.data && response.data.length > 0) {
+          this.carruselItems = response.data;
+          this.procesarSlides();
+          this.preloadInitialImages();
+          
+          // Reinicializar carruseles con contenido dinámico
+          setTimeout(() => {
+            this.initializeCarousels();
+          }, 100);
+        } else {
+          // No hay data pero no es error crítico
+          this.error = null;
+          console.info('No hay slides dinámicos disponibles');
+        }
       },
       error: (error) => {
         console.error('Error al cargar carrusel:', error);
-        this.error = 'Error al conectar con el servidor';
+        this.error = 'Error al conectar con el servidor. Mostrando solo banner principal.';
         this.isLoading = false;
       }
     });
@@ -283,7 +310,7 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   /**
-   * Maneja errores de carga de imágenes - MEJORADO
+   * Maneja errores de carga de imágenes
    */
   onImageError(event: any): void {
     const imageUrl = event.target.src;
@@ -293,8 +320,10 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
     this.imageErrorStates.set(imageUrl, true);
     this.imageLoadingStates.set(imageUrl, false);
     
-    // Opcional: poner imagen por defecto
-    // event.target.src = 'assets/images/placeholder.jpg';
+    // Opcional: imagen de fallback solo para slides dinámicos
+    if (!imageUrl.includes('banner')) {
+      // event.target.src = 'assets/images/placeholder.jpg';
+    }
   }
 
   /**

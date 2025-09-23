@@ -19,7 +19,7 @@
     </div>
 
     <!-- Fallback: Categorías estáticas si no hay datos de la BD -->
-    <ng-container *ngIf="categorias.length === 0 && !loading.categorias">
+    <!-- <ng-container *ngIf="categorias.length === 0 && !loading.categorias">
       <div class="categoria-card text-center" [routerLink]="['/', 'aceites']">
         <div class="categoria-img-wrapper">
           <img src="imagenes/categorias/aceites.webp" loading="lazy" alt="Aceites" class="categoria-img">
@@ -47,7 +47,7 @@
         </div>
         <h6 class="categoria-title mt-2">Batidos</h6>
       </div>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Loading state -->
     <div *ngIf="loading.categorias" class="text-center w-100">
@@ -162,9 +162,8 @@
 </section>
 
 <!-- Fallback: CyberWow estático si no hay datos dinámicos -->
-<section class="container my-5" *ngIf="!cyberwowBanners.categoria && !cyberwowBanners.tiendas && cyberwowBanners.productos.length === 0 && !loading.cyberwow">
+<!-- <section class="container my-5" *ngIf="!cyberwowBanners.categoria && !cyberwowBanners.tiendas && cyberwowBanners.productos.length === 0 && !loading.cyberwow">
   <h2 class="mb-4">CyberWow</h2>
-  <!-- Fila 1 -->
   <div class="row gy-4"> 
     <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" [routerLink]="['/', 'gomitas']">
       <img src="imagenes/combos/flayer1.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="cyberGomitas">
@@ -176,7 +175,6 @@
     </div>
   </div>
 
-  <!-- Fila 2 -->
   <div class="row my-4">
     <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
       <img src="imagenes/combos/flayer3.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="cartílago de tiburón">
@@ -195,13 +193,11 @@
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
   </div>
-</section>  
+</section>  --> 
 
-<!-- Productos Liquidación -->
 <section class="container my-5">
   <h2 class="mb-4">Productos en Liquidación</h2>
   
-  <!-- Loading state -->
   <div *ngIf="loading.liquidacion" class="text-center">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Cargando productos en liquidación...</span>

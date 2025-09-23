@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Meta, Title } from '@angular/platform-browser';
 import { ReclamacionesService } from '../../services/reclamaciones.service';
 import { Reclamacion, ConsultaReclamacionResponse } from '../../interfaces/reclamacion';
 
@@ -8,7 +9,7 @@ import { Reclamacion, ConsultaReclamacionResponse } from '../../interfaces/recla
   templateUrl: './libro-reclamaciones.component.html',
   styleUrl: './libro-reclamaciones.component.css'
 })
-export class LibroReclamacionesComponent {
+export class LibroReclamacionesComponent implements OnInit {
   // Formulario principal
   reclamacionForm: FormGroup;
   isSubmitting = false;
@@ -43,9 +44,11 @@ export class LibroReclamacionesComponent {
 
   constructor(
     private fb: FormBuilder,   
-    private reclamacionesService: ReclamacionesService
+    private reclamacionesService: ReclamacionesService,
+    private meta: Meta,
+    private titleService: Title
   ) {
-    // Inicializar formulario principal
+    // Inicializar formularios (código existente)
     this.reclamacionForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
       numeroDocumento: ['', [Validators.required, Validators.pattern(/^\d{8,12}$/)]],
@@ -54,23 +57,97 @@ export class LibroReclamacionesComponent {
       telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
       email: ['', [Validators.required, Validators.email]],
       direccion: ['', Validators.required],
-      // Identificación del bien contratado
       tipoBien: ['', Validators.required],
       descripcionBien: ['', [Validators.required, Validators.minLength(5)]],
       montoReclamado: [''],
       fechaIncidente: ['', Validators.required],
-      // Datos del reclamo
       tipoReclamo: ['', Validators.required],
       detalleReclamo: ['', [Validators.required, Validators.minLength(10)]],
       pedidoConcreto: ['', [Validators.required, Validators.minLength(10)]],
     });
 
-    // Inicializar formulario de consulta
     this.consultaForm = this.fb.group({
       numeroReclamo: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
+  ngOnInit() {
+    // Configurar metadatos SEO
+    this.titleService.setTitle('Libro de Reclamaciones - Peruvian Ecom | Reclamos y Quejas');
+
+    this.meta.updateTag({ 
+      name: 'description', 
+      content: 'Presenta tu reclamo o queja en nuestro Libro de Reclamaciones virtual. Consulta el estado de tu reclamación de manera fácil y rápida.' 
+    });
+
+    this.meta.updateTag({ 
+      name: 'keywords', 
+      content: 'libro de reclamaciones, reclamos, quejas, atención al cliente, consumidor, derechos, INDECOPI' 
+    });
+
+    this.meta.updateTag({ 
+      name: 'author', 
+      content: 'Peruvian Ecom' 
+    });
+
+    // Open Graph tags
+    this.meta.updateTag({ 
+      property: 'og:title', 
+      content: 'Libro de Reclamaciones - Peruvian Ecom' 
+    });
+
+    this.meta.updateTag({ 
+      property: 'og:description', 
+      content: 'Presenta tu reclamo o consulta el estado de tu reclamación en línea.' 
+    });
+
+    this.meta.updateTag({ 
+      property: 'og:type', 
+      content: 'website' 
+    });
+
+    this.meta.updateTag({ 
+      property: 'og:url', 
+      content: 'https://peruvianecom.com/libro-reclamaciones' 
+    });
+
+    // Twitter Card tags
+    this.meta.updateTag({ 
+      name: 'twitter:card', 
+      content: 'summary' 
+    });
+
+    this.meta.updateTag({ 
+      name: 'twitter:title', 
+      content: 'Libro de Reclamaciones - Peruvian Ecom' 
+    });
+
+    this.meta.updateTag({ 
+      name: 'twitter:description', 
+      content: 'Presenta reclamos y quejas de manera virtual.' 
+    });
+
+    // Metadatos adicionales
+    this.meta.updateTag({ 
+      name: 'robots', 
+      content: 'index, follow' 
+    });
+
+    this.meta.updateTag({ 
+      name: 'viewport', 
+      content: 'width=device-width, initial-scale=1' 
+    });
+
+    // Información de cumplimiento legal
+    this.meta.updateTag({ 
+      name: 'compliance', 
+      content: 'INDECOPI, Código de Protección y Defensa del Consumidor' 
+    });
+    this.meta.updateTag({ 
+      rel: 'canonical', 
+      href: 'https://peruviansecom.com/libro-reclamaciones' 
+    });
+  }
   // Método para cambiar de pestaña
   setActiveTab(tab: 'crear' | 'consultar') {
     this.activeTab = tab;
