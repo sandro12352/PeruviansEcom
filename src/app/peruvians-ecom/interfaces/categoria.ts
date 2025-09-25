@@ -7,7 +7,7 @@ export interface Categoria {
   created_at?: string;
   updated_at?: string;
   slug?: string;
-}
+} 
 
 export interface CategoriaResponse {
   success: boolean;

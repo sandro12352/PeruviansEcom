@@ -1,11 +1,91 @@
-/* Estilos mejorados para el componente de detalle de producto */
+/* ==================== STICKY QUE SIGUE EL SCROLL ==================== */
+
+.detalle-producto.container-fluid {
+  position: relative;
+  max-width: 1400px; /* Limitar el ancho máximo */
+  margin: 0 auto; /* Centrar el contenido */
+  padding: 0 20px; /* Agregar padding lateral */
+}
+/* FILA PRINCIPAL */
+.detalle-producto .row {
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Columna izquierda - galería */
+.galeria-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Panel sticky simplificado */
+.detalles-sticky {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 991px) {
+  .detalles-sticky {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    margin-top: 2rem;
+    z-index: 1 !important;
+  }
+}
+
+/* ==================== SCROLLBAR Y ANIMACIONES ==================== */
+
+.detalles-sticky::-webkit-scrollbar {
+  width: 8px;
+}
+
+.detalles-sticky::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0.5);
+  border-radius: 10px;
+}
+
+.detalles-sticky::-webkit-scrollbar-thumb {
+  background: rgba(193, 193, 193, 0.7);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.detalles-sticky::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 168, 168, 0.9);
+}
+
+.detalles-sticky {
+  animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==================== RESTO DE ESTILOS EXISTENTES ==================== */
 
 .chicha-title {
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #1e293b;
-  line-height: 1.2;
+  line-height: 1.3;
   margin-bottom: 1rem;
 }
 
@@ -87,7 +167,6 @@
   border: 1px solid #e2e8f0;
 }
 
-/* Mejoras para las miniaturas */
 .thumb {
   transition: all 0.3s ease;
   border: 2px solid #e2e8f0 !important;
@@ -107,81 +186,48 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Mejoras para las imágenes principales */
-.img-fluid {
+.imagen-principal {
+  transition: transform 0.3s ease;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.imagen-principal:hover {
+  transform: scale(1.02);
+}
+
+.imagen-referencial {
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.imagen-referencial:nth-child(2) { animation-delay: 0.1s; }
+.imagen-referencial:nth-child(3) { animation-delay: 0.2s; }
+.imagen-referencial:nth-child(4) { animation-delay: 0.3s; }
+.imagen-referencial:nth-child(5) { animation-delay: 0.4s; }
+
+.imagen-referencial img {
   transition: all 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Mejoras para las secciones de información */
-.detalle-producto {
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-  border-radius: 16px;
-  margin-top: 2rem;
+.imagen-referencial img:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.detalle-producto .shadow-sm {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
-  border: 1px solid #f1f5f9;
-}
-
-/* Estilos para los iconos de información adicional */
-.bi-info-circle-fill {
-  color: #f59e0b !important;
-}
-
-.bi-star-fill {
-  color: #06b6d4 !important;
-}
-
-.bi-lightbulb-fill {
-  color: #10b981 !important;
-}
-
-/* Mejoras para los títulos de sección */
-h2.chicha-title {
-  font-size: 1.8rem;
-  color: #1e293b;
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 0.5rem;
-}
-
-h5.fw-bold {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Mejoras para textos */
-.text-muted {
-  color: #64748b !important;
-  line-height: 1.6;
-}
-
-/* Mejoras responsivas */
-@media (max-width: 768px) {
-  .chicha-title {
-    font-size: 2rem;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  .chicha-precio-oferta,
-  .chicha-precio-normal {
-    font-size: 1.6rem;
-  }
-  
-  .boton-animado {
-    font-size: 0.95rem;
-    padding: 10px 20px;
-  }
-  
-  .cantidad-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Animación sutil para la carga */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -197,14 +243,23 @@ h5.fw-bold {
   animation: fadeIn 0.5s ease-out;
 }
 
-/* Mejoras para el spinner de carga */
 .spinner-border {
   color: #3b82f6 !important;
 }
 
-/* Hover effects para las tarjetas de productos relacionados */
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+.bi-info-circle-fill {
+  color: #f59e0b !important;
+}
+
+.bi-star-fill {
+  color: #06b6d4 !important;
+}
+
+.bi-lightbulb-fill {
+  color: #10b981 !important;
+}
+
+.text-muted {
+  color: #64748b !important;
+  line-height: 1.6;
 }

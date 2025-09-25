@@ -1,131 +1,149 @@
-<div *ngIf="producto" class="detalle-producto container py-4 ">
-  <div class="row  shadow-sm p-4 rounded-4 bg-white align-items-center ">
-    <!-- Imagen --> 
-    <div class="col-md-6 col-12 mb-5 text-center">
-
-  <!-- Imagen principal -->
-  <!-- Imagen principal -->
-<div class="position-relative">
-  <img [src]="imagenSeleccionada"
-       [alt]="producto.nombre"
-       class="img-fluid bg-light rounded-3 shadow-sm p-2"
-       style="max-height: 400px; object-fit: contain;" />
-</div>
-
-<!-- Miniaturas -->
-<div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
-  <div *ngFor="let img of producto.imagenes"
-       class="thumb border rounded-3 shadow-sm p-1"
-       [class.active]="img.url === imagenSeleccionada"
-       (click)="imagenSeleccionada = img.url"
-       style="cursor: pointer; width: 70px; height: 70px; overflow: hidden;">
-
-    <img [src]="img.url"
-         [alt]="producto.nombre"
-         class="w-100 h-100"
-         style="object-fit: cover; border-radius: 8px;" />
-  </div>
-</div>
-
-
-</div>
-  
-    <!-- Detalles -->
-    <div class="col-md-6 col-12 ">
-    <p style="color: #8d48cd;font-size: 12px;">{{producto.tienda}} <span style="color: #000;">| {{producto.sku}}</span></p>
-      <h1 class="chicha-title">{{ producto.titulo }}</h1>
-
-      <!-- Descripción -->
-       <div class="mt-5 border-bottom pb-3">
-            <p class="fw-bold">{{ producto.descripcion }}</p>
-       </div>
-      
-      <!-- Precio original - solo mostrar tachado si hay descuento -->
-      <div class="precios mt-3" *ngIf="producto.descuento && producto.descuento !== '0%'">
-        <span class="chicha-precio-original">
-          S/ .{{ producto.precio | number:'1.2-2'}}
-        </span>
-        <span class="chicha-badge ms-2">
-          -{{ producto.descuento }}
-        </span>
-      </div>
-
-      <!-- Precio final -->
-      <div class="precios">
-        <span class="chicha-precio-oferta" 
-              [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
-          S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
-                 (producto.precio_despues | number:'1.2-2') : 
-                 (producto.precio | number:'1.2-2') }}
-        </span>
-      </div>
-      
-
-      <!-- Cantidad -->
-    <div class="d-flex align-items-center justify-content-between my-3 py-2">
-      <div class="cantidad-box d-flex align-items-center">
-        <button class="cantidad-btn" (click)="disminuirCantidad()">−</button>
-        <span class="mx-2">{{ producto.cantidad }}</span>
-        <button class="cantidad-btn" (click)="aumentarCantidad()">+</button>
-      </div>
-
-      <div class="ms-3 w-100">
-        <button class="btn w-100 py-2 boton-animado" (click)="agregarAlCarrito()">
-          <i class="bi bi-bag-heart me-2"></i> Agregar al carrito
-        </button>
-      </div>
-    </div>
-    </div>
+<div *ngIf="producto" class="detalle-producto container-fluid px-4 py-4">
+  <div class="row">
     
-  <div class="d-md-flex d-block align-items-center border-top mt-5 pt-5 px-3 bg-white">
+    <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+    <div class="col-lg-6 col-md-6 col-12">
+      <div class="galeria-container">
+        
+        <!-- Imagen Principal del Producto -->
+        <div class="imagen-principal-container mb-4">
+          <div class="position-relative">
+            <img [src]="imagenSeleccionada"
+                 [alt]="producto.nombre"
+                 class="img-fluid bg-light rounded-3 shadow-sm p-2 imagen-principal"
+                 style="width: 100%; height: 500px; object-fit: contain;" />
+          </div>
 
-  <!-- Informacion textual -->
-  <div class="col-md-6 col-12 pe-md-5 mb-4 mb-md-0">
+          <!-- Miniaturas del producto -->
+          <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+            <div *ngFor="let img of producto.imagenes"
+                 class="thumb border rounded-3 shadow-sm p-1"
+                 [class.active]="img.url === imagenSeleccionada"
+                 (click)="imagenSeleccionada = img.url"
+                 style="cursor: pointer; width: 70px; height: 70px; overflow: hidden;">
+              <img [src]="img.url"
+                   [alt]="producto.nombre"
+                   class="w-100 h-100"
+                   style="object-fit: cover; border-radius: 8px;" />
+            </div>
+          </div>
+        </div>
 
-      <h2 class="fw-bold text-uppercase mb-4 chicha-title">
-      Información adicional
-    </h2>
+        <!-- Galería de Imágenes Referenciales -->
+        <div class="galeria-referencial">
+          
+          <!-- Imagen referencial 1 -->
+          <div class="imagen-referencial mb-4">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Imagen referencial 1" 
+                 class="img-fluid rounded-3 shadow-sm w-100"
+                 style="height: 300px; object-fit: cover;">
+          </div>
 
-    <!-- Detalles -->
-    <div class="d-flex align-items-start mb-4">
-      <i class="bi bi-info-circle-fill text-warning fs-2 me-3"></i>
-      <div>
-        <h5 class="fw-bold mb-1" style="color: #ffdc00;">Detalles</h5>
-        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.detalle }}</p>
+          <!-- Imagen referencial 2 -->
+          <div class="imagen-referencial mb-4">
+            <img src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Imagen referencial 2" 
+                 class="img-fluid rounded-3 shadow-sm w-100"
+                 style="height: 300px; object-fit: cover;">
+          </div>
+
+          <!-- Imagen referencial 3 -->
+          <div class="imagen-referencial mb-4">
+            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Imagen referencial 3" 
+                 class="img-fluid rounded-3 shadow-sm w-100"
+                 style="height: 300px; object-fit: cover;">
+          </div>
+
+          <!-- Imagen referencial 4 -->
+          <div class="imagen-referencial mb-4">
+            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Imagen referencial 4" 
+                 class="img-fluid rounded-3 shadow-sm w-100"
+                 style="height: 300px; object-fit: cover;">
+          </div>
+
+          <!-- Imagen referencial 5 -->
+          <div class="imagen-referencial mb-4">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Imagen referencial 5" 
+                 class="img-fluid rounded-3 shadow-sm w-100"
+                 style="height: 300px; object-fit: cover;">
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Beneficios -->
-    <div class="d-flex align-items-start mb-4">
-      <i class="bi bi-star-fill text-info fs-2 me-3"></i>
-      <div>
-        <h5 class="fw-bold mb-1" style="color: #00f0ff;">Beneficios</h5>
-        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.beneficios }}</p>
+    <!-- COLUMNA DERECHA: DETALLES DEL PRODUCTO (STICKY) -->
+    <div class="col-lg-6 col-md-6 col-12">
+      <div class="detalles-sticky">
+        <div class="bg-white shadow-lg p-4 rounded-4 border">
+          
+          <!-- Header del producto -->
+          <div class="producto-header mb-4">
+            <p class="mb-2" style="color: #8d48cd; font-size: 14px; font-weight: 500;">
+              <i class="bi bi-shop me-1"></i>{{producto.tienda}} 
+              <span style="color: #666; margin-left: 8px;">| {{producto.sku}}</span>
+            </p>
+            <h1 class="chicha-title mb-3">{{ producto.titulo }}</h1>
+            
+            <!-- Descripción -->
+            <div class="border-bottom pb-3 mb-4">
+              <p class="fw-bold text-dark mb-0">{{ producto.descripcion }}</p>
+            </div>
+          </div>
+          
+          <!-- Sección de Precios -->
+          <div class="precios-container mb-4">
+            <!-- Precio original - solo mostrar tachado si hay descuento -->
+            <div class="precios mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
+              <span class="chicha-precio-original me-2">
+                S/. {{ producto.precio | number:'1.2-2'}}
+              </span>
+              <span class="chicha-badge">
+                -{{ producto.descuento }}
+              </span>
+            </div>
+
+            <!-- Precio final -->
+            <div class="precios">
+              <span class="chicha-precio-oferta fs-2 fw-bold" 
+                    [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
+                S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
+                       (producto.precio_despues | number:'1.2-2') : 
+                       (producto.precio | number:'1.2-2') }}
+              </span>
+            </div>
+          </div>
+          
+          <!-- Cantidad y Agregar al Carrito -->
+          <div class="compra-container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4 p-3 bg-light rounded-3">
+              <!-- Sección de Cantidad -->
+              <div class="cantidad-section d-flex align-items-center gap-3">
+                <label class="form-label fw-bold mb-0">Cantidad:</label>
+                <div class="cantidad-box d-flex align-items-center">
+                  <button class="cantidad-btn btn btn-outline-secondary" (click)="disminuirCantidad()">−</button>
+                  <span class="mx-3 fw-bold fs-5">{{ producto.cantidad }}</span>
+                  <button class="cantidad-btn btn btn-outline-secondary" (click)="aumentarCantidad()">+</button>
+                </div>
+              </div>
+
+              <!-- Botón Agregar al Carrito -->
+              <button class="btn btn-primary py-3 fs-5 fw-bold boton-animado flex-grow-1 flex-md-grow-0 w-100 w-md-auto" (click)="agregarAlCarrito()">
+                <i class="bi bi-bag-heart me-2"></i> Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Modo de uso -->
-    <div class="d-flex align-items-start">
-      <i class="bi bi-lightbulb-fill text-success fs-2 me-3"></i>
-      <div>
-        <h5 class="fw-bold mb-1" style="color: #00ff85;">Modo de uso</h5>
-        <p class="mb-0 text-muted" style="font-size: 0.95rem;">{{ producto.modo_de_uso }}</p>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Imagen -->
-  <div class="col-md-6 col-12 text-center">
-    <img [src]="producto.img" [alt]="producto.nombre"
-         class="img-fluid rounded-4 shadow-lg border border-3"
-         style="max-height: 400px; object-fit: contain; border-color: #ff0080;">
-  </div>
-
-</div>
-
-    <!-- Productos Relacionados -->
-    <div class="mt-5">
+  <!-- Productos Relacionados -->
+  <div class="row mt-5">
+    <div class="col-12">
       <h3 class="fw-bold mb-4">
         <i class="bi bi-bag-fill me-2"></i> Productos Relacionados
       </h3>
@@ -150,10 +168,13 @@
         <p class="text-muted">No se encontraron productos relacionados.</p>
       </div>
     </div>
-        
+  </div>
 </div>
 
 <!-- Fallback -->
 <div *ngIf="!producto" class="text-center mt-5">
-  <p class="text-muted">Cargando producto...</p>
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando producto...</span>
+  </div>
+  <p class="text-muted mt-3">Cargando producto...</p>
 </div>
