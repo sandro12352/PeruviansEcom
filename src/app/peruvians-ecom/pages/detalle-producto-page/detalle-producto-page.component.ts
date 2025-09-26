@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from '../../interfaces/producto';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
+import { CategoriaService } from '../../services/categoria.service';
+import { Categoria } from '../../interfaces/categoria';
 declare const bootstrap: any;
   
 @Component({
@@ -18,17 +20,28 @@ export class DetalleProductoPageComponent implements OnInit {
   public loadingRelacionados = false;
   public error: string | null = null;
   public imagenSeleccionada: string | null | undefined = null;
+  
+  // NUEVO: Para manejar la estructura de categorías
+  public categorias: Categoria[] = [];
+  public categoriaPadreSlug: string | null = null;
+  public categoriaHijoSlug: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private peruviansService: PeruviansService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private categoriaService: CategoriaService
   ) {}
 
   ngOnInit(): void {
+    // Cargar categorías primero
+    this.cargarCategorias();
+    
     this.route.paramMap.subscribe(params => {
       const nombreProducto = params.get('nombreProducto');
+      this.categoriaPadreSlug = params.get('categoriaPadreSlug');
+      this.categoriaHijoSlug = params.get('categoriaHijoSlug');
 
       if (nombreProducto) {
         const idStr = nombreProducto.split('-').pop();
@@ -41,6 +54,19 @@ export class DetalleProductoPageComponent implements OnInit {
         }
       } else {
         this.error = 'No se encontró el parámetro del producto';
+      }
+    });
+  }
+
+  private cargarCategorias(): void {
+    this.categoriaService.obtenerCategorias().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.categorias = response.data;
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar categorías:', err);
       }
     });
   }
@@ -170,27 +196,97 @@ export class DetalleProductoPageComponent implements OnInit {
     return `${nombreCorto}-${producto.id}`;
   }
 
+  // ACTUALIZADO: Método para generar slug de categoría
+  generarSlugCategoria(nombre: string): string {
+    return nombre.toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[áàäâ]/g, 'a')
+      .replace(/[éèëê]/g, 'e')
+      .replace(/[íìïî]/g, 'i')
+      .replace(/[óòöô]/g, 'o')
+      .replace(/[úùüû]/g, 'u')
+      .replace(/[ñ]/g, 'n')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // NUEVO: Método para obtener información de categorías por ID
+  private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: Categoria | null, categoriaHijo: Categoria | null} {
+    let categoriaPadre: Categoria | null = null;
+    let categoriaHijo: Categoria | null = null;
+
+    // Buscar la categoría del producto en las categorías cargadas
+    for (const categoria of this.categorias) {
+      // Verificar si es una categoría padre
+      if (categoria.id.toString() === producto.categoria_id?.toString()) {
+        if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+          // Es una categoría padre
+          categoriaPadre = categoria;
+        } else {
+          // Es una subcategoría, buscar su padre
+          categoriaHijo = categoria;
+          // Buscar la categoría padre
+          for (const cat of this.categorias) {
+            if (cat.subcategorias?.some(sub => sub.id === categoria.id)) {
+              categoriaPadre = cat;
+              break;
+            }
+          }
+        }
+        break;
+      }
+      
+      // Buscar en subcategorías
+      if (categoria.subcategorias) {
+        const subcategoriaEncontrada = categoria.subcategorias.find(
+          sub => sub.id.toString() === producto.categoria_id?.toString()
+        );
+        if (subcategoriaEncontrada) {
+          categoriaPadre = categoria;
+          categoriaHijo = subcategoriaEncontrada;
+          break;
+        }
+      }
+    }
+
+    return { categoriaPadre, categoriaHijo };
+  }
+
+  // ACTUALIZADO: Método de navegación con nueva estructura
   navegarAProducto(producto: Producto): void {
     const slug = this.generarSlugConId(producto);
-    
-    let categoriaNombre = '';
-    if (typeof producto.categoria === 'object' && producto.categoria?.nombre) {
-      categoriaNombre = producto.categoria.nombre;
-    } else if (typeof producto.categoria === 'string') {
-      categoriaNombre = producto.categoria;
+    const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
+
+    if (categoriaPadre && categoriaHijo) {
+      // Ruta completa: padre/hijo/producto
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+      this.router.navigate(['/', slugPadre, slugHijo, slug]).then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if (categoriaPadre) {
+      // Solo categoría padre: padre/producto
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      this.router.navigate(['/', slugPadre, slug]).then(() => {
+        window.scrollTo(0, 0);
+      });
     } else {
-      categoriaNombre = 'productos';
+      // Fallback a la navegación anterior
+      let categoriaNombre = '';
+      if (typeof producto.categoria === 'object' && producto.categoria?.nombre) {
+        categoriaNombre = producto.categoria.nombre;
+      } else if (typeof producto.categoria === 'string') {
+        categoriaNombre = producto.categoria;
+      } else {
+        categoriaNombre = 'productos';
+      }
+      
+      const categoriaSlug = this.generarSlugCategoria(categoriaNombre);
+      this.router.navigate(['/', categoriaSlug, slug]).then(() => {
+        window.scrollTo(0, 0);
+      });
     }
-    
-    const categoriaSlug = categoriaNombre
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]+/g, '')
-      .replace(/\-\-+/g, '-')
-      .trim();
-    
-    this.router.navigate(['/', categoriaSlug, slug]).then(() => {
-      window.scrollTo(0, 0);
-    });
   }
 }

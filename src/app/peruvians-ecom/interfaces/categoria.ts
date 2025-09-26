@@ -1,3 +1,4 @@
+// interfaces/categoria.ts
 export interface Categoria {
   id: number;
   nombre: string;
@@ -7,6 +8,13 @@ export interface Categoria {
   created_at?: string;
   updated_at?: string;
   slug?: string;
+  subcategorias?: Categoria[];
+  // Propiedades del backend
+  es_padre?: boolean;
+  nivel?: number;
+  parent_id?: number;
+  cantidad_hijos?: number;
+  path_completo?: string;
 } 
 
 export interface CategoriaResponse {

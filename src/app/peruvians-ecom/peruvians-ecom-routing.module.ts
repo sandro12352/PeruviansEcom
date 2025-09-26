@@ -15,12 +15,11 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
 
-
 const routes: Routes = [
   {
-    path:'',
-    component:LayoutPageComponent,
-    children:[
+    path: '',
+    component: LayoutPageComponent,
+    children: [
       { path: '', component: InicioPageComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'mis-pedidos', component: PedidosComponent },  
@@ -28,19 +27,29 @@ const routes: Routes = [
       { path: 'blog', component: BlogPageComponent },
       { path: 'nosotros', component: NosotrosPageComponent },
       { path: 'preguntas-frecuentes', component: PreguntasFrecuentesPageComponent },
-      { path: 'nuestras-tiendas', component: NuestrasTiendasComponent},
+      { path: 'nuestras-tiendas', component: NuestrasTiendasComponent },
       { path: 'mas-vendidos', component: MostrarProductoComponent },
       { path: 'ofertas', component: MostrarProductoComponent },
       { path: 'mas-nuevos', component: MostrarProductoComponent },
       { path: 'productos', component: MostrarProductoComponent },
       { path: 'politica-privacidad', component: PoliticaPrivacidadComponent },
       { path: 'terminos-condiciones', component: TerminosCondicionesComponent },
-      { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },            
-      { path: ':categorias/:nombreProducto', component: DetalleProductoPageComponent },      
-      { path: ':categorias', component: MostrarProductoComponent },
-      ]
+      { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
+      { 
+        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto', 
+        component: DetalleProductoPageComponent 
+      },     
+      { 
+        path: ':categoriaPadreSlug/:categoriaHijoSlug', 
+        component: MostrarProductoComponent 
+      },      
+      { path: ':categoriaPadreSlug/:nombreProducto', component: DetalleProductoPageComponent },      
+      { 
+        path: ':categoriaPadreSlug', 
+        component: MostrarProductoComponent 
+      },
+    ]
   },
-  
   {
     path: '**',
     redirectTo: '',
@@ -48,9 +57,8 @@ const routes: Routes = [
   }
 ];
 
-
 @NgModule({
- exports: [RouterModule],
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
 })
 export class PeruviansEcomRoutingModule { }

@@ -1,18 +1,20 @@
+<!-- card.component.html -->
 <ng-container *ngIf="producto as p">
   <div class="card d-flex flex-column h-100" style="cursor: pointer;">
     <span class="descuento-badge" *ngIf="producto.descuento && producto.descuento !== '0%'">
       -{{ producto.descuento }}
     </span>
     
-    <!-- Imagen clickeable que redirige al detalle -->
+    <!-- Imagen clickeable que redirige al detalle - ACTUALIZADA -->
     <img [src]="producto.img" 
          class="img-fluid rounded" 
          alt="Producto" 
-         [routerLink]="['/', p.categoria, generarSlugConId(p)]"
+         [routerLink]="obtenerRuta()"
          style="cursor: pointer;"/>
     
+    <!-- Card body también clickeable - ACTUALIZADA -->
     <div class="card-body-custom d-flex flex-column justify-content-between" 
-         [routerLink]="['/', p.categoria, generarSlugConId(p)]">
+         [routerLink]="obtenerRuta()">
       <div class="contenido-scrollable">
         <span class="marca-badge">{{ producto.tienda }}</span>
         <h6 class="fw-bold">{{ producto.titulo }}</h6>

@@ -1,4 +1,6 @@
-// src/app/peruvians-ecom/interfaces/dashboard.interface.ts
+// interfaces/dashboard.interface.ts
+import { Producto } from './producto';
+import { Categoria } from './categoria';
 
 export interface DashboardResponse {
   success: boolean;
@@ -18,48 +20,6 @@ export interface CategoriasSection {
   items: Categoria[];
   total: number;
   message: string;
-}
-
-export interface Categoria {
-  id: number;
-  nombre: string;
-  imagen: string;
-  imagen_url: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Producto {
-  id: number;
-  nombre: string;
-  titulo: string;
-  descripcion: string;
-  precio: number;
-  sku: string;
-  precio_despues: number;
-  stock: number;
-  categoria: string;
-  categoria_id: number;
-  img: string;
-  imagenes: ProductoImagen[];
-  total_imagenes: number;
-  estado: string;
-  cantidad: number;
-  descuento: string;
-  tienda: string;
-  tienda_id: number;
-  beneficios: string;
-  modo_de_uso: string;
-  detalle: string;
-  created_at: string;
-  updated_at: string;
-  total_vendidos?: number; // Solo para mas_vendidos
-}
-
-export interface ProductoImagen {
-  id?: number;
-  url: string;
-  principal?: boolean;
 }
 
 export interface Liquidacion {

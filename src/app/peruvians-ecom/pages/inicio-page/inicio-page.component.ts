@@ -4,16 +4,19 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { DashboardService } from '../../services/dashboard.service';
+import { CategoriaService } from '../../services/categoria.service';
+
+// IMPORTS CORREGIDOS - Solo importar una vez cada interfaz
 import { 
   DashboardResponse,
-  Categoria as DashboardCategoria, 
   Liquidacion, 
   ConfiguracionCyberwow, 
   CyberwowBannerProducto,
   Carrusel 
 } from '../../interfaces/dashboard.interface';
+
 import { Producto } from '../../interfaces/producto';
-import { Categoria } from '../../interfaces/categoria';
+import { Categoria } from '../../interfaces/categoria'; // SOLO UNA VEZ
 
 @Component({
   selector: 'app-inicio-page',
@@ -26,8 +29,11 @@ export class InicioPageComponent implements OnInit {
   public masVendido: Producto[] = [];
   public masNuevo: Producto[] = [];
   public liquidacion: Liquidacion[] = [];
-  public categorias: DashboardCategoria[] = [];
+  public categorias: Categoria[] = []; // CAMBIAR: usar solo Categoria
   public carrusel: Carrusel[] = [];
+
+  // Para manejar la estructura jerárquica de categorías
+  public categoriasJerarquicas: Categoria[] = [];
 
   // CyberWow data
   public cyberwowBanners: ConfiguracionCyberwow = {
@@ -48,6 +54,7 @@ export class InicioPageComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
+    private categoriaService: CategoriaService,
     private router: Router,
     private meta: Meta,
     private title: Title
@@ -55,7 +62,45 @@ export class InicioPageComponent implements OnInit {
   
   ngOnInit(): void {
     this.configurarSEO();
+    this.cargarCategoriasJerarquicas();
     this.cargarDatosDashboard();
+  }
+
+
+  /**
+   * NUEVO: Carga las categorías con su estructura jerárquica
+   */
+ private cargarCategoriasJerarquicas(): void {
+    console.log('Cargando categorías jerárquicas...');
+    this.loading.categorias = true;
+    
+    this.categoriaService.obtenerCategorias().subscribe({
+      next: (response) => {
+        console.log('Respuesta del servicio de categorías:', response);
+        if (response.success && response.data) {
+          this.categoriasJerarquicas = response.data;
+          console.log('Categorías jerárquicas cargadas:', this.categoriasJerarquicas.length, 'categorías');
+          
+          // Debug: mostrar estructura
+          this.categoriasJerarquicas.forEach(cat => {
+            console.log(`Categoría padre: ${cat.nombre} (ID: ${cat.id})`);
+            if (cat.subcategorias) {
+              cat.subcategorias.forEach((sub: any) => {
+                console.log(`  - Subcategoría: ${sub.nombre} (ID: ${sub.id})`);
+              });
+            }
+          });
+        } else {
+          console.error('Error en respuesta de categorías:', response);
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar categorías jerárquicas:', err);
+      },
+      complete: () => {
+        this.loading.categorias = false;
+      }
+    });
   }
 
   /**
@@ -236,47 +281,38 @@ export class InicioPageComponent implements OnInit {
   private cargarDatosDashboard(): void {
     this.loading.dashboard = true;
 
-    // Cargar todas las secciones del dashboard
     this.dashboardService.getDashboardData('todas').subscribe({
       next: (response) => {
         if (response.success && response.data) {
-          // Asignar categorías
           if (response.data.categorias) {
             this.categorias = response.data.categorias.items;
           }
 
-          // Asignar productos más vendidos
           if (response.data.mas_vendidos) {
             this.masVendido = this.convertirProductosDashboard(response.data.mas_vendidos);
           }
 
-          // Asignar productos más nuevos
           if (response.data.mas_nuevos) {
             this.masNuevo = this.convertirProductosDashboard(response.data.mas_nuevos);
           }
 
-          // Asignar liquidaciones
           if (response.data.liquidaciones) {
             this.liquidacion = response.data.liquidaciones;
           }
 
-          // Asignar configuración CyberWow
           if (response.data.configuracion) {
             this.cyberwowBanners = response.data.configuracion;
           }
 
-          // Asignar carrusel
           if (response.data.carrusel) {
             this.carrusel = response.data.carrusel;
           }
 
-          // Actualizar SEO con datos dinámicos
           this.actualizarSEODinamico();
         }
       },
       error: (error) => {
         console.error('Error al cargar datos del dashboard:', error);
-        // Opcional: Mostrar mensaje de error al usuario
         this.mostrarErrorCarga();
       },
       complete: () => {
@@ -320,7 +356,7 @@ export class InicioPageComponent implements OnInit {
   /**
    * Convierte los productos del dashboard al formato esperado por los componentes
    */
-  private convertirProductosDashboard(productosDashboard: any[]): Producto[] {
+ private convertirProductosDashboard(productosDashboard: any[]): Producto[] {
     return productosDashboard.map(producto => ({
       ...producto,
       imagenes: producto.imagenes ? producto.imagenes.map((url: string) => ({ url })) : []
@@ -396,49 +432,166 @@ export class InicioPageComponent implements OnInit {
     return `${nombreCorto}-${producto.id}`;
   }
 
-  // Método para obtener el slug de categoría
-  getCategoriaSlug(categoria: string | DashboardCategoria | Categoria | undefined): string {
+  // MÉTODO ACTUALIZADO: Para generar slug de categoría PADRE
+  getCategoriaSlug(categoria: string | Categoria | undefined): string {
     if (!categoria) {
       return '';
     }
     
     // Si es un objeto con propiedad nombre
     if (typeof categoria === 'object' && 'nombre' in categoria) {
-      return categoria.nombre
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-')
-        .trim();
+      return this.generarSlugCategoria(categoria.nombre);
     }
     
     // Si es un string
     if (typeof categoria === 'string') {
-      return categoria
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-')
-        .trim();
+      return this.generarSlugCategoria(categoria);
     }
     
     return '';
   }
 
-  // Métodos para generar rutas de CyberWow
+  // NUEVO: Método para generar slug de categoría (igual que en header y mostrar-producto)
+  private generarSlugCategoria(nombre: string): string {
+    return nombre.toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[áàäâ]/g, 'a')
+      .replace(/[éèëê]/g, 'e')
+      .replace(/[íìïî]/g, 'i')
+      .replace(/[óòöô]/g, 'o')
+      .replace(/[úùüû]/g, 'u')
+      .replace(/[ñ]/g, 'n')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+// REEMPLAZA este método en inicio-page.component.ts
+
+
+
+  private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: any | null, categoriaHijo: any | null} {
+    let categoriaPadre: any | null = null;
+    let categoriaHijo: any | null = null;
+
+    if (!producto.categoria_id) {
+      return { categoriaPadre, categoriaHijo };
+    }
+
+    for (const categoria of this.categoriasJerarquicas) {
+      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+        const subcategoriaEncontrada = categoria.subcategorias.find(
+          (sub: any) => sub.id.toString() === producto.categoria_id?.toString()
+        );
+        
+        if (subcategoriaEncontrada) {
+          categoriaPadre = categoria;
+          categoriaHijo = subcategoriaEncontrada;
+          break;
+        }
+      }
+      
+      if (categoria.id.toString() === producto.categoria_id?.toString()) {
+        categoriaPadre = categoria;
+        break;
+      }
+    }
+
+    return { categoriaPadre, categoriaHijo };
+  }
+
+
+
+  // NUEVO: Método para obtener la ruta correcta de categoría padre
+getCategoriaRoute(categoria: Categoria): string[] {
+    const slug = this.getCategoriaSlug(categoria);
+    
+    // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
+    if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+      return ['/', slug];
+    } else {
+      // Si es subcategoría, navegar normalmente
+      return ['/', slug];
+    }
+  }
+
+  // Métodos para generar rutas de CyberWow actualizados
   getCyberwowCategoriaRoute(): string[] {
     if (this.cyberwowBanners.categoria?.categoria) {
-      return ['/', this.getCategoriaSlug(this.cyberwowBanners.categoria.categoria.nombre)];
+      const categoria = this.cyberwowBanners.categoria.categoria;
+      const slug = this.getCategoriaSlug(categoria.nombre);
+      
+      // Usar nueva estructura sin prefijo 'categoria/'
+      return ['/', slug];
     }
     return ['/'];
   }
 
+  // ACTUALIZADO: Método para generar ruta de producto CyberWow con nueva estructura
   getCyberwowProductoRoute(banner: CyberwowBannerProducto): string[] {
     if (banner.producto && banner.producto.categoria) {
-      const categoriaSlug = this.getCategoriaSlug(banner.producto.categoria.nombre);
-      return ['/', categoriaSlug, this.generarSlugProductoCyberwow(banner.producto)];
+      const producto = banner.producto;
+      const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorCyberwowProducto(producto);
+      const productoSlug = this.generarSlugProductoCyberwow(producto);
+
+      if (categoriaPadre && categoriaHijo) {
+        // Ruta completa: padre/hijo/producto
+        const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+        const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+        return ['/', slugPadre, slugHijo, productoSlug];
+      } else if (categoriaPadre) {
+        // Solo categoría padre: padre/producto
+        const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+        return ['/', slugPadre, productoSlug];
+      } else {
+        // Fallback
+        const categoriaSlug = this.getCategoriaSlug(producto.categoria.nombre);
+        return ['/', categoriaSlug, productoSlug];
+      }
     }
     return ['/'];
+  }
+
+  // NUEVO: Método auxiliar para productos CyberWow
+  private obtenerInfoCategoriasPorCyberwowProducto(producto: any): {categoriaPadre: any | null, categoriaHijo: any | null} {
+    let categoriaPadre: any | null = null;
+    let categoriaHijo: any | null = null;
+
+    if (!producto.categoria_id) {
+      return { categoriaPadre, categoriaHijo };
+    }
+
+    // Buscar en categorías jerárquicas
+    for (const categoria of this.categoriasJerarquicas) {
+      if (categoria.id.toString() === producto.categoria_id?.toString()) {
+        if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+          categoriaPadre = categoria;
+        } else {
+          categoriaHijo = categoria;
+          for (const cat of this.categoriasJerarquicas) {
+            if (cat.subcategorias?.some((sub: any) => sub.id === categoria.id)) {
+              categoriaPadre = cat;
+              break;
+            }
+          }
+        }
+        break;
+      }
+      
+      if (categoria.subcategorias) {
+        const subcategoriaEncontrada = categoria.subcategorias.find(
+          (sub: any) => sub.id.toString() === producto.categoria_id?.toString()
+        );
+        if (subcategoriaEncontrada) {
+          categoriaPadre = categoria;
+          categoriaHijo = subcategoriaEncontrada;
+          break;
+        }
+      }
+    }
+
+    return { categoriaPadre, categoriaHijo };
   }
 
   private generarSlugProductoCyberwow(producto: any): string {
@@ -491,10 +644,75 @@ export class InicioPageComponent implements OnInit {
     // Por ejemplo: this.router.navigate(['/categoria', categoriaId]);
   }
 
+  // ACTUALIZADO: Método para generar slug de liquidación con nueva estructura
   generarSlugLiquidacion(liquidacion: Liquidacion): string {
     return this.generarSlugConId(liquidacion.producto);
   }
 
+  // NUEVO: Método para navegar a liquidación con nueva estructura
+  navegarALiquidacion(liquidacion: Liquidacion): void {
+    this.navegarAProducto(liquidacion.producto);
+  }
+ navegarAProducto(producto: Producto): void {
+    const slug = this.generarSlugConId(producto);
+    
+    if (!this.categoriasJerarquicas || this.categoriasJerarquicas.length === 0) {
+      console.warn('Categorías jerárquicas no cargadas, usando fallback...');
+      
+      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+        const categoriaCompleta = producto.categoria_completa as any;
+        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+          console.log('Fallback con categoria_completa:', ['/', padreSlug, hijoSlug, slug]);
+          this.router.navigate(['/', padreSlug, hijoSlug, slug]);
+          return;
+        }
+      }
+      
+      if (producto.categoria && typeof producto.categoria === 'string') {
+        const categoriaSlug = this.generarSlugCategoria(producto.categoria);
+        console.log('Fallback con categoria string:', ['/', categoriaSlug, slug]);
+        this.router.navigate(['/', categoriaSlug, slug]);
+        return;
+      } else {
+        console.log('Navegando a productos genérico:', ['/productos', slug]);
+        this.router.navigate(['/productos', slug]);
+        return;
+      }
+    }
+
+    const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
+
+    if (categoriaPadre && categoriaHijo) {
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+      console.log('Navegando a ruta completa:', ['/', slugPadre, slugHijo, slug]);
+      this.router.navigate(['/', slugPadre, slugHijo, slug]);
+    } else if (categoriaPadre) {
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      console.log('Navegando a ruta padre:', ['/', slugPadre, slug]);
+      this.router.navigate(['/', slugPadre, slug]);
+    } else {
+      // Fallbacks adicionales
+      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+        const categoriaCompleta = producto.categoria_completa as any;
+        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+          this.router.navigate(['/', padreSlug, hijoSlug, slug]);
+          return;
+        }
+      }
+      
+      if (producto.categoria && typeof producto.categoria === 'string') {
+        const categoriaSlug = this.generarSlugCategoria(producto.categoria);
+        this.router.navigate(['/', categoriaSlug, slug]);
+      } else {
+        this.router.navigate(['/productos', slug]);
+      }
+    }
+  }
   /**
    * Método para recargar datos del dashboard
    */

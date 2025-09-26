@@ -24,7 +24,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartCount = 0;
   productosEnCarrito: Producto[] = [];
   productosFiltrados: Producto[] = [];
-  categorias: Categoria[] = [];
+  categorias: any[] = []; 
+  subcategoriasActivas: any[] = [];
+  categoriaActiva: any = null;
+
   activeCategory: string | null = null;
   activeCategoryName: String | null = null;
   
@@ -92,12 +95,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Carga las categorías desde la API
    */
-  cargarCategorias(): void {
+   cargarCategorias(): void {
     this.categoriaService.obtenerCategorias().subscribe({
       next: (response) => {
         if (response.success) {
           this.categorias = response.data;
-          //console.log('Categorías cargadas:', this.categorias);
+          console.log('Categorías cargadas con subcategorías:', this.categorias);
         } else {
           console.warn('No se pudieron cargar las categorías:', response.message);
         }
@@ -107,6 +110,50 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /**
+   * Muestra las subcategorías de una categoría específica
+   */
+  mostrarSubcategorias(categoria: any): void {
+    this.categoriaActiva = categoria;
+    this.subcategoriasActivas = categoria.subcategorias || [];
+  }
+  /**
+   * Oculta las subcategorías
+   */
+  ocultarSubcategorias(): void {
+    // Pequeño delay para permitir el hover
+    setTimeout(() => {
+      this.subcategoriasActivas = [];
+      this.categoriaActiva = null;
+    }, 200);
+  }
+   /**
+   * Navega a una subcategoría
+   */
+navegarACategoria(categoria: any): void {
+  const slug = this.generarSlugCategoria(categoria.nombre);
+  
+  // Si es categoría padre (tiene subcategorías), usar nueva ruta
+  if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+    this.router.navigate(['/categoria', slug]);
+  } else {
+    // Si es subcategoría, navegar normalmente
+    this.router.navigate(['/', slug]);
+  }
+  
+  this.ocultarSubcategorias();
+}
+navegarACategoriaPadre(categoria: any): void {
+  const slug = this.generarSlugCategoria(categoria.nombre);
+  this.router.navigate(['/', slug]); // Cambiado: sin 'categoria/'
+  this.ocultarSubcategorias();
+}
+navegarACategoriaHijo(categoriaPadre: any, categoriaHijo: any): void {
+  const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+  const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+  this.router.navigate(['/', slugPadre, slugHijo]); // Cambiado: sin 'categoria/'
+  this.ocultarSubcategorias();
+}
 
   /**
    * Muestra productos de una categoría específica
@@ -206,20 +253,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * @param nombre Nombre de la categoría
    * @returns Slug de la categoría
    */
-  generarSlugCategoria(nombre: string): string {
-    return nombre.toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i')
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
+generarSlugCategoria(nombre: string): string {
+  return nombre.toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[áàäâ]/g, 'a')
+    .replace(/[éèëê]/g, 'e')
+    .replace(/[íìïî]/g, 'i')
+    .replace(/[óòöô]/g, 'o')
+    .replace(/[úùüû]/g, 'u')
+    .replace(/[ñ]/g, 'n')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
 
   /**
    * Obtiene el nombre de una categoría por su ID
@@ -296,16 +343,73 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Navega al detalle del producto usando el slug correcto
    * @param producto Producto al cual navegar
    */
-    navegarAProducto(producto: Producto): void {
-      const slug = this.generarSlugConId(producto);
+navegarAProducto(producto: Producto): void {
+  const slug = this.generarSlugConId(producto);
+  const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
 
-      if (producto.categoria) {
-        this.router.navigate(['/', producto.categoria, slug]);
+  if (categoriaPadre && categoriaHijo) {
+    // Ruta completa: padre/hijo/producto
+    const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+    const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+    this.router.navigate(['/', slugPadre, slugHijo, slug]);
+  } else if (categoriaPadre) {
+    // Solo categoría padre: padre/producto
+    const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+    this.router.navigate(['/', slugPadre, slug]);
+  } else {
+    // Fallback: usar categoria string si existe
+    if (producto.categoria && typeof producto.categoria === 'string') {
+      const categoriaSlug = this.generarSlugCategoria(producto.categoria);
+      this.router.navigate(['/', categoriaSlug, slug]);
+    } else {
+      this.router.navigate(['/productos', slug]);
+    }
+  }
+}
+private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: any | null, categoriaHijo: any | null} {
+  let categoriaPadre: any | null = null;
+  let categoriaHijo: any | null = null;
+
+  if (!producto.categoria_id) {
+    return { categoriaPadre, categoriaHijo };
+  }
+
+  // Buscar la categoría del producto en las categorías cargadas
+  for (const categoria of this.categorias) {
+    // Verificar si es una categoría padre
+    if (categoria.id.toString() === producto.categoria_id?.toString()) {
+      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+        // Es una categoría padre
+        categoriaPadre = categoria;
       } else {
-        // fallback si no tiene categoría
-        this.router.navigate(['/productos', slug]);
+        // Es una subcategoría, buscar su padre
+        categoriaHijo = categoria;
+        // Buscar la categoría padre
+        for (const cat of this.categorias) {
+          if (cat.subcategorias?.some((sub: any) => sub.id === categoria.id)) {
+            categoriaPadre = cat;
+            break;
+          }
+        }
+      }
+      break;
+    }
+    
+    // Buscar en subcategorías
+    if (categoria.subcategorias) {
+      const subcategoriaEncontrada = categoria.subcategorias.find(
+        (sub: any) => sub.id.toString() === producto.categoria_id?.toString()
+      );
+      if (subcategoriaEncontrada) {
+        categoriaPadre = categoria;
+        categoriaHijo = subcategoriaEncontrada;
+        break;
       }
     }
+  }
+
+  return { categoriaPadre, categoriaHijo };
+}
 
 
   /**

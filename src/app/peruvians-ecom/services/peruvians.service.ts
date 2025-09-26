@@ -23,81 +23,91 @@ export class PeruviansService {
    * Obtener productos más vendidos
    */
   masVendidos(filtros?: { 
-    precio_min?: number; 
-    precio_max?: number;
-    tienda_id?: string;
-    categoria_id?: string;
-  }): Observable<Producto[]> {
-    let params = '';
-    if (filtros) {
-      const queryParams: string[] = [];
-      if (filtros.precio_min !== undefined) {
-        queryParams.push(`precio_min=${filtros.precio_min}`);
-      }
-      if (filtros.precio_max !== undefined) {
-        queryParams.push(`precio_max=${filtros.precio_max}`);
-      }
-      if (filtros.tienda_id) {
-        queryParams.push(`tienda_id=${filtros.tienda_id}`);
-      }
-      if (filtros.categoria_id) {
-        queryParams.push(`categoria_id=${filtros.categoria_id}`);
-      }
-      if (queryParams.length > 0) {
-        params = '?' + queryParams.join('&');
-      }
+  precio_min?: number; 
+  precio_max?: number;
+  tienda_id?: string;
+  categoria_id?: string;
+  categoria_padre_id?: string; // NUEVO
+}): Observable<Producto[]> {
+  let params = '';
+  if (filtros) {
+    const queryParams: string[] = [];
+    if (filtros.precio_min !== undefined) {
+      queryParams.push(`precio_min=${filtros.precio_min}`);
     }
-    
-    return this.http.get<ApiResponse<Producto[]>>(`${this.baseUrl}/vendidos${params}`)
-      .pipe(
-        map(response => {
-          if (response.success) {
-            return response.data;
-          }
-          return [];
-        })
-      );
+    if (filtros.precio_max !== undefined) {
+      queryParams.push(`precio_max=${filtros.precio_max}`);
+    }
+    if (filtros.tienda_id) {
+      queryParams.push(`tienda_id=${filtros.tienda_id}`);
+    }
+    if (filtros.categoria_id) {
+      queryParams.push(`categoria_id=${filtros.categoria_id}`);
+    }
+    // NUEVO: Soporte para categoría padre
+    if (filtros.categoria_padre_id) {
+      queryParams.push(`categoria_padre_id=${filtros.categoria_padre_id}`);
+    }
+    if (queryParams.length > 0) {
+      params = '?' + queryParams.join('&');
+    }
+  }
+  
+  return this.http.get<ApiResponse<Producto[]>>(`${this.baseUrl}/vendidos${params}`)
+    .pipe(
+      map(response => {
+        if (response.success) {
+          return response.data;
+        }
+        return [];
+      })
+    );
+}
+
+/**
+ * Obtener producto más nuevo
+ */
+masNuevo(filtros?: { 
+  precio_min?: number; 
+  precio_max?: number;
+  tienda_id?: string;
+  categoria_id?: string;
+  categoria_padre_id?: string; // NUEVO
+}): Observable<Producto[]> {
+  let params = '';
+  if (filtros) {
+    const queryParams: string[] = [];
+    if (filtros.precio_min !== undefined) {
+      queryParams.push(`precio_min=${filtros.precio_min}`);
+    }
+    if (filtros.precio_max !== undefined) {
+      queryParams.push(`precio_max=${filtros.precio_max}`);
+    }
+    if (filtros.tienda_id) {
+      queryParams.push(`tienda_id=${filtros.tienda_id}`);
+    }
+    if (filtros.categoria_id) {
+      queryParams.push(`categoria_id=${filtros.categoria_id}`);
+    }
+    // NUEVO: Soporte para categoría padre
+    if (filtros.categoria_padre_id) {
+      queryParams.push(`categoria_padre_id=${filtros.categoria_padre_id}`);
+    }
+    if (queryParams.length > 0) {
+      params = '?' + queryParams.join('&');
+    }
   }
 
-  /**
-   * Obtener producto más nuevo
-   */
-  masNuevo(filtros?: { 
-    precio_min?: number; 
-    precio_max?: number;
-    tienda_id?: string;
-    categoria_id?: string;
-  }): Observable<Producto[]> {
-    let params = '';
-    if (filtros) {
-      const queryParams: string[] = [];
-      if (filtros.precio_min !== undefined) {
-        queryParams.push(`precio_min=${filtros.precio_min}`);
-      }
-      if (filtros.precio_max !== undefined) {
-        queryParams.push(`precio_max=${filtros.precio_max}`);
-      }
-      if (filtros.tienda_id) {
-        queryParams.push(`tienda_id=${filtros.tienda_id}`);
-      }
-      if (filtros.categoria_id) {
-        queryParams.push(`categoria_id=${filtros.categoria_id}`);
-      }
-      if (queryParams.length > 0) {
-        params = '?' + queryParams.join('&');
-      }
-    }
-
-    return this.http.get<ApiResponse<Producto[]>>(`${this.baseUrl}/nuevos${params}`)
-      .pipe(
-        map(response => {
-          if (response.success && response.data) {
-            return Array.isArray(response.data) ? response.data : [response.data];
-          }
-          return [];
-        })
-      );
-  }
+  return this.http.get<ApiResponse<Producto[]>>(`${this.baseUrl}/nuevos${params}`)
+    .pipe(
+      map(response => {
+        if (response.success && response.data) {
+          return Array.isArray(response.data) ? response.data : [response.data];
+        }
+        return [];
+      })
+    );
+}
 
   /**
    * Obtener todos los productos

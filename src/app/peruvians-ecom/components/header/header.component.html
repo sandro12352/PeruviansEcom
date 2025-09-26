@@ -50,50 +50,79 @@
             <span style="font-weight: 200px;font-size: 1.5rem;margin-left: 10px;">Menú</span>
           </button>
 
-          <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" 
-               style="width: 99.2vw;height: 50vh;background-color: #fffffff2;"
-               (mouseleave)="ocultarProductos()">
-            <div class="d-flex">
-              <!-- Categorías (izquierda) - Usando categorías de la API -->
-              <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
-                <h2 class="fs-5">CATEGORÍAS</h2>
-                <li *ngFor="let categoria of categorias" 
-                    class="category-item" 
-                    [attr.data-products]="'products-' + categoria.id"
-                    (mouseenter)="mostrarProductos(categoria.id.toString(), categoria.nombre)"
-                    [ngClass]="{ 'active': activeCategory === categoria.id.toString() }"
-                    [routerLink]="['/', generarSlugCategoria(categoria.nombre)]">
-                  {{ categoria.nombre }}
-                  <i class="bi bi-chevron-right ms-2"></i>
-                </li>
-                
-                <!-- Mensaje si no hay categorías -->
-                <li *ngIf="categorias.length === 0" class="text-muted">
-                  Cargando categorías...
-                </li>
-              </ul>
-              
-              <!-- Productos (derecha) -->
-              <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
-                <div *ngIf="activeCategory && productosFiltrados.length > 0">
-                  <h3>{{ activeCategoryName }}</h3>
-                  <ul class="products list-unstyled">
-                    <li *ngFor="let producto of productosFiltrados">
-                      <!-- CORREGIDO: Usar navegarAProducto en lugar de ruta con categoría -->
-                      <a (click)="navegarAProducto(producto)" class="dropdown-item cursor-pointer">
-                        {{ producto.titulo }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div *ngIf="activeCategory && productosFiltrados.length === 0">
-                  <p class="text-muted">No hay productos disponibles en esta categoría</p>
-                </div>
-              </div>
+<!-- Actualizar la sección del dropdown del menú -->
+    <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" 
+        style="width: 99.2vw;height: 50vh;background-color: #fffffff2;"
+        (mouseleave)="ocultarSubcategorias()">
+      <div class="d-flex">
+        <!-- Categorías Padre (izquierda) -->
+        <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
+          <h2 class="fs-5">CATEGORÍAS</h2>
+          <li *ngFor="let categoria of categorias" 
+              class="category-item d-flex justify-content-between align-items-center" 
+              (mouseenter)="mostrarSubcategorias(categoria)"
+              [ngClass]="{ 'active': categoriaActiva?.id === categoria.id }">
+            
+            <!-- Nombre de la categoría padre (clickeable) -->
+            <span class="category-name cursor-pointer flex-grow-1" 
+                  (click)="navegarACategoriaPadre(categoria)">
+              {{ categoria.nombre }}
+            </span>
+            
+            <!-- Flecha (solo si tiene subcategorías) -->
+            <i class="bi bi-chevron-right ms-2" 
+              *ngIf="categoria.subcategorias?.length"></i>
+          </li>
+          
+          <!-- Mensaje si no hay categorías -->
+          <li *ngIf="categorias.length === 0" class="text-muted">
+            Cargando categorías...
+          </li>
+        </ul>
+        
+        <!-- Subcategorías (derecha) -->
+        <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
+          <div *ngIf="categoriaActiva && subcategoriasActivas.length > 0">
+            <h3>{{ categoriaActiva.nombre }}</h3>
+            
+            <!-- Opción para ver todos los productos de la categoría padre -->
+            <div class="mb-3 p-2 rounded border-bottom">
+              <a (click)="navegarACategoriaPadre(categoriaActiva)" 
+                class="dropdown-item cursor-pointer fw-bold text-primary">
+                <i class="bi bi-grid me-2"></i>
+                Ver todos los productos de {{ categoriaActiva.nombre }}
+              </a>
+            </div>
+            
+            <!-- Lista de subcategorías -->
+            <ul class="products list-unstyled">
+              <li *ngFor="let subcategoria of subcategoriasActivas">
+                <a (click)="navegarACategoriaHijo(categoriaActiva, subcategoria)" 
+                  class="dropdown-item cursor-pointer">
+                  {{ subcategoria.nombre }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <div *ngIf="categoriaActiva && subcategoriasActivas.length === 0">
+            <h3>{{ categoriaActiva.nombre }}</h3>
+            <div class="mb-3 p-2">
+              <a (click)="navegarACategoriaPadre(categoriaActiva)" 
+                class="dropdown-item cursor-pointer">
+                <i class="bi bi-grid me-2"></i>
+                Ver productos de {{ categoriaActiva.nombre }}
+              </a>
             </div>
           </div>
+
+          <div *ngIf="!categoriaActiva">
+            <p class="text-muted">Selecciona una categoría para ver sus opciones</p>
+          </div>
         </div>
+      </div>
+    </div>
+</div>
         
         <!-- Logo -->
         <a routerLink="/" class="d-inline-block">
@@ -101,33 +130,69 @@
         </a>       
       </div>
 
-      <!-- OFFCANVAS MENU MÓVIL -->
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled">
+      <li>
+        <a routerLink="/" data-bs-dismiss="offcanvas" 
+           class="nav-link border-bottom d-flex justify-content-between align-items-center">
+          INICIO<i class="bi bi-chevron-right text-success fs-2"></i>
+        </a>
+      </li>
+      
+      <!-- Categorías dinámicas en menú móvil con subcategorías -->
+      <li *ngFor="let categoria of categorias">
+        <!-- Si tiene subcategorías, mostrar como acordeón -->
+        <div *ngIf="categoria.subcategorias?.length" 
+             class="nav-link border-bottom d-flex justify-content-between align-items-center cursor-pointer"
+             data-bs-toggle="collapse" 
+             [attr.data-bs-target]="'#subcategorias-' + categoria.id">
+          <span>{{ categoria.nombre.toUpperCase() }}</span>
+          <i class="bi bi-chevron-down text-success fs-2"></i>
         </div>
-        <div class="offcanvas-body">
-          <ul class="list-unstyled">
+        
+        <!-- Si no tiene subcategorías, enlace directo con nueva ruta -->
+        <a *ngIf="!categoria.subcategorias?.length" 
+           [routerLink]="['/categoria', generarSlugCategoria(categoria.nombre)]" 
+           data-bs-dismiss="offcanvas" 
+           class="nav-link border-bottom d-flex justify-content-between align-items-center">
+          {{ categoria.nombre.toUpperCase() }}
+          <i class="bi bi-chevron-right text-success fs-2"></i>
+        </a>
+        
+        <!-- Subcategorías -->
+        <div *ngIf="categoria.subcategorias?.length" 
+             class="collapse" 
+             [id]="'subcategorias-' + categoria.id">
+          <ul class="list-unstyled ps-3">
+            <!-- Opción para ver toda la categoría padre -->
             <li>
-              <a routerLink="/" data-bs-dismiss="offcanvas" 
-                 class="nav-link border-bottom d-flex justify-content-between align-items-center">
-                INICIO<i class="bi bi-chevron-right text-success fs-2"></i>
+              <a [routerLink]="['/categoria', generarSlugCategoria(categoria.nombre)]" 
+                 data-bs-dismiss="offcanvas" 
+                 class="nav-link d-flex justify-content-between align-items-center fw-bold">
+                Ver todos los {{ categoria.nombre }}
+                <i class="bi bi-chevron-right text-success"></i>
               </a>
             </li>
-            
-            <!-- Categorías dinámicas en menú móvil -->
-            <li *ngFor="let categoria of categorias">
-              <a [routerLink]="['/', generarSlugCategoria(categoria.nombre)]" 
+            <!-- Subcategorías individuales -->
+            <li *ngFor="let subcategoria of categoria.subcategorias">
+              <a [routerLink]="['/categoria', generarSlugCategoria(categoria.nombre), generarSlugCategoria(subcategoria.nombre)]" 
                  data-bs-dismiss="offcanvas" 
-                 class="nav-link border-bottom d-flex justify-content-between align-items-center">
-                {{ categoria.nombre.toUpperCase() }}
-                <i class="bi bi-chevron-right text-success fs-2"></i>
+                 class="nav-link d-flex justify-content-between align-items-center">
+                {{ subcategoria.nombre }}
+                <i class="bi bi-chevron-right text-success"></i>
               </a>
             </li>
           </ul>
         </div>
-      </div>
+      </li>
+    </ul>
+  </div>
+</div>
 
       <!-- Barra de búsqueda -->
         <form class="d-none d-md-flex mx-4 w-50" (ngSubmit)="onSubmit()">

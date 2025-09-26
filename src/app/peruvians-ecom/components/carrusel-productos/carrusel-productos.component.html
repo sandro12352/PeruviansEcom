@@ -11,7 +11,11 @@
             class="producto-card"
             *ngFor="let producto of grupo"
           >
-            <app-card [producto]="producto"></app-card>  
+            <!-- ACTUALIZADO: Pasar la ruta calculada a la card -->
+            <app-card 
+              [producto]="producto" 
+              [rutaProducto]="generarRutaParaProducto(producto)">
+            </app-card>  
           </div>
         </div>
       </div>

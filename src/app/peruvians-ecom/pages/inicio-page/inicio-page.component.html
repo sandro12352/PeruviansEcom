@@ -8,7 +8,7 @@
     <!-- Categorías dinámicas desde la base de datos -->
     <div class="categoria-card text-center" 
          *ngFor="let categoria of categorias" 
-         [routerLink]="['/', getCategoriaSlug(categoria.nombre)]">
+         [routerLink]="getCategoriaRoute(categoria)">
       <div class="categoria-img-wrapper">
         <img [src]="categoria.imagen_url || 'imagenes/categorias/default.webp'" 
              loading="lazy" 
@@ -17,37 +17,6 @@
       </div>
       <h6 class="categoria-title mt-2">{{categoria.nombre}}</h6>
     </div>
-
-    <!-- Fallback: Categorías estáticas si no hay datos de la BD -->
-    <!-- <ng-container *ngIf="categorias.length === 0 && !loading.categorias">
-      <div class="categoria-card text-center" [routerLink]="['/', 'aceites']">
-        <div class="categoria-img-wrapper">
-          <img src="imagenes/categorias/aceites.webp" loading="lazy" alt="Aceites" class="categoria-img">
-        </div>
-        <h6 class="categoria-title mt-2">Aceites</h6>
-      </div>
-
-      <div class="categoria-card text-center" [routerLink]="['/', 'suplementos']">
-        <div class="categoria-img-wrapper">
-          <img src="imagenes/categorias/suplementos.webp" loading="lazy" alt="Suplementos" class="categoria-img">
-        </div>
-        <h6 class="categoria-title mt-2">Suplementos</h6>
-      </div>
-
-      <div class="categoria-card text-center" [routerLink]="['/', 'gomitas']">
-        <div class="categoria-img-wrapper">
-          <img src="imagenes/categorias/gomitas.webp" loading="lazy" alt="Gomitas" class="categoria-img">
-        </div>
-        <h6 class="categoria-title mt-2">Gomitas</h6>
-      </div>
-
-      <div class="categoria-card text-center" [routerLink]="['/', 'batidos']">
-        <div class="categoria-img-wrapper">
-          <img src="imagenes/categorias/batidos.webp" loading="lazy" alt="Batidos" class="categoria-img">
-        </div>
-        <h6 class="categoria-title mt-2">Batidos</h6>
-      </div>
-    </ng-container> -->
 
     <!-- Loading state -->
     <div *ngIf="loading.categorias" class="text-center w-100">
@@ -68,11 +37,12 @@
     </div>
   </div>
   
-  <!-- Productos más vendidos -->
+  <!-- Productos más vendidos - ACTUALIZADO CON CATEGORÍAS -->
   <peruvians-carrusel-productos 
     *ngIf="masVendido?.length && !loading.masVendido"
     [productos]="masVendido" 
-    [carouselId]="'ProductosCarrusel1'">
+    [carouselId]="'ProductosCarrusel1'"
+    [categoriasJerarquicas]="categoriasJerarquicas">
   </peruvians-carrusel-productos>
 
   <!-- Estado vacío -->
@@ -91,11 +61,12 @@
     </div>
   </div>
   
-  <!-- Productos más nuevos -->
+  <!-- Productos más nuevos - ACTUALIZADO CON CATEGORÍAS -->
   <peruvians-carrusel-productos 
     *ngIf="masNuevo?.length && !loading.masNuevo"
     [productos]="masNuevo" 
-    [carouselId]="'ProductosCarrusel2'">
+    [carouselId]="'ProductosCarrusel2'"
+    [categoriasJerarquicas]="categoriasJerarquicas">
   </peruvians-carrusel-productos>
 
   <!-- Estado vacío -->
@@ -161,40 +132,6 @@
   </div>
 </section>
 
-<!-- Fallback: CyberWow estático si no hay datos dinámicos -->
-<!-- <section class="container my-5" *ngIf="!cyberwowBanners.categoria && !cyberwowBanners.tiendas && cyberwowBanners.productos.length === 0 && !loading.cyberwow">
-  <h2 class="mb-4">CyberWow</h2>
-  <div class="row gy-4"> 
-    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" [routerLink]="['/', 'gomitas']">
-      <img src="imagenes/combos/flayer1.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="cyberGomitas">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-    <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3">
-      <img src="imagenes/combos/flayer2.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="cyberComplementos">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-  </div>
-
-  <div class="row my-4">
-    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
-      <img src="imagenes/combos/flayer3.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="cartílago de tiburón">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
-      <img src="imagenes/combos/flayer4.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="aceite de orégano">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
-      <img src="imagenes/combos/flayer5.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="carticolágeno">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2">
-      <img src="imagenes/combos/flayer6.webp" loading="lazy" width="100%" class="promo-img rounded-3" alt="moringa">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-  </div>
-</section>  --> 
-
 <section class="container my-5">
   <h2 class="mb-4">Productos en Liquidación</h2>
   
@@ -204,16 +141,15 @@
     </div>
   </div>
 
-  <!-- Contenido de liquidaciones -->
+  <!-- Contenido de liquidaciones - CORREGIDO -->
   <div class="row gy-2" *ngIf="liquidacion?.length && !loading.liquidacion">
     <div class="col-md-4 col-6" 
          *ngFor="let item of liquidacion" 
-         style="cursor: pointer;">
+         style="cursor: pointer;"
+         (click)="navegarAProducto(item.producto)">
       <div class="promo-rect-card align-items-center">
         <!-- Imagen de liquidación -->
-        <div class="text-end" 
-             [routerLink]="['/', getCategoriaSlug(item.producto.categoria), generarSlugConId(item.producto)]" 
-             style="width: 105%;">
+        <div class="text-end" style="width: 105%;">
           <img [src]="item.imagen_url || item.producto.img || 'imagenes/default.webp'" 
                [alt]="item.producto.nombre" 
                class="img-fluid full-image"

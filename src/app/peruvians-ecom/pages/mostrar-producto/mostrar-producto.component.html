@@ -1,6 +1,10 @@
-<section *ngIf="categoria" style="background: linear-gradient(to right, #f7971e, #ffd200);">  
+<section *ngIf="categoria || nombreCategoriaActual" style="background: linear-gradient(to right, #f7971e, #ffd200);">  
   <div class="text-center text-white">
-    <h2 class="p-5 text-capitalize">{{ categoria.replace('-', ' ') }}</h2>
+    <h2 class="p-5 text-capitalize">
+      {{ nombreCategoriaActual || categoria.replace('-', ' ') }}
+      <small class="d-block mt-2" *ngIf="categoriaPadreId">
+      </small>
+    </h2>
   </div>
 </section>
 
@@ -35,12 +39,6 @@
                    value="masNuevos" (change)="onFiltroEstadoChange($event)" />
             <label class="form-check-label" for="masNuevos">Lo más nuevos</label>
           </div>
-
-          <!-- <div class="form-check">
-            <input class="form-check-input" type="radio" name="filtroEstado" id="promociones" 
-                   value="promociones" disabled />
-            <label class="form-check-label" for="promociones">En promociones</label>
-          </div> -->
         </div>
 
         <!-- Precio -->
@@ -103,10 +101,14 @@
         </div>
       </div>
 
-      <!-- Productos cuando termina de cargar -->
+      <!-- Productos cuando termina de cargar - ACTUALIZADO -->
       <div class="row gx-3 gy-4" *ngIf="!isLoading">
         <div class="col-6 col-sm-6 col-md-4 col-lg-3" *ngFor="let producto of productos">
-          <app-card [producto]="producto"></app-card>
+          <!-- CAMBIO PRINCIPAL: Pasar la ruta calculada -->
+          <app-card 
+            [producto]="producto" 
+            [rutaProducto]="generarRutaParaProducto(producto)">
+          </app-card>
         </div>
       </div>
 
