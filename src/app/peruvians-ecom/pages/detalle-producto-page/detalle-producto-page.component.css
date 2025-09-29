@@ -63,7 +63,7 @@
 .detalles-sticky {
   position: sticky;
   display: block;
-  top: 20px;              /* 🔑 punto de anclaje */
+  top: 23%;              /* 🔑 punto de anclaje */
   width: 50%;
    align-self: start;
   background-color: white;

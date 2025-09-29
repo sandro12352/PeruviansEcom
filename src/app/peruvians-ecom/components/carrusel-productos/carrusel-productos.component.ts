@@ -45,8 +45,10 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       if (el) {
         new bootstrap.Carousel(el, {
           touch: true,
-          interval: false
+          interval: 8000,
+          ride:'carousel',          
         });
+
         this.carouselInstanciado = true;
       }
     }

@@ -4,7 +4,6 @@
   
   border-radius: 12px;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #ffcc00, #ff0080);
   
 }
 .scroll-track {
@@ -19,6 +18,7 @@
      transition: transform 0.3s ease;
 }
 .scroll-track .carrusel-item img{
+  border: 1px solid #00000080;
     width: 100%; /* Asegura que la imagen ocupe todo el ancho del item */
     height: auto; /* Mantiene la proporción de la imagen */
     border-radius: 50%; /* Bordes redondeados */

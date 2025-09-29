@@ -51,77 +51,54 @@
           </button>
 
 <!-- Actualizar la sección del dropdown del menú -->
-    <div class="dropdown-menu custom-width p-3" aria-labelledby="menuDropdown" 
-        style="width: 99.2vw;height: 50vh;background-color: #fffffff2;"
-        (mouseleave)="ocultarSubcategorias()">
-      <div class="d-flex">
-        <!-- Categorías Padre (izquierda) -->
-        <ul class="list-unstyled me-4 categories-menu" style="width: 40%;">
-          <h2 class="fs-5">CATEGORÍAS</h2>
+    <!-- Mega menú de categorías -->
+<div class="dropdown-menu mega-menu p-4 border-0 shadow" 
+     aria-labelledby="menuDropdown"
+     (mouseleave)="ocultarSubcategorias()">
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Categorías Padre -->
+      <div class="col-12 col-md-4 border-end">
+        <h2 class="fs-5 mb-3">Categorías</h2>
+        <ul class="list-unstyled">
           <li *ngFor="let categoria of categorias" 
-              class="category-item d-flex justify-content-between align-items-center" 
+              class="category-item d-flex justify-content-between align-items-center py-2 px-2 rounded"
               (mouseenter)="mostrarSubcategorias(categoria)"
-              [ngClass]="{ 'active': categoriaActiva?.id === categoria.id }">
+              [ngClass]="{ 'active bg-light fw-bold': categoriaActiva?.id === categoria.id }">
             
-            <!-- Nombre de la categoría padre (clickeable) -->
-            <span class="category-name cursor-pointer flex-grow-1" 
-                  (click)="navegarACategoriaPadre(categoria)">
-              {{ categoria.nombre }}
+            <span (click)="navegarACategoriaPadre(categoria)">
+              {{ categoria.nombre | titlecase}}
             </span>
             
-            <!-- Flecha (solo si tiene subcategorías) -->
-            <i class="bi bi-chevron-right ms-2" 
-              *ngIf="categoria.subcategorias?.length"></i>
+            <i class="bi bi-chevron-right ms-2 text-muted" 
+               *ngIf="categoria.subcategorias?.length"></i>
           </li>
-          
-          <!-- Mensaje si no hay categorías -->
-          <li *ngIf="categorias.length === 0" class="text-muted">
-            Cargando categorías...
-          </li>
+          <li *ngIf="categorias.length === 0" class="text-muted py-2">Cargando categorías...</li>
         </ul>
-        
-        <!-- Subcategorías (derecha) -->
-        <div class="products-list" style="width: 60%; min-height: 200px; border-left: 1px solid #ddd; padding-left: 20px;">
-          <div *ngIf="categoriaActiva && subcategoriasActivas.length > 0">
-            <h3>{{ categoriaActiva.nombre }}</h3>
-            
-            <!-- Opción para ver todos los productos de la categoría padre -->
-            <div class="mb-3 p-2 rounded border-bottom">
-              <a (click)="navegarACategoriaPadre(categoriaActiva)" 
-                class="dropdown-item cursor-pointer fw-bold text-primary">
-                <i class="bi bi-grid me-2"></i>
-                Ver todos los productos de {{ categoriaActiva.nombre }}
-              </a>
-            </div>
-            
-            <!-- Lista de subcategorías -->
-            <ul class="products list-unstyled">
-              <li *ngFor="let subcategoria of subcategoriasActivas">
-                <a (click)="navegarACategoriaHijo(categoriaActiva, subcategoria)" 
-                  class="dropdown-item cursor-pointer">
-                  {{ subcategoria.nombre }}
-                </a>
-              </li>
-            </ul>
-          </div>
-          
-          <div *ngIf="categoriaActiva && subcategoriasActivas.length === 0">
-            <h3>{{ categoriaActiva.nombre }}</h3>
-            <div class="mb-3 p-2">
-              <a (click)="navegarACategoriaPadre(categoriaActiva)" 
-                class="dropdown-item cursor-pointer">
-                <i class="bi bi-grid me-2"></i>
-                Ver productos de {{ categoriaActiva.nombre }}
-              </a>
-            </div>
-          </div>
+      </div>
 
-          <div *ngIf="!categoriaActiva">
-            <p class="text-muted">Selecciona una categoría para ver sus opciones</p>
+      <!-- Subcategorías -->
+      <div class="col-12 col-md-8 ps-md-4 ">
+        <div *ngIf="categoriaActiva && subcategoriasActivas.length > 0">
+          <h3 class="fs-6  fw-semibold mb-3">{{ categoriaActiva.nombre | titlecase}}</h3>
+          <div class="row">
+            <div *ngFor="let subcategoria of subcategoriasActivas" class="col-6 col-lg-4 mb-2">
+              <a (click)="navegarACategoriaHijo(categoriaActiva, subcategoria)"
+                 class="dropdown-item  subcategoria">
+                {{ subcategoria.nombre }}
+              </a>
+            </div>
           </div>
+        </div>
+        <div *ngIf="!categoriaActiva" class="text-muted">
+          <p class="mt-3">Selecciona una categoría para ver sus opciones</p>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
 </div>
         
         <!-- Logo -->
@@ -208,13 +185,7 @@
               name="termino"
               (keyup)="buscar()" />
           </div>
-          <!-- Dropdown de sugerencias -->
-          <ul *ngIf="terminoBusqueda && productosFiltrados.length > 0" class="dropdown-busqueda">
-            <li *ngFor="let producto of productosFiltrados"
-                (click)="navegarAProducto(producto); seleccionarProducto(producto)">
-              {{ producto.nombre }}
-            </li>
-          </ul>
+        
         </form>
 
       <!-- Íconos -->
@@ -408,13 +379,7 @@
           name="termino"
           (keyup)="buscar()" />
       </div>
-      <!-- Dropdown de sugerencias -->
-      <ul *ngIf="terminoBusqueda && productosFiltrados.length > 0" class="dropdown-busqueda">
-        <li *ngFor="let producto of productosFiltrados"
-            (click)="navegarAProducto(producto); seleccionarProducto(producto)">
-          {{ producto.nombre }}
-        </li>
-      </ul>
+    
     </form>
       
     </div>

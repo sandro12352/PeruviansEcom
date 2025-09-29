@@ -6,11 +6,10 @@
 
 
 .fire-gradient {
-  background: linear-gradient(90deg, #FFA800, #D90076);
+  background-color:#FFA800; 
  color: white;
-  font-weight: bold;
- 
   white-space: nowrap;
+  font-weight: 200;
 }
  
  
@@ -18,13 +17,11 @@
   width: 100%;
   overflow: hidden;
   background-color: #8d48cd;
-  
   animation: bannerGradient 10s ease infinite;
-  color: #000;
- 
-  
+  color: #fff;
   padding: 5px;
 }
+
 .scroll-track {
     display: flex;
     width: max-content;
@@ -121,7 +118,7 @@ header {
 }
 
 .offcanvas-header{
- background:  #f88742;
+ background:  #FFA800;
 }
 
 .producto-titulo {
@@ -221,29 +218,31 @@ header {
 
 
 
-.category-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
+.mega-menu {
+  width: 90vw ;
+  left: 0;
+  right: 0 ;
+  top: 100%; /* justo debajo del header */
+  background-color: #fffffffa; /* blanco con leve transparencia */
+  border-radius: 0;
+  min-height: 50vh;
+}
+
+/* Efecto hover en categorías */
+.category-item:hover {
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+}
+
+.subcategoria:hover{
+  font-weight: 500;
+  cursor: pointer;
 }
 
 
-.category-item:hover,
-.category-item.active {
-  background-color: #ffe6003d;
-  color: #c5006e;
-  font-weight: 600;
-}
 
 
-.products-list li a:hover {
-  background-color: #fcd34d;
-  border-radius: 4px;
-}
+
+
 
 /* BUSQUEDA */
 
@@ -251,38 +250,13 @@ header {
   position: relative;
 }
 
-.dropdown-busqueda {
-  position: absolute;
-  top: 100%;  
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-top: 2px;
-  padding: 0;
-  list-style: none;
-  z-index: 1000;
-  max-height: 250px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+
 
 form.d-none.d-md-flex.mx-4.w-50 {
   position: relative;
 }
 
-.dropdown-busqueda li {
-  padding: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #000;
-  
-}
 
-.dropdown-busqueda li:hover {
-  background: #acabab;
-}
 
 /* Mejoras para el dropdown de usuario */
 .dropdown-menu {
@@ -304,32 +278,22 @@ form.d-none.d-md-flex.mx-4.w-50 {
 .dropdown-item i {
   width: 16px;
   font-size: 1rem;
-  text-align: center;
+  text-align: center; 
 }
 
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-}
 
-.dropdown-item.text-danger:hover {
-  background-color: #f8d7da;
-  color: #721c24 !important;
-}
 
-/* Asegurar que el dropdown se posicione correctamente */
-.dropdown {
-  position: relative;
-}
+
 
 /* Mejoras para el botón del dropdown */
 #userDropdown {
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
+  border: none ;
+  box-shadow: none ;
+  background: transparent ;
 }
 
 #userDropdown:focus {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 /* Responsive: ajustar en móviles */
