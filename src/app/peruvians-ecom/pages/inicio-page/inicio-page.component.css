@@ -57,7 +57,7 @@
 
 .categoria-card {
   flex: 0 0 auto;
-  width: 164px;
+  width: 15%;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
   background: #b461f368;
@@ -68,7 +68,6 @@
 .categoria-card:hover {
  
   border-color: #ffa600;
-  box-shadow: 0 4px 24px #eea214;
 }
 .categoria-img-wrapper {
   overflow: hidden;
@@ -84,8 +83,7 @@
 
 /* Hover effects */
 .categoria-card:hover .categoria-img {
-  box-shadow: 0 0 10px #225201;
-  transform: scale(1.05) rotate(-2deg);
+  transform: scale(1.05) ;
 }
 
 .categoria-title {
@@ -95,9 +93,6 @@
   transition: color 0.3s;
 }
 
-.categoria-card:hover .categoria-title {
-  color: #7b37e8;
-}
 
 
 .promo-card {

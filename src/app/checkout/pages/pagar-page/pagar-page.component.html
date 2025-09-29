@@ -193,32 +193,35 @@
               [class.selected]="selectedPayment === 'yape'"
               (click)="selectPayment('yape')"
             >
-            <div>
+            <div class="d-flex gap-1 align-items-center">
+
                 <img
-                src="https://logosenvector.com/logo/img/yape-bcp-4390.jpg"
+                src="./yape.png"
                 alt="Pago con Yape"
                 style="max-width: 80px"
               />
-              <span> Pago con Yape</span>
+              <img
+                src="./plin.png"
+                alt="Pago con Yape"
+              />
+              <span> Paga con Yape o Plin</span>
             </div>
             
-              <i class="bi bi-chevron-down fs-5"></i>
             </label>
 
             <label
               class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
-              [class.selected]="selectedPayment === 'plin'"
+              [class.selected]="selectedPayment === ''"
               (click)="selectPayment('plin')"
             >
-            <div> 
+            <div class="d-flex align-items-center"> 
               <img
-                src="https://images.seeklogo.com/logo-png/38/1/plin-logo-png_seeklogo-386806.png"
-                alt="Pago con Plin"
-                style="max-width: 80px"
+                src="./paquete.png"
+                alt="contraentrega" 
+                class="me-2 "
               />
-              <span> Pago con Plin</span>
+              <span>Contra entrega</span>
             </div>
-              <i class="bi bi-chevron-down fs-5"></i>
             </label>
           </div>
         </div>

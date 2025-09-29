@@ -1,6 +1,6 @@
 /* Banner moderno y rápido */
 .banner-natural {
-  background: linear-gradient(135deg, #FF8C42, #FF7518);
+  background: #FFA800;
   box-shadow: 0 4px 15px rgba(255, 140, 66, 0.2);
   font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
   font-weight: 700;
@@ -23,7 +23,7 @@
 
 /* Botón rápido y moderno */
 .btn-natural {
-  background: #FF8C42;
+  background: #FFA800;
   color: white;
   font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
   font-weight: 700;
@@ -60,7 +60,7 @@ h5,
 label {
   font-family: 'Inter', 'Poppins', 'Segoe UI', sans-serif;
   font-weight: 700;
-  color: #FF8C42;
+  color: #ff8c42;
   margin-bottom: 8px;
   letter-spacing: 0.3px;
 }
