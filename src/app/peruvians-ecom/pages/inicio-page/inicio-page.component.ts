@@ -8,7 +8,6 @@ import { CategoriaService } from '../../services/categoria.service';
 
 // IMPORTS CORREGIDOS - Solo importar una vez cada interfaz
 import { 
-  DashboardResponse,
   Liquidacion, 
   ConfiguracionCyberwow, 
   CyberwowBannerProducto,
@@ -76,17 +75,13 @@ export class InicioPageComponent implements OnInit {
     
     this.categoriaService.obtenerCategorias().subscribe({
       next: (response) => {
-        console.log('Respuesta del servicio de categorías:', response);
         if (response.success && response.data) {
           this.categoriasJerarquicas = response.data;
-          console.log('Categorías jerárquicas cargadas:', this.categoriasJerarquicas.length, 'categorías');
           
           // Debug: mostrar estructura
           this.categoriasJerarquicas.forEach(cat => {
-            console.log(`Categoría padre: ${cat.nombre} (ID: ${cat.id})`);
             if (cat.subcategorias) {
               cat.subcategorias.forEach((sub: any) => {
-                console.log(`  - Subcategoría: ${sub.nombre} (ID: ${sub.id})`);
               });
             }
           });

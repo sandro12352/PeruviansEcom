@@ -134,7 +134,8 @@
       <div *ngIf="!loadingRelacionados && productosRelacionados.length > 0">
         <peruvians-carrusel-productos 
           [productos]="productosRelacionados"
-          carouselId="carruselRelacionados">
+          carouselId="carruselRelacionados"
+          [categoriasJerarquicas]="categorias">
         </peruvians-carrusel-productos>
       </div>
 
