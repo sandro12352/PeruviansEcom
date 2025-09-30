@@ -5,7 +5,7 @@ import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.compo
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { CarritoPageComponent } from './pages/carrito-page/carrito-page.component';
 import { PagarPageComponent } from './pages/pagar-page/pagar-page.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule, // ← Agregar esta línea
+    ReactiveFormsModule,
     CheckoutRoutingModule,
     FormsModule
   ]

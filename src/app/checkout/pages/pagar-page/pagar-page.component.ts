@@ -7,6 +7,7 @@ import { AuthService } from '../../../peruvians-ecom/services/auth.service';
 import { Cliente } from '../../../peruvians-ecom/interfaces/cliente';
 import { Producto } from '../../../peruvians-ecom/interfaces/producto';
 import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pagar-page',
@@ -18,19 +19,13 @@ export class PagarPageComponent implements OnInit, OnDestroy {
   selectedPayment = 'card';
   procesandoPago = false;
   isAuthenticated = false;
+   loadingYape = false;
   currentUser: Cliente | null = null;
   
   productos: Producto[] = [];
   private subscriptions = new Subscription();
 
-  // Datos del cliente
-  cliente: ClienteInvitado = {
-    nombre: '',
-    dni: '',
-    email: '',
-    telefono: '',
-    direccion: ''
-  };
+  clienteForm!: FormGroup;
 
   // Datos de tarjeta - valores por defecto de Culqi para testing
   tarjeta: DatosTarjeta = {
@@ -41,6 +36,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+     private fb: FormBuilder,
     private carritoService: CarritoService,
     private compraService: CompraService,
     private authService: AuthService,
@@ -48,6 +44,14 @@ export class PagarPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.clienteForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      dni: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/),Validators.minLength(9), Validators.maxLength(9)]],
+    });
+
+
     this.productos = this.carritoService.getProductos();
     if (this.productos.length === 0) {
       this.router.navigate(['/checkout/carrito']);
@@ -92,31 +96,28 @@ export class PagarPageComponent implements OnInit, OnDestroy {
    * Llena los campos del formulario con los datos del usuario logueado
    */
   private fillClientData(user: Cliente): void {
-    this.cliente = {
+    this.clienteForm.patchValue({
       nombre: user.nombre || '',
       dni: user.dni || '',
       email: user.email || '',
       telefono: user.telefono || '',
       direccion: user.direccion || ''
-    };
+    });
 
-    // Si el usuario tiene dirección guardada, usarla como dirección de entrega
-    if (user.direccion && user.direccion.trim().length > 0) {
+    if (user.direccion) {
       this.direccionCliente = user.direccion;
     }
+
+    // Si quieres bloquear los campos cuando está autenticado:
+    this.clienteForm.disable();
   }
 
   /**
    * Limpia los datos del cliente cuando no está autenticado
    */
   private clearClientData(): void {
-    this.cliente = {
-      nombre: '',
-      dni: '',
-      email: '',
-      telefono: '',
-      direccion: ''
-    };
+    this.clienteForm.reset();
+
     this.direccionCliente = 'Ingrese su dirección de envío';
   }
 
@@ -152,8 +153,34 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  cantidadProductos(){
+    return this.productos.reduce((sum, producto) => sum + (producto.cantidad || 1), 0);
+  }
+
+  calcularTotalProductos(){
+    return this.productos.reduce((total, producto) => total + ((producto.precio_despues || producto.precio) * (producto.cantidad || 1)), 0);
+  }
+
+
   selectPayment(medio: string): void {
     this.selectedPayment = medio;
+
+    if (medio === 'yape') {
+      this.loadingYape = true;
+
+      setTimeout(() => {
+        const modal: any = document.getElementById('qrModal');
+        this.loadingYape = false;
+
+        const bsModal = new (window as any).bootstrap.Modal(modal);
+            bsModal.show();
+
+      }, 2000);
+
+
+    }
+
+
   }
 
   modificarDireccion(): void {
@@ -176,7 +203,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     if (this.procesandoPago) return;
 
     // Validación básica
-    if (!this.compraService.validarCliente(this.cliente)) {
+    if (!this.compraService.validarCliente(this.clienteForm.value)) {
       Swal.fire('Error', 'Complete todos los datos del cliente', 'error');
       return;
     }
@@ -218,7 +245,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
     try {
       const datosCompra = {
-        cliente: this.cliente,
+        cliente: this.clienteForm.value,
         direccion_envio: this.direccionCliente,
         metodo_pago: 'tarjeta' as const,
         productos: this.productos.map(p => ({

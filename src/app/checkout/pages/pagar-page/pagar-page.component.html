@@ -15,63 +15,62 @@
             </span>
           </div>
           
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Nombre completo</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                [(ngModel)]="cliente.nombre"
-                [class.is-valid]="isAuthenticated && cliente.nombre"
-                placeholder="Ingrese su nombre completo"
-                [readonly]="isAuthenticated && cliente.nombre">
-              <div *ngIf="isAuthenticated && cliente.nombre" class="valid-feedback">
+        <form [formGroup]="clienteForm" class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Nombre completo</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="nombre"
+              placeholder="Ingrese su nombre completo"
+              [readonly]="isAuthenticated && clienteForm.get('nombre')?.value">
+            <div *ngIf="isAuthenticated && clienteForm.get('nombre')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
             </div>
-            
+
             <div class="col-md-6 mb-3">
               <label class="form-label">DNI</label>
               <input 
                 type="text" 
                 class="form-control" 
-                [(ngModel)]="cliente.dni"
-                [class.is-valid]="isAuthenticated && cliente.dni"
+                formControlName="dni"
                 placeholder="12345678"
                 maxlength="8"
-                [readonly]="isAuthenticated && cliente.dni">
-              <div *ngIf="isAuthenticated && cliente.dni" class="valid-feedback">
+                [readonly]="isAuthenticated && clienteForm.get('dni')?.value">
+              <div *ngIf="isAuthenticated && clienteForm.get('dni')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
             </div>
-            
+
             <div class="col-md-6 mb-3">
               <label class="form-label">Email</label>
               <input 
                 type="email" 
                 class="form-control" 
-                [(ngModel)]="cliente.email"
-                [class.is-valid]="isAuthenticated && cliente.email"
+                formControlName="email"
                 placeholder="ejemplo@correo.com"
-                [readonly]="isAuthenticated && cliente.email">
-              <div *ngIf="isAuthenticated && cliente.email" class="valid-feedback">
+                [readonly]="isAuthenticated && clienteForm.get('email')?.value">
+              <div *ngIf="isAuthenticated && clienteForm.get('email')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
             </div>
-            
+
             <div class="col-md-6 mb-3">
               <label class="form-label">Teléfono</label>
               <input 
                 type="tel" 
                 class="form-control" 
-                [(ngModel)]="cliente.telefono"
-                [class.is-valid]="isAuthenticated && cliente.telefono"
+                formControlName="telefono"
+                maxlength="9"
                 placeholder="987654321">
               <small *ngIf="!isAuthenticated" class="form-text text-muted">
                 Opcional para usuarios invitados
               </small>
             </div>
-          </div>
+          </form>
+
+
 
           <!-- Mensaje informativo para usuarios no logueados -->
           <div *ngIf="!isAuthenticated" class="alert alert-info">
@@ -192,27 +191,21 @@
               class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
               [class.selected]="selectedPayment === 'yape'"
               (click)="selectPayment('yape')"
+              [class.disabled]="loadingYape"
             >
-            <div class="d-flex gap-1 align-items-center">
-
-                <img
-                src="./yape.png"
-                alt="Pago con Yape"
-                style="max-width: 80px"
-              />
-              <img
-                src="./plin.png"
-                alt="Pago con Yape"
-              />
-              <span> Paga con Yape o Plin</span>
-            </div>
-            
+              <div class="d-flex gap-1 align-items-center">
+                <img src="./yape.png" alt="Pago con Yape" style="max-width: 80px" />
+                <img src="./plin.png" alt="Pago con Plin" style="max-width: 80px" />
+                <span *ngIf="!loadingYape">Paga con Yape o Plin</span>
+                <span *ngIf="loadingYape">Cargando...</span>
+              </div>
             </label>
+
 
             <label
               class="payment-option border rounded d-flex justify-content-between align-items-center gap-3 p-3"
-              [class.selected]="selectedPayment === ''"
-              (click)="selectPayment('plin')"
+              [class.selected]="selectedPayment === 'contraentrega'"
+              (click)="selectPayment('contraentrega')"
             >
             <div class="d-flex align-items-center"> 
               <img
@@ -235,16 +228,10 @@
           <h5 class="card-title">Resumen de Compra</h5>
 
           <!-- Lista de productos -->
-          <div *ngFor="let producto of productos" class="d-flex justify-content-between align-items-center border-bottom py-2">
-          <div style="width: 100px; height: 100px; flex-shrink: 0;">
-            <img [src]="producto.img" alt="{{ producto.titulo }}" class="img-fluid rounded-3 h-100 w-100" style="object-fit: cover;">
-          </div>
-            <div class="cantidad-box d-flex justify-content-between align-items-center">
-              <button class="cantidad-btn" (click)="disminuirCantidad(producto)">-</button>
-              <span>{{ producto.cantidad }}</span>
-              <button class="cantidad-btn" (click)="aumentarCantidad(producto)">+</button>
-            </div>
-            <span class="fw-bold">S/ {{ (producto.precio_despues || producto.precio) * producto.cantidad! | number:'1.2-2' }}</span>
+          <div  class="d-flex justify-content-between align-items-center border-bottom py-2">
+         
+            Productos({{ cantidadProductos( ) }})
+            <span class="fw-bold">S/ {{ calcularTotalProductos() | number:'1.2-2' }}</span>
           </div>
 
           <!-- Totales -->
@@ -266,13 +253,42 @@
 
           <button 
             class="btn-pagar w-100 mt-3" 
-            [disabled]="procesandoPago"
+            [disabled]="clienteForm.invalid"
             (click)="pagar()">
-            <span *ngIf="!procesandoPago">Pagar S/ {{ total | number:'1.2-2' }}</span>
+            <span *ngIf="!procesandoPago" >Pagar S/ {{ total | number:'1.2-2' }}</span>
             <span *ngIf="procesandoPago">Procesando...</span>
           </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="qrModal"
+  tabindex="-1"
+  aria-labelledby="qrModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-3">
+      <h5 class="modal-title mb-3">Escanea con Yape</h5>
+      <div >
+        <img  alt="QR de Yape" class="img-fluid" />
+      </div>
+      <ng-template #loadingQr>
+        <p>Generando QR...</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Overlay que bloquea todo -->
+<div *ngIf="loadingYape" class="overlay">
+  <div class="spinner-border text-light" role="status">
+    <span class="visually-hidden">Cargando...</span>
   </div>
 </div>

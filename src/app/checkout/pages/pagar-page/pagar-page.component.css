@@ -9,6 +9,25 @@
   border-color: #007bff !important;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* oscurece */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* encima de todo */
+}
+
+.payment-option.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+
 .payment-option.selected {
   background-color: #e3f2fd;
   border-color: #007bff !important;
