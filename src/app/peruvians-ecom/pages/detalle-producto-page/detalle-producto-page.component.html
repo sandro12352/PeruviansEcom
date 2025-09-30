@@ -10,7 +10,7 @@
 
           <!-- Miniaturas del producto -->
           <div class="d-flex flex-column gap-2">
-            <div *ngFor="let img of producto.imagenes"
+            <div *ngFor="let img of producto.imagenes?.slice(0,5)"
                  class="thumb border rounded-3 shadow-sm p-1"
                  [class.active]="img.url === imagenSeleccionada"
                  (click)="imagenSeleccionada = img.url"
@@ -70,27 +70,60 @@
           </div>
           
           <!-- Sección de Precios -->
-          <div class="precios-container mb-4">
-            <!-- Precio original - solo mostrar tachado si hay descuento -->
-            <div class="precios mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
-              <span class="chicha-precio-original me-2">
-                S/. {{ producto.precio | number:'1.2-2'}}
-              </span>
-              <span class="chicha-badge">
-                -{{ producto.descuento }}
-              </span>
-            </div>
+          <!-- Sección de Precios + Envíos -->
+        <div class="d-flex justify-content-between align-items-start mb-4">
+          
+         <!-- Bloque precios -->
+<div class="precios-container mb-4">
+  <!-- Precio original + descuento + envíos -->
+  <div class="d-flex align-items-center justify-content-between mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
+    <div>
+      <span class="chicha-precio-original me-2">
+        S/. {{ producto.precio | number:'1.2-2'}}
+      </span>
+      <span class="chicha-badge me-3">
+        -{{ producto.descuento }}
+      </span>
+    </div>
 
-            <!-- Precio final -->
-            <div class="precios">
-              <span class="chicha-precio-oferta fs-2 fw-bold" 
-                    [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
-                S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
-                       (producto.precio_despues | number:'1.2-2') : 
-                       (producto.precio | number:'1.2-2') }}
-              </span>
-            </div>
-          </div>
+   <!-- Bloque envíos -->
+<div class="d-flex flex-column">
+  <div class="d-flex align-items-center gap-2">
+    <i class="bi bi-truck fs-5 text-secondary"></i>
+    <span class="badge-text text-dark">
+      Envíos <span class="free-tag bg-danger text-white px-2 rounded">GRATIS</span>
+    </span>
+  </div>
+
+  <!-- Formas de pago -->
+  <div class="d-flex align-items-center gap-3 ">
+    <span class="text-muted small">Paga con:</span>
+    <img src="./visa.png" alt="Visa" width="40" height="40" class="img-fluid" />
+    <img src="./yape.png" alt="Yape" width="40" />
+    <img src="./plin.png" alt="Plin" width="40" />
+    <span class="fw-bold text-secondary">y más</span>
+  </div>
+</div>
+
+  </div>
+
+  <!-- Precio final -->
+  <div class="precios d-flex gap-4">
+    <span class="chicha-precio-oferta fs-2 fw-bold" 
+          [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
+      S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
+             (producto.precio_despues | number:'1.2-2') : 
+             (producto.precio | number:'1.2-2') }}
+    </span>
+   
+  </div>
+</div>
+
+
+
+        
+      </div>
+
           
           <!-- Cantidad y Agregar al Carrito -->
           <div class="compra-container">

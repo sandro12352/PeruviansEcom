@@ -1,3 +1,36 @@
+
+
+  
+
+    .shipping-badge.primary-badge {
+      border-color: #0d6efd;
+      background: linear-gradient(135deg, #e7f1ff 0%, #ffffff 100%);
+    }
+
+    .shipping-badge.success-badge {
+      border-color: #198754;
+      background: linear-gradient(135deg, #d1f4e0 0%, #ffffff 100%);
+    }
+
+    .shipping-badge i {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+
+    .shipping-badge .badge-text {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .free-tag {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-left: 6px;
+      letter-spacing: 0.5px;
+    }
 /* ==================== STICKY QUE SIGUE EL SCROLL ==================== */
 
 .detalle-producto.container-fluid {
@@ -182,12 +215,12 @@
 
 .thumb:hover {
   transform: scale(1.08);
-  border-color: #3b82f6 !important;
+  border-color: #b461f368 !important;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 .thumb.active {
-  border-color: #3b82f6 !important;
+  border-color: #b461f368 !important;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
