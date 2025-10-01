@@ -71,7 +71,7 @@
           
           <button class="btn-lo-quiero" 
                   [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'">
-            {{ slide[0].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+            {{ slide[0].producto?.stock ? 'Lo quiero' : 'Ver más' }}
           </button>
         </div>
 
@@ -98,7 +98,7 @@
           
           <button class="btn-lo-quiero"
                   [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'">
-            {{ slide[1].producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+            {{ slide[1].producto?.stock ? 'Lo quiero' : 'Ver más' }}
           </button>
         </div>
 
@@ -191,7 +191,7 @@
         
         <button class="btn-lo-quiero"
                 [style.display]="isImageLoading(item.imagen_url) ? 'none' : 'block'">
-          {{ item.producto?.disponible ? 'Lo quiero' : 'Ver más' }}
+          {{ item.producto?.stock ? 'Lo quiero' : 'Ver más' }}
         </button>
       </div>
     </div>

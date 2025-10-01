@@ -163,6 +163,7 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
 
     const sub = this.carruselService.getCarrusel().subscribe({
       next: (response) => {
+        console.log(response)
         this.isLoading = false;
         
         if (response.success && response.data && response.data.length > 0) {
@@ -277,14 +278,34 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
     return `${nombreCorto}-${producto.id}`;
   }
 
+
+  private generarSlugCategoria(nombre: string): string {
+    return nombre.toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[áàäâ]/g, 'a')
+      .replace(/[éèëê]/g, 'e')
+      .replace(/[íìïî]/g, 'i')
+      .replace(/[óòöô]/g, 'o')
+      .replace(/[úùüû]/g, 'u')
+      .replace(/[ñ]/g, 'n')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
   /**
    * Maneja el clic en "Lo quiero"
    */
   onLoQuiero(item: Carrusel): void {
-    if (item.producto && item.producto.disponible && item.producto.categoria) {
+    if (item.producto && item.producto.stock  && item.producto.categoria) {
       const slug = this.generarSlugConId(item.producto);
-      this.router.navigate(['/', item.producto.categoria, slug]);
-    } else if (item.producto && item.producto.disponible) {
+      let categoriaPadre = 'productos'; // fallback por defecto
+      if (item.producto.categoria_completa?.padre?.nombre) {
+        categoriaPadre = this.generarSlugCategoria(item.producto.categoria_completa.padre.nombre);
+      }
+      this.router.navigate(['/',categoriaPadre, item.producto.categoria, slug]);
+    } else if (item.producto && item.producto.stock) {
       const slug = this.generarSlugConId(item.producto);
       this.router.navigate(['/productos', slug]);
     } else {

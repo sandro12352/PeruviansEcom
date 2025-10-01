@@ -144,7 +144,11 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       // Fallback si no hay categorías jerárquicas
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);
-        return ['/', categoriaSlug, this.generarSlugConId(producto)];
+       let categoriaPadre = 'productos'; // fallback por defecto
+      if (producto.categoria_completa?.padre?.nombre) {
+        categoriaPadre = this.generarSlugCategoria(producto.categoria_completa.padre.nombre);
+      }
+        return ['/',categoriaPadre, categoriaSlug, this.generarSlugConId(producto)];
       }
       return ['/productos', this.generarSlugConId(producto)];
     }
