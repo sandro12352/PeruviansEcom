@@ -1,17 +1,4 @@
-export interface Producto {
-  id: number;
-  nombre: string;
-  precio: number;
-  descripcion: string;
-  stock: number;
-  estado: string;
-  imagen: string;
-  imagen_url: string;
-  categoria: string;
-  url: string;
-  disponible: boolean;
-  sku?: string;
-}
+import { Producto } from "./producto";
 
 export interface Carrusel {
   id: number;
