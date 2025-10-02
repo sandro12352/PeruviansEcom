@@ -1,3 +1,9 @@
+.bg-list{
+  background-color: #f1e9f3;
+  color: #cf7ce4;
+}
+
+
 /* Estilos para el componente de pago */
 .payment-option {
   cursor: pointer;
@@ -49,7 +55,6 @@
   font-weight: 600;
   border-radius: 8px;
   transition: all 0.3s ease;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
@@ -66,49 +71,7 @@
   box-shadow: none;
 }
 
-/* Controles de cantidad */
-.cantidad-box {
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  overflow: hidden;
-  width: 100px;
-  height: 35px;
-}
 
-.cantidad-btn {
-  background: #f8f9fa;
-  border: none;
-  width: 30px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.cantidad-btn:hover {
-  background: #e9ecef;
-}
-
-.cantidad-btn:active {
-  background: #dee2e6;
-}
-
-.cantidad-box span {
-  flex: 1;
-  text-align: center;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  background: white;
-  border-left: 1px solid #dee2e6;
-  border-right: 1px solid #dee2e6;
-}
 
 /* Formulario de tarjeta */
 .form-control:focus {
@@ -116,17 +79,8 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Card sticky */
-.sticky-top {
-  position: sticky !important;
-  z-index: 10;
-}
 
-/* Animaciones para loading */
-.spinner-border-sm {
-  width: 1rem;
-  height: 1rem;
-}
+
 
 /* Responsive */
 @media (max-width: 768px) {

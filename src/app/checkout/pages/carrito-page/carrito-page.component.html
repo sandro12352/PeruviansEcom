@@ -3,7 +3,7 @@
   <div class="d-flex align-items-center gap-3 mb-5">
     <img role="button" routerLink="/" src="logo (2).png" alt="peruvian-ecom" width="160" height="65">
     <div> 
-        <h2 class="fw-bold m-0 p-0">CARRITO DE COMPRAS</h2>
+        <h1 class="fw-bold m-0 p-0 fs-3">CARRITO DE COMPRAS</h1>
         <a routerLink="/">Volver</a>
     </div>
   
@@ -57,6 +57,48 @@
       
     </div>
   </div>
+
+   <div class="container card shadow-sm border-1 rounded-4 p-3 mb-3">
+    <h5 class="text-dark fw-bold mt-3">Entrega</h5>
+    <div class="row ">
+        <!-- Botones (nav-tabs estilo botones) -->
+      <div class="nav d-flex justify-content-center mt-2 border-0 p-3 w-100">
+          <button type="button" class="btn btn-outline-success card shadow w-50 py-2 active" data-bs-toggle="tab" data-bs-target="#contenido1">
+            <div class="d-flex align-items-center gap-2">
+              <img src="   https://cdn-icons-png.flaticon.com/512/3854/3854968.png " width="25" height="25"> 
+              <span>Entrega a domicilio (Lima o Callao)</span> 
+            </div>
+           
+          </button>
+          <button class="btn btn-outline-success card shadow  w-50  py-2" data-bs-toggle="tab" data-bs-target="#contenido2">
+             <div class="d-flex align-items-center gap-2">
+              <span>Entra por agencia (Provincia)</span> 
+              <img src="   https://cdn-icons-png.flaticon.com/512/3854/3854968.png " width="25" height="25"> 
+            </div>
+          </button>
+      </div>
+
+      <!-- Contenidos -->
+      <div class="tab-content">
+        <div class="tab-pane fade show active p-3" id="contenido1">
+          <div class="card card-body">
+            Regular
+            <span class="text-muted fs-6">En hasta 24hr habíles</span>
+          </div>
+        </div>
+        <div class="tab-pane fade p-3" id="contenido2">
+             <div class="card card-body">
+            Regular
+            <span class="text-muted fs-6">En hasta 3 dias habíles</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    
+  </div>
+
 </div>
 
 
@@ -88,6 +130,8 @@
       </div>
     </div>
   </div>
+
+ 
 
   <!-- Carrito vacío -->
   <ng-template #carritoVacio>

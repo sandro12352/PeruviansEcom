@@ -10,7 +10,7 @@
 
           <!-- Miniaturas del producto -->
           <div class="d-flex flex-column gap-2">
-            <div *ngFor="let img of producto.imagenes?.slice(0,5)"
+            <div *ngFor="let img of producto.imagenes?.slice(0,6)"
                  class="thumb border rounded-3 shadow-sm p-1"
                  [class.active]="img.url === imagenSeleccionada"
                  (click)="imagenSeleccionada = img.url"

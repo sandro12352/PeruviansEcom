@@ -22,7 +22,17 @@ export class PagarPageComponent implements OnInit, OnDestroy {
    loadingYape = false;
   currentUser: Cliente | null = null;
   qr?:string ;
-  
+
+  departamentos: string[] = ['Lima', 'Callao'];
+  provincias: string[] = [];
+  distritos: string[] = [];
+
+
+  selectedDepartamento: string | null = null;
+selectedProvincia: string | null = null;
+selectedDistrito: string | null = null;
+direccionExacta: string = '';
+    
   productos: Producto[] = [];
   private subscriptions = new Subscription();
 
@@ -82,6 +92,30 @@ export class PagarPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
+
+  onDepartamentoChange() {
+  if (this.selectedDepartamento === 'Lima') {
+    this.provincias = ['Lima', 'Huaral', 'Cañete'];
+  } else if (this.selectedDepartamento === 'Callao') {
+    this.provincias = ['Callao'];
+  } else {
+    this.provincias = [];
+  }
+  this.selectedProvincia = null;
+  this.distritos = [];
+  this.selectedDistrito = null;
+}
+
+onProvinciaChange() {
+  if (this.selectedProvincia === 'Lima') {
+    this.distritos = ['Miraflores', 'San Isidro', 'Surco'];
+  } else if (this.selectedProvincia === 'Callao') {
+    this.distritos = ['Bellavista', 'La Perla'];
+  } else {
+    this.distritos = [];
+  }
+  this.selectedDistrito = null;
+}
 
   /**
    * Carga los datos del usuario autenticado
@@ -183,7 +217,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  async pagar(): Promise<void> {
+  pagar() {
     if (this.procesandoPago) return;
 
     // Validación básica
@@ -192,68 +226,19 @@ export class PagarPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Solo validar tarjeta si está seleccionado el pago con tarjeta
-    if (this.selectedPayment === 'card') {
-      if (!this.compraService.validarTarjeta(this.tarjeta)) {
-        Swal.fire('Error', 'Complete los datos de la tarjeta', 'error');
-        return;
-      }
-    }
+     // Validar dirección
+  if (
+    !this.selectedDepartamento ||
+    !this.selectedProvincia ||
+    !this.selectedDistrito ||
+    !this.direccionExacta ||
+    this.direccionExacta.trim() === ''
+  ) {
+    Swal.fire('Error', 'Debe completar todos los datos de la dirección de entrega', 'error');
+    return;
+  }
 
-
-    
-    if (this.selectedPayment === 'yape') {
-      this.loadingYape = true;
-
-      this.compraService.procesarCompra(this.clienteForm.value).subscribe({
-        next:(resp)=>{
-           console.log(resp.qr)
-            
-        }
-      })
-
-      setTimeout(() => {
-        const modal: any = document.getElementById('qrModal');
-        this.loadingYape = false;
-
-        const bsModal = new (window as any).bootstrap.Modal(modal);
-            bsModal.show();
-
-      }, 2000);
-
-
-    }
-
-
-    if (this.direccionCliente.length < 10) {
-      Swal.fire('Error', 'Ingrese una dirección válida', 'error');
-      return;
-    }
-
-    // Confirmar compra
-    const confirmacion = await Swal.fire({
-      title: '¿Confirmar compra?',
-      text: `Total a pagar: S/ ${this.total.toFixed(2)}`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, pagar',
-      cancelButtonText: 'Cancelar'
-    });
-
-    if (!confirmacion.isConfirmed) return;
-
-    this.procesandoPago = true;
-    
-    Swal.fire({
-      title: 'Procesando pago...',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-
-    try {
-      const datosCompra = {
+  const datosCompra = {
         cliente: this.clienteForm.value,
         direccion_envio: this.direccionCliente,
         metodo_pago: 'tarjeta' as const,
@@ -264,35 +249,136 @@ export class PagarPageComponent implements OnInit, OnDestroy {
         tarjeta: this.tarjeta
       };
 
-      const respuesta = await this.compraService.procesarCompra(datosCompra).toPromise();
+    // Solo validar tarjeta si está seleccionado el pago con tarjeta
+    if (this.selectedPayment === 'card') {
+      if (!this.compraService.validarTarjeta(this.tarjeta)) {
+        Swal.fire('Error', 'Complete los datos de la tarjeta', 'error');
+        return;
+      }
+      // Confirmar compra
+        Swal.fire({
+            title: '¿Confirmar compra?',
+            text: `Total a pagar: S/ ${this.total.toFixed(2)}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, pagar',
+            cancelButtonText: 'Cancelar'
+          }).then((result)=>{
+            if(result.isConfirmed){
+              this.procesandoPago = true;
+              
+              Swal.fire({
+                title: 'Procesando pago...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              });
 
-      if (respuesta?.success) {
-        this.carritoService.limpiarCarrito();
-        
-        await Swal.fire({
+            }
+            this.procesandoPago = false;
+
+          })
+
+
+      
+    }
+
+    if(this.selectedPayment === 'yape'){
+
+    }
+
+    
+    
+
+
+
+    try {
+      
+
+      this.compraService.procesarCompra(datosCompra).subscribe({
+        next:(data)=>{
+          this.carritoService.limpiarCarrito();
+           Swal.fire({
           icon: 'success',
           title: '¡Pago realizado con éxito!',
-          text: `Pedido : PED - ${respuesta.data?.pedido?.id || 'N/A'}`,
-          confirmButtonText: 'Continuar'
+          text: `Pedido : PED - ${data?.pedido?.id || 'N/A'}`,
+          confirmButtonText: 'Aceptar'
         });
+        setTimeout(() => {
+            this.router.navigate(['/']);
+        }, 3000);
+
         
-        this.router.navigate(['/']);
-      } else {
-        throw new Error(respuesta?.message || 'Error en el pago');
-      }
+        },
+        error:(error)=>{
+            Swal.fire({ 
+            icon: 'error',
+            title: 'Error en el pago',
+            text: error.error?.message || error.message || 'No se pudo procesar el pago',
+            confirmButtonText: 'Reintentar'
+          });
+        }
+      });
 
     } catch (error: any) {
       console.error('Error:', error);
       
-      await Swal.fire({ 
-        icon: 'error',
-        title: 'Error en el pago',
-        text: error.error?.message || error.message || 'No se pudo procesar el pago',
-        confirmButtonText: 'Reintentar'
-      });
+     
     } finally {
       this.procesandoPago = false;
     }
+  }
+
+
+  
+  private procesarPagoTarjeta() {
+    this.procesandoPago = true;
+
+    Swal.fire({
+      title: 'Procesando pago...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    const datosCompra = {
+      cliente: this.clienteForm.value,
+      direccion_envio: this.direccionCliente,
+      metodo_pago: 'tarjeta' as const ,
+      productos: this.productos.map(p => ({
+        producto_id: p.id,
+        cantidad: p.cantidad || 1
+      })),
+      tarjeta: this.tarjeta
+    };
+
+    this.compraService.procesarCompra(datosCompra).subscribe({
+      next: (data) => {
+        this.carritoService.limpiarCarrito();
+        Swal.fire({
+          icon: 'success',
+          title: '¡Pago realizado con éxito!',
+          text: `Pedido : PED - ${data?.pedido?.id || 'N/A'}`,
+          confirmButtonText: 'Aceptar'
+        });
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 3000);
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el pago',
+          text: error.error?.message || error.message || 'No se pudo procesar el pago',
+          confirmButtonText: 'Reintentar'
+        });
+      },
+      complete: () => {
+        this.procesandoPago = false;
+      }
+    });
   }
 
   onExpiryDateChange(event: any): void {

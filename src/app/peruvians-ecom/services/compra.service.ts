@@ -39,12 +39,8 @@ export class CompraService {
   constructor(private http: HttpClient) {}
 
   procesarCompra(datosCompra: DatosCompra): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    });
 
-    return this.http.post<any>(`${envs.apiUrl}/compra`, datosCompra, { headers });
+    return this.http.post<any>(`${envs.apiUrl}/compra`, datosCompra);
   }
 
   // Validaciones mejoradas
