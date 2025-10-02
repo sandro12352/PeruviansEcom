@@ -165,9 +165,6 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
   selectPayment(medio: string): void {
     this.selectedPayment = medio;
-
-
-
   }
 
   modificarDireccion(): void {
@@ -203,29 +200,6 @@ export class PagarPageComponent implements OnInit, OnDestroy {
       }
     }
 
-
-    
-    if (this.selectedPayment === 'yape') {
-      this.loadingYape = true;
-
-      this.compraService.procesarCompra(this.clienteForm.value).subscribe({
-        next:(resp)=>{
-           console.log(resp.qr)
-            
-        }
-      })
-
-      setTimeout(() => {
-        const modal: any = document.getElementById('qrModal');
-        this.loadingYape = false;
-
-        const bsModal = new (window as any).bootstrap.Modal(modal);
-            bsModal.show();
-
-      }, 2000);
-
-
-    }
 
 
     if (this.direccionCliente.length < 10) {

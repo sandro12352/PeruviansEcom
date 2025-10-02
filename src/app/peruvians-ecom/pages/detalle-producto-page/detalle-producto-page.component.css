@@ -51,20 +51,7 @@
   z-index: 1;
 }
 
-/* Panel sticky simplificado */
 
-/* ==================== RESPONSIVE ==================== */
-
-@media (max-width: 991px) {
-  .detalles-sticky {
-    position: relative !important;
-    top: auto !important;
-    max-height: none !important;
-    overflow-y: visible !important;
-    margin-top: 2rem;
-    z-index: 1 !important;
-  }
-}
 
 /* ==================== SCROLLBAR Y ANIMACIONES ==================== */
 
@@ -95,10 +82,8 @@
 }
 .detalles-sticky {
   position: sticky;
-  display: block;
-  top: 23%;              /* 🔑 punto de anclaje */
-  width: 50%;
-   align-self: start;
+  top: 20%;              /* 🔑 punto de anclaje */
+  align-self: start;
   background-color: white;
 }
 
