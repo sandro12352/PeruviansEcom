@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, takeWhile } from 'rxjs';
 import { CarritoService } from '../../../peruvians-ecom/services/carrito.service';
-import { CompraService, ClienteInvitado, DatosTarjeta } from '../../../peruvians-ecom/services/compra.service';
+import { CompraService, DatosTarjeta } from '../../../peruvians-ecom/services/compra.service';
 import { AuthService } from '../../../peruvians-ecom/services/auth.service';
 import { Cliente } from '../../../peruvians-ecom/interfaces/cliente';
 import { Producto } from '../../../peruvians-ecom/interfaces/producto';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UbigeoService } from '../../services/ubigeo.service';
+import { Departamento, Distrito, Provincia, Ubigeo } from '../../interfaces/ubigeo.interface';
 
 @Component({
   selector: 'app-pagar-page',
@@ -21,17 +23,17 @@ export class PagarPageComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
    loadingYape = false;
   currentUser: Cliente | null = null;
-  qr?:string ;
-
-  departamentos: string[] = ['Lima', 'Callao'];
-  provincias: string[] = [];
-  distritos: string[] = [];
 
 
-  selectedDepartamento: string | null = null;
-selectedProvincia: string | null = null;
-selectedDistrito: string | null = null;
-direccionExacta: string = '';
+  departamentos: Departamento[] = [];
+  provincias: Provincia[] = [];
+  distritos: Distrito[] = [];
+
+
+  selectedDepartamento: Departamento  | null = null;
+  selectedProvincia: Provincia | null = null;
+  selectedDistrito: Distrito | null = null;
+  direccionExacta: string = '';
     
   productos: Producto[] = [];
   private subscriptions = new Subscription();
@@ -51,10 +53,17 @@ direccionExacta: string = '';
     private carritoService: CarritoService,
     private compraService: CompraService,
     private authService: AuthService,
+    private ubigeoService:UbigeoService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    const entrega = this.carritoService.getEntrega();
+
+    this.ubigeoService.getUbigeo(entrega).subscribe(res=>{
+        this.departamentos = res;
+    })
+
     this.clienteForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       dni: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
@@ -93,29 +102,24 @@ direccionExacta: string = '';
     this.subscriptions.unsubscribe();
   }
 
-  onDepartamentoChange() {
-  if (this.selectedDepartamento === 'Lima') {
-    this.provincias = ['Lima', 'Huaral', 'Cañete'];
-  } else if (this.selectedDepartamento === 'Callao') {
-    this.provincias = ['Callao'];
-  } else {
-    this.provincias = [];
-  }
-  this.selectedProvincia = null;
-  this.distritos = [];
-  this.selectedDistrito = null;
-}
+  
 
-onProvinciaChange() {
-  if (this.selectedProvincia === 'Lima') {
-    this.distritos = ['Miraflores', 'San Isidro', 'Surco'];
-  } else if (this.selectedProvincia === 'Callao') {
-    this.distritos = ['Bellavista', 'La Perla'];
-  } else {
+    onDepartamentoChange() {
+    this.provincias = this.selectedDepartamento ? this.selectedDepartamento.provincias : [];
+    this.selectedProvincia = null;
     this.distritos = [];
+    this.selectedDistrito = null;
   }
-  this.selectedDistrito = null;
-}
+
+  onProvinciaChange() {
+    this.distritos = this.selectedProvincia ? this.selectedProvincia.distritos : [];
+    this.selectedDistrito = null;
+  }
+
+
+
+
+  
 
   /**
    * Carga los datos del usuario autenticado
@@ -152,8 +156,6 @@ onProvinciaChange() {
    */
   private clearClientData(): void {
     this.clienteForm.reset();
-
-    this.direccionCliente = 'Ingrese su dirección de envío';
   }
 
   get subtotal(): number {
@@ -166,26 +168,6 @@ onProvinciaChange() {
 
   get total(): number {
     return this.carritoService.calcularTotal();
-  }
-
-  aumentarCantidad(producto: Producto): void {
-    this.carritoService.aumentarCantidad(producto);
-  }
-
-  disminuirCantidad(producto: Producto): void {
-    if (producto.cantidad! > 1) {
-      this.carritoService.disminuirCantidad(producto);
-    } else {
-      this.eliminarProducto(producto);
-    }
-  }
-
-  eliminarProducto(producto: Producto): void {
-    this.carritoService.eliminarProducto(producto);
-    this.productos = this.carritoService.getProductos();
-    if (this.productos.length === 0) {
-      this.router.navigate(['/checkout/carrito']);
-    }
   }
 
   cantidadProductos(){
@@ -238,16 +220,6 @@ onProvinciaChange() {
     return;
   }
 
-  const datosCompra = {
-        cliente: this.clienteForm.value,
-        direccion_envio: this.direccionCliente,
-        metodo_pago: 'tarjeta' as const,
-        productos: this.productos.map(p => ({
-          producto_id: p.id,
-          cantidad: p.cantidad || 1
-        })),
-        tarjeta: this.tarjeta
-      };
 
     // Solo validar tarjeta si está seleccionado el pago con tarjeta
     if (this.selectedPayment === 'card') {
@@ -267,14 +239,7 @@ onProvinciaChange() {
             if(result.isConfirmed){
               this.procesandoPago = true;
               
-              Swal.fire({
-                title: 'Procesando pago...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                  Swal.showLoading();
-                }
-              });
-
+              this.procesarPagoTarjeta()
             }
             this.procesandoPago = false;
 
@@ -284,50 +249,19 @@ onProvinciaChange() {
       
     }
 
-    if(this.selectedPayment === 'yape'){
+  if (this.selectedPayment === 'yape') {
+  
+    this.procesarPagoYape();
+  }
 
-    }
+
 
     
     
 
 
 
-    try {
-      
-
-      this.compraService.procesarCompra(datosCompra).subscribe({
-        next:(data)=>{
-          this.carritoService.limpiarCarrito();
-           Swal.fire({
-          icon: 'success',
-          title: '¡Pago realizado con éxito!',
-          text: `Pedido : PED - ${data?.pedido?.id || 'N/A'}`,
-          confirmButtonText: 'Aceptar'
-        });
-        setTimeout(() => {
-            this.router.navigate(['/']);
-        }, 3000);
-
-        
-        },
-        error:(error)=>{
-            Swal.fire({ 
-            icon: 'error',
-            title: 'Error en el pago',
-            text: error.error?.message || error.message || 'No se pudo procesar el pago',
-            confirmButtonText: 'Reintentar'
-          });
-        }
-      });
-
-    } catch (error: any) {
-      console.error('Error:', error);
-      
-     
-    } finally {
-      this.procesandoPago = false;
-    }
+  
   }
 
 
@@ -345,27 +279,28 @@ onProvinciaChange() {
 
     const datosCompra = {
       cliente: this.clienteForm.value,
+      departamento:this.selectedDepartamento!,
+      provincia:this.selectedProvincia!,
+      distrito:this.selectedDistrito!,
       direccion_envio: this.direccionCliente,
       metodo_pago: 'tarjeta' as const ,
       productos: this.productos.map(p => ({
         producto_id: p.id,
         cantidad: p.cantidad || 1
       })),
-      tarjeta: this.tarjeta
+      tarjeta: this.tarjeta,
     };
 
     this.compraService.procesarCompra(datosCompra).subscribe({
       next: (data) => {
+        console.log(data)
         this.carritoService.limpiarCarrito();
         Swal.fire({
           icon: 'success',
-          title: '¡Pago realizado con éxito!',
-          text: `Pedido : PED - ${data?.pedido?.id || 'N/A'}`,
+          title: data.message,
+          text: `Recibiras tu constacia de compra en:${data.data.cliente.email}`,
           confirmButtonText: 'Aceptar'
         });
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 3000);
       },
       error: (error) => {
         Swal.fire({
@@ -380,6 +315,73 @@ onProvinciaChange() {
       }
     });
   }
+
+  private procesarPagoYape(){
+
+     const datosCompra = {
+      cliente: this.clienteForm.value,
+      direccion_envio: this.direccionCliente,
+      departamento:this.selectedDepartamento!,
+      provincia:this.selectedProvincia!,
+      distrito:this.selectedDistrito!,
+      metodo_pago: 'yape' as const,
+      productos: this.productos.map(p => ({
+        producto_id: p.id,
+        cantidad: p.cantidad || 1
+      })),
+    };
+
+     Swal.fire({
+    title: 'Generando QR...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+
+      this.compraService.procesarCompra(datosCompra).subscribe(data => {
+        Swal.close(); // cerramos el loading  
+        const qr = data.yape.qr_url;
+         Swal.fire({
+          title: 'Escanea este QR con Yape',
+          html: `<img src="${qr}" alt="QR de pago" width="200" height="200"><br>
+                 <small class="text-muted">Estamos esperando la confirmación del pago...</small>`,
+          showConfirmButton: false,
+          allowOutsideClick: false
+        });
+
+        this.compraService.pollEstadoPedido(data.order_id)
+              .pipe(
+                takeWhile(res => res.estado !== 'pendiente' && res.estado !== 'creado' && res.estado !== 'pagado' && res.estado !== 'eliminado' && res.estado !== 'eliminado', true)
+              )
+              .subscribe(res => {
+                if (res.estado === 'pagado') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: '¡Pago confirmado!',
+                    text: 'Tu pedido fue pagado con Yape'
+                  });
+                } else if (res.estado === 'fallido') {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Pago fallido',
+                    text: 'El pago no se pudo procesar. Inténtalo nuevamente.'
+                  });
+                } else if (res.estado === 'expirado') {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'QR expirado',
+                    text: 'Tu QR ya no es válido, genera uno nuevo.'
+                  });
+                }
+                Swal.close();
+
+              });
+
+
+      });
+    }
+  });
+  }
+  
 
   onExpiryDateChange(event: any): void {
     let value = event.target.value.replace(/\D/g, ''); // quitar todo lo que no sea número

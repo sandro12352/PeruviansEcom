@@ -8,16 +8,23 @@ import { CarritoService } from '../../../peruvians-ecom/services/carrito.service
   styleUrl: './carrito-page.component.css'
 })
 export class CarritoPageComponent {
+
+  selectedEntrega!: 'domicilio' | 'agencia';
+  
   productos: Producto[] = [];
     constructor(
       private carritoService:CarritoService
     ){}
     ngOnInit(): void {
      this.productos = this.carritoService.getProductos(); 
+     this.carritoService.setEntrega('domicilio');
     
     }
   
-  
+  seleccionarEntrega(tipo:'domicilio'|'agencia'){
+    this.selectedEntrega = tipo;
+    this.carritoService.setEntrega(tipo);
+  }
   
   
   calcularSubtotal():number{

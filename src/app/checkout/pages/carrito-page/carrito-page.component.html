@@ -63,14 +63,16 @@
     <div class="row ">
         <!-- Botones (nav-tabs estilo botones) -->
       <div class="nav d-flex justify-content-center mt-2 border-0 p-3 w-100">
-          <button type="button" class="btn btn-outline-success card shadow w-50 py-2 active" data-bs-toggle="tab" data-bs-target="#contenido1">
+          <button type="button" class="btn btn-outline-success card shadow w-50 py-2 active" data-bs-toggle="tab" data-bs-target="#contenido1"
+          (click)="seleccionarEntrega('domicilio')">
             <div class="d-flex align-items-center gap-2">
               <img src="   https://cdn-icons-png.flaticon.com/512/3854/3854968.png " width="25" height="25"> 
               <span>Entrega a domicilio (Lima o Callao)</span> 
             </div>
            
           </button>
-          <button class="btn btn-outline-success card shadow  w-50  py-2" data-bs-toggle="tab" data-bs-target="#contenido2">
+          <button class="btn btn-outline-success card shadow  w-50  py-2" data-bs-toggle="tab" data-bs-target="#contenido2"
+          (click)="seleccionarEntrega('agencia')">
              <div class="d-flex align-items-center gap-2">
               <span>Entra por agencia (Provincia)</span> 
               <img src="   https://cdn-icons-png.flaticon.com/512/3854/3854968.png " width="25" height="25"> 

@@ -14,6 +14,8 @@ export class CarritoService {
   itemsCount$ = this.itemsCount.asObservable();
   private storageKey = 'carrito';
 
+  private entregaKey = 'entrega';
+
   constructor() { 
      this.cargarDesdeLocalStorage();
       this.actualizarCantidadTotal();
@@ -28,6 +30,14 @@ export class CarritoService {
     this.productos = data ? JSON.parse(data) : [];
   }
 
+
+    setEntrega(tipo: 'domicilio' | 'agencia') {
+        localStorage.setItem(this.entregaKey, tipo);
+      }
+
+    getEntrega(): 'domicilio' | 'agencia' {
+    return (localStorage.getItem(this.entregaKey) as 'domicilio' | 'agencia') || 'domicilio';
+  }
 
 
   getProductos(): Producto[] {
@@ -116,5 +126,7 @@ export class CarritoService {
   calcularTotal(): number {
     return this.calcularSubtotal() - this.calcularDescuento();
   }
+
+  
 
 }

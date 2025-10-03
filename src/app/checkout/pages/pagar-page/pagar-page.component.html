@@ -27,6 +27,11 @@
             <div *ngIf="isAuthenticated && clienteForm.get('nombre')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
+
+               <div *ngIf="clienteForm.get('nombre')?.invalid" class="invalid-feedback d-block">
+                El nombre completo es obligatorio.
+              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -41,6 +46,10 @@
               <div *ngIf="isAuthenticated && clienteForm.get('dni')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
+
+              <div *ngIf="clienteForm.get('dni')?.invalid" class="invalid-feedback d-block">
+                  DNI es obligatorio y debe tener 8 digitos
+              </div>
             </div>
 
             <div class="col-md-6 mb-3">
@@ -54,6 +63,11 @@
               <div *ngIf="isAuthenticated && clienteForm.get('email')?.value" class="valid-feedback">
                 Datos cargados automáticamente
               </div>
+
+
+               <div *ngIf="clienteForm.get('email')?.invalid" class="invalid-feedback d-block">
+                  Email es obligatorio
+              </div>
             </div>
 
             <div class="col-md-6 mb-3">
@@ -64,9 +78,14 @@
                 formControlName="telefono"
                 maxlength="9"
                 placeholder="987654321">
-              <small *ngIf="!isAuthenticated" class="form-text text-muted">
-                Opcional para usuarios invitados
-              </small>
+              <div *ngIf="isAuthenticated && clienteForm.get('telefono')?.value" class="valid-feedback">
+                Datos cargados automáticamente
+              </div>
+
+
+              <div *ngIf="clienteForm.get('telefono')?.invalid" class="invalid-feedback d-block">
+                  Teléfono es obligatorio y debe tener 9 digitos
+              </div>
             </div>
           </form>
 
@@ -110,7 +129,7 @@
                   <select class="form-select" [(ngModel)]="selectedDepartamento" name="departamento"
                           (change)="onDepartamentoChange()">
                     <option [ngValue]="null">Selecciona...</option>
-                    <option *ngFor="let d of departamentos" [value]="d">{{ d }}</option>
+                    <option *ngFor="let d of departamentos" [ngValue]="d">{{ d.nombre }}</option>
                   </select>
                 </div>
 
@@ -120,7 +139,7 @@
                   <select class="form-select" [(ngModel)]="selectedProvincia" name="provincia"
                           (change)="onProvinciaChange()" [disabled]="!selectedDepartamento">
                     <option [ngValue]="null">Selecciona...</option>
-                    <option *ngFor="let p of provincias" [value]="p">{{ p }}</option>
+                    <option *ngFor="let p of provincias" [ngValue]="p">{{ p.nombre }}</option>
                   </select>
                 </div>
 
@@ -130,7 +149,7 @@
                   <select class="form-select" [(ngModel)]="selectedDistrito" name="distrito"
                           [disabled]="!selectedProvincia">
                     <option [ngValue]="null">Selecciona...</option>
-                    <option *ngFor="let dis of distritos" [value]="dis">{{ dis }}</option>
+                    <option *ngFor="let dis of distritos" [value]="dis">{{ dis.nombre }}</option>
                   </select>
                 </div>
 
@@ -160,9 +179,10 @@
               (click)="selectPayment('card')"
             >
               <div class="d-flex align-items-center gap-1">
-                  <img src="./visa.png"alt="Pago con tarjeta" width="40" height="40"/>
-                  <img src="./mastercard.png"alt="Pago con tarjeta" width="40" height="40"/>
-                  <img src="./americaexpress.png"alt="Pago con tarjeta" width="30" height="30"/>
+                  <img src="./visa.png"alt="Pago con tarjeta" width="50" height="50"/>
+                  <img src="./mastercard.png"alt="Pago con tarjeta" width="50" height="50"/>
+                  <img src="./americanexpress1.png"alt="Pago con tarjeta" />
+                  <img src="./americaexpress.png"alt="Pago con tarjeta" />
               <span class="ms-2">Pago con tarjeta</span>
               </div>
               <i class="bi bi-chevron-down fs-5"></i>
@@ -240,8 +260,8 @@
               [class.disabled]="loadingYape"
             >
               <div class="d-flex gap-1 align-items-center">
-                <img src="./yape.png" alt="Pago con Yape" style="max-width: 80px" />
-                <img src="./plin.png" alt="Pago con Plin" style="max-width: 80px" />
+                <img src="./yape.png" alt="Pago con Yape"  />
+                <img src="./plin.png" alt="Pago con Plin"  />
                 <span *ngIf="!loadingYape" class="ms-2">Paga con Yape o Plin</span>
                 <span *ngIf="loadingYape">Cargando...</span>
               </div>

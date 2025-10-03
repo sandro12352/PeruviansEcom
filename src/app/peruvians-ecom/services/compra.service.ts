@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, timer } from 'rxjs';
 import { envs } from '../../config/envs';
+import { Departamento, Distrito, Provincia } from '../../checkout/interfaces/ubigeo.interface';
 
 export interface ClienteInvitado {
   nombre: string;
@@ -25,10 +26,13 @@ export interface ProductoCompra {
 
 export interface DatosCompra {
   cliente: ClienteInvitado;
+  departamento:Departamento,
+  provincia:Provincia,
+  distrito:Distrito,
   direccion_envio: string;
-  metodo_pago: 'tarjeta';
+  metodo_pago: 'tarjeta' | 'yape';
   productos: ProductoCompra[];
-  tarjeta: DatosTarjeta;
+  tarjeta?: DatosTarjeta;
 }
 
 @Injectable({
@@ -41,6 +45,16 @@ export class CompraService {
   procesarCompra(datosCompra: DatosCompra): Observable<any> {
 
     return this.http.post<any>(`${envs.apiUrl}/compra`, datosCompra);
+  }
+
+  getEstadoPedido(id: number): Observable<any> {
+    return this.http.get(`${envs.apiUrl}/estado.php?id=${id}`);
+  }
+
+  pollEstadoPedido(idorder_id: number): Observable<any> {
+    return timer(0, 3000).pipe(
+      switchMap(() => this.getEstadoPedido(idorder_id))
+    );
   }
 
   // Validaciones mejoradas
