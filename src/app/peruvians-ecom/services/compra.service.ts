@@ -26,9 +26,9 @@ export interface ProductoCompra {
 
 export interface DatosCompra {
   cliente: ClienteInvitado;
-  departamento:Departamento,
-  provincia:Provincia,
-  distrito:Distrito,
+  departamento:string,
+  provincia:string,
+  distrito:string,
   direccion_envio: string;
   metodo_pago: 'tarjeta' | 'yape';
   productos: ProductoCompra[];
@@ -48,7 +48,7 @@ export class CompraService {
   }
 
   getEstadoPedido(id: number): Observable<any> {
-    return this.http.get(`${envs.apiUrl}/estado.php?id=${id}`);
+    return this.http.get(`${envs.apiUrl}/verificar-orden-yape/${id}`);
   }
 
   pollEstadoPedido(idorder_id: number): Observable<any> {

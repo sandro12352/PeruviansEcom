@@ -279,9 +279,9 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
     const datosCompra = {
       cliente: this.clienteForm.value,
-      departamento:this.selectedDepartamento!,
-      provincia:this.selectedProvincia!,
-      distrito:this.selectedDistrito!,
+      departamento:this.selectedDepartamento?.nombre!,
+      provincia:this.selectedProvincia?.nombre!,
+      distrito:this.selectedDistrito?.nombre!,
       direccion_envio: this.direccionCliente,
       metodo_pago: 'tarjeta' as const ,
       productos: this.productos.map(p => ({
@@ -320,16 +320,17 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
      const datosCompra = {
       cliente: this.clienteForm.value,
-      direccion_envio: this.direccionCliente,
-      departamento:this.selectedDepartamento!,
-      provincia:this.selectedProvincia!,
-      distrito:this.selectedDistrito!,
+      direccion_envio: this.direccionExacta,
+      departamento:this.selectedDepartamento!.nombre,
+      provincia:this.selectedProvincia!.nombre,
+      distrito:this.selectedDistrito!.nombre,
       metodo_pago: 'yape' as const,
       productos: this.productos.map(p => ({
         producto_id: p.id,
         cantidad: p.cantidad || 1
       })),
     };
+    console.log(datosCompra)
 
      Swal.fire({
     title: 'Generando QR...',
@@ -339,7 +340,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
       this.compraService.procesarCompra(datosCompra).subscribe(data => {
         Swal.close(); // cerramos el loading  
-        const qr = data.yape.qr_url;
+        const qr = data.yape;
          Swal.fire({
           title: 'Escanea este QR con Yape',
           html: `<img src="${qr}" alt="QR de pago" width="200" height="200"><br>

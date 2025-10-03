@@ -149,7 +149,7 @@
                   <select class="form-select" [(ngModel)]="selectedDistrito" name="distrito"
                           [disabled]="!selectedProvincia">
                     <option [ngValue]="null">Selecciona...</option>
-                    <option *ngFor="let dis of distritos" [value]="dis">{{ dis.nombre }}</option>
+                    <option *ngFor="let dis of distritos" [ngValue]="dis">{{ dis.nombre }}</option>
                   </select>
                 </div>
 
