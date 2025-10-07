@@ -9,7 +9,7 @@ import { Carrusel } from '../../interfaces/carrusel';
   templateUrl: './carrusel-principal.component.html',
   styleUrls: ['./carrusel-principal.component.css']
 })
-export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CarruselPrincipalComponent implements OnInit, OnDestroy {
   
   carruselItems: Carrusel[] = [];
   isLoading = false; // Cambiado a false inicialmente
@@ -29,22 +29,12 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    // Inicializar carruseles inmediatamente (solo con banner)
-    setTimeout(() => {
-      this.initializeCarousels();
-    }, 100);
-    
+  ngOnInit(): void {  
     // Cargar contenido dinámico
     this.cargarCarrusel();
   }
 
-  ngAfterViewInit(): void {
-    // Segunda inicialización para asegurar que Bootstrap funcione
-    setTimeout(() => {
-      this.initializeCarousels();
-    }, 200);
-  }
+ 
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -54,61 +44,60 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
    * Inicializa los carruseles de Bootstrap
    */
   private initializeCarousels(): void {
-  const desktopCarousel = document.getElementById('carouselInicio');
-  const mobileCarousel = document.getElementById('carouselInicioMobile');
+    const desktopCarousel = document.getElementById('carouselInicio');
+    const mobileCarousel = document.getElementById('carouselInicioMobile');
 
-  // Reinicializar carrusel desktop
-  if (desktopCarousel && (window as any).bootstrap) {
-    try {
-      const carousel = new (window as any).bootstrap.Carousel(desktopCarousel, {
-        ride: false,
-        wrap: true,
-        interval: 3000, // ✅ 3 segundos (3000 milisegundos)
-        pause: 'hover'
-      });
+    // Reinicializar carrusel desktop
+    if (desktopCarousel && (window as any).bootstrap) {
+      try {
+        const carousel = new (window as any).bootstrap.Carousel(desktopCarousel, {
+          interval: 3000, // ✅ 3 segundos (3000 milisegundos)
+          pause: 'hover',
+          ride:'carousel',
+        });
 
-      // Escuchar eventos de cambio de slide
-      desktopCarousel.addEventListener('slide.bs.carousel', (event: any) => {
-        this.preloadNextSlideImages(event.to, 'desktop');
-      });
+        // Escuchar eventos de cambio de slide
+        desktopCarousel.addEventListener('slide.bs.carousel', (event: any) => {
+          this.preloadNextSlideImages(event.to, 'desktop');
+        });
 
-      // Activar auto-play solo si hay slides dinámicos
-      if (this.desktopSlides.length > 0) {
-        setTimeout(() => {
-          carousel.cycle();
-        }, 2000);
+        // Activar auto-play solo si hay slides dinámicos
+        if (this.desktopSlides.length > 0) {
+          setTimeout(() => {
+            carousel.cycle();
+          }, 2000);
+        }
+      } catch (error) {
+        console.warn('Error inicializando carrusel desktop:', error);
       }
-    } catch (error) {
-      console.warn('Error inicializando carrusel desktop:', error);
+    }
+
+    // Reinicializar carrusel móvil
+    if (mobileCarousel && (window as any).bootstrap) {
+      try {
+        const carousel = new (window as any).bootstrap.Carousel(mobileCarousel, {
+          ride: false,
+          wrap: false,
+          interval: 3000, // ✅ 3 segundos (3000 milisegundos)
+          pause: 'hover'
+        });
+
+        // Escuchar eventos de cambio de slide
+        mobileCarousel.addEventListener('slide.bs.carousel', (event: any) => {
+          this.preloadNextSlideImages(event.to, 'mobile');
+        });
+
+        // Activar auto-play solo si hay slides dinámicos
+        if (this.mobileSlides.length > 0) {
+          setTimeout(() => {
+            carousel.cycle();
+          }, 2000);
+        }
+      } catch (error) {
+        console.warn('Error inicializando carrusel móvil:', error);
+      }
     }
   }
-
-  // Reinicializar carrusel móvil
-  if (mobileCarousel && (window as any).bootstrap) {
-    try {
-      const carousel = new (window as any).bootstrap.Carousel(mobileCarousel, {
-        ride: false,
-        wrap: true,
-        interval: 3000, // ✅ 3 segundos (3000 milisegundos)
-        pause: 'hover'
-      });
-
-      // Escuchar eventos de cambio de slide
-      mobileCarousel.addEventListener('slide.bs.carousel', (event: any) => {
-        this.preloadNextSlideImages(event.to, 'mobile');
-      });
-
-      // Activar auto-play solo si hay slides dinámicos
-      if (this.mobileSlides.length > 0) {
-        setTimeout(() => {
-          carousel.cycle();
-        }, 2000);
-      }
-    } catch (error) {
-      console.warn('Error inicializando carrusel móvil:', error);
-    }
-  }
-}
 
   /**
    * Precarga las imágenes del siguiente slide
@@ -161,17 +150,16 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
     this.isLoading = true;
     this.error = null;
 
-    const sub = this.carruselService.getCarrusel().subscribe({
+    this.carruselService.getCarrusel().subscribe({
       next: (response) => {
-        console.log(response)
         this.isLoading = false;
         
         if (response.success && response.data && response.data.length > 0) {
           this.carruselItems = response.data;
+          console.log(this.carruselItems)
           this.procesarSlides();
           this.preloadInitialImages();
           
-          // Reinicializar carruseles con contenido dinámico
           setTimeout(() => {
             this.initializeCarousels();
           }, 100);
@@ -188,7 +176,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
       }
     });
 
-    this.subscription.add(sub);
   }
 
   /**
@@ -221,7 +208,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
    */
   private procesarSlides(): void {
     // Desktop slides (agrupando de a 2)
-    this.desktopSlides = [];
     if (this.carruselItems && this.carruselItems.length > 0) {
       for (let i = 0; i < this.carruselItems.length; i += 2) {
         const slide = this.carruselItems.slice(i, i + 2);
@@ -335,7 +321,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy, AfterViewI
    */
   onImageError(event: any): void {
     const imageUrl = event.target.src;
-    console.warn('Error al cargar imagen:', imageUrl);
     
     // Marcar como error
     this.imageErrorStates.set(imageUrl, true);

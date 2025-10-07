@@ -70,7 +70,6 @@ export class InicioPageComponent implements OnInit {
    * NUEVO: Carga las categorías con su estructura jerárquica
    */
  private cargarCategoriasJerarquicas(): void {
-    console.log('Cargando categorías jerárquicas...');
     this.loading.categorias = true;
     
     this.categoriaService.obtenerCategorias().subscribe({
@@ -659,7 +658,6 @@ getCategoriaRoute(categoria: Categoria): string[] {
         if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
           const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
           const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-          console.log('Fallback con categoria_completa:', ['/', padreSlug, hijoSlug, slug]);
           this.router.navigate(['/', padreSlug, hijoSlug, slug]);
           return;
         }
@@ -667,11 +665,9 @@ getCategoriaRoute(categoria: Categoria): string[] {
       
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);
-        console.log('Fallback con categoria string:', ['/', categoriaSlug, slug]);
         this.router.navigate(['/', categoriaSlug, slug]);
         return;
       } else {
-        console.log('Navegando a productos genérico:', ['/productos', slug]);
         this.router.navigate(['/productos', slug]);
         return;
       }
@@ -682,11 +678,9 @@ getCategoriaRoute(categoria: Categoria): string[] {
     if (categoriaPadre && categoriaHijo) {
       const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
       const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
-      console.log('Navegando a ruta completa:', ['/', slugPadre, slugHijo, slug]);
       this.router.navigate(['/', slugPadre, slugHijo, slug]);
     } else if (categoriaPadre) {
       const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-      console.log('Navegando a ruta padre:', ['/', slugPadre, slug]);
       this.router.navigate(['/', slugPadre, slug]);
     } else {
       // Fallbacks adicionales

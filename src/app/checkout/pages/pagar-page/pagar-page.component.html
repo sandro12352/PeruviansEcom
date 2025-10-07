@@ -28,9 +28,13 @@
                 Datos cargados automáticamente
               </div>
 
-               <div *ngIf="clienteForm.get('nombre')?.invalid" class="invalid-feedback d-block">
+               <div *ngIf="clienteForm.get('nombre')?.hasError('required')" class="invalid-feedback d-block">
                 El nombre completo es obligatorio.
               </div>
+
+              <div *ngIf="clienteForm.get('nombre')?.hasError('nombreIncompleto')" class="invalid-feedback d-block">
+                  Debe ingresar al menos nombre y apellido.
+                </div>
 
             </div>
 

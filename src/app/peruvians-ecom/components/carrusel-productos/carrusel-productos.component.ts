@@ -1,12 +1,4 @@
-import {
-  AfterViewChecked,
-  Component,
-  HostListener,
-  Inject,
-  Input,
-  OnChanges,
-  PLATFORM_ID
-} from '@angular/core';
+import {AfterViewChecked,Component,HostListener,Inject,Input,OnChanges,PLATFORM_ID} from '@angular/core';
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria';
 import { isPlatformBrowser } from '@angular/common';
@@ -36,7 +28,6 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
   @HostListener('window:resize')
   onResize() {
     this.calcularGrupos();
-    this.carouselInstanciado = false; // reinicia si cambia de tamaño
   }
 
   ngAfterViewChecked(): void {
@@ -44,8 +35,8 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       const el = document.getElementById(this.carouselId);
       if (el) {
         new bootstrap.Carousel(el, {
-          touch: true,
-          interval: 8000,
+          pause:'hover',
+          interval: 5000,
           ride:'carousel',          
         });
 

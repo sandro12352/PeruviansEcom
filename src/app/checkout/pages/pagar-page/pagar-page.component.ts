@@ -7,7 +7,7 @@ import { AuthService } from '../../../peruvians-ecom/services/auth.service';
 import { Cliente } from '../../../peruvians-ecom/interfaces/cliente';
 import { Producto } from '../../../peruvians-ecom/interfaces/producto';
 import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { UbigeoService } from '../../services/ubigeo.service';
 import { Departamento, Distrito, Provincia, Ubigeo } from '../../interfaces/ubigeo.interface';
 
@@ -65,7 +65,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     })
 
     this.clienteForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      nombre: ['', [Validators.required, Validators.minLength(3),this.nombreCompletoValidator]],
       dni: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/),Validators.minLength(9), Validators.maxLength(9)]],
@@ -100,6 +100,17 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  nombreCompletoValidator(control: FormControl): ValidationErrors | null {
+    const valor = control.value?.trim();
+    if (!valor) return null;
+
+    // Dividir por espacios y eliminar vacíos
+    const palabras = valor.split(' ').filter((p:any) => p.length > 0);
+
+    // Si hay menos de 2 palabras → inválido
+    return palabras.length < 2 ? { nombreIncompleto: true } : null;
   }
 
   
@@ -249,21 +260,11 @@ export class PagarPageComponent implements OnInit, OnDestroy {
       
     }
 
-  if (this.selectedPayment === 'yape') {
-  
-    this.procesarPagoYape();
-  }
-
-
-
+    if (this.selectedPayment === 'yape') {
     
-    
-
-
-
-  
+      this.procesarPagoYape();
+    } 
   }
-
 
   
   private procesarPagoTarjeta() {
@@ -330,7 +331,6 @@ export class PagarPageComponent implements OnInit, OnDestroy {
         cantidad: p.cantidad || 1
       })),
     };
-    console.log(datosCompra)
 
      Swal.fire({
     title: 'Generando QR...',
@@ -338,18 +338,25 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     didOpen: () => {
       Swal.showLoading();
 
-      this.compraService.procesarCompra(datosCompra).subscribe(data => {
-        Swal.close(); // cerramos el loading  
-        const qr = data.yape;
+      this.compraService.procesarCompra(datosCompra).subscribe({
+        next:(data)=>{
+          Swal.close(); // cerramos el loading  
+        const qr = data.data.yape.qr_url;
          Swal.fire({
-          title: 'Escanea este QR con Yape',
-          html: `<img src="${qr}" alt="QR de pago" width="200" height="200"><br>
-                 <small class="text-muted">Estamos esperando la confirmación del pago...</small>`,
-          showConfirmButton: false,
-          allowOutsideClick: false
-        });
+            title: 'Escanea este QR con Yape',
+            html: `
+              <img src="${qr}" alt="QR de pago" width="200" height="200"><br><br>
+              <p><strong>Por favor ingresar el monto exacto:</strong></p>
+              <h3 class="text-success">S/ ${this.total.toFixed(2)}</h3>
+              <small class="text-muted">Estamos esperando la confirmación del pago...</small>
+            `,
+            showConfirmButton: true,
+            confirmButtonText: 'Cerrar',
+            allowOutsideClick: false,
+            allowEscapeKey: true
+          });
 
-        this.compraService.pollEstadoPedido(data.order_id)
+        this.compraService.pollEstadoPedido(data.data.yape.order_id)
               .pipe(
                 takeWhile(res => res.estado !== 'pendiente' && res.estado !== 'creado' && res.estado !== 'pagado' && res.estado !== 'eliminado' && res.estado !== 'eliminado', true)
               )
@@ -373,10 +380,18 @@ export class PagarPageComponent implements OnInit, OnDestroy {
                     text: 'Tu QR ya no es válido, genera uno nuevo.'
                   });
                 }
-                Swal.close();
-
               });
-
+        },
+        error:(error)=>{
+          console.error('Error en la solicitud:', error);
+          Swal.close(); // cierra cualquier loading activo si lo hubiera
+          Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'Ocurrió un error al procesar el pago. Por favor, inténtalo nuevamente.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
 
       });
     }

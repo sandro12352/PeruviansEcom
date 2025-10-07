@@ -4,20 +4,16 @@
   flex-wrap: nowrap;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-}
-.productos-slide::-webkit-scrollbar {
-  display: none; /* Oculta la barra en Chrome/Safari */
+  align-items: stretch;
 }
 
-.producto-card {
-  scroll-snap-align: start;
-}
+
 
 /* En escritorio: 5 productos, cada uno 20% ancho menos gap */
 @media (min-width: 768px) {
   .producto-card {
-    flex: 0 0 calc(20% - 0.8rem);
+      display: flex;
+    flex: 1 1 0;
     max-width: calc(20% - 0.8rem);
     
   }
