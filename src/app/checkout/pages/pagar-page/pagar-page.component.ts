@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, takeWhile } from 'rxjs';
+import { Subscription, takeWhile, tap } from 'rxjs';
 import { CarritoService } from '../../../peruvians-ecom/services/carrito.service';
 import { CompraService, DatosTarjeta } from '../../../peruvians-ecom/services/compra.service';
 import { AuthService } from '../../../peruvians-ecom/services/auth.service';
@@ -347,7 +347,7 @@ export class PagarPageComponent implements OnInit, OnDestroy {
             html: `
               <img src="${qr}" alt="QR de pago" width="200" height="200"><br><br>
               <p><strong>Por favor ingresar el monto exacto:</strong></p>
-              <h3 class="text-success">S/ ${this.total.toFixed(2)}</h3>
+              <span class="text-success">S/ ${this.total.toFixed(2)}</span>
               <small class="text-muted">Estamos esperando la confirmación del pago...</small>
             `,
             showConfirmButton: true,
@@ -356,31 +356,68 @@ export class PagarPageComponent implements OnInit, OnDestroy {
             allowEscapeKey: true
           });
 
-        this.compraService.pollEstadoPedido(data.data.yape.order_id)
+       this.compraService.pollEstadoPedido(data.data.yape.order_id)
               .pipe(
-                takeWhile(res => res.estado !== 'pendiente' && res.estado !== 'creado' && res.estado !== 'pagado' && res.estado !== 'eliminado' && res.estado !== 'eliminado', true)
+                tap(res => console.log('📦 Respuesta del polling:', res)), // Ver qué llega del backend
+                takeWhile(
+                  res => {
+                    // Si no hay pedido todavía, seguir consultando
+                    if (!res.pedido) return true;
+
+                    // Si hay pedido, detener solo cuando el estado finalice
+                    return !['pagado', 'fallido', 'expirado'].includes(res.pedido.estado);
+                  },
+                  true // incluir el último valor emitido
+                )
               )
-              .subscribe(res => {
-                if (res.estado === 'pagado') {
-                  Swal.fire({
-                    icon: 'success',
-                    title: '¡Pago confirmado!',
-                    text: 'Tu pedido fue pagado con Yape'
-                  });
-                } else if (res.estado === 'fallido') {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Pago fallido',
-                    text: 'El pago no se pudo procesar. Inténtalo nuevamente.'
-                  });
-                } else if (res.estado === 'expirado') {
-                  Swal.fire({
-                    icon: 'warning',
-                    title: 'QR expirado',
-                    text: 'Tu QR ya no es válido, genera uno nuevo.'
-                  });
-                }
+              .subscribe({
+                next: res => {
+                  if (!res.pedido) {
+                    console.log('⌛ Aún esperando confirmación de pago...');
+                    return;
+                  }
+
+                  const estado = res.pedido.estado;
+                  const confirmado = res.pedido.culqi_confirmado; // 👈 este campo lo defines tú en tu backend
+
+                  console.log('📢 Estado actual del pedido:', estado, ' - Confirmado Culqi:', confirmado);
+
+                  // Estado intermedio — pago detectado, pero falta confirmación final
+                  if (estado === 'pagado' && !confirmado) {
+                    Swal.fire({
+                      title: 'Procesando pago...',
+                      html: '<b>Estamos confirmando tu pago con Culqi.</b><br>Esto puede tardar unos segundos.',
+                      allowOutsideClick: false,
+                      didOpen: () => Swal.showLoading()
+                    });
+                    return;
+                  }
+
+                  // Pago confirmado totalmente
+                  if (estado === 'pagado' && confirmado) {
+                    Swal.close(); // cerrar el "procesando pago"
+                    Swal.fire({
+                      icon: 'success',
+                      title: '¡Pago confirmado!',
+                      text: 'Tu pedido fue pagado con Yape correctamente.'
+                    });
+                  } else if (estado === 'fallido') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Pago fallido',
+                      text: 'El pago no se pudo procesar. Inténtalo nuevamente.'
+                    });
+                  } else if (estado === 'expirado') {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'QR expirado',
+                      text: 'Tu QR ya no es válido, genera uno nuevo.'
+                    });
+                  }
+                },
+                error: err => console.error('❌ Error en el polling:', err)
               });
+
         },
         error:(error)=>{
           console.error('Error en la solicitud:', error);

@@ -1,28 +1,4 @@
 
-
-  
-
-    .shipping-badge.primary-badge {
-      border-color: #0d6efd;
-      background: linear-gradient(135deg, #e7f1ff 0%, #ffffff 100%);
-    }
-
-    .shipping-badge.success-badge {
-      border-color: #198754;
-      background: linear-gradient(135deg, #d1f4e0 0%, #ffffff 100%);
-    }
-
-    .shipping-badge i {
-      font-size: 20px;
-      margin-right: 8px;
-    }
-
-    .shipping-badge .badge-text {
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.3px;
-    }
-
     .free-tag {
       padding: 2px 8px;
       border-radius: 12px;
@@ -47,11 +23,35 @@
 
 /* Columna izquierda - galería */
 .galeria-container {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+@media (max-width: 768px) {
+  .galeria-container .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: center;
+  }
 
+  .galeria-container .d-flex.flex-column.gap-2 {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .thumb {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .imagen-principal {
+    height: auto !important;
+    max-height: 400px;
+  }
+
+  
+}
 
 /* ==================== SCROLLBAR Y ANIMACIONES ==================== */
 
@@ -218,16 +218,7 @@
   transform: scale(1.02);
 }
 
-.imagen-referencial {
-  margin-bottom: 2rem;
-  animation: fadeInUp 0.6s ease-out;
-  animation-fill-mode: both;
-}
 
-.imagen-referencial:nth-child(2) { animation-delay: 0.1s; }
-.imagen-referencial:nth-child(3) { animation-delay: 0.2s; }
-.imagen-referencial:nth-child(4) { animation-delay: 0.3s; }
-.imagen-referencial:nth-child(5) { animation-delay: 0.4s; }
 
 .imagen-referencial img {
   transition: all 0.3s ease;
@@ -266,23 +257,5 @@
   animation: fadeIn 0.5s ease-out;
 }
 
-.spinner-border {
-  color: #3b82f6 !important;
-}
 
-.bi-info-circle-fill {
-  color: #f59e0b !important;
-}
 
-.bi-star-fill {
-  color: #06b6d4 !important;
-}
-
-.bi-lightbulb-fill {
-  color: #10b981 !important;
-}
-
-.text-muted {
-  color: #64748b !important;
-  line-height: 1.6;
-}

@@ -2,7 +2,7 @@
 
 <!-- Categorias -->
 <section class="container my-5">
-  <h2 class=" mb-4">Categorías</h2>
+  <h1 class="fs-2 mb-4">Categorías</h1>
 
   <div class="categoria-wrapper gap-4">
     <!-- Categorías dinámicas desde la base de datos -->
@@ -149,7 +149,7 @@
          (click)="navegarAProducto(item.producto)">
       <div class="promo-rect-card align-items-center">
         <!-- Imagen de liquidación -->
-        <div class="text-end" style="width: 105%;">
+        <div class="text-end">
           <img [src]="item.imagen_url || item.producto.img || 'imagenes/default.webp'" 
                [alt]="item.producto.nombre" 
                class="img-fluid full-image"

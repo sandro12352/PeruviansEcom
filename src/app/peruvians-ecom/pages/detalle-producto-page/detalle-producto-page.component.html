@@ -1,15 +1,15 @@
 <div *ngIf="producto" class="detalle-producto container-fluid px-4 py-4">
-  <div class="d-flex flex-column flex-lg-row align-items-start mb-4 gap-3">
+  <div class="row align-items-start mb-4 g-4">
     
     <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
-    <div class="col-lg-6 col-md-6 col-12">
+    <div class="col-12 col-md-12 col-lg-6">
       <div class="galeria-container">
         
         <!-- Imagen Principal del Producto -->
         <div class="d-flex justify-content-between mb-4 p-0 gap-3">
 
           <!-- Miniaturas del producto -->
-          <div class="d-flex flex-column gap-2">
+          <div class="d-flex flex-md-column gap-md-2 gap-1">
             <div *ngFor="let img of producto.imagenes?.slice(0,6)"
                  class="thumb border rounded-3 shadow-sm p-1"
                  [class.active]="img.url === imagenSeleccionada"
@@ -51,7 +51,7 @@
     </div>
 
     <!-- COLUMNA DERECHA: DETALLES DEL PRODUCTO (STICKY) -->
-    <div class="col-lg-6 col-md-12 col-12 detalles-sticky">
+    <div class="col-12 col-md-12 col-lg-6 detalles-sticky">
       <div class="">
         <div class="bg-white shadow-lg p-4 rounded-4 border">
           
