@@ -15,7 +15,7 @@
       display: flex;
     flex: 1 1 0;
     max-width: calc(20% - 0.8rem);
-    
+    min-height: 515px;
   }
 }
 /* Estilos para pantallas pequeñas (móviles) */
@@ -62,9 +62,9 @@
   width: auto;
 }
 .carousel-control-next{
-  right: -60px;
+  right: -40px;
 }
 
 .carousel-control-prev {
-  left: -60px;
+  left: -40px;
 }

@@ -206,161 +206,161 @@ private cargarCategorias(): void {
 /**
  * NUEVO: Generar ruta para un producto específico - usar en templates
  */
-generarRutaParaProducto(producto: Producto): string[] {
-  const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
-  const slug = this.generarSlugConId(producto);
+  generarRutaParaProducto(producto: Producto): string[] {
+    const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
+    const slug = this.generarSlugConId(producto);
 
-  if (categoriaPadre && categoriaHijo) {
-    // Ruta completa: padre/hijo/producto
-    const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-    const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
-    return ['/', slugPadre, slugHijo, slug];
-  } else if (categoriaPadre) {
-    // Solo categoría padre: padre/producto
-    const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-    return ['/', slugPadre, slug];
-  } else {
-    // Fallbacks
-    if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-      const categoriaCompleta = producto.categoria_completa as any;
-      if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-        const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-        const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-        return ['/', padreSlug, hijoSlug, slug];
+    if (categoriaPadre && categoriaHijo) {
+      // Ruta completa: padre/hijo/producto
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+      return ['/', slugPadre, slugHijo, slug];
+    } else if (categoriaPadre) {
+      // Solo categoría padre: padre/producto
+      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+      return ['/', slugPadre, slug];
+    } else {
+      // Fallbacks
+      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+        const categoriaCompleta = producto.categoria_completa as any;
+        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+          return ['/', padreSlug, hijoSlug, slug];
+        }
       }
+      
+      if (producto.categoria && typeof producto.categoria === 'string') {
+        const categoriaSlug = this.generarSlugCategoria(producto.categoria);
+        return ['/', categoriaSlug, slug];
+      }
+      
+      return ['/productos', slug];
     }
+  }
+
+  // Método actualizado en MostrarProductoComponent
+  private cargarCategoriaDesdeRuta(): void {
+    const path = this.route.snapshot.routeConfig?.path || '';
     
-    if (producto.categoria && typeof producto.categoria === 'string') {
-      const categoriaSlug = this.generarSlugCategoria(producto.categoria);
-      return ['/', categoriaSlug, slug];
+    // Capturar ambos parámetros de la ruta
+    this.categoriaPadreSlug = this.route.snapshot.paramMap.get('categoriaPadreSlug');
+    this.categoriaHijoSlug = this.route.snapshot.paramMap.get('categoriaHijoSlug');
+    
+    //console.log('Parámetros de ruta:', { 
+    //  padre: this.categoriaPadreSlug, 
+    //  hijo: this.categoriaHijoSlug,
+    //  path: path
+    //});
+
+    // Si tenemos categoría padre e hijo
+    if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
+      this.buscarCategoriaHijoPorSlug(this.categoriaPadreSlug, this.categoriaHijoSlug);
+      return;
     }
+
+    // Si solo tenemos categoría padre
+    if (this.categoriaPadreSlug) {
+      this.buscarCategoriaPadrePorSlug(this.categoriaPadreSlug);
+      return;
+    }
+
+    // LEGACY: Mantener compatibilidad con rutas antiguas
+    this.categoria = this.route.snapshot.paramMap.get('categorias') || '';
     
-    return ['/productos', slug];
+    const categoriaPadreParam = this.route.snapshot.queryParamMap.get('categoria_padre_id');
+    const nombreCategoriaParam = this.route.snapshot.queryParamMap.get('nombre_categoria');
+    
+    if (categoriaPadreParam) {
+      this.categoriaPadreId = categoriaPadreParam;
+      this.nombreCategoriaActual = nombreCategoriaParam || '';
+      this.obtenerProductosPorCategoriaPadre(categoriaPadreParam);
+      return;
+    } else {
+      this.categoriaPadreId = null;
+      this.nombreCategoriaActual = '';
+    }
+
+    // Resto del código se mantiene igual...
+    const terminoBusqueda = this.route.snapshot.queryParamMap.get('buscar');
+    if (terminoBusqueda) {
+      this.buscarProductosConFiltros(terminoBusqueda);
+      return;
+    }
+
+    if (this.filtroSeleccionado === 'oferta') {
+      this.obtenerProductosEnOferta();
+    } else if (this.filtroSeleccionado === 'masVendidos' || path === 'mas-vendidos') {
+      this.obtenerProductosMasVendidos();
+    } else if (this.filtroSeleccionado === 'masNuevos' || path === 'mas-nuevos') {
+      this.obtenerProductosMasNuevos();
+    } else if (this.filtroSeleccionado === 'ofertas' || path === 'ofertas') {
+      this.obtenerProductosEnOferta();
+    } else if (path === 'productos') {
+      this.obtenerProductosConFiltros();
+    } else {
+      this.obtenerProductosPorCategoriaConFiltros(this.categoria);
+    }
   }
-}
+  private buscarCategoriaHijoPorSlug(padreSlug: string, hijoSlug: string): void {
+    if (this.categorias.length === 0) {
+      setTimeout(() => this.buscarCategoriaHijoPorSlug(padreSlug, hijoSlug), 100);
+      return;
+    }
 
-// Método actualizado en MostrarProductoComponent
-private cargarCategoriaDesdeRuta(): void {
-  const path = this.route.snapshot.routeConfig?.path || '';
-  
-  // Capturar ambos parámetros de la ruta
-  this.categoriaPadreSlug = this.route.snapshot.paramMap.get('categoriaPadreSlug');
-  this.categoriaHijoSlug = this.route.snapshot.paramMap.get('categoriaHijoSlug');
-  
-  //console.log('Parámetros de ruta:', { 
-  //  padre: this.categoriaPadreSlug, 
-  //  hijo: this.categoriaHijoSlug,
-  //  path: path
-  //});
+    const padreSlugNormalizado = this.normalizarSlug(padreSlug);
+    const hijoSlugNormalizado = this.normalizarSlug(hijoSlug);
 
-  // Si tenemos categoría padre e hijo
-  if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
-    this.buscarCategoriaHijoPorSlug(this.categoriaPadreSlug, this.categoriaHijoSlug);
-    return;
-  }
-
-  // Si solo tenemos categoría padre
-  if (this.categoriaPadreSlug) {
-    this.buscarCategoriaPadrePorSlug(this.categoriaPadreSlug);
-    return;
-  }
-
-  // LEGACY: Mantener compatibilidad con rutas antiguas
-  this.categoria = this.route.snapshot.paramMap.get('categorias') || '';
-  
-  const categoriaPadreParam = this.route.snapshot.queryParamMap.get('categoria_padre_id');
-  const nombreCategoriaParam = this.route.snapshot.queryParamMap.get('nombre_categoria');
-  
-  if (categoriaPadreParam) {
-    this.categoriaPadreId = categoriaPadreParam;
-    this.nombreCategoriaActual = nombreCategoriaParam || '';
-    this.obtenerProductosPorCategoriaPadre(categoriaPadreParam);
-    return;
-  } else {
-    this.categoriaPadreId = null;
-    this.nombreCategoriaActual = '';
-  }
-
-  // Resto del código se mantiene igual...
-  const terminoBusqueda = this.route.snapshot.queryParamMap.get('buscar');
-  if (terminoBusqueda) {
-    this.buscarProductosConFiltros(terminoBusqueda);
-    return;
-  }
-
-  if (this.filtroSeleccionado === 'oferta') {
-    this.obtenerProductosEnOferta();
-  } else if (this.filtroSeleccionado === 'masVendidos' || path === 'mas-vendidos') {
-    this.obtenerProductosMasVendidos();
-  } else if (this.filtroSeleccionado === 'masNuevos' || path === 'mas-nuevos') {
-    this.obtenerProductosMasNuevos();
-  } else if (this.filtroSeleccionado === 'ofertas' || path === 'ofertas') {
-    this.obtenerProductosEnOferta();
-  } else if (path === 'productos') {
-    this.obtenerProductosConFiltros();
-  } else {
-    this.obtenerProductosPorCategoriaConFiltros(this.categoria);
-  }
-}
-private buscarCategoriaHijoPorSlug(padreSlug: string, hijoSlug: string): void {
-  if (this.categorias.length === 0) {
-    setTimeout(() => this.buscarCategoriaHijoPorSlug(padreSlug, hijoSlug), 100);
-    return;
-  }
-
-  const padreSlugNormalizado = this.normalizarSlug(padreSlug);
-  const hijoSlugNormalizado = this.normalizarSlug(hijoSlug);
-
-  // Buscar la categoría padre
-  const categoriaPadre = this.categorias.find(cat => 
-    this.generarSlugCategoria(cat.nombre) === padreSlugNormalizado
-  );
-
-  if (categoriaPadre) {
-    // Buscar la subcategoría (hijo) dentro de la categoría padre
-    const subcategoria = categoriaPadre.subcategorias?.find((sub: any) =>
-      this.generarSlugCategoria(sub.nombre) === hijoSlugNormalizado
+    // Buscar la categoría padre
+    const categoriaPadre = this.categorias.find(cat => 
+      this.generarSlugCategoria(cat.nombre) === padreSlugNormalizado
     );
 
-    if (subcategoria) {
-      this.categoriaPadreId = categoriaPadre.id.toString();
-      this.nombreCategoriaActual = categoriaPadre.nombre;
-      this.nombreCategoriaHijo = subcategoria.nombre;
-      this.categoria = subcategoria.id.toString();
-      this.obtenerProductosPorCategoriaConFiltros(this.categoria);
+    if (categoriaPadre) {
+      // Buscar la subcategoría (hijo) dentro de la categoría padre
+      const subcategoria = categoriaPadre.subcategorias?.find((sub: any) =>
+        this.generarSlugCategoria(sub.nombre) === hijoSlugNormalizado
+      );
+
+      if (subcategoria) {
+        this.categoriaPadreId = categoriaPadre.id.toString();
+        this.nombreCategoriaActual = categoriaPadre.nombre;
+        this.nombreCategoriaHijo = subcategoria.nombre;
+        this.categoria = subcategoria.id.toString();
+        this.obtenerProductosPorCategoriaConFiltros(this.categoria);
+      } else {
+        console.warn('Subcategoría no encontrada:', hijoSlug);
+        this.productos = [];
+        this.isLoading = false;
+      }
     } else {
-      console.warn('Subcategoría no encontrada:', hijoSlug);
+      console.warn('Categoría padre no encontrada:', padreSlug);
       this.productos = [];
       this.isLoading = false;
     }
-  } else {
-    console.warn('Categoría padre no encontrada:', padreSlug);
-    this.productos = [];
-    this.isLoading = false;
-  }
-}
-
-private buscarCategoriaPadrePorSlug(slug: string): void {
-  if (this.categorias.length === 0) {
-    setTimeout(() => this.buscarCategoriaPadrePorSlug(slug), 100);
-    return;
   }
 
-  const slugNormalizado = this.normalizarSlug(slug);
-  
-  const categoriaEncontrada = this.categorias.find(categoria => 
-    this.generarSlugCategoria(categoria.nombre) === slugNormalizado
-  );
+  private buscarCategoriaPadrePorSlug(slug: string): void {
+    if (this.categorias.length === 0) {
+      setTimeout(() => this.buscarCategoriaPadrePorSlug(slug), 100);
+      return;
+    }
 
-  if (categoriaEncontrada) {
-    this.categoriaPadreId = categoriaEncontrada.id.toString();
-    this.nombreCategoriaActual = categoriaEncontrada.nombre;
-    this.nombreCategoriaHijo = ''; // Limpiar nombre de hijo
-    this.obtenerProductosPorCategoriaPadre(this.categoriaPadreId);
-  } else {
-    this.buscarEnSubcategorias(slugNormalizado);
+    const slugNormalizado = this.normalizarSlug(slug);
+    
+    const categoriaEncontrada = this.categorias.find(categoria => 
+      this.generarSlugCategoria(categoria.nombre) === slugNormalizado
+    );
+
+    if (categoriaEncontrada) {
+      this.categoriaPadreId = categoriaEncontrada.id.toString();
+      this.nombreCategoriaActual = categoriaEncontrada.nombre;
+      this.nombreCategoriaHijo = ''; // Limpiar nombre de hijo
+      this.obtenerProductosPorCategoriaPadre(this.categoriaPadreId);
+    } else {
+      this.buscarEnSubcategorias(slugNormalizado);
+    }
   }
-}
    private obtenerProductosPorCategoriaPadre(categoriaPadreId: string): void {
     this.isLoading = true;
 
@@ -383,41 +383,41 @@ private buscarCategoriaPadrePorSlug(slug: string): void {
       }
     });
   }
-private buscarEnSubcategorias(slug: string): void {
-  for (const categoria of this.categorias) {
-    if (categoria.subcategorias && categoria.subcategorias.length > 0) {
-      const subcategoriaEncontrada = categoria.subcategorias.find((sub: any) => 
-        this.generarSlugCategoria(sub.nombre) === slug
-      );
-      
-      if (subcategoriaEncontrada) {
-        this.categoria = subcategoriaEncontrada.id.toString();
-        this.nombreCategoriaActual = subcategoriaEncontrada.nombre;
-        this.nombreCategoriaHijo = ''; // Limpiar nombre de hijo
-        this.obtenerProductosPorCategoriaConFiltros(this.categoria);
-        return;
+  private buscarEnSubcategorias(slug: string): void {
+    for (const categoria of this.categorias) {
+      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+        const subcategoriaEncontrada = categoria.subcategorias.find((sub: any) => 
+          this.generarSlugCategoria(sub.nombre) === slug
+        );
+        
+        if (subcategoriaEncontrada) {
+          this.categoria = subcategoriaEncontrada.id.toString();
+          this.nombreCategoriaActual = subcategoriaEncontrada.nombre;
+          this.nombreCategoriaHijo = ''; // Limpiar nombre de hijo
+          this.obtenerProductosPorCategoriaConFiltros(this.categoria);
+          return;
+        }
       }
     }
+    
+    console.warn('Categoría no encontrada para el slug:', slug);
+    this.productos = [];
+    this.isLoading = false;
   }
-  
-  console.warn('Categoría no encontrada para el slug:', slug);
-  this.productos = [];
-  this.isLoading = false;
-}
-public generarSlugCategoria(nombre: string): string {
-  return nombre.toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[áàäâ]/g, 'a')
-    .replace(/[éèëê]/g, 'e')
-    .replace(/[íìïî]/g, 'i')
-    .replace(/[óòöô]/g, 'o')
-    .replace(/[úùüû]/g, 'u')
-    .replace(/[ñ]/g, 'n')
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+  public generarSlugCategoria(nombre: string): string {
+    return nombre.toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[áàäâ]/g, 'a')
+      .replace(/[éèëê]/g, 'e')
+      .replace(/[íìïî]/g, 'i')
+      .replace(/[óòöô]/g, 'o')
+      .replace(/[úùüû]/g, 'u')
+      .replace(/[ñ]/g, 'n')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
 
 // NUEVO: Método para normalizar slugs
 private normalizarSlug(slug: string): string {
@@ -446,16 +446,9 @@ private normalizarSlug(slug: string): string {
       tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : undefined
     };
 
-    // MODIFICADO: Considerar tanto categoría normal como categoría padre
-    if (this.categoriaPadreId) {
-      filtros.categoria_padre_id = this.categoriaPadreId;
-    } else if (this.categoria && this.categoria !== '') {
-      filtros.categoria_id = this.categoria;
-    }
-
-    this.productoService.getProductosConFiltros(filtros).subscribe({
-      next: (resp) => {
-        this.productos = resp.productos;
+    this.productoService.getPacks(filtros).subscribe({
+      next: (data) => {
+        this.productos = data.data;
         this.isLoading = false;
       },
       error: () => {

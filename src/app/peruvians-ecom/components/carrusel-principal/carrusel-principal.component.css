@@ -100,7 +100,7 @@
 
 .carousel-img-container:hover .carousel-img {
   transform: scale(1.1) rotate(2deg);
-  filter: brightness(0.9);
+  filter: grayscale(10%) brightness(90%) blur(1px);
 }
 
 .btn-lo-quiero {
@@ -112,7 +112,7 @@
   padding: 12px 20px;
   font-size: 1.1rem;
   font-weight: bold;
-  background-color: #117ca3;
+  background-color: #ec6630;
   border: none;
   border-radius: 50px;
   opacity: 0;

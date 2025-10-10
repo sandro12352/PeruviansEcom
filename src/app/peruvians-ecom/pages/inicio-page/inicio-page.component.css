@@ -47,19 +47,33 @@
   width: 45%;
  
 }
+.categoria-wrapper{
+overflow-x: auto;
+}  
+  
 }
+
 
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+/* --- Ajustes específicos para escritorio --- */
+@media (min-width: 992px) {
+  .categoria-wrapper {
+    overflow-x: hidden;    /* quita el scroll horizontal */
+    justify-content: flex-start;
+  }
 
+  .promo-rect-card {
+    max-width: 24%;
+  }
+}
 
 /* Contenedor principal que se comporta como carrusel horizontal en móvil */
 .categoria-wrapper {
   display: flex;
-  gap: 1rem;
-  overflow-x: auto;
+    gap: 1rem;
   padding-bottom: 0.5rem;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -67,7 +81,6 @@
 
 .categoria-card {
   flex: 0 0 auto;
-  width: 15%;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
   background: #b461f368;
@@ -107,6 +120,8 @@
 
 .promo-card {
   cursor: pointer;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   transition: transform 0.3s ease;
 }
 
@@ -161,9 +176,16 @@
 
 
 .promo-rect-card {
-  
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
  
+}
+
+.contenedor-img-liquidacion{
+  img{
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .promo-rect-card:hover {

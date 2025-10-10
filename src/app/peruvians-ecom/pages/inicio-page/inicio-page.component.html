@@ -1,33 +1,32 @@
 <app-carrusel-principal></app-carrusel-principal>
 
-<!-- Categorias -->
-<section class="container my-5">
-  <h1 class="fs-2 mb-4">Categorías</h1>
 
-  <div class="categoria-wrapper gap-4">
+
+<!-- Categorias -->
+<section class="container-fluid  my-5 px-md-4">
+  <h1 class="fs-2 mb-4">Encuentra lo que buscas</h1>
+
+  <div class="categoria-wrapper">
     <!-- Categorías dinámicas desde la base de datos -->
-    <div class="categoria-card text-center" 
+    <div class="promo-rect-card align-items-center " 
          *ngFor="let categoria of categorias" 
          [routerLink]="getCategoriaRoute(categoria)">
       <div class="categoria-img-wrapper">
         <img [src]="categoria.imagen_url || 'imagenes/categorias/default.webp'" 
              loading="lazy" 
              [alt]="categoria.nombre" 
-             class="categoria-img">
+             class="img-fluid full-image">
       </div>
-      <h6 class="categoria-title mt-2">{{categoria.nombre}}</h6>
     </div>
 
-    <!-- Loading state -->
-    <div *ngIf="loading.categorias" class="text-center w-100">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Cargando categorías...</span>
-      </div>
-    </div>
+    
   </div>
 </section>
 
-<section class="container">
+
+
+
+<section class="container-fluid px-md-5">
   <h2 class="mb-4">Lo Más Vendido</h2>
   
   <!-- Loading state -->
@@ -51,7 +50,7 @@
   </div>
 </section>
 
-<section class="container">
+<section class="container-fluid px-md-5">
   <h2 class="mb-4">Lo Más Nuevo</h2>
   
   <!-- Loading state -->
@@ -76,7 +75,7 @@
 </section>
 
 <!-- CyberWow Section - Ahora dinámica -->
-<section class="container my-5" *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
+<section class="container-fluid px-md-5 my-5" *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
   <h2 class="mb-4">CyberWow</h2>
   
   <!-- Fila 1: Banners principales (categoría y tiendas) -->
@@ -132,8 +131,9 @@
   </div>
 </section>
 
-<section class="container my-5">
-  <h2 class="mb-4">Productos en Liquidación</h2>
+
+<section class="container-fluid my-5 px-md-4">
+  <h2 class="mb-4">Nuestras Categorias</h2>
   
   <div *ngIf="loading.liquidacion" class="text-center">
     <div class="spinner-border" role="status">
@@ -142,19 +142,16 @@
   </div>
 
   <!-- Contenido de liquidaciones - CORREGIDO -->
-  <div class="row gy-2" *ngIf="liquidacion?.length && !loading.liquidacion">
-    <div class="col-md-4 col-6" 
+  <div class="row   gy-2 gap-md-3 gap-0"*ngIf="liquidacion?.length && !loading.liquidacion">
+    <div class="promo-rect-card align-items-center col-md-3 col-6" 
          *ngFor="let item of liquidacion" 
-         style="cursor: pointer;"
          (click)="navegarAProducto(item.producto)">
-      <div class="promo-rect-card align-items-center">
         <!-- Imagen de liquidación -->
-        <div class="text-end">
+        <div class=" contenedor-img-liquidacion" >
           <img [src]="item.imagen_url || item.producto.img || 'imagenes/default.webp'" 
                [alt]="item.producto.nombre" 
                class="img-fluid full-image"
                loading="lazy" />
-        </div>
       </div>
     </div>
   </div>
@@ -165,8 +162,11 @@
   </div>
 </section>
 
+
+
+
 <!-- Tiendas -->
-<section class="container my-5">
+<section class="container-fluid px-md-5 my-5">
   <h2 class="mb-4">Nuestras Tiendas</h2>
 
   <div class="scroll">
@@ -246,7 +246,7 @@
 </div>
 </section>
 
-<section class="container ">
+<section class="container-fluid px-md-5 ">
   <h2 class="mb-4">Testimonios</h2>
   <peruvians-carrusel-comentarios></peruvians-carrusel-comentarios>
 </section>

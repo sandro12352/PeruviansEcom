@@ -315,37 +315,6 @@ export class InicioPageComponent implements OnInit {
     });
   }
 
-  /**
-   * Método opcional para cargar secciones específicas
-   */
-  private cargarSeccionesEspecificas(): void {
-    this.loading = {
-      dashboard: false,
-      categorias: true,
-      masVendido: true,
-      masNuevo: true,
-      liquidacion: true,
-      cyberwow: true,
-      carrusel: true
-    };
-
-    const secciones = ['categorias', 'mas_vendidos', 'mas_nuevos', 'liquidaciones', 'configuracion', 'carrusel'];
-
-    this.dashboardService.getDashboardData(secciones).subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.procesarDatosDashboard(response.data);
-        }
-      },
-      error: (error) => {
-        console.error('Error al cargar secciones específicas:', error);
-        this.mostrarErrorCarga();
-      },
-      complete: () => {
-        this.resetearLoadingStates();
-      }
-    });
-  }
 
   /**
    * Convierte los productos del dashboard al formato esperado por los componentes
@@ -357,29 +326,7 @@ export class InicioPageComponent implements OnInit {
     }));
   }
 
-  /**
-   * Procesa los datos recibidos del dashboard
-   */
-  private procesarDatosDashboard(data: any): void {
-    if (data.categorias) {
-      this.categorias = data.categorias.items;
-    }
-    if (data.mas_vendidos) {
-      this.masVendido = this.convertirProductosDashboard(data.mas_vendidos);
-    }
-    if (data.mas_nuevos) {
-      this.masNuevo = this.convertirProductosDashboard(data.mas_nuevos);
-    }
-    if (data.liquidaciones) {
-      this.liquidacion = data.liquidaciones;
-    }
-    if (data.configuracion) {
-      this.cyberwowBanners = data.configuracion;
-    }
-    if (data.carrusel) {
-      this.carrusel = data.carrusel;
-    }
-  }
+ 
 
   /**
    * Resetea todos los estados de loading
@@ -702,12 +649,7 @@ getCategoriaRoute(categoria: Categoria): string[] {
       }
     }
   }
-  /**
-   * Método para recargar datos del dashboard
-   */
-  recargarDashboard(): void {
-    this.cargarDatosDashboard();
-  }
+ 
 
   /**
    * Método para verificar si hay datos cargados

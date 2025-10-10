@@ -20,20 +20,7 @@ interface ProductosResponse {
   };
 }
 
-interface CategoriaPadreProductosResponse {
-  categoria_padre: {
-    id: number;
-    nombre: string;
-    imagen_url?: string;
-  };
-  productos: Producto[];
-  pagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -220,4 +207,20 @@ export class ProductoService {
         })
       );
   }
+
+
+  getPacks(filtros?: any): Observable<any> {
+  let params = new HttpParams();
+
+  if (filtros) {
+    Object.keys(filtros).forEach(key => {
+      if (filtros[key] !== undefined && filtros[key] !== null && filtros[key] !== '') {
+        params = params.set(key, filtros[key]);
+      }
+    });
+  }
+
+  return this.http.get(`${envs.apiUrl}/productos/packs`, { params });
+}
+
 }

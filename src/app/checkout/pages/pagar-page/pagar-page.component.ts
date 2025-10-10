@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, takeWhile, tap } from 'rxjs';
+import { Subject, Subscription, takeUntil, takeWhile, tap } from 'rxjs';
 import { CarritoService } from '../../../peruvians-ecom/services/carrito.service';
 import { CompraService, DatosTarjeta } from '../../../peruvians-ecom/services/compra.service';
 import { AuthService } from '../../../peruvians-ecom/services/auth.service';
@@ -338,99 +338,84 @@ export class PagarPageComponent implements OnInit, OnDestroy {
     didOpen: () => {
       Swal.showLoading();
 
-      this.compraService.procesarCompra(datosCompra).subscribe({
-        next:(data)=>{
-          Swal.close(); // cerramos el loading  
-        const qr = data.data.yape.qr_url;
-         Swal.fire({
-            title: 'Escanea este QR con Yape',
-            html: `
-              <img src="${qr}" alt="QR de pago" width="200" height="200"><br><br>
-              <p><strong>Por favor ingresar el monto exacto:</strong></p>
-              <span class="text-success">S/ ${this.total.toFixed(2)}</span>
-              <small class="text-muted">Estamos esperando la confirmación del pago...</small>
-            `,
-            showConfirmButton: true,
-            confirmButtonText: 'Cerrar',
-            allowOutsideClick: false,
-            allowEscapeKey: true
-          });
-
-       this.compraService.pollEstadoPedido(data.data.yape.order_id)
-              .pipe(
-                tap(res => console.log('📦 Respuesta del polling:', res)), // Ver qué llega del backend
-                takeWhile(
-                  res => {
-                    // Si no hay pedido todavía, seguir consultando
-                    if (!res.pedido) return true;
-
-                    // Si hay pedido, detener solo cuando el estado finalice
-                    return !['pagado', 'fallido', 'expirado'].includes(res.pedido.estado);
-                  },
-                  true // incluir el último valor emitido
-                )
-              )
-              .subscribe({
-                next: res => {
-                  if (!res.pedido) {
-                    console.log('⌛ Aún esperando confirmación de pago...');
-                    return;
-                  }
-
-                  const estado = res.pedido.estado;
-                  const confirmado = res.pedido.culqi_confirmado; // 👈 este campo lo defines tú en tu backend
-
-                  console.log('📢 Estado actual del pedido:', estado, ' - Confirmado Culqi:', confirmado);
-
-                  // Estado intermedio — pago detectado, pero falta confirmación final
-                  if (estado === 'pagado' && !confirmado) {
-                    Swal.fire({
-                      title: 'Procesando pago...',
-                      html: '<b>Estamos confirmando tu pago con Culqi.</b><br>Esto puede tardar unos segundos.',
-                      allowOutsideClick: false,
-                      didOpen: () => Swal.showLoading()
-                    });
-                    return;
-                  }
-
-                  // Pago confirmado totalmente
-                  if (estado === 'pagado' && confirmado) {
-                    Swal.close(); // cerrar el "procesando pago"
-                    Swal.fire({
-                      icon: 'success',
-                      title: '¡Pago confirmado!',
-                      text: 'Tu pedido fue pagado con Yape correctamente.'
-                    });
-                  } else if (estado === 'fallido') {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Pago fallido',
-                      text: 'El pago no se pudo procesar. Inténtalo nuevamente.'
-                    });
-                  } else if (estado === 'expirado') {
-                    Swal.fire({
-                      icon: 'warning',
-                      title: 'QR expirado',
-                      text: 'Tu QR ya no es válido, genera uno nuevo.'
-                    });
-                  }
-                },
-                error: err => console.error('❌ Error en el polling:', err)
-              });
-
-        },
-        error:(error)=>{
-          console.error('Error en la solicitud:', error);
-          Swal.close(); // cierra cualquier loading activo si lo hubiera
-          Swal.fire({
-            icon: 'error',
-            title: 'Error de conexión',
-            text: 'Ocurrió un error al procesar el pago. Por favor, inténtalo nuevamente.',
-            confirmButtonText: 'Aceptar'
-          });
+      
+this.compraService.procesarCompra(datosCompra).subscribe({
+  next: (data) => {
+    Swal.close();
+    const qr = data.data.yape.qr_url;
+    
+    Swal.fire({
+      title: '<h2 style="color: #1f2937; margin-bottom: 10px;">Escanea este QR con Yape</h2>',
+      html: `
+        <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; margin-bottom: 20px;">
+          <img src="${qr}" alt="QR de pago" width="220" height="220" style="border-radius: 10px; background: white; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        </div>
+        
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+          <p style="margin: 0 0 10px 0; color: #374151; font-weight: 600;">Por favor ingresar el monto exacto:</p>
+          <span style="font-size: 32px; font-weight: 700; color: #10b981;">S/ ${this.total.toFixed(2)}</span>
+        </div>
+        
+        <div style="background: #fef3c7; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+          <p style="margin: 0; color: #92400e; font-size: 14px;">
+            <strong>⏱️ Tiempo de espera:</strong> Una vez realizado el pago puede tardar <strong>1 minuto</strong> en confirmar su compra. Espere por favor.
+          </p>
+        </div>
+        
+        <div style="background: #dbeafe; padding: 12px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+          <p style="margin: 0; color: #1e40af; font-size: 13px;">
+            <strong>ℹ️ Consejo:</strong> Asegúrese de tener Yape actualizado e ingrese el monto exacto para evitar rechazos.
+          </p>
+        </div>
+      `,
+      showConfirmButton: true,
+      confirmButtonText: 'Cerrar',
+      showDenyButton: true,
+      denyButtonText: '✓ Ya realicé el pago',
+      confirmButtonColor: '#6b7280',
+      denyButtonColor: '#10b981',
+      allowOutsideClick: false,
+      allowEscapeKey: true,
+      buttonsStyling: true,
+      didOpen: (modal) => {
+        // Estilos adicionales para los botones
+        const confirmBtn = modal.querySelector('.swal2-confirm') as HTMLElement;
+        const denyBtn = modal.querySelector('.swal2-deny') as HTMLElement;
+        
+        if (confirmBtn) {
+          confirmBtn.style.borderRadius = '8px';
+          confirmBtn.style.padding = '10px 30px';
+          confirmBtn.style.fontSize = '14px';
+          confirmBtn.style.fontWeight = '600';
         }
+        
+        if (denyBtn) {
+          denyBtn.style.borderRadius = '8px';
+          denyBtn.style.padding = '10px 30px';
+          denyBtn.style.fontSize = '14px';
+          denyBtn.style.fontWeight = '600';
+        }
+      }
+    }).then((result) => {      
 
-      });
+      if (result.isDenied) {
+        this.mostrarProcesando(data.data.yape.order_id);
+        
+      } else if (result.isConfirmed) {
+        // Usuario presionó "Cerrar"
+        console.log('Modal cerrado');
+      }
+    });
+  },
+  error: (error) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error en la compra',
+      text: 'Ocurrió un problema al procesar tu compra. Por favor, intenta de nuevo.',
+      confirmButtonColor: '#ef4444'
+    });
+  }
+});
     }
   });
   }
@@ -459,6 +444,150 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
     this.tarjeta.card_number = value;
   }
+
+  
+
+    private mostrarProcesando(orden_id: number): void {
+        Swal.fire({
+        title: 'Procesando pago...',
+        html: `
+          <div style="padding: 20px;">
+            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+              <div style="
+                border: 4px solid #f3f4f6;
+                border-top: 4px solid #10b981;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 1s linear infinite;
+              "></div>
+            </div>
+            <p style="color: #374151; font-size: 16px; margin: 0;">
+              Estamos verificando tu pago con Yape...
+            </p>
+            <p style="color: #9ca3af; font-size: 13px; margin: 10px 0 0 0;">
+              Esto puede tardar hasta 2 minutos ,por favor no cierres esta ventana
+            </p>
+          </div>
+          
+          <style>
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          </style>
+        `,
+        icon: undefined,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: (modal) => {
+          // 👇 Subject para detener el polling manualmente
+          const stopPolling$ = new Subject<void>();
+
+          this.compraService.pollEstadoPedido(orden_id)
+            .pipe(
+              takeWhile(
+                res => {
+                  if (!res.pedido) return true;
+                  return !['pagado', 'fallido', 'expirado'].includes(res.pedido.estado);
+                },
+                true
+              ),
+              takeUntil(stopPolling$) // ⛔ se detiene cuando se emite el stop
+            )
+            .subscribe({
+              next: res => {
+                if (!res.pedido) {
+                  console.log('⌛ Aún esperando confirmación de pago...');
+                  return;
+                }
+
+                const estado = res.pedido.estado;
+
+                if (['pagado', 'fallido', 'expirado'].includes(estado)) {
+                  stopPolling$.next(); // 🔚 detenemos polling
+                  stopPolling$.complete();
+
+                  Swal.close();
+
+                  if (estado === 'pagado') {
+                    clearTimeout(timeoutId);
+                    Swal.fire({
+                      icon: 'success',
+                      title: '¡Pago confirmado!',
+                      html: `
+                        <div style="text-align: center; padding: 10px;">
+                          <p style="font-size: 16px; color: #1f2937; margin-bottom: 8px;">
+                            Tu pedido fue pagado correctamente.
+                          </p>
+                          <p style="font-size: 14px; color: #6b7280; margin: 0;">
+                            Te enviamos los detalles de tu pedido al correo que registraste.
+                          </p>
+                        </div>
+                      `,
+                      confirmButtonColor: '#10b981',
+                      confirmButtonText: 'Continuar',
+                      background: '#ffffff',
+                      backdrop: 'rgba(0, 0, 0, 0.5)',
+                      customClass: {
+                        popup: 'rounded-4 shadow-lg'
+                      }
+                    });
+                  } else if (estado === 'fallido') {
+                    clearTimeout(timeoutId);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Pago fallido',
+                      text: 'El pago no se pudo procesar. Inténtalo nuevamente.',
+                      confirmButtonColor: '#ef4444'
+                    });
+                  } else if (estado === 'expirado') {
+                    clearTimeout(timeoutId);
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'QR expirado',
+                      text: 'Tu QR ya no es válido, genera uno nuevo.',
+                      confirmButtonColor: '#f59e0b'
+                    });
+                  }
+                }
+              },
+              error: err => {
+                clearTimeout(timeoutId);
+                stopPolling$.next();
+                stopPolling$.complete();
+                console.error('❌ Error en el polling:', err);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Ocurrió un error al verificar tu pago.',
+                  confirmButtonColor: '#ef4444'
+                });
+              }
+            });
+
+          // ⏱️ Timeout máximo de 2 minutos
+        const timeoutId = setTimeout(() => {
+            stopPolling$.next(); // 🔚 detenemos el polling
+            stopPolling$.complete();
+            Swal.close();
+            Swal.fire({
+              icon: 'info',
+              title: 'Aún no hemos recibido tu pago',
+              html: `
+                <p>Por favor, contacta con nosotros al <strong>912 391 231</strong> para verificar el estado de tu pago.</p>
+              `,
+              confirmButtonColor: '#3b82f6',
+              confirmButtonText: 'Entendido'
+            });
+          }, 90000); // 2 minutos
+        }
+      });
+
+}
+  
   
 
 }
+
