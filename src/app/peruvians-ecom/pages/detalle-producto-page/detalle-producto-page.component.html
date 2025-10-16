@@ -2,7 +2,7 @@
   <div class="row align-items-start mb-4 g-4">
     
     <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
-    <div class="col-12 col-md-12 col-lg-6">
+    <div class="col-12 col-md-12 col-lg-6 ">
       <div class="galeria-container">
         
         <!-- Imagen Principal del Producto -->
@@ -65,67 +65,64 @@
             
             <!-- Descripción -->
             <div class="border-bottom pb-3 mb-4">
-              <p class="fw-bold text-dark mb-0">{{ producto.descripcion }}</p>
+              <h2 class="fs-6 fw-bold">¿Qué es la {{producto.nombre | productoNombre}}  y para qué sirve?</h2>
+              <p class="fw-light  mb-0">{{ producto.descripcion }}</p>
             </div>
           </div>
-          
-          <!-- Sección de Precios -->
+
           <!-- Sección de Precios + Envíos -->
         <div class="d-flex justify-content-between align-items-start mb-4">
           
          <!-- Bloque precios -->
-<div class="precios-container mb-4">
-  <!-- Precio original + descuento + envíos -->
-  <div class="d-flex align-items-center justify-content-between mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
-    <div>
-      <span class="chicha-precio-original me-2">
-        S/. {{ producto.precio | number:'1.2-2'}}
-      </span>
-      <span class="chicha-badge me-3">
-        -{{ producto.descuento }}
-      </span>
-    </div>
+        <div class="precios-container mb-4">
+          <!-- Precio original + descuento + envíos -->
+          <div class="d-flex align-items-center justify-content-between mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
+            <div>
+              <span class="chicha-precio-original me-2">
+                S/. {{ producto.precio | number:'1.2-2'}}
+              </span>
+              <span class="chicha-badge me-3">
+                -{{ producto.descuento }}
+              </span>
+            </div>
 
-   <!-- Bloque envíos -->
-<div class="d-flex flex-column">
-  <div class="d-flex align-items-center gap-2">
-    <i class="bi bi-truck fs-5 text-secondary"></i>
-    <span class="badge-text text-dark">
-      Envíos <span class="free-tag bg-danger text-white px-2 rounded">GRATIS</span>
-    </span>
-  </div>
+          <!-- Bloque envíos -->
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-truck fs-5 text-secondary"></i>
+            <span class="badge-text text-dark">
+              Envíos <span class="free-tag bg-danger text-white px-2 rounded">GRATIS</span>
+            </span>
+          </div>
 
-  <!-- Formas de pago -->
-  <div class="d-flex align-items-center gap-3 ">
-    <span class="text-muted small">Paga con:</span>
-    <img src="./visa.png" alt="Visa" width="40" height="40" class="img-fluid" />
-    <img src="./yape.png" alt="Yape" width="40" />
-    <img src="./plin.png" alt="Plin" width="40" />
-    <span class="fw-bold text-secondary">y más</span>
-  </div>
-</div>
+          <!-- Formas de pago -->
+          <div class="d-flex align-items-center gap-3 ">
+            <span class="text-muted small">Paga con:</span>
+            <img src="./visa.png" alt="Visa" width="40" height="40" class="img-fluid" />
+            <img src="./yape.png" alt="Yape" width="40" />
+            <img src="./plin.png" alt="Plin" width="40" />
+            <span class="fw-bold text-secondary">y más</span>
+          </div>
+        </div>
 
-  </div>
+          </div>
 
-  <!-- Precio final -->
-  <div class="precios d-flex gap-4">
-    <span class="chicha-precio-oferta fs-2 fw-bold" 
-          [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
-      S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
-             (producto.precio_despues | number:'1.2-2') : 
-             (producto.precio | number:'1.2-2') }}
-    </span>
-   
-  </div>
-</div>
-
-
+          <!-- Precio final -->
+          <div class="precios d-flex gap-4">
+            <span class="chicha-precio-oferta fs-2 fw-bold" 
+                  [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
+              S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
+                    (producto.precio_despues | number:'1.2-2') : 
+                    (producto.precio | number:'1.2-2') }}
+            </span>
+          
+          </div>
+        </div>
+        </div>
 
         
-      </div>
-
-          
-          <!-- Cantidad y Agregar al Carrito -->
+         
+        <!-- Cantidad y Agregar al Carrito -->
           <div class="compra-container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4 p-3 bg-light rounded-3">
               <!-- Sección de Cantidad -->
@@ -145,6 +142,123 @@
             </div>
           </div>
         </div>
+
+        <div class="d-flex flex-column gap-3 mt-3">
+  <!-- Beneficios -->
+  <div class="bg-white shadow-lg p-4 rounded-4 border">
+    <h2 class="fs-4 fw-semibold mb-3 ">
+      Beneficios de la {{ producto.nombre | productoNombre }}:
+    </h2>
+
+    <ul class="list-unstyled">
+      <li *ngFor="let beneficio of producto.beneficios! | splitBeneficios" class="d-flex align-items-start mb-2">
+        <span class="me-2 text-success">
+          <i class="bi bi-check-circle-fill"></i>
+        </span>
+        <h3 class="fs-6 fw-normal m-0">{{ beneficio }}</h3>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modo de uso -->
+  <div class="bg-white shadow-lg p-4 rounded-4 border">
+    <h2 class="fs-4 fw-semibold mb-3 ">
+      Modo de uso de la {{ producto.nombre | productoNombre }}:
+    </h2>
+
+    <ul class="list-unstyled">
+      <li *ngFor="let uso of producto.modo_de_uso! | splitBeneficios" class="d-flex align-items-start mb-2">
+        <span class="me-2 text-success">
+          <i class="bi bi-check-circle-fill"></i>
+        </span>
+        <h3 class="fs-6 fw-normal m-0">{{ uso }}</h3>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Acordeón Bootstrap -->
+  <div class="bg-white shadow-lg p-4 rounded-4 border">
+    <h2 class="fs-4 fw-semibold mb-3">Información adicional</h2>
+
+    <div class="accordion" id="infoAdicionalAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="false"
+            aria-controls="collapseOne"
+          >
+            Detalles del producto
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingOne"
+          data-bs-parent="#infoAdicionalAccordion"
+        >
+          <div class="accordion-body">
+            Aquí puedes poner detalles adicionales del producto, ingredientes, etc.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo"
+            aria-expanded="false"
+            aria-controls="collapseTwo"
+          >
+            Precauciones y advertencias
+          </button>
+        </h2>
+        <div
+          id="collapseTwo"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingTwo"
+          data-bs-parent="#infoAdicionalAccordion"
+        >
+          <div class="accordion-body">
+            Aquí puedes agregar precauciones, contraindicaciones o advertencias del producto.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseThree"
+            aria-expanded="false"
+            aria-controls="collapseThree"
+          >
+            Preguntas frecuentes
+          </button>
+        </h2>
+        <div
+          id="collapseThree"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingThree"
+          data-bs-parent="#infoAdicionalAccordion"
+        >
+          <div class="accordion-body">
+            Aquí puedes responder preguntas comunes sobre el producto.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>

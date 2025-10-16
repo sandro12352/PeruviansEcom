@@ -29,6 +29,9 @@ import { AuthInterceptor } from '../peruvians-ecom/interceptors/auth.interceptor
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
 import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrusel-skeleton.component';
+import { ModalEmergenteComponent } from './components/modal-emergente/modal-emergente.component';
+import { ProductoNombrePipe } from '../pipes/producto-nombre.pipe';
+import { SplitBeneficiosPipe } from '../pipes/split-beneficios.pipe';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,10 @@ import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrus
     LibroReclamacionesComponent,
     NuestrasTiendasComponent,
     CarruselSkeletonComponent,
+    ModalEmergenteComponent,
+    ProductoNombrePipe,
+    SplitBeneficiosPipe,
+
   ],
   exports: [
     LayoutPageComponent,

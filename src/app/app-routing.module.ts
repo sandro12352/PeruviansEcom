@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./peruvians-ecom/peruvians-ecom.module').then(m => m.PeruviansEcomModule)
+    loadChildren:()=>import('./peruvians-ecom/peruvians-ecom.module').then(m=>m.PeruviansEcomModule)
   },
   {
     path:'**',

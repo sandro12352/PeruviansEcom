@@ -1,0 +1,6 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="onOverlayClick($event)">
+  <div #modalContent class="modal-content " >
+    <button class="close-btn" (click)="closeModal()" >✖</button>
+    <img src="./imagenes/principal/emergente.webp" routerLink="/productos" style="cursor: pointer;" alt="Promoción" class="modal-image" />
+  </div>
+</div>

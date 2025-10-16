@@ -20,7 +20,6 @@ export class DetalleProductoPageComponent implements OnInit {
   public loadingRelacionados = false;
   public error: string | null = null;
   public imagenSeleccionada: string | null | undefined = null;
-  
   // NUEVO: Para manejar la estructura de categorías
   public categorias: Categoria[] = [];
   public categoriaPadreSlug: string | null = null;
@@ -79,6 +78,7 @@ export class DetalleProductoPageComponent implements OnInit {
       next: (producto: Producto | null) => {
         if (producto) {
           this.producto = { ...producto, cantidad: 1 };
+          this.producto.beneficios?.split(' ');
           this.imagenSeleccionada = producto.img;
           this.cargarProductosRelacionados();
         } else {

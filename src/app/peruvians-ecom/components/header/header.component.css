@@ -6,7 +6,7 @@
 
 
 .fire-gradient {
-  background-color:#FFA800; 
+  background-color:#a00be6; 
  color: white;
   white-space: nowrap;
   font-weight: 200;
@@ -16,7 +16,7 @@
  .scroll {
   width: 100%;
   overflow: hidden;
-  background-color: #8d48cd;
+  background-color: #000;
   animation: bannerGradient 10s ease infinite;
   color: #fff;
   padding: 5px;
@@ -151,7 +151,7 @@ header {
   transition: box-shadow 0.3s ease;
 }
 .search-icon-rounded {
-  background: #ffe600;
+  background: #ffa100;
   padding: 6px 10px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -181,7 +181,7 @@ header {
 .menu-icon i {
   font-size: 1.5rem;         /* Tamaño del ícono */
   line-height: 1;          /* Ajuste vertical */
-  color: #212529;
+  color: #fff;
   text-shadow: 0 0 1px #000;
   transition: transform 0.2s ease;
 }
