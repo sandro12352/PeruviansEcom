@@ -57,27 +57,10 @@ export class InicioPageComponent implements OnInit {
     private router: Router,
     private meta: Meta,
     private title: Title,
-    private renderer: Renderer2
   ) {}
   
   ngOnInit(): void {
 
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "PeruviansEcom",
-      "url": "https://peruviansecom.com",
-      "logo": "https://peruviansecom.com/assets/logo.png",
-      "sameAs": [
-        "https://www.facebook.com/peruviansecom",
-        "https://www.instagram.com/peruviansecom"
-      ]
-    };
-
-    const script = this.renderer.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(jsonLd);
-    this.renderer.appendChild(document.head, script);
   
 
     this.configurarSEO();

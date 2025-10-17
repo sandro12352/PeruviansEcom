@@ -17,8 +17,10 @@ export class CarruselComentariosComponent implements OnInit{
     }
 
   ngOnInit(): void {
-    if (window.innerWidth >= 768) {
-      this.ocultarUltimoSlide = true;
+     if (isPlatformBrowser(this.platformId)) {
+      if (window.innerWidth >= 768) {
+        this.ocultarUltimoSlide = true;
+      }
     }
   }
     carouselInstanciado = false;

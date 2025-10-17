@@ -100,7 +100,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       next: (response) => {
         if (response.success) {
           this.categorias = response.data;
-          console.log('Categorías cargadas con subcategorías:', this.categorias);
         } else {
           console.warn('No se pudieron cargar las categorías:', response.message);
         }

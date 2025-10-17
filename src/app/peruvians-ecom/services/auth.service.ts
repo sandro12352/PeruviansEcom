@@ -1,5 +1,5 @@
 // src/app/peruvians-ecom/services/auth.service.ts
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { 
@@ -24,6 +24,7 @@ import {
   CompletarDatosGoogleResponse
 } from '../interfaces/cliente';
 import { envs } from '../../config/envs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidToken());
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object) {
     // Cargar perfil si hay token válido al inicializar el servicio
     if (this.hasValidToken()) {
       this.loadUserProfile();
@@ -236,16 +237,20 @@ private handleGoogleAuthSuccess(data: any): void {
   }
 
   private hasValidToken(): boolean {
-    const token = localStorage.getItem('token');
-    const expiration = localStorage.getItem('token_expiration');
-    
-    if (!token) return false;
-    
-    if (expiration) {
-      return new Date() < new Date(expiration);
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      const expiration = localStorage.getItem('token_expiration');
+      
+      if (!token) return false;
+      
+      if (expiration) {
+        return new Date() < new Date(expiration);
+      }
+      
+      return true;
+
     }
-    
-    return true;
+    return false
   }
 
   private loadUserProfile(): void {

@@ -1,6 +1,7 @@
-import { ElementRef, Injectable, ViewChild } from '@angular/core';
+import { ElementRef, Inject, Injectable, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Producto } from '../interfaces/producto';
 import { BehaviorSubject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,27 +17,39 @@ export class CarritoService {
 
   private entregaKey = 'entrega';
 
-  constructor() { 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
      this.cargarDesdeLocalStorage();
       this.actualizarCantidadTotal();
   }
 
   private guardarEnLocalStorage(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.productos));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.productos));
+    }
   }
 
   private cargarDesdeLocalStorage(): void {
-    const data = localStorage.getItem(this.storageKey);
-    this.productos = data ? JSON.parse(data) : [];
+     if (isPlatformBrowser(this.platformId)) {
+      const data = localStorage.getItem(this.storageKey);
+      this.productos = data ? JSON.parse(data) : [];
+    } else {
+      // SSR -> no hay localStorage
+      this.productos = [];
+    }
   }
 
 
     setEntrega(tipo: 'domicilio' | 'agencia') {
-        localStorage.setItem(this.entregaKey, tipo);
+        if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.entregaKey, tipo);
+    }
       }
 
     getEntrega(): 'domicilio' | 'agencia' {
-    return (localStorage.getItem(this.entregaKey) as 'domicilio' | 'agencia') || 'domicilio';
+   if (isPlatformBrowser(this.platformId)) {
+      return (localStorage.getItem(this.entregaKey) as 'domicilio' | 'agencia') || 'domicilio';
+    }
+    return 'domicilio';
   }
 
 
