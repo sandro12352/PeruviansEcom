@@ -17,6 +17,13 @@ export interface Categoria {
   path_completo?: string;
 } 
 
+
+export interface CategoriasSection {
+  items: Categoria[];
+  total: number;
+  message: string;
+}
+
 export interface CategoriaResponse {
   success: boolean;
   data: Categoria[];

@@ -193,6 +193,44 @@ export class ProductoService {
   );
 }
 
+getProductosPorEtiqueta(etiquetaId: string, filtros?:{
+  precio_min?: number;
+  precio_max?: number;
+  tienda_id?: string;
+}):Observable<{productos: Producto[], pagination: any}>{
+  let params = new HttpParams();
+  // Agregar filtros básicos
+  if (filtros?.precio_min !== undefined) {
+    params = params.set('precio_min', filtros.precio_min.toString());
+  }
+  
+  if (filtros?.precio_max !== undefined) {
+    params = params.set('precio_max', filtros.precio_max.toString());
+  }
+  
+  if (filtros?.tienda_id) {
+    params = params.set('tienda_id', filtros.tienda_id);
+  }
+
+  return this.http.get<ApiResponse<ProductosResponse>>(
+    `${envs.apiUrl}/productos/etiqueta/${etiquetaId}`,{params}
+  ).pipe(
+    map(response => {
+      if (response.success) {
+        return {
+          productos: response.data.productos,
+          pagination: response.data.pagination
+        };
+      }
+      return {
+        productos: [],
+        pagination: null
+      };
+    })
+  );
+
+}
+
   /**
    * Obtener un producto específico
    */

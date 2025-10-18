@@ -16,6 +16,7 @@ import {
 
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria'; // SOLO UNA VEZ
+import { Etiqueta } from '../../interfaces/etiqueta.interface';
 
 @Component({
   selector: 'app-inicio-page',
@@ -30,6 +31,8 @@ export class InicioPageComponent implements OnInit {
   public liquidacion: Liquidacion[] = [];
   public categorias: Categoria[] = []; // CAMBIAR: usar solo Categoria
   public carrusel: Carrusel[] = [];
+  public etiquetas: Etiqueta[] = [];
+
 
   // Para manejar la estructura jerárquica de categorías
   public categoriasJerarquicas: Categoria[] = [];
@@ -280,6 +283,7 @@ export class InicioPageComponent implements OnInit {
 
     this.dashboardService.getDashboardData('todas').subscribe({
       next: (response) => {
+        console.log(response)
         if (response.success && response.data) {
           if (response.data.categorias) {
             this.categorias = response.data.categorias.items;
@@ -295,6 +299,9 @@ export class InicioPageComponent implements OnInit {
 
           if (response.data.liquidaciones) {
             this.liquidacion = response.data.liquidaciones;
+          }
+          if(response.data.etiquetas){
+            this.etiquetas = response.data.etiquetas;
           }
 
           if (response.data.configuracion) {
@@ -377,7 +384,7 @@ export class InicioPageComponent implements OnInit {
   }
 
   // MÉTODO ACTUALIZADO: Para generar slug de categoría PADRE
-  getCategoriaSlug(categoria: string | Categoria | undefined): string {
+  getCategoriaSlug(categoria: string | Categoria | Etiqueta | undefined): string {
     if (!categoria) {
       return '';
     }
@@ -447,18 +454,18 @@ export class InicioPageComponent implements OnInit {
 
 
 
-  // NUEVO: Método para obtener la ruta correcta de categoría padre
-getCategoriaRoute(categoria: Categoria): string[] {
-    const slug = this.getCategoriaSlug(categoria);
-    
-    // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
-    if (categoria.subcategorias && categoria.subcategorias.length > 0) {
-      return ['/', slug];
-    } else {
-      // Si es subcategoría, navegar normalmente
-      return ['/', slug];
+    // NUEVO: Método para obtener la ruta correcta de categoría padre
+  getCategoriaRoute(categoria: Categoria): string[] {
+      const slug = this.getCategoriaSlug(categoria);
+      
+      // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
+      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+        return ['/', slug];
+      } else {
+        // Si es subcategoría, navegar normalmente
+        return ['/', slug];
+      }
     }
-  }
 
   // Métodos para generar rutas de CyberWow actualizados
   getCyberwowCategoriaRoute(): string[] {
@@ -653,6 +660,18 @@ getCategoriaRoute(categoria: Categoria): string[] {
     }
   }
  
+
+  getEtiquetaRoute(etiqueta: Etiqueta): string[] {
+    const slug = this.getCategoriaSlug(etiqueta);
+    
+    // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
+    if (etiqueta) {
+      return ['/', slug];
+    } else {
+      // Si es subcategoría, navegar normalmente
+      return ['/', slug];
+    }
+  }
 
   /**
    * Método para verificar si hay datos cargados

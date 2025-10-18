@@ -8,6 +8,8 @@ import { filter } from 'rxjs';
 import { ProductoService } from '../../services/producto.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { TiendaService } from '../../services/tienda.service';
+import { Etiqueta } from '../../interfaces/etiqueta.interface';
+import { EtiquetaService } from '../../services/etiqueta.service';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -26,6 +28,7 @@ export class MostrarProductoComponent implements OnInit {
 
 
   public categorias: Categoria[] = [];
+  public etiquetas:Etiqueta[] = [];
   public isLoading = true;
   public skeletonArray = Array(8);
   
@@ -50,7 +53,8 @@ constructor(
   private peruviansService: PeruviansService,
   private carritoService: CarritoService,
   private productoService: ProductoService,
-  private categoriaService: CategoriaService, 
+  private categoriaService: CategoriaService,
+  private etiquetaService:EtiquetaService, 
   private tiendaService: TiendaService,
   private cdr: ChangeDetectorRef
 ) {}
@@ -67,6 +71,7 @@ ngOnInit(): void {
   this.cargarCategoriaDesdeRuta();
   this.cargarTiendas();
   this.cargarCategorias();
+  this.cargarEtiquetas();
 }
 
 private cargarTiendas(): void {
@@ -180,20 +185,10 @@ private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: a
 }
 
 private cargarCategorias(): void {
-  console.log('Cargando categorías en MostrarProducto...');
   this.categoriaService.obtenerCategorias().subscribe({
     next: (response) => {
       if (response.success) {
         this.categorias = response.data;
-        console.log('Categorías cargadas en MostrarProducto:', this.categorias);
-        
-        // Verificar que las subcategorías estén presentes
-        this.categorias.forEach(cat => {
-          if (cat.subcategorias) {
-            console.log(`Categoría ${cat.nombre} tiene ${cat.subcategorias.length} subcategorías:`, 
-              cat.subcategorias.map(sub => `${sub.nombre} (ID: ${sub.id})`));
-          }
-        });
       }
     },
     error: (err) => {
@@ -201,6 +196,16 @@ private cargarCategorias(): void {
     }
   });
 }
+
+private cargarEtiquetas(){
+  this.etiquetaService.getEtiquetas().subscribe({
+    next:(etiquetas)=>{
+      console.log(etiquetas)
+      this.etiquetas = etiquetas;
+    }
+  })
+}
+
 // Agregar este método al final de MostrarProductoComponent, antes de la llave de cierre
 
 /**
@@ -247,12 +252,6 @@ private cargarCategorias(): void {
     this.categoriaPadreSlug = this.route.snapshot.paramMap.get('categoriaPadreSlug');
     this.categoriaHijoSlug = this.route.snapshot.paramMap.get('categoriaHijoSlug');
     
-    //console.log('Parámetros de ruta:', { 
-    //  padre: this.categoriaPadreSlug, 
-    //  hijo: this.categoriaHijoSlug,
-    //  path: path
-    //});
-
     // Si tenemos categoría padre e hijo
     if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
       this.buscarCategoriaHijoPorSlug(this.categoriaPadreSlug, this.categoriaHijoSlug);
@@ -302,6 +301,7 @@ private cargarCategorias(): void {
       this.obtenerProductosPorCategoriaConFiltros(this.categoria);
     }
   }
+
   private buscarCategoriaHijoPorSlug(padreSlug: string, hijoSlug: string): void {
     if (this.categorias.length === 0) {
       setTimeout(() => this.buscarCategoriaHijoPorSlug(padreSlug, hijoSlug), 100);
@@ -341,12 +341,28 @@ private cargarCategorias(): void {
   }
 
   private buscarCategoriaPadrePorSlug(slug: string): void {
-    if (this.categorias.length === 0) {
+    if (this.categorias.length === 0 && this.etiquetas.length ===0) {
       setTimeout(() => this.buscarCategoriaPadrePorSlug(slug), 100);
       return;
     }
+    console.log('Categorias disponibles:', this.categorias);
+    console.log('Etiquetas disponibles:', this.etiquetas);
 
     const slugNormalizado = this.normalizarSlug(slug);
+
+     // Buscar por etiqueta primero
+    const etiquetaEncontrada = this.etiquetas.find(
+    e => this.generarSlugCategoria(e.nombre) === slugNormalizado
+    );
+
+    if (etiquetaEncontrada) {
+      const etiquetaId = etiquetaEncontrada.id.toString();
+      this.nombreCategoriaActual = etiquetaEncontrada.nombre;
+      this.categoriaPadreId = ''; // limpiar categoría padre si aplica
+      this.obtenerProductosPorEtiqueta(etiquetaId);
+      return;
+    }
+
     
     const categoriaEncontrada = this.categorias.find(categoria => 
       this.generarSlugCategoria(categoria.nombre) === slugNormalizado
@@ -357,10 +373,36 @@ private cargarCategorias(): void {
       this.nombreCategoriaActual = categoriaEncontrada.nombre;
       this.nombreCategoriaHijo = ''; // Limpiar nombre de hijo
       this.obtenerProductosPorCategoriaPadre(this.categoriaPadreId);
-    } else {
+    }
+    
+    else {
       this.buscarEnSubcategorias(slugNormalizado);
     }
   }
+
+   private obtenerProductosPorEtiqueta(etiquetaid: string): void {
+    this.isLoading = true;
+
+    // Usar el endpoint específico para categorías padre
+    this.productoService.getProductosPorEtiqueta(etiquetaid, {
+      precio_min: this.precioMinActual,
+      precio_max: this.precioMaxActual,
+      tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : undefined
+    }).subscribe({
+      next: (resp) => {
+        this.productos = [...resp.productos];
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error al obtener productos por etiqueta:', error);
+        this.productos = [];
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+  
    private obtenerProductosPorCategoriaPadre(categoriaPadreId: string): void {
     this.isLoading = true;
 
@@ -383,6 +425,7 @@ private cargarCategorias(): void {
       }
     });
   }
+
   private buscarEnSubcategorias(slug: string): void {
     for (const categoria of this.categorias) {
       if (categoria.subcategorias && categoria.subcategorias.length > 0) {
@@ -404,6 +447,7 @@ private cargarCategorias(): void {
     this.productos = [];
     this.isLoading = false;
   }
+  
   public generarSlugCategoria(nombre: string): string {
     return nombre.toLowerCase()
       .trim()

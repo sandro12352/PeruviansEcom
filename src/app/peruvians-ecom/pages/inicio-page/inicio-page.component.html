@@ -135,30 +135,21 @@
 <section class="container-fluid my-5 px-md-4">
   <h2 class="mb-4">Nuestras Categorias</h2>
   
-  <div *ngIf="loading.liquidacion" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Cargando productos en liquidación...</span>
-    </div>
-  </div>
+
 
   <!-- Contenido de liquidaciones - CORREGIDO -->
-  <div class="row   gy-2 gap-md-3 gap-0"*ngIf="liquidacion?.length && !loading.liquidacion">
+  <div class="row   gy-2 gap-md-3 gap-0"*ngIf="etiquetas?.length">
     <div class="promo-rect-card align-items-center col-md-3 col-6" 
-         *ngFor="let item of liquidacion" 
-         (click)="navegarAProducto(item.producto)">
+         *ngFor="let item of etiquetas" 
+         [routerLink]="getEtiquetaRoute(item)">
         <!-- Imagen de liquidación -->
         <div class=" contenedor-img-liquidacion" >
-          <img [src]="item.imagen_url || item.producto.img || 'imagenes/default.webp'" 
-               [alt]="item.producto.nombre" 
+          <img [src]="item.imagen_url" 
+               [alt]="item.nombre" 
                class="img-fluid full-image"
                loading="lazy" />
       </div>
     </div>
-  </div>
-
-  <!-- Estado vacío -->
-  <div *ngIf="!liquidacion?.length && !loading.liquidacion" class="alert alert-info">
-    No hay productos en liquidación disponibles en este momento.
   </div>
 </section>
 

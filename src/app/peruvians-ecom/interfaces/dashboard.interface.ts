@@ -1,6 +1,7 @@
 // interfaces/dashboard.interface.ts
 import { Producto } from './producto';
-import { Categoria } from './categoria';
+import { Categoria, CategoriasSection } from './categoria';
+import { Etiqueta } from './etiqueta.interface';
 
 export interface DashboardResponse {
   success: boolean;
@@ -12,15 +13,12 @@ export interface DashboardData {
   mas_vendidos?: Producto[];
   mas_nuevos?: Producto[];
   liquidaciones?: Liquidacion[];
+  etiquetas?:Etiqueta[];
   configuracion?: ConfiguracionCyberwow;
   carrusel?: Carrusel[];
 }
 
-export interface CategoriasSection {
-  items: Categoria[];
-  total: number;
-  message: string;
-}
+
 
 export interface Liquidacion {
   id: number;
