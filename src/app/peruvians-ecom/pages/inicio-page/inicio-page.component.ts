@@ -336,22 +336,6 @@ export class InicioPageComponent implements OnInit {
     }));
   }
 
- 
-
-  /**
-   * Resetea todos los estados de loading
-   */
-  private resetearLoadingStates(): void {
-    this.loading = {
-      dashboard: false,
-      masVendido: false,
-      masNuevo: false,
-      liquidacion: false,
-      categorias: false,
-      cyberwow: false,
-      carrusel: false
-    };
-  }
 
   /**
    * Muestra error de carga (opcional)
@@ -663,14 +647,8 @@ export class InicioPageComponent implements OnInit {
 
   getEtiquetaRoute(etiqueta: Etiqueta): string[] {
     const slug = this.getCategoriaSlug(etiqueta);
-    
-    // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
-    if (etiqueta) {
-      return ['/', slug];
-    } else {
-      // Si es subcategoría, navegar normalmente
-      return ['/', slug];
-    }
+  return ['/', slug];
+
   }
 
   /**

@@ -141,7 +141,8 @@
   <div class="row   gy-2 gap-md-3 gap-0"*ngIf="etiquetas?.length">
     <div class="promo-rect-card align-items-center col-md-3 col-6" 
          *ngFor="let item of etiquetas" 
-         [routerLink]="getEtiquetaRoute(item)">
+         [routerLink]="getEtiquetaRoute(item)"
+         >
         <!-- Imagen de liquidación -->
         <div class=" contenedor-img-liquidacion" >
           <img [src]="item.imagen_url" 

@@ -1,3 +1,8 @@
+export interface EtiquetaResponse{
+    etiquetas:Etiqueta[],
+    pagination:PaginationEtiqueta
+}
+
 export interface Etiqueta {
     id:                 number;
     nombre:             string;
@@ -8,5 +13,10 @@ export interface Etiqueta {
     updated_at:         Date;
 } 
 
-
+export interface PaginationEtiqueta{
+    current_page:number,
+    last_page:number,
+    per_page:number,
+    total:number
+}
 
