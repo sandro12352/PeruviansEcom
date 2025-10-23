@@ -66,7 +66,6 @@ export class InicioPageComponent implements OnInit {
 
   
 
-    this.configurarSEO();
     this.cargarCategoriasJerarquicas();
     this.cargarDatosDashboard();
   }
@@ -312,7 +311,6 @@ export class InicioPageComponent implements OnInit {
             this.carrusel = response.data.carrusel;
           }
 
-          this.actualizarSEODinamico();
         }
       },
       error: (error) => {

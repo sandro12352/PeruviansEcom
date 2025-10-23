@@ -1,3 +1,3 @@
 export const envs = {
-    apiUrl: 'http://peruviansecom.com/api', 
+    apiUrl: 'https://peruviansecom.com/api', 
 }

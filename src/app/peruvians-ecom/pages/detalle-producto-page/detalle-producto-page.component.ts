@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from '../../interfaces/producto';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Categoria } from '../../interfaces/categoria';
+import { SeoService } from '../../services/seo.service';
+import { DOCUMENT } from '@angular/common';
 declare const bootstrap: any;
   
 @Component({
@@ -26,8 +28,10 @@ export class DetalleProductoPageComponent implements OnInit {
   public categoriaHijoSlug: string | null = null;
 
   constructor(
+    @Inject(DOCUMENT) private document:Document,
     private route: ActivatedRoute,
     private router: Router,
+     private seoService: SeoService,
     private peruviansService: PeruviansService,
     private carritoService: CarritoService,
     private categoriaService: CategoriaService
@@ -36,6 +40,7 @@ export class DetalleProductoPageComponent implements OnInit {
   ngOnInit(): void {
     // Cargar categorías primero
     this.cargarCategorias();
+    
     
     this.route.paramMap.subscribe(params => {
       const nombreProducto = params.get('nombreProducto');
@@ -73,11 +78,12 @@ export class DetalleProductoPageComponent implements OnInit {
   private cargarProducto(id: number): void {
     this.loading = true;
     this.error = null;
-    
+    const canonicalUrl = this.document.location.href;
     this.peruviansService.getProducto(id).subscribe({
       next: (producto: Producto | null) => {
         if (producto) {
           this.producto = { ...producto, cantidad: 1 };
+          this.seoService.setProductMeta(this.producto.nombre,this.producto.descripcion,canonicalUrl);
           this.producto.beneficios?.split(' ');
           this.imagenSeleccionada = producto.img;
           this.cargarProductosRelacionados();
