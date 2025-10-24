@@ -15,7 +15,7 @@
       display: flex;
     flex: 1 1 0;
     max-width: calc(20% - 0.8rem);
-    min-height: 515px;
+    min-height: 550px;
   }
 }
 /* Estilos para pantallas pequeñas (móviles) */
@@ -24,7 +24,7 @@
   .producto-card {
     flex: 0 0 47.9%;
     max-width: 48%;
-    min-height: 400px;
+    min-height: 500px;
   }
   .contenido-scrollable {
     

@@ -30,12 +30,18 @@ export interface Producto {
     };
   };    
   sku?: string;
-  detalle?: string;
+  ingredientes?: string;
   beneficios?: string;
   modo_de_uso?: string;
   modo_uso?: string;
   cantidad?: number;
   stock?: number;
+  faq_quienes_toman:string,
+  faq_por_que_elegir:string,
+  faq_tiempo_uso:string,
+  faq_efectos_secundarios:string,
+  faq_consumo_alcohol:string
+  vida_util:string,
   estado?: string;
   created_at?: string;
   updated_at?: string;

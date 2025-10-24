@@ -83,7 +83,43 @@ export class DetalleProductoPageComponent implements OnInit {
       next: (producto: Producto | null) => {
         if (producto) {
           this.producto = { ...producto, cantidad: 1 };
-          this.seoService.setProductMeta(this.producto.nombre,this.producto.descripcion,canonicalUrl);
+          this.seoService.setProductMeta(
+            this.producto.nombre,
+            this.producto.descripcion,
+            canonicalUrl);
+
+          const structuredData  =
+          {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": producto.nombre,
+            "image": producto.imagen_url,
+            "description": producto.descripcion,
+            "sku": producto.sku,
+            "brand": {
+              "@type": "Brand",
+              "name": "Peruviansecom"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "PEN",
+              "price": producto.precio,
+              "availability": "https://schema.org/InStock"
+            },
+            "additionalProperty": [
+              { "@type": "PropertyValue", "name": "Modo de uso", "value": producto.modo_de_uso },
+              { "@type": "PropertyValue", "name": "Beneficios", "value": producto.beneficios},
+              { "@type": "PropertyValue", "name": "Ingredientes", "value": producto.ingredientes},
+              { "@type": "PropertyValue", "name": "Recomendado para", "value": producto.faq_quienes_toman },
+              { "@type": "PropertyValue", "name": "Vida útil", "value":producto.vida_util }
+            ]
+          }
+
+
+
+          this.seoService.setStructuredData(structuredData)
+
+
           this.producto.beneficios?.split(' ');
           this.imagenSeleccionada = producto.img;
           this.cargarProductosRelacionados();

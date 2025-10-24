@@ -49,4 +49,29 @@ export class SeoService {
     this.setDescription(description);
     this.setCanonical(url);
   }
+
+
+  setStructuredData(data: any) {
+    const head = this.renderer.selectRootElement('head', true) as HTMLElement;
+
+    // Eliminar cualquier script previo de tipo application/ld+json
+    Array.from(head.children).forEach(child => {
+      if (
+        child.nodeName === 'SCRIPT' &&
+        (child as HTMLScriptElement).type === 'application/ld+json'
+      ) {
+        this.renderer.removeChild(head, child);
+      }
+    });
+
+  // Crear el nuevo script con los datos estructurados
+      const script = this.renderer.createElement('script') as HTMLScriptElement;
+      this.renderer.setAttribute(script, 'type', 'application/ld+json');
+      script.text = JSON.stringify(data, null, 2);
+
+      this.renderer.appendChild(head, script);
+    }
+
+
+
 }
