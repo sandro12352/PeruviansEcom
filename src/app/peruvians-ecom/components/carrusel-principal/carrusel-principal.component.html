@@ -35,9 +35,11 @@
     <!-- Banner fijo (slide 0) - SIEMPRE PRESENTE -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img src="imagenes/principal/bannerHalloween.webp" 
+        <img src="imagenes/principal/bannerHalloweenOptimizado.webp" 
             class="d-block carousel-img" 
             alt="banner principal" 
+              width="1920"
+              height="700"
             fetchpriority="high" 
             decoding="async" 
             (error)="onImageError($event)">
