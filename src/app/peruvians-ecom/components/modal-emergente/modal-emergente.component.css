@@ -14,7 +14,6 @@
 .modal-content {
   background-color: #fff;
   border-radius: 10px;
-  
   text-align: center;
   position: relative;
   max-width: 800px;
@@ -24,6 +23,7 @@
 
 .modal-image {
   width: 100%;
+  height: auto;
   border-radius: 10px;
 }
 

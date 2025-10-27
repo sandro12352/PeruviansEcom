@@ -1,33 +1,31 @@
 <!-- card.component.html -->
 <ng-container *ngIf="producto as p">
-  <div class="card h-100">
+  <div class="card">
     <span class="descuento-badge" *ngIf="producto.descuento && producto.descuento !== '0%'">
       -{{ producto.descuento }}
     </span>
     
-    <!-- Imagen clickeable que redirige al detalle - ACTUALIZADA -->
+    <!-- Imagen -->
     <img [src]="producto.img" 
-         class="img-fluid rounded" 
+         class="img-fluid rounded card-img-top"
          alt="Producto" 
-         width="300" 
-         height="300"
+         width="300" height="300"
+         loading="lazy"
          [routerLink]="obtenerRuta()"
-         style="cursor: pointer;"/>
-    
-    <!-- Card body también clickeable - ACTUALIZADA -->
-    <div class="card-body-custom d-flex flex-column justify-content-between" 
-         >
+         style="cursor: pointer;" />
+
+    <!-- Cuerpo -->
+    <div class="card-body-custom d-flex flex-column justify-content-between flex-grow-1">
       <div class="contenido-scrollable">
         <span class="marca-badge">{{ producto.tienda }}</span>
         <h6 class="fw-bold">{{ producto.titulo }}</h6>
-        
-        <!-- Precio original tachado - solo mostrar si hay descuento -->
-        <s class="text-body-tertiary" 
-           *ngIf="producto.descuento && producto.descuento !== '0%'">
-          S/.{{ producto.precio | number:'1.2-2'}}
+
+        <!-- Precio original tachado -->
+        <s class="text-body-tertiary" *ngIf="producto.descuento && producto.descuento !== '0%'">
+          S/.{{ producto.precio | number:'1.2-2' }}
         </s>
-        
-        <!-- Precio final - usar precio original si no hay descuento -->
+
+        <!-- Precio final -->
         <p class="fw-semibold mb-2" 
            [class.text-danger]="producto.descuento && producto.descuento !== '0%'"
            [class.text-dark]="!producto.descuento || producto.descuento === '0%'">
@@ -35,17 +33,28 @@
                  (producto.precio_despues | number:'1.2-2') : 
                  (producto.precio | number:'1.2-2') }}
         </p>
+
+        <!-- NUEVO: Delivery y Provincia -->
+        <div class="d-flex flex-column gap-1 info-envio">
+          <div class="d-flex align-items-center text-secondary small">
+            <i class="bi bi-truck me-1"></i>
+            <span>Delivery</span>
+          </div>
+          <div class="d-flex align-items-center text-secondary small">
+            <i class="bi bi-geo-alt me-1"></i>
+            <span>Provincia</span>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="p-2">
-      <button data-bs-toggle="offcanvas" 
-              data-bs-target="#offcanvasCarrito" 
-              aria-controls="offcanvasCarrito" 
-              class="btn boton-agregar btn-sm p-2 w-100" 
-              (click)="AgregarCarrito(); $event.stopPropagation()" 
-              data-bs-toggle="modal" 
-              data-bs-target="#staticBackdrop">
+
+    <!-- Botón -->
+    <div class="p-2 mt-auto">
+      <button class="btn boton-agregar btn-sm p-2 w-100" 
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasCarrito"
+              aria-controls="offcanvasCarrito"
+              (click)="AgregarCarrito(); $event.stopPropagation()">
         AGREGAR
       </button>
     </div>

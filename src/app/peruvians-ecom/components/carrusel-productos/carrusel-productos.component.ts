@@ -36,7 +36,7 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       if (el) {
         new bootstrap.Carousel(el, {
           pause:'hover',
-          interval: 8000,
+          interval: 10000,
           ride:'carousel',          
         });
 
