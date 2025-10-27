@@ -183,7 +183,7 @@ overflow-x: auto;
 
 .contenedor-img-liquidacion{
   img{
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 }
