@@ -13,7 +13,9 @@
          [routerLink]="getCategoriaRoute(categoria)">
       <div class="categoria-img-wrapper">
         <img [src]="categoria.imagen_url || 'imagenes/categorias/default.webp'" 
-             loading="lazy" 
+             loading="lazy"
+             width="600"
+             height="900" 
              [alt]="categoria.nombre" 
              class="img-fluid full-image">
       </div>

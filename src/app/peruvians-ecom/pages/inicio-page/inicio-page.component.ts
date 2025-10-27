@@ -282,7 +282,6 @@ export class InicioPageComponent implements OnInit {
 
     this.dashboardService.getDashboardData('todas').subscribe({
       next: (response) => {
-        console.log(response)
         if (response.success && response.data) {
           if (response.data.categorias) {
             this.categorias = response.data.categorias.items;

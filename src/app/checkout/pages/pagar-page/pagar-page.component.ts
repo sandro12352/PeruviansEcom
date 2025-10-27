@@ -294,7 +294,6 @@ export class PagarPageComponent implements OnInit, OnDestroy {
 
     this.compraService.procesarCompra(datosCompra).subscribe({
       next: (data) => {
-        console.log(data)
         this.carritoService.limpiarCarrito();
         Swal.fire({
           icon: 'success',
