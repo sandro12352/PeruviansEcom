@@ -1,15 +1,9 @@
-  <div [id]="carouselId" class="carousel slide ">
+  <div [id]="carouselId" class="carousel slide">
     <div class="carousel-inner ">
       <div
-        class="carousel-item"
-        *ngFor="let grupo of gruposProductos; let i = index"
-        [class.active]="i === 0"
-      >
+        class="carousel-item" *ngFor="let grupo of gruposProductos; let i = index" [class.active]="i === 0">
         <div class="productos-slide ">
-          <div
-            class="producto-card py-2"
-            *ngFor="let producto of grupo"
-          >
+          <div class="producto-card py-2" *ngFor="let producto of grupo">
             <!-- ACTUALIZADO: Pasar la ruta calculada a la card -->
             <app-card 
               [producto]="producto" 

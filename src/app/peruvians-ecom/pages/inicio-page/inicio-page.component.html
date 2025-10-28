@@ -31,12 +31,6 @@
 <section class="container-fluid px-md-5">
   <h2 class="mb-4">Lo Más Vendido</h2>
   
-  <!-- Loading state -->
-  <div *ngIf="loading.masVendido" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Cargando productos más vendidos...</span>
-    </div>
-  </div>
   
   <!-- Productos más vendidos - ACTUALIZADO CON CATEGORÍAS -->
   <peruvians-carrusel-productos 
@@ -46,11 +40,11 @@
     [categoriasJerarquicas]="categoriasJerarquicas">
   </peruvians-carrusel-productos>
 
-  <!-- Estado vacío -->
-  <div *ngIf="!masVendido?.length && !loading.masVendido" class="alert alert-info">
-    No hay productos más vendidos disponibles en este momento.
-  </div>
+
+
 </section>
+
+  
 
 <section class="container-fluid px-md-5">
   <h2 class="mb-4">Lo Más Nuevo</h2>

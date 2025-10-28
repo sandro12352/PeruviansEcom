@@ -1,40 +1,30 @@
-<!-- card.component.html -->
 <ng-container *ngIf="producto as p">
   <div class="card">
-    <span class="descuento-badge" *ngIf="producto.descuento && producto.descuento !== '0%'">
-      -{{ producto.descuento }}
+    <span class="descuento-badge" *ngIf="p.descuento && p.descuento !== '0%'">
+      -{{ p.descuento }}
     </span>
-    
+
     <!-- Imagen -->
-    <img [src]="producto.img" 
-         class="img-fluid rounded card-img-top"
-         alt="Producto" 
-         width="300" height="300"
-         loading="lazy"
-         [routerLink]="obtenerRuta()"
-         style="cursor: pointer;" />
+    <div class="card-img-wrapper" [routerLink]="obtenerRuta()" style="cursor: pointer;">
+      <img [src]="p.img" alt="Producto" loading="lazy" />
+    </div>
 
-    <!-- Cuerpo -->
-    <div class="card-body-custom d-flex flex-column justify-content-between flex-grow-1">
-      <div class="contenido-scrollable">
-        <span class="marca-badge">{{ producto.tienda }}</span>
-        <h6 class="fw-bold">{{ producto.titulo }}</h6>
+    <!-- Contenido -->
+    <div class="card-body-custom">
+      <div>
+        <span class="marca-badge">{{ p.tienda }}</span>
+        <h6 class="fw-bold">{{ p.titulo }}</h6>
 
-        <!-- Precio original tachado -->
-        <s class="text-body-tertiary" *ngIf="producto.descuento && producto.descuento !== '0%'">
-          S/.{{ producto.precio | number:'1.2-2' }}
+        <s class="text-body-tertiary" *ngIf="p.descuento && p.descuento !== '0%'">
+          S/.{{ p.precio | number:'1.2-2' }}
         </s>
 
-        <!-- Precio final -->
-        <p class="fw-semibold mb-2" 
-           [class.text-danger]="producto.descuento && producto.descuento !== '0%'"
-           [class.text-dark]="!producto.descuento || producto.descuento === '0%'">
-          S/.{{ (producto.descuento && producto.descuento !== '0%') ? 
-                 (producto.precio_despues | number:'1.2-2') : 
-                 (producto.precio | number:'1.2-2') }}
+        <p class="fw-semibold mb-2"
+           [class.text-danger]="p.descuento && p.descuento !== '0%'"
+           [class.text-dark]="!p.descuento || p.descuento === '0%'">
+          S/.{{ (p.descuento && p.descuento !== '0%') ? (p.precio_despues | number:'1.2-2') : (p.precio | number:'1.2-2') }}
         </p>
 
-        <!-- NUEVO: Delivery y Provincia -->
         <div class="d-flex flex-column gap-1 info-envio">
           <div class="d-flex align-items-center text-secondary small">
             <i class="bi bi-truck me-1"></i>
@@ -50,7 +40,7 @@
 
     <!-- Botón -->
     <div class="p-2 mt-auto">
-      <button class="btn boton-agregar btn-sm p-2 w-100" 
+      <button class="btn boton-agregar btn-sm p-2 w-100"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasCarrito"
               aria-controls="offcanvasCarrito"
