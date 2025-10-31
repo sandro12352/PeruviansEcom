@@ -4,7 +4,7 @@ import { Categoria } from '../../interfaces/categoria';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
-import { combineLatest, filter } from 'rxjs';
+import { combineLatest, filter, forkJoin } from 'rxjs';
 import { ProductoService } from '../../services/producto.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { TiendaService } from '../../services/tienda.service';
@@ -51,8 +51,8 @@ export class MostrarProductoComponent implements OnInit {
 
 constructor(
   private route: ActivatedRoute,
-  private router: Router,
   private peruviansService: PeruviansService,
+    private router: Router,
   private carritoService: CarritoService,
   private productoService: ProductoService,
   private categoriaService: CategoriaService,
@@ -65,63 +65,39 @@ ngOnInit(): void {
   this.precioMinActual = this.precioMin;
   this.precioMaxActual = this.precioMax;
 
-  // Primero cargamos las tiendas (no depende de categorías)
-  this.cargarTiendas();
-
-  // Esperamos a que categorías y etiquetas terminen de cargar
-  combineLatest([
+  // 1️⃣ Primero carga categorías, etiquetas y tiendas
+  forkJoin([
     this.categoriaService.obtenerCategorias(),
     this.etiquetaService.getEtiquetas(),
-    this.route.paramMap,
-    this.route.queryParamMap
+    this.tiendaService.obtenerTiendas()
   ]).subscribe({
-    next: ([categoriasResp, etiquetasResp, paramMap, queryParamMap]) => {
+    next: ([categoriasResp, etiquetasResp, tiendasResp]) => {
       if (categoriasResp.success) this.categorias = categoriasResp.data;
       if (etiquetasResp.etiquetas) this.etiquetas = etiquetasResp.etiquetas;
+      if (tiendasResp.success) this.tiendas = tiendasResp.data;
+      console.log("respuesta:",this.categoria,this.etiquetas,this.tiendas)
 
-      // Ahora que ya tenemos datos, cargamos la ruta
-      this.cargarCategoriaDesdeRuta();
+
+      // ✅ 2️⃣ Ahora sí: escuchar cambios en la ruta
+      combineLatest([
+        this.route.paramMap,
+        this.route.queryParamMap
+      ])
+      .subscribe(([params, query]) => {
+        this.categoriaPadreSlug = params.get('categoriaPadreSlug');
+        this.categoriaHijoSlug = params.get('categoriaHijoSlug');
+        this.etiquetaId = query.get('etiqueta');
+        this.nombreEtiqueta = query.get('nombre_etiqueta') || '';
+
+        // ✅ Cargar productos una vez que todo está listo
+        this.cargarCategoriaDesdeRuta();
+      });
     },
-    error: (err) => {
-      console.error('Error al inicializar MostrarProductoComponent:', err);
-    }
+    error: (err) => console.error('Error cargando datos iniciales:', err)
   });
 }
 
-private cargarTiendas(): void {
-    this.tiendaService.obtenerTiendas().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.tiendas = response.data;
-          this.verificarFiltrosCyberwow();
-        }
-      },
-      error: (err) => {
-        console.error('Error al cargar tiendas:', err);
-      }
-    });
-  }
 
-  // NUEVO: Método para verificar y aplicar filtros de CyberWow
-  private verificarFiltrosCyberwow(): void {
-    const cyberwowParam = this.route.snapshot.queryParamMap.get('cyberwow');
-    const tiendasParam = this.route.snapshot.queryParamMap.get('tiendas');
-
-    if (cyberwowParam === 'tiendas' && tiendasParam) {
-      this.esCyberwowTiendas = true;
-      
-      // Convertir string de IDs a array de números
-      const tiendasIds = tiendasParam.split(',').map(id => parseInt(id.trim()));
-      
-      // Preseleccionar las tiendas
-      this.tiendasSeleccionadas = tiendasIds;
-      
-      //console.log('Filtros CyberWow aplicados - Tiendas:', this.tiendasSeleccionadas);
-      
-      // Aplicar los filtros automáticamente
-      this.aplicarFiltros();
-    }
-  }
  
 private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: any | null, categoriaHijo: any | null} {
   let categoriaPadre: any | null = null;
@@ -226,6 +202,8 @@ generarRutaParaProducto(producto: Producto): string[] {
   // 🔹 1. Si hay etiqueta en query param (modo antiguo)
   this.etiquetaId = this.route.snapshot.queryParamMap.get('etiqueta');
   this.nombreEtiqueta = this.route.snapshot.queryParamMap.get('nombre_etiqueta') || '';
+  
+  console.log(this.categoriaPadreSlug,this.categoriaHijoSlug,this.etiquetaId,this.nombreEtiqueta)
 
   if (this.etiquetaId) {
     this.obtenerProductosPorEtiqueta(this.etiquetaId);

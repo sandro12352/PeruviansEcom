@@ -1,0 +1,57 @@
+/* Contenedor general */
+.breadcrumb-container {
+  padding: 1rem 1.5rem;
+}
+
+/* Estilo base de los breadcrumbs */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  background: transparent;
+}
+
+/* Enlaces del breadcrumb */
+.breadcrumb-link {
+    color: #616060cb;
+
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #979797c6;
+  text-decoration: none;
+  list-style: none;
+  transform: translateY(-1px);
+}
+
+/* Texto no clickeable */
+.breadcrumb-text {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Elemento activo (último nivel) */
+.breadcrumb-active {
+ color: #6c757d;
+  cursor: default;
+}
+
+/* Divider personalizado (Bootstrap usa “>”) */
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  color: #adb5bd;
+  font-size: 1.1rem;
+  margin: 0 0.3rem;
+}
+
+/* Pequeño ajuste en pantallas móviles */
+@media (max-width: 575.98px) {
+  .breadcrumb {
+    font-size: 0.9rem;
+  }
+  .breadcrumb-container {
+    padding: 0.75rem 1rem;
+  }
+}

@@ -1,6 +1,6 @@
 export interface EtiquetaResponse{
     etiquetas:Etiqueta[],
-    pagination:PaginationEtiqueta
+    pagination?:PaginationEtiqueta
 }
 
 export interface Etiqueta {

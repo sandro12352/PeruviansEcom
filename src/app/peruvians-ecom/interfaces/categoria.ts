@@ -27,6 +27,6 @@ export interface CategoriasSection {
 export interface CategoriaResponse {
   success: boolean;
   data: Categoria[];
-  total: number;
-  message: string;
+  total?: number;
+  message?: string;
 }

@@ -32,6 +32,7 @@ import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrus
 import { ModalEmergenteComponent } from './components/modal-emergente/modal-emergente.component';
 import { ProductoNombrePipe } from '../pipes/producto-nombre.pipe';
 import { SplitBeneficiosPipe } from '../pipes/split-beneficios.pipe';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SplitBeneficiosPipe } from '../pipes/split-beneficios.pipe';
     ModalEmergenteComponent,
     ProductoNombrePipe,
     SplitBeneficiosPipe,
+    BreadcrumbComponent,
 
   ],
   exports: [

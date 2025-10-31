@@ -1,0 +1,54 @@
+<section class="container-fluid px-5 py-3 breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/" class="breadcrumb-link">Inicio</a>
+      </li>
+
+      <!-- Categoría principal -->
+      <li 
+        class="breadcrumb-item"
+        *ngIf="nombreCategoriaActual"
+        [class.active]="!nombreCategoriaHijo"
+        [attr.aria-current]="!nombreCategoriaHijo ? 'page' : null"
+      >
+        <ng-container *ngIf="nombreCategoriaHijo; else noLink">
+          <a [routerLink]="['/', nombreCategoriaActual]" class="breadcrumb-link">
+            {{ nombreCategoriaActual }}
+          </a>
+        </ng-container>
+        <ng-template #noLink>
+          <span class="breadcrumb-text">{{ nombreCategoriaActual }}</span>
+        </ng-template>
+      </li>
+
+      <!-- Subcategoría -->
+      <li 
+        class="breadcrumb-item active" 
+        *ngIf="nombreCategoriaHijo"
+        aria-current="page"
+      >
+        <span class="breadcrumb-active">{{ nombreCategoriaHijo }}</span>
+      </li>
+
+      <!-- Etiquetas -->
+      <li 
+        class="breadcrumb-item active" 
+        *ngIf="nombreEtiqueta"
+        aria-current="page"
+      >
+        <span class="breadcrumb-active">{{ nombreEtiqueta }}</span>
+    </li>
+
+    <!-- Etiquetas -->
+      <li 
+        class="breadcrumb-item active" 
+        *ngIf="otrasEtiquetas"
+        aria-current="page"
+      >
+        <span class="breadcrumb-active">{{ otrasEtiquetas }}</span>
+    </li>
+
+    </ol>
+  </nav>
+</section>
