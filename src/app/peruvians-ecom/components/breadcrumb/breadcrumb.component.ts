@@ -10,4 +10,5 @@ export class BreadcrumbComponent {
     @Input()  nombreEtiqueta?:string;
     @Input()  nombreCategoriaHijo?: string ;
     @Input()  otrasEtiquetas?: string ;
+    @Input() nombreProducto?:string;
 }

@@ -1,6 +1,12 @@
 <div *ngIf="producto" class="detalle-producto container-fluid px-4 py-4">
   <div class="row align-items-start mb-4 g-4">
     
+    <app-breadcrumb
+      [nombreCategoriaActual]="categoriaPadreSlug!"
+      [nombreCategoriaHijo]="categoriaHijoSlug!"
+      [nombreProducto]="nombreProducto"
+      ></app-breadcrumb>
+
     <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
     <div class="col-12 col-md-12 col-lg-6 ">
       <div class="galeria-container">
@@ -191,12 +197,12 @@
             aria-expanded="false"
             aria-controls="collapseOne"
           >
-            ¿Quiénes deberían tomar Silimarina?
+            ¿Quiénes deberían tomar {{producto.nombre| productoNombre}}?
           </button>
         </h2>
         <div
           id="collapseOne"
-          class="accordion-collapse collapse"
+          class="accordion-collapse collapse show"
           aria-labelledby="headingOne"
           data-bs-parent="#infoAdicionalAccordion"
         >
@@ -220,7 +226,7 @@
             aria-expanded="false"
             aria-controls="collapseTwo"
           >
-            ¿Por qué elegir nuestra Silimarina?
+            ¿Por qué elegir nuestra {{producto.nombre| productoNombre}}?
           </button>
         </h2>
         <div
@@ -280,7 +286,7 @@
 <section class="container-fluid px-md-5 mt-5 mb-5">
   <div class="text-center mb-5">
     <h2 class="fw-bold display-6 text-primary mb-2">Preguntas Frecuentes</h2>
-    <p class="text-muted">Todo lo que necesitas saber sobre la Silimarina</p>
+    <p class="text-muted">Todo lo que necesitas saber sobre {{producto?.nombre | productoNombre}}</p>
   </div>
   
   <div class="row">

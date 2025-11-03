@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ProductoNombrePipe implements PipeTransform {
 
-  transform(value: string): string {
+  transform(value: string | undefined): string {
     if (!value) return '';
 
     // Convertir a minúsculas y limpiar

@@ -19,6 +19,7 @@ export class DetalleProductoPageComponent implements OnInit {
   public producto: Producto | undefined;
   public productosRelacionados: Producto[] = [];
   public loading = false;
+  public nombreProducto!:string;
   public loadingRelacionados = false;
   public error: string | null = null;
   public imagenSeleccionada: string | null | undefined = null;
@@ -43,12 +44,12 @@ export class DetalleProductoPageComponent implements OnInit {
     
     
     this.route.paramMap.subscribe(params => {
-      const nombreProducto = params.get('nombreProducto');
+      this.nombreProducto = params.get('nombreProducto')!;
       this.categoriaPadreSlug = params.get('categoriaPadreSlug');
       this.categoriaHijoSlug = params.get('categoriaHijoSlug');
 
-      if (nombreProducto) {
-        const idStr = nombreProducto.split('-').pop();
+      if (this.nombreProducto) {
+        const idStr = this.nombreProducto.split('-').pop();
         const id = parseInt(idStr!, 10);
 
         if (!isNaN(id)) {
