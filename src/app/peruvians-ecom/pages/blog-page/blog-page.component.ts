@@ -8,6 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class BlogPageComponent implements OnInit {
 
+  public blog? = 'Blog';
   constructor(
     private meta: Meta,
     private titleService: Title

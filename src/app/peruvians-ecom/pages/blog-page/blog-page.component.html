@@ -1,4 +1,7 @@
-<section class="container my-5">
+<section class="container my-4">
+  <h3>Blog</h3>
+  <app-breadcrumb [nombreCategoriaActual]="blog">
+  </app-breadcrumb>
   <div class="row g-5 align-items-start">
     <!-- 🖼️ Galería tipo mosaico -->
     <div class="col-lg-8">
@@ -218,6 +221,19 @@
       </div>
 
       <div class="card shadow-sm border-0">
+        <img
+          src="https://cosmeticapedroches.com/wp-content/uploads/2018/01/Beneficios-del-jabon-artesanal.jpg"
+          class="card-img-top"
+          alt="Jabón artesanal con ingredientes orgánicos"
+          loading="lazy"
+        >
+        <div class="card-body">
+          <h5 class="card-title">Jabón Artesanal</h5>
+          <p class="card-text text-muted">Hecho con aceites esenciales y extractos naturales.</p>
+          <a href="/promociones/jabon" class="btn btn-success btn-sm">Ver promoción</a>
+        </div>
+      </div>
+        <div class="card shadow-sm border-0">
         <img
           src="https://cosmeticapedroches.com/wp-content/uploads/2018/01/Beneficios-del-jabon-artesanal.jpg"
           class="card-img-top"
