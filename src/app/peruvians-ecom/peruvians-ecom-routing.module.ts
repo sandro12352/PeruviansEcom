@@ -4,7 +4,7 @@ import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-produ
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
-import { BlogPageComponent } from './pages/blog-page/blog-page.component';
+import { BlogPageComponent } from './pages/blog-page/pages/blog-principal/blog-page.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
@@ -21,10 +21,14 @@ const routes: Routes = [
     component: LayoutPageComponent,
     children: [
       { path: '', component: InicioPageComponent },
+      { 
+        path: 'blog',
+        loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)
+      },
+      
       { path: 'perfil', component: PerfilComponent },
       { path: 'mis-pedidos', component: PedidosComponent },  
       { path: 'contactanos', component: ContactanosComponent },
-      { path: 'blog', component: BlogPageComponent },
       { path: 'nosotros', component: NosotrosPageComponent },
       { path: 'preguntas-frecuentes', component: PreguntasFrecuentesPageComponent },
       { path: 'nuestras-tiendas', component: NuestrasTiendasComponent },

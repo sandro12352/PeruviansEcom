@@ -15,7 +15,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CarruselComentariosComponent } from './components/carrusel-comentarios/carrusel-comentarios.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
-import { BlogPageComponent } from './pages/blog-page/blog-page.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
@@ -32,7 +31,7 @@ import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrus
 import { ModalEmergenteComponent } from './components/modal-emergente/modal-emergente.component';
 import { ProductoNombrePipe } from '../pipes/producto-nombre.pipe';
 import { SplitBeneficiosPipe } from '../pipes/split-beneficios.pipe';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,6 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     CarruselComentariosComponent,
     ContactanosComponent,
     MostrarProductoComponent,
-    BlogPageComponent,
     NosotrosPageComponent,
     PreguntasFrecuentesPageComponent,
     DetalleProductoPageComponent,
@@ -61,7 +59,6 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     ModalEmergenteComponent,
     ProductoNombrePipe,
     SplitBeneficiosPipe,
-    BreadcrumbComponent,
 
   ],
   exports: [
@@ -73,7 +70,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     HttpClientModule, // ← AGREGAR ESTA LÍNEA
     PeruviansEcomRoutingModule,
     FormsModule,
-    ReactiveFormsModule   
+    ReactiveFormsModule,
+    SharedModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

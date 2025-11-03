@@ -1,0 +1,133 @@
+<section class="container-fluid py-5 px-lg-5">
+  <!-- 📰 Título principal y breadcrumb -->
+  <div class="mb-4">
+    <h1 class="fw-bold  text-center mb-3">Belleza Natural: Cuida tu piel con productos orgánicos</h1>
+
+    <app-breadcrumb
+      [nombreCategoriaActual]="'Blog'"
+      [nombreCategoriaHijo]="'Belleza Natural'"
+    ></app-breadcrumb>
+  </div>
+
+  <div class="row">
+    <!-- 🌿 Cuerpo principal del blog -->
+    <article class="col-md-8 col-lg-8 mb-5">
+      <img
+        src="https://previews.123rf.com/images/loonara/loonara1607/loonara160700012/60728838-professional-makeup-brushes-and-tools-collection-make-up-products-set-on-black-table-background.jpg"
+        alt="Belleza Natural"
+        class="img-fluid rounded shadow-sm mb-4"
+      />
+
+      <p class="text-muted small">
+        Publicado el <strong>3 de noviembre de 2025</strong> por <strong>Equipo Peruvian Ecom</strong>
+      </p>
+
+      <h2 class="fw-bold mt-4">¿Por qué elegir productos naturales?</h2>
+      <p class="lh-lg">
+        Los productos naturales no solo respetan tu piel, sino también el medio ambiente. Están libres de químicos agresivos,
+        conservantes artificiales y fragancias sintéticas que pueden irritar tu piel o causar alergias a largo plazo.
+      </p>
+
+      <h3 class="fw-semibold mt-5">Beneficios principales</h3>
+      <ul class="lh-lg">
+        <li>Evitan la resequedad y mejoran la elasticidad de la piel.</li>
+        <li>Reducen el impacto ambiental gracias a ingredientes biodegradables.</li>
+        <li>Son ideales para personas con piel sensible o propensa a alergias.</li>
+      </ul>
+
+      <h3 class="fw-semibold mt-5">Consejos de uso</h3>
+      <p class="lh-lg">
+        Recuerda leer las etiquetas antes de aplicar cualquier producto. Opta por marcas con certificación orgánica y evita el
+        uso excesivo de maquillaje. Una rutina de limpieza diaria y una hidratación constante son las claves para mantener una
+        piel saludable y radiante.
+      </p>
+
+      <blockquote class="blockquote bg-light p-4 rounded shadow-sm my-5">
+        <p class="mb-0 fst-italic">
+          “Tu piel refleja lo que comes, lo que piensas y cómo la cuidas cada día.”
+        </p>
+        <footer class="blockquote-footer mt-2">Expertos en Cuidado Natural</footer>
+      </blockquote>
+
+      <h3 class="fw-semibold mt-5">Productos recomendados</h3>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img
+              src="https://matarrania.com/img/cms/gama_hombre_matarrania2.png"
+              class="card-img-top"
+              alt="Aceite facial ecológico"
+            />
+            <div class="card-body">
+              <h6 class="fw-bold mb-1">Aceite Facial Ecológico</h6>
+              <p class="small text-muted">Ideal para pieles secas</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img
+              src="https://verdecora.es/blog/wp-content/uploads/2019/09/beneficios-productos-organicos.jpg"
+              class="card-img-top"
+              alt="Crema orgánica hidratante"
+            />
+            <div class="card-body">
+              <h6 class="fw-bold mb-1">Crema Hidratante Orgánica</h6>
+              <p class="small text-muted">Hecha con aloe vera y manteca de karité</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-5 lh-lg">
+        Apostar por productos naturales es una forma de cuidarte a ti y al planeta. Si aún no has probado esta tendencia,
+        comienza poco a poco e incluye en tu rutina diaria cosméticos ecológicos. ¡Tu piel te lo agradecerá!
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center mt-5">
+        <a routerLink="/blog" class="btn btn-outline-secondary btn-sm">
+          ← Volver al Blog
+        </a>
+
+        <div>
+          <span class="me-2">Compartir:</span>
+          <a href="#" class="text-primary me-3"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-info me-3"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-danger"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 🧭 Aside derecho -->
+    <aside class="col-md-4 col-lg-3">
+      <div class="" style="top: 200px;bottom: 100px;">
+        <div class="mb-5">
+          <h5 class="fw-bold mb-3">Artículos recientes</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Cuidado Ecológico: Productos sostenibles para ti</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Rutina facial: Cómo cuidar tu piel cada mañana</a></li>
+            <li><a href="#" class="text-decoration-none text-dark">Vida Orgánica: Alimentación saludable y equilibrio</a></li>
+          </ul>
+        </div>
+
+        <div class="mb-5">
+          <h5 class="fw-bold mb-3">Categorías</h5>
+          <ul class="list-unstyled small">
+            <li><a href="#" class="text-decoration-none text-dark">Belleza</a></li>
+            <li><a href="#" class="text-decoration-none text-dark">Salud</a></li>
+            <li><a href="#" class="text-decoration-none text-dark">Estilo de vida</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="fw-bold mb-3">Síguenos</h5>
+          <div class="d-flex gap-3">
+            <a href="#" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
+            <a href="#" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="#" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

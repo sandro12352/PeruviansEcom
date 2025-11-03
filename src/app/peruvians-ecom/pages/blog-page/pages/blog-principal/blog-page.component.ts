@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../../services/seo.service';
 
 @Component({
   selector: 'app-blog-page',
@@ -11,32 +12,25 @@ export class BlogPageComponent implements OnInit {
   public blog? = 'Blog';
   constructor(
     private meta: Meta,
-    private titleService: Title
+    private seoService:SeoService
   ) {}
 
   ngOnInit() {
-    // Configurar título de la página
-    this.titleService.setTitle('Blog - Peruvian Ecom | Noticias y Artículos');
+    
+    this.seoService.setTitle('Blog - Peruvian Ecom | Noticias y Artículos');
 
-    // Configurar metadatos SEO
-    this.meta.updateTag({ 
-      name: 'description', 
-      content: 'Descubre las últimas noticias, tendencias y artículos sobre productos peruanos, comercio electrónico y cultura en nuestro blog oficial.' 
-    });
+
+    this.seoService.setDescription('Descubre las últimas noticias, tendencias y artículos sobre productos peruanos, comercio electrónico y cultura en nuestro blog oficial.')
+
+    this.seoService.setCanonical('https://peruviansecom.com/blog')
 
     this.meta.updateTag({ 
       name: 'keywords', 
       content: 'blog, noticias, artículos, productos peruanos, ecommerce, tendencias, cultura peruana' 
     });
 
-    this.meta.updateTag({ 
-      name: 'author', 
-      content: 'Peruvian Ecom' 
-    });
-      this.meta.updateTag({ 
-      rel: 'canonical', 
-      href: 'https://peruviansecom.com/blog' 
-    });
+
+   
 
     // Open Graph tags para redes sociales
     this.meta.updateTag({ 

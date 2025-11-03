@@ -44,11 +44,25 @@ export class SeoService {
     this.renderer.setAttribute(link, 'href', url);
   }
 
+
+
+
+
+
+
+
+
+
+
+  
   setProductMeta(title: string, description: string, url: string) {
     this.setTitle(title);
     this.setDescription(description);
     this.setCanonical(url);
   }
+
+
+
 
 
   setStructuredData(data: any) {

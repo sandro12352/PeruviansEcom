@@ -1,0 +1,21 @@
+.blog-card img {
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+.blog-card:hover img {
+  transform: scale(1.1);
+  filter: brightness(0.7);
+}
+.blog-card .overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.45);
+  transition: opacity 0.4s ease;
+}
+.blog-card:hover .overlay {
+  opacity: 1;
+}
+.promo-card img {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
