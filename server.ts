@@ -20,7 +20,7 @@ export function app(): express.Express {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.use('**', express.static(browserDistFolder, {
+  server.get('*.*', express.static(browserDistFolder, {
     maxAge: '0',
     etag:false,
     immutable:true,
@@ -29,6 +29,7 @@ export function app(): express.Express {
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
     commonEngine
       .render({
