@@ -9,7 +9,7 @@ import { SeoService } from '../../../../services/seo.service';
 })
 export class BlogPageComponent implements OnInit {
 
-  public blog? = 'Blog';
+  public blog? = 'blog';
   constructor(
     private meta: Meta,
     private seoService:SeoService
