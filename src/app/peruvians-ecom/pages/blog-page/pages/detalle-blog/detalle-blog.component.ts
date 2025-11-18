@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-blog',
@@ -8,9 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetalleBlogComponent {
 
-  public blog?:string = 'blog';
   public nombreBlog?:string;
-
+  public pathParts: string[] = [];
   titulo!: string;
   blogItem: any;
 
@@ -20,14 +19,25 @@ export class DetalleBlogComponent {
     { img: 'https://verdecora.es/blog/wp-content/uploads/2019/09/beneficios-productos-organicos.jpg', titulo: 'Vida Orgánica' },
     { img: 'https://elbalconverde.com/wp-content/uploads/2024/04/masterclass-rutina-facial-banner-1024x556.jpg', titulo: 'Cuidado Facial' }
   ];
+  breadcrumbTitulos = this.blogs.map(b => b.titulo);
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private router:Router) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.titulo = params.get('titulo') || '';
       // Busca el blog por título
       this.blogItem = this.blogs.find(item => item.titulo === this.titulo);
+      
+         // ⭐ CAPTURAR EL PATH SIN SLASH Y SIN GUIONES
+        this.pathParts = this.router.url
+      .split('?')[0]             // Quitar query params
+      .replace(/^\/+/, '')       // Quitar slash inicial
+      .split('/')                // Dividir por /
+      .map(p => decodeURIComponent(p))  // ⭐ Decodificar correctamente
+      .map(p => p.replace(/-/g, ' '));  // Opcional: quitar guiones → espacios
+
+        console.log("PARTES:", this.pathParts);
     });
   }
 

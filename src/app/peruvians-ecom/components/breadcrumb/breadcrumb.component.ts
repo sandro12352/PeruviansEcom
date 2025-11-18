@@ -6,9 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './breadcrumb.component.css'
 })
 export class BreadcrumbComponent {
-    @Input()  nombreCategoriaActual? : string;
-    @Input()  nombreEtiqueta?:string;
-    @Input()  nombreCategoriaHijo?: string ;
     @Input()  otrasEtiquetas?: string ;
-    @Input() nombreProducto?:string;
+    @Input() pathParts?:string[] = [];
 }

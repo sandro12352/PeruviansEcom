@@ -28,6 +28,8 @@ export class DetalleProductoPageComponent implements OnInit {
   public categoriaPadreSlug: string | null = null;
   public categoriaHijoSlug: string | null = null;
 
+  public pathParts: string[] = [];
+
   constructor(
     @Inject(DOCUMENT) private document:Document,
     private route: ActivatedRoute,
@@ -47,6 +49,15 @@ export class DetalleProductoPageComponent implements OnInit {
       this.nombreProducto = params.get('nombreProducto')!;
       this.categoriaPadreSlug = params.get('categoriaPadreSlug');
       this.categoriaHijoSlug = params.get('categoriaHijoSlug');
+
+      this.pathParts = this.router.url
+      .split('?')[0]
+        .replace(/^\/+/, '')
+        .split('/')
+        .map(p => decodeURIComponent(p))
+        .map(p => p.replace(/(-\d+)+$/g, '')) // 🔥 elimina -120-16
+        .map(p => p.replace(/-/g, ' '));  
+
 
       if (this.nombreProducto) {
         const idStr = this.nombreProducto.split('-').pop();

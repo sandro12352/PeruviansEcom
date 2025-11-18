@@ -5,65 +5,31 @@
         <a routerLink="/" class="breadcrumb-link"><i class="bi bi-house-door-fill me-2"></i>Inicio</a>
       </li>
 
-      <!-- Categoría principal -->
-      <li 
-        class="breadcrumb-item"
-        *ngIf="nombreCategoriaActual"
-        [class.active]="!nombreCategoriaHijo"
-        [attr.aria-current]="!nombreCategoriaHijo ? 'page' : null"
-      >
-        <ng-container *ngIf="nombreCategoriaHijo; else noLink">
-          <a [routerLink]="['/', nombreCategoriaActual]" class="breadcrumb-link">
-            {{ nombreCategoriaActual }}
-          </a>
-        </ng-container>
-        <ng-template #noLink>
-          <span class="breadcrumb-text">{{ nombreCategoriaActual }}</span>
-        </ng-template>
-      </li>
 
-      <!-- Subcategoría -->
-      <li 
-        class="breadcrumb-item active" 
-        *ngIf="nombreCategoriaHijo"
-        aria-current="page"
-      >
-      <ng-container *ngIf="nombreCategoriaHijo; else noLink">
-          <a [routerLink]="['/', nombreCategoriaHijo]" class="breadcrumb-link">
-            {{ nombreCategoriaHijo }}
-          </a>
-        </ng-container>
-        <ng-template #noLink>
-          <span class="breadcrumb-text">{{ nombreCategoriaHijo }}</span>
-        </ng-template>
-      </li>
 
-      <!-- Etiquetas -->
       <li 
-        class="breadcrumb-item active" 
-        *ngIf="nombreEtiqueta"
-        aria-current="page"
-      >
-        <span class="breadcrumb-active">{{ nombreEtiqueta }}</span>
+      class="breadcrumb-item" 
+      *ngFor="let part of pathParts; let last = last"
+      [class.active]="last"
+      [attr.aria-current]="last ? 'page' : null"
+    >
+      <ng-container>
+        <!-- ✔ Si NO es el último, es clickeable -->
+        <a class="breadcrumb-link" *ngIf="!last" [routerLink]="['/', part]">
+          {{ part | titlecase }}
+        </a>
+
+        <!-- ✔ Si es el último, NO es clickeable -->
+        <span *ngIf="last" class="breadcrumb-active">
+          {{ part | titlecase }}
+        </span>
+      </ng-container>
     </li>
 
-    <!-- Etiquetas -->
-      <li 
-        class="breadcrumb-item active" 
-        *ngIf="otrasEtiquetas"
-        aria-current="page"
-      >
-        <span class="breadcrumb-active">{{ otrasEtiquetas }}</span>
-    </li>
 
-    <!-- NombreProdcuto -->
-      <li 
-        class="breadcrumb-item active" 
-        *ngIf="nombreProducto"
-        aria-current="page"
-      >
-        <span class="breadcrumb-active">{{ nombreProducto }}</span>
-    </li>
+
+    
+    
 
     </ol>
   </nav>

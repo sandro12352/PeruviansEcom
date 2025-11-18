@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
-import { combineLatest, filter, forkJoin } from 'rxjs';
+import { combineLatest, forkJoin } from 'rxjs';
 import { ProductoService } from '../../services/producto.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { TiendaService } from '../../services/tienda.service';
@@ -27,6 +27,8 @@ export class MostrarProductoComponent implements OnInit {
   public categoriaHijoSlug: string | null = null;
   public categoriaPadreSlug: string | null = null;
   public nombreCategoriaHijo: string = '';
+  public pathParts: string[] = [];
+
 
 
   public categorias: Categoria[] = [];
@@ -72,7 +74,7 @@ ngOnInit(): void {
     this.tiendaService.obtenerTiendas()
   ]).subscribe({
     next: ([categoriasResp, etiquetasResp, tiendasResp]) => {
-      if (categoriasResp.success) this.categorias = categoriasResp.data;
+      if (categoriasResp.success) this.categorias = categoriasResp.data;  
       if (etiquetasResp.etiquetas) this.etiquetas = etiquetasResp.etiquetas;
       if (tiendasResp.success) this.tiendas = tiendasResp.data;
       console.log("respuesta:",this.categoria,this.etiquetas,this.tiendas)
@@ -89,6 +91,16 @@ ngOnInit(): void {
         this.etiquetaId = query.get('etiqueta');
         this.nombreEtiqueta = query.get('nombre_etiqueta') || '';
 
+
+         // ⭐ CAPTURAR EL PATH SIN SLASH Y SIN GUIONES
+       this.pathParts = this.router.url
+          .split('?')[0]             // Quitar query params
+      .replace(/^\/+/, '')       // Quitar slash inicial
+      .split('/')                // Dividir por /
+      .map(p => decodeURIComponent(p))  // ⭐ Decodificar correctamente
+      .map(p => p.replace(/-/g, ' '));   // Reemplazar guiones por espacios
+
+        
         // ✅ Cargar productos una vez que todo está listo
         this.cargarCategoriaDesdeRuta();
       });
@@ -193,7 +205,8 @@ generarRutaParaProducto(producto: Producto): string[] {
 
   // Método actualizado en MostrarProductoComponent
   private cargarCategoriaDesdeRuta(): void {
-  const path = this.route.snapshot.routeConfig?.path || '';
+ 
+
 
   // Capturar parámetros de la ruta
   this.categoriaPadreSlug = this.route.snapshot.paramMap.get('categoriaPadreSlug');
@@ -260,15 +273,14 @@ generarRutaParaProducto(producto: Producto): string[] {
 
   if (this.filtroSeleccionado === 'oferta') {
     this.obtenerProductosEnOferta();
-  } else if (this.filtroSeleccionado === 'masVendidos' || path === 'mas-vendidos') {
+  } else if (this.filtroSeleccionado === 'masVendidos' ) {
     this.obtenerProductosMasVendidos();
-  } else if (this.filtroSeleccionado === 'masNuevos' || path === 'mas-nuevos') {
+  } else if (this.filtroSeleccionado === 'masNuevos' ) {
     this.obtenerProductosMasNuevos();
-  } else if (this.filtroSeleccionado === 'ofertas' || path === 'ofertas') {
+  } else if (this.filtroSeleccionado === 'ofertas') {
     this.obtenerProductosEnOferta();
-  } else if (path === 'productos') {
-    this.obtenerProductosConFiltros();
-  } else {
+  }
+ else {
     this.obtenerProductosPorCategoriaConFiltros(this.categoria);
   }
 }
