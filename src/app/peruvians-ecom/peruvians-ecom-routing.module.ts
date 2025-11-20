@@ -4,7 +4,6 @@ import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-produ
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
-import { BlogPageComponent } from './pages/blog-page/pages/blog-principal/blog-page.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SeoService } from '../../../../services/seo.service';
 
 @Component({
   selector: 'app-detalle-blog',
@@ -21,7 +22,12 @@ export class DetalleBlogComponent {
   ];
   breadcrumbTitulos = this.blogs.map(b => b.titulo);
 
-  constructor(private route: ActivatedRoute,private router:Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router:Router,
+    private seoService:SeoService
+    
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -39,6 +45,9 @@ export class DetalleBlogComponent {
 
         console.log("PARTES:", this.pathParts);
     });
+
+
+
   }
 
 

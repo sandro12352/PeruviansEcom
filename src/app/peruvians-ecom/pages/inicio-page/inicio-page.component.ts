@@ -58,15 +58,13 @@ export class InicioPageComponent implements OnInit {
     private dashboardService: DashboardService,
     private categoriaService: CategoriaService,
     private router: Router,
-    private meta: Meta,
-    private title: Title,
   ) {}
   
   ngOnInit(): void {
 
   
 
-    this.cargarCategoriasJerarquicas();
+    
     this.cargarDatosDashboard();
   }
 
@@ -74,33 +72,7 @@ export class InicioPageComponent implements OnInit {
   /**
    * NUEVO: Carga las categorías con su estructura jerárquica
    */
- private cargarCategoriasJerarquicas(): void {
-    this.loading.categorias = true;
-    
-    this.categoriaService.obtenerCategorias().subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.categoriasJerarquicas = response.data;
-          
-          // Debug: mostrar estructura
-          this.categoriasJerarquicas.forEach(cat => {
-            if (cat.subcategorias) {
-              cat.subcategorias.forEach((sub: any) => {
-              });
-            }
-          });
-        } else {
-          console.error('Error en respuesta de categorías:', response);
-        }
-      },
-      error: (err) => {
-        console.error('Error al cargar categorías jerárquicas:', err);
-      },
-      complete: () => {
-        this.loading.categorias = false;
-      }
-    });
-  }
+ 
 
   /**
    * Carga todos los datos del dashboard en una sola llamada
@@ -120,7 +92,7 @@ export class InicioPageComponent implements OnInit {
           }
 
           if (response.data.mas_nuevos) {
-            this.masNuevo = this.convertirProductosDashboard(response.data.mas_nuevos);
+            this.masNuevo = response.data.mas_nuevos;
           }
 
           if (response.data.liquidaciones) {
@@ -226,9 +198,6 @@ export class InicioPageComponent implements OnInit {
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
   }
-
-// REEMPLAZA este método en inicio-page.component.ts
-
 
 
   private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: any | null, categoriaHijo: any | null} {
@@ -398,21 +367,7 @@ export class InicioPageComponent implements OnInit {
     }
   }
 
-  // Método para navegar por categoría ID si es necesario
-  navigateToCategory(categoriaId: number): void {
-    // Este método puede usarse si necesitas navegar por ID de categoría
-    // Por ejemplo: this.router.navigate(['/categoria', categoriaId]);
-  }
-
-  // ACTUALIZADO: Método para generar slug de liquidación con nueva estructura
-  generarSlugLiquidacion(liquidacion: Liquidacion): string {
-    return this.generarSlugConId(liquidacion.producto);
-  }
-
-  // NUEVO: Método para navegar a liquidación con nueva estructura
-  navegarALiquidacion(liquidacion: Liquidacion): void {
-    this.navegarAProducto(liquidacion.producto);
-  }
+ 
  navegarAProducto(producto: Producto): void {
     const slug = this.generarSlugConId(producto);
     
@@ -472,17 +427,8 @@ export class InicioPageComponent implements OnInit {
 
   getEtiquetaRoute(etiqueta: Etiqueta): string[] {
     const slug = this.getCategoriaSlug(etiqueta);
-  return ['/', slug];
+    return ['/', slug];
 
   }
 
-  /**
-   * Método para verificar si hay datos cargados
-   */
-  get hayCargaDatos(): boolean {
-    return this.categorias.length > 0 || 
-           this.masVendido.length > 0 || 
-           this.masNuevo.length > 0 || 
-           this.liquidacion.length > 0;
-  }
 }

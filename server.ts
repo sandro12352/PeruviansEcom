@@ -4,6 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
+import {create} from 'xmlbuilder2';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -31,7 +32,42 @@ export function app(): express.Express {
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
       next();
-  });
+  }); 
+
+
+  server.get('/sitemap.xml' ,async (_req,res)=>{
+      const root = create({ version: '1.0', encoding: 'UTF-8' })
+      .ele('urlset', {
+        xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9'
+      }); 
+
+      const staticRoutes = [
+        '/',
+        '/blog',
+        '/perfil',
+        '/mis-pedidos',
+        '/contactanos',
+        '/nosotros',
+        '/preguntas-frecuentes',
+        '/nuestras-tiendas',
+        '/mas-vendidos',
+        '/ofertas',
+        '/mas-nuevos',
+        '/productos',
+        '/politica-privacidad',
+        '/terminos-condiciones',
+        '/libro-reclamaciones'
+      ];
+
+      // Rutas estáticas del routing de Angular
+      staticRoutes.forEach((path) => {
+        const url = root.ele('url');
+        url.ele('loc').txt(`https://peruvians.com${path}`);
+        url.ele('changefreq').txt('monthly');
+      });
+
+
+  })
 
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {

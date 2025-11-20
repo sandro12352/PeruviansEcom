@@ -13,10 +13,12 @@
 
 <section class="container-fluid ">
 
-  <div class="row px-4">
+  <div class="row px-md-2">
       <app-breadcrumb
- [pathParts]="pathParts"
-></app-breadcrumb>
+      [pathParts]="pathParts"
+      ></app-breadcrumb>
+
+
     <!-- Sidebar -->
     <div class="col-lg-3 mb-4">
       <div class="card p-3">
@@ -100,7 +102,7 @@
     </div>
 
     <!-- Productos -->
-    <div class="col-lg-9">
+    <div class="col-lg-9 ">
       <!-- Skeletons mientras carga -->
       <div class="row gx-3 gy-4" *ngIf="isLoading">
         <div class="col-6 col-sm-6 col-md-4 col-lg-3" *ngFor="let i of skeletonArray">

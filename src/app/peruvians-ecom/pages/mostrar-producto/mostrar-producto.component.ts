@@ -77,7 +77,6 @@ ngOnInit(): void {
       if (categoriasResp.success) this.categorias = categoriasResp.data;  
       if (etiquetasResp.etiquetas) this.etiquetas = etiquetasResp.etiquetas;
       if (tiendasResp.success) this.tiendas = tiendasResp.data;
-      console.log("respuesta:",this.categoria,this.etiquetas,this.tiendas)
 
 
       // ✅ 2️⃣ Ahora sí: escuchar cambios en la ruta

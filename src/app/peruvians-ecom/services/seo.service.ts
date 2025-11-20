@@ -1,7 +1,5 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map, mergeMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

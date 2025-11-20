@@ -18,7 +18,6 @@ import {
   ResetPasswordResponse,
   UpdateProfileRequest,
   UpdateProfileResponse,
-  GoogleAuthResponse,
   GoogleRedirectResponse,
   CompletarDatosGoogleRequest,
   CompletarDatosGoogleResponse
@@ -169,15 +168,6 @@ private handleGoogleAuthSuccess(data: any): void {
         }
       })
     );
-  }
-
-  /**
-   * Muestra modal para completar perfil (implementar según tu UI)
-   */
-  private showCompleteProfileModal(): void {
-    // Aquí puedes implementar tu lógica para mostrar un modal
-    // o redirigir a una página específica para completar datos
-    console.log('Usuario necesita completar datos');
   }
 
   // MÉTODOS EXISTENTES CONTINUOS...
