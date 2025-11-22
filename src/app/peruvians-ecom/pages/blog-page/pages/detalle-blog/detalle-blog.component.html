@@ -6,7 +6,7 @@
    
   </div>
 
-  <div class="d-flex gap-1 container-fluid">
+  <div class="d-flex gap-4 container-fluid">
     <!-- 🌿 Cuerpo principal del blog -->
     <article class="col-md-8 col-lg-9 mb-5">
        <h1 class="fw-bolder   mb-3">{{blog?.titulo}}</h1>
@@ -14,6 +14,8 @@
     [pathParts]="pathParts"
     ></app-breadcrumb>
       <img
+      width="100%"
+      height="100%"
         [src]="blog?.portada_url"
         [alt]="blog?.titulo"
         class="img-fluid rounded shadow-sm mb-4"
@@ -63,40 +65,7 @@
 
         
       </div>
-      <h3 class="fw-semibold mt-5">Productos recomendados</h3>
-      <div class="row g-3">
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
-            <img
-              src="https://matarrania.com/img/cms/gama_hombre_matarrania2.png"
-              class="card-img-top"
-              alt="Aceite facial ecológico"
-            />
-            <div class="card-body">
-              <h6 class="fw-bold mb-1">Aceite Facial Ecológico</h6>
-              <p class="small text-muted">Ideal para pieles secas</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
-            <img
-              src="https://verdecora.es/blog/wp-content/uploads/2019/09/beneficios-productos-organicos.jpg"
-              class="card-img-top"
-              alt="Crema orgánica hidratante"
-            />
-            <div class="card-body">
-              <h6 class="fw-bold mb-1">Crema Hidratante Orgánica</h6>
-              <p class="small text-muted">Hecha con aloe vera y manteca de karité</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p class="mt-5 lh-lg">
-        Apostar por productos naturales es una forma de cuidarte a ti y al planeta. Si aún no has probado esta tendencia,
-        comienza poco a poco e incluye en tu rutina diaria cosméticos ecológicos. ¡Tu piel te lo agradecerá!
-      </p>
+    
 
       <div class="d-flex justify-content-between align-items-center mt-5">
         <a routerLink="/blog" class="btn btn-outline-secondary btn-sm">
@@ -105,9 +74,9 @@
 
         <div>
           <span class="me-2">Compartir:</span>
-          <a href="#" class="text-primary me-3"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-info me-3"><i class="bi bi-twitter"></i></a>
-          <a href="#" class="text-danger"><i class="bi bi-instagram"></i></a>
+          <a href="https://www.facebook.com/p/Peruviansecom-61580124444332/" target="_blank" class="text-primary me-3"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.tiktok.com/@peruvians.ecom?_r=1&_t=ZS-91cFuowMu8K" target="_blank" class="text-dark me-3"><i class="bi bi-tiktok"></i></a>
+          <a href="https://www.instagram.com/peruvians.ecom/" target="_blank" class="text-danger"><i class="bi bi-instagram"></i></a>
         </div>
       </div>
     </article>
@@ -118,7 +87,7 @@
 
     <!-- 🔥 Promociones / Ofertas -->
     <div class="mb-5">
-      <h5 class="fw-bold mb-3">🔥Cuida tu salud ahora!!</h5>
+      <h5 class="fw-bold mb-3 text-center">Descubre los mejores productos para cuidar tu salud</h5>
 
       <!-- Producto 1 -->
       <div class="card mb-3 border-0 shadow-sm" style="border-radius: 10px;">
@@ -164,9 +133,9 @@
     <div>
       <h5 class="fw-bold mb-3">Síguenos</h5>
       <div class="d-flex gap-3">
-        <a href="#" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
-        <a href="#" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
-        <a href="#" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
+        <a href="https://www.facebook.com/p/Peruviansecom-61580124444332" target="_blank" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="https://www.instagram.com/peruvians.ecom/" target="_blank" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
+        <a href="https://www.tiktok.com/@peruvians.ecom?_r=1&_t=ZS-91cFuowMu8K" target="_blank" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
       </div>
     </div>
 
