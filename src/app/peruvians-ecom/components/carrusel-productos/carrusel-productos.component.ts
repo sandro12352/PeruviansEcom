@@ -136,9 +136,9 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);
        let categoriaPadre = 'productos'; // fallback por defecto
-      if (producto.categoria_completa?.padre?.nombre) {
-        categoriaPadre = this.generarSlugCategoria(producto.categoria_completa.padre.nombre);
-      }
+      // if (producto.categoria_completa?.padre?.nombre) {
+      //   categoriaPadre = this.generarSlugCategoria(producto.categoria_completa.padre.nombre);
+      // }
         return ['/',categoriaPadre, categoriaSlug, this.generarSlugConId(producto)];
       }
       return ['/productos', this.generarSlugConId(producto)];
@@ -158,14 +158,14 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
       return ['/', slugPadre, slug];
     } else {
       // Fallbacks
-      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-        const categoriaCompleta = producto.categoria_completa as any;
-        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-          return ['/', padreSlug, hijoSlug, slug];
-        }
-      }
+      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+      //   const categoriaCompleta = producto.categoria_completa as any;
+      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+      //     return ['/', padreSlug, hijoSlug, slug];
+      //   }
+      // }
       
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);

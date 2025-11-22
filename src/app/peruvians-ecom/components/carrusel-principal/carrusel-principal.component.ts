@@ -245,64 +245,21 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
 
   /**
    * Genera slug optimizado para productos
-   */
-  generarSlugConId(producto: any): string {
-    if (!producto || !producto.nombre) {
-      return '';
-    }
+  
 
-    let nombreLimpio = producto.nombre
-      .toLowerCase()
-      .trim()
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i')
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/\d+\s*(ml|mg|gr|g|kg|unidades|und|piezas|pzs|%)/gi, '')
-      .replace(/\b(100|natural|puro|premium|original|autentico|de|del|la|las|el|los|para|con|sin|y|o|u)\b/gi, '')
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const palabras = nombreLimpio
-      .split(' ')
-      .filter((palabra: string) => palabra.length > 0)
-      .slice(0, 2);
-    const nombreCorto = palabras.join('-');
-    return `${nombreCorto}-${producto.id}`;
-  }
-
-
-  private generarSlugCategoria(nombre: string): string {
-    return nombre.toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i')
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
 
   /**
    * Maneja el clic en "Lo quiero"
    */
   onLoQuiero(item: Carrusel): void {
     if (item.producto && item.producto.stock  && item.producto.categoria) {
-      const slug = this.generarSlugConId(item.producto);
-      let categoriaPadre = 'productos'; // fallback por defecto
-      if (item.producto.categoria_completa?.padre?.nombre) {
-        categoriaPadre = this.generarSlugCategoria(item.producto.categoria_completa.padre.nombre);
+      let categoriaPadre = item.producto.categoria.categoria_slug; // fallback por defecto
+      if (item.producto.categoria.es_padre) {
+        categoriaPadre = item.producto.categoria.categoria_slug;       
       }
-      this.router.navigate(['/',categoriaPadre, item.producto.categoria, slug]);
+      this.router.navigate(['/',categoriaPadre , item.producto.nombre]);
     } else if (item.producto && item.producto.stock) {
-      const slug = this.generarSlugConId(item.producto);
+      const slug = item.producto.producto_slug;
       this.router.navigate(['/productos', slug]);
     } else {
       this.router.navigate(['/productos']);

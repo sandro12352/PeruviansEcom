@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoService } from '../../../../services/seo.service';
+import { Blog } from '../../interfaces/blog.interface';
+import { BlogService } from '../../services/blog.service';
 
 @Component({
   selector: 'app-blog-page',
@@ -10,12 +12,22 @@ import { SeoService } from '../../../../services/seo.service';
 export class BlogPageComponent implements OnInit {
 
   public blog? = 'blog';
+  public blogs:Blog[] = [];
+
   constructor(
     private meta: Meta,
-    private seoService:SeoService
+    private seoService:SeoService,
+    private readonly blogService:BlogService
   ) {}
 
   ngOnInit() {
+
+    this.blogService.getBlogs().subscribe({
+      next:(resp)=>{
+        this.blogs = resp;
+        console.log(this.blogs)
+      }
+    })
     
     this.seoService.setTitle('Blog - Peruvian Ecom | Noticias y Artículos');
 

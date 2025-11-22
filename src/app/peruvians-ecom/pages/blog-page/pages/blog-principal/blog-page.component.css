@@ -2,7 +2,6 @@
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 .blog-card:hover img {
-  transform: scale(1.1);
   filter: brightness(0.7);
 }
 .blog-card .overlay {
@@ -18,4 +17,15 @@
 .promo-card img {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
+}
+
+.blog-card {
+   background: #fff;
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* subtítulo */
+.card-text {
+  line-height: 1.3;
 }

@@ -105,7 +105,7 @@ export class DetalleProductoPageComponent implements OnInit {
             "@context": "https://schema.org/",
             "@type": "Product",
             "name": producto.nombre,
-            "image": producto.imagen_url,
+            "image": producto.img,
             "description": producto.descripcion,
             "sku": producto.sku,
             "brand": {

@@ -65,7 +65,7 @@ export function app(): express.Express {
         url.ele('loc').txt(`https://peruvians.com${path}`);
         url.ele('changefreq').txt('monthly');
       });
-
+      
 
   })
 

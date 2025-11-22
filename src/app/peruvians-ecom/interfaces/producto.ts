@@ -5,30 +5,18 @@ export interface Producto {
   id: number;
   titulo?: string;
   nombre: string;
+  producto_slug:string;
   descripcion: string;
   precio: number;
   precio_despues?: number;
   descuento?: string | number;
   img: string;                
   imagen?: string;            
-  imagen_url?: string;        
   imagenes?: ProductoImagen[]; 
-
   tienda?: string;
   tienda_id?: string | number;
-  categoria?: string | Categoria;
+  categoria?:Categoria;
   categoria_id?: string | number;
-  categoria_completa?: {
-    id: number;
-    nombre: string;
-    parent_id: number;
-    es_padre: boolean;
-    nivel: number;
-    padre: {
-      id: number;
-      nombre: string;
-    };
-  };    
   sku?: string;
   ingredientes?: string;
   beneficios?: string;

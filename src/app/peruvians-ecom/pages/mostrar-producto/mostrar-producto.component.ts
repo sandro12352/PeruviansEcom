@@ -77,6 +77,7 @@ ngOnInit(): void {
       if (categoriasResp.success) this.categorias = categoriasResp.data;  
       if (etiquetasResp.etiquetas) this.etiquetas = etiquetasResp.etiquetas;
       if (tiendasResp.success) this.tiendas = tiendasResp.data;
+      console.log("respuesta:",this.categoria,this.etiquetas,this.tiendas)
 
 
       // ✅ 2️⃣ Ahora sí: escuchar cambios en la ruta
@@ -122,7 +123,7 @@ private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: a
   for (const categoria of this.categorias) {
     // Verificar si es una categoría padre
     if (categoria.id.toString() === producto.categoria_id?.toString()) {
-      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+      if (categoria.es_padre) {
         // Es una categoría padre
         categoriaPadre = categoria;
       } else {
@@ -184,14 +185,14 @@ generarRutaParaProducto(producto: Producto): string[] {
       return ['/', slugPadre, slug];
     } else {
       // Fallbacks
-      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-        const categoriaCompleta = producto.categoria_completa as any;
-        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-          return ['/', padreSlug, hijoSlug, slug];
-        }
-      }
+      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+      //   const categoriaCompleta = producto.categoria_completa as any;
+      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+      //     return ['/', padreSlug, hijoSlug, slug];
+      //   }
+      // }
       
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);

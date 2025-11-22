@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../../../services/seo.service';
+import { BlogService } from '../../services/blog.service';
+import { Blog } from '../../interfaces/blog.interface';
 
 @Component({
   selector: 'app-detalle-blog',
@@ -9,8 +11,9 @@ import { SeoService } from '../../../../services/seo.service';
 })
 export class DetalleBlogComponent {
 
-  public nombreBlog?:string;
+  public nombreBlog?:string[];
   public pathParts: string[] = [];
+  public blog?:Blog;
   titulo!: string;
   blogItem: any;
 
@@ -25,18 +28,22 @@ export class DetalleBlogComponent {
   constructor(
     private route: ActivatedRoute,
     private router:Router,
-    private seoService:SeoService
+    private seoService:SeoService,
+    private readonly blogService:BlogService
     
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.titulo = params.get('titulo') || '';
-      // Busca el blog por título
-      this.blogItem = this.blogs.find(item => item.titulo === this.titulo);
-      
-         // ⭐ CAPTURAR EL PATH SIN SLASH Y SIN GUIONES
-        this.pathParts = this.router.url
+    const id_blog = Number( this.route.snapshot.paramMap.get('id_blog'));
+
+
+    this.blogService.getBlogById(id_blog).subscribe({
+      next:(resp)=>{
+        this.blog = resp;
+        console.log(this.blog)
+        this.seoService.setTitle(this.blog?.meta_title!)
+
+         this.pathParts = this.router.url
       .split('?')[0]             // Quitar query params
       .replace(/^\/+/, '')       // Quitar slash inicial
       .split('/')                // Dividir por /
@@ -44,7 +51,12 @@ export class DetalleBlogComponent {
       .map(p => p.replace(/-/g, ' '));  // Opcional: quitar guiones → espacios
 
         console.log("PARTES:", this.pathParts);
-    });
+      }
+    })
+    
+
+
+   
 
 
 

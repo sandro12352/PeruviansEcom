@@ -374,15 +374,15 @@ export class InicioPageComponent implements OnInit {
     if (!this.categoriasJerarquicas || this.categoriasJerarquicas.length === 0) {
       console.warn('Categorías jerárquicas no cargadas, usando fallback...');
       
-      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-        const categoriaCompleta = producto.categoria_completa as any;
-        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-          this.router.navigate(['/', padreSlug, hijoSlug, slug]);
-          return;
-        }
-      }
+      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+      //   const categoriaCompleta = producto.categoria_completa as any;
+      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+      //     this.router.navigate(['/', padreSlug, hijoSlug, slug]);
+      //     return;
+      //   }
+      // }
       
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);
@@ -405,15 +405,15 @@ export class InicioPageComponent implements OnInit {
       this.router.navigate(['/', slugPadre, slug]);
     } else {
       // Fallbacks adicionales
-      if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-        const categoriaCompleta = producto.categoria_completa as any;
-        if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-          const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-          const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-          this.router.navigate(['/', padreSlug, hijoSlug, slug]);
-          return;
-        }
-      }
+      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
+      //   const categoriaCompleta = producto.categoria_completa as any;
+      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
+      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
+      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
+      //     this.router.navigate(['/', padreSlug, hijoSlug, slug]);
+      //     return;
+      //   }
+      // }
       
       if (producto.categoria && typeof producto.categoria === 'string') {
         const categoriaSlug = this.generarSlugCategoria(producto.categoria);
