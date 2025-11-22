@@ -31,7 +31,7 @@ import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrus
 import { ModalEmergenteComponent } from './components/modal-emergente/modal-emergente.component';
 import { ProductoNombrePipe } from '../pipes/producto-nombre.pipe';
 import { SplitBeneficiosPipe } from '../pipes/split-beneficios.pipe';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [

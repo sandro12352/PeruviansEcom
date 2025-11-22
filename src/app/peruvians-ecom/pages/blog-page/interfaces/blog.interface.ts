@@ -6,6 +6,7 @@ export interface Blog {
     meta_description:   string;
     portada:            string;
     portada_url:        string;
+    portada_sec_url:        string;
     contenido_flexible: ContenidoFlexible;
     creado_en:          Date;
 }

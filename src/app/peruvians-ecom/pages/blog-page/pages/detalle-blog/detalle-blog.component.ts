@@ -15,20 +15,12 @@ export class DetalleBlogComponent {
   public pathParts: string[] = [];
   public blog?:Blog;
   titulo!: string;
-  blogItem: any;
 
-  blogs = [
-    { img: 'https://previews.123rf.com/images/loonara/loonara1607/loonara160700012/60728838-professional-makeup-brushes-and-tools-collection-make-up-products-set-on-black-table-background.jpg', titulo: 'Belleza Natural', subtitulo: '¿Por qué comprar?' },
-    { img: 'https://matarrania.com/img/cms/gama_hombre_matarrania2.png', titulo: 'Cuidado Ecológico' },
-    { img: 'https://verdecora.es/blog/wp-content/uploads/2019/09/beneficios-productos-organicos.jpg', titulo: 'Vida Orgánica' },
-    { img: 'https://elbalconverde.com/wp-content/uploads/2024/04/masterclass-rutina-facial-banner-1024x556.jpg', titulo: 'Cuidado Facial' }
-  ];
-  breadcrumbTitulos = this.blogs.map(b => b.titulo);
 
   constructor(
-    private route: ActivatedRoute,
-    private router:Router,
-    private seoService:SeoService,
+    private readonly route: ActivatedRoute,
+    private readonly router:Router,
+    private readonly seoService:SeoService,
     private readonly blogService:BlogService
     
   ) {}
@@ -40,18 +32,19 @@ export class DetalleBlogComponent {
     this.blogService.getBlogById(id_blog).subscribe({
       next:(resp)=>{
         this.blog = resp;
-        console.log(this.blog)
-        this.seoService.setTitle(this.blog?.meta_title!)
+        this.seoService.setTitle(this.blog?.meta_title!);
+        this.seoService.setDescription(this.blog.meta_description);
+        this.seoService.setCanonical(this.router.url)
 
-         this.pathParts = this.router.url
-      .split('?')[0]             // Quitar query params
-      .replace(/^\/+/, '')       // Quitar slash inicial
-      .split('/')                // Dividir por /
-      .map(p => decodeURIComponent(p))  // ⭐ Decodificar correctamente
-      .map(p => p.replace(/-/g, ' '));  // Opcional: quitar guiones → espacios
+     this.pathParts = this.router.url
+        .split('?')[0]
+        .replace(/^\/+/, '')
+        .split('/')
+        .filter(p => isNaN(Number(p)))               // 🚫 Quitar números puros
+        .map(p => decodeURIComponent(p))
+        .map(p => p.replace(/-/g, ' '));
 
-        console.log("PARTES:", this.pathParts);
-      }
+      } 
     })
     
 
