@@ -6,88 +6,100 @@
   ></app-breadcrumb>
 
   <div class="row g-5 align-items-start">
-    <div class="col-lg-8">
-  <div class="row g-4">
 
-    <div class="col-6" *ngFor="let item of blogs">
+  <!-- 📝 LISTA DE BLOGS -->
+  <div class="col-12 col-lg-8">
+    <div class="row g-4">
 
-      <!-- CARD -->
-      <div class="card blog-card shadow-sm border-0 overflow-hidden bg-white">
+      <div class="col-12 col-sm-6 col-xl-6" *ngFor="let item of blogs">
 
-        <!-- Imagen con overlay -->
-        <div class="position-relative">
-          <img 
-            [src]="item.portada_url" 
-            [alt]="item.titulo" 
-            class="card-img-top blog-img"
-            loading="lazy"
-          >
+        <!-- CARD -->
+        <div class="card blog-card shadow-sm border-0 overflow-hidden bg-white">
 
-          <div class="overlay d-flex flex-column justify-content-center align-items-center text-white text-center p-3">
-            <h5 class="fw-bold mb-2">{{ item.meta_title }}</h5>
-            <button 
-              class="btn btn-outline-light btn-sm" 
-              [routerLink]="['/blog', item.id,item.blog_slug]"
+          <!-- Imagen con overlay -->
+          <div class="position-relative">
+            <img 
+              [src]="item.portada_url" 
+              [alt]="item.titulo" 
+              class="card-img-top blog-img"
+              loading="lazy"
             >
-              Saber más
-            </button>
-          </div>
-        </div>
 
-        <!-- Texto debajo -->
-        <div class="card-body">
-          <p *ngIf="item.titulo" class="card-text fw-bold text-dark">
-            {{ item.titulo }}
-          </p>
+            <div class="overlay d-flex flex-column justify-content-center align-items-center text-white text-center p-3">
+              <h5 class="fw-bold mb-2">{{ item.meta_title }}</h5>
+              <button 
+                class="btn btn-outline-light btn-sm" 
+                [routerLink]="['/blog', item.id,item.blog_slug]"
+              >
+                Saber más
+              </button>
+            </div>
+          </div>
+
+          <!-- Texto debajo -->
+          <div class="card-body">
+            <p *ngIf="item.titulo" class="card-text fw-bold text-dark">
+              {{ item.titulo }}
+            </p>
+          </div>
+
         </div>
+        <!-- /CARD -->
 
       </div>
-      <!-- /CARD -->
 
     </div>
-
   </div>
+  <!-- /LISTA DE BLOGS -->
+
+
+
+  <!-- 🛍️ PROMOCIONES -->
+  <div class="col-12 col-lg-4">
+
+    <header class="mb-4 text-center text-lg-start">
+      <h2 class="fw-bold text-success">Promociones de Temporada 🌿</h2>
+      <p class="text-muted mb-0">
+        Ofertas exclusivas en productos naturales para cuidar tu piel y bienestar.
+      </p>
+    </header>
+
+    <div class="d-flex flex-column gap-4">
+
+      <!-- Card 1 -->
+      <div class="card shadow-sm border-0 promo-card">
+        <img
+          src="https://www.ecolution.pe/cdn/shop/files/2_22_1024x1024@2x.png?v=1695232790"
+          class="card-img-top"
+          alt="Aceite de argán 100% natural en oferta"
+          loading="lazy"
+        >
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">Aceite de Argán Puro</h5>
+          <p class="card-text text-muted small">Nutre, hidrata y da brillo natural a tu cabello y piel.</p>
+          <a href="/promociones/argan" class="btn btn-success btn-sm w-100">Ver promoción</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card shadow-sm border-0 promo-card">
+        <img
+          src="https://cosmeticapedroches.com/wp-content/uploads/2018/01/Beneficios-del-jabon-artesanal.jpg"
+          class="card-img-top"
+          alt="Jabón artesanal con ingredientes orgánicos"
+          loading="lazy"
+        >
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">Jabón Artesanal</h5>
+          <p class="card-text text-muted small">Hecho con aceites esenciales y extractos naturales.</p>
+          <a href="/promociones/jabon" class="btn btn-success btn-sm w-100">Ver promoción</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- /PROMOCIONES -->
+
 </div>
 
-
-    <!-- 🛍️ Promociones laterales -->
-    <div class="col-lg-4">
-      <header class="mb-4 text-center text-lg-start">
-        <h2 class="fw-bold text-success">Promociones de Temporada 🌿</h2>
-        <p class="text-muted mb-0">
-          Ofertas exclusivas en productos naturales para cuidar tu piel y bienestar.
-        </p>
-      </header>
-
-      <div class="d-flex flex-column gap-4">
-        <div class="card shadow-sm border-0 promo-card">
-          <img
-            src="https://www.ecolution.pe/cdn/shop/files/2_22_1024x1024@2x.png?v=1695232790"
-            class="card-img-top"
-            alt="Aceite de argán 100% natural en oferta"
-            loading="lazy"
-          >
-          <div class="card-body">
-            <h5 class="card-title fw-semibold">Aceite de Argán Puro</h5>
-            <p class="card-text text-muted small">Nutre, hidrata y da brillo natural a tu cabello y piel.</p>
-            <a href="/promociones/argan" class="btn btn-success btn-sm w-100">Ver promoción</a>
-          </div>
-        </div>
-
-        <div class="card shadow-sm border-0 promo-card">
-          <img
-            src="https://cosmeticapedroches.com/wp-content/uploads/2018/01/Beneficios-del-jabon-artesanal.jpg"
-            class="card-img-top"
-            alt="Jabón artesanal con ingredientes orgánicos"
-            loading="lazy"
-          >
-          <div class="card-body">
-            <h5 class="card-title fw-semibold">Jabón Artesanal</h5>
-            <p class="card-text text-muted small">Hecho con aceites esenciales y extractos naturales.</p>
-            <a href="/promociones/jabon" class="btn btn-success btn-sm w-100">Ver promoción</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>

@@ -1,21 +1,16 @@
 <section class="container-fluid py-5 px-lg-5">
-  <!-- 📰 Título principal y breadcrumb -->
-  <div class="mb-4">
-   
 
-   
-  </div>
-
-  <div class="d-flex gap-4 container-fluid">
+  <div class="row g-4">
+    
     <!-- 🌿 Cuerpo principal del blog -->
-    <article class="col-md-8 col-lg-9 mb-5">
-       <h1 class="fw-bolder   mb-3">{{blog?.titulo}}</h1>
-        <app-breadcrumb
-    [pathParts]="pathParts"
-    ></app-breadcrumb>
+    <article class="col-12 col-lg-9">
+      <h1 class="fw-bolder mb-3">{{blog?.titulo}}</h1>
+
+      <app-breadcrumb [pathParts]="pathParts"></app-breadcrumb>
+
       <img
-      width="100%"
-      height="100%"
+        width="100%"
+        height="100%"
         [src]="blog?.portada_url"
         [alt]="blog?.titulo"
         class="img-fluid rounded shadow-sm mb-4"
@@ -25,54 +20,42 @@
         Publicado el <strong>3 de noviembre de 2025</strong> por <strong>Equipo Peruvian Ecom</strong>
       </p>
 
-    <p *ngFor="let p of blog?.contenido_flexible?.intro"><br>    
-      {{ p}}
-    </p>  
-
+      <p *ngFor="let p of blog?.contenido_flexible?.intro"><br>{{ p }}</p>
 
       <div *ngFor="let c of blog?.contenido_flexible?.contenido">
-        <h2 class="fw-bold mt-4 fs-4">
-          {{ c.titulo }}
-        </h2>
-        <hr>
-        <p  *ngFor="let p of c.parrafos"  [innerHTML]="p"></p>
+        <h2 class="fw-bold mt-4 fs-4">{{ c.titulo }}</h2>
+        <hr />
+
+        <p *ngFor="let p of c.parrafos" [innerHTML]="p"></p>
+
         <ul>
-          <li *ngFor="let l of c.lista" [innerHTML]="l" ></li>
+          <li *ngFor="let l of c.lista" [innerHTML]="l"></li>
         </ul>
-          <div>
-            <ol>
-              <li *ngFor="let s of c.subsecciones; let i = index">
-
-                <!-- Si esta sección debe tener H3 en los dos primeros -->
-                <h3 *ngIf="c.usaH3 && i < 2" class="fw-bolder" style="font-size: 20px;">
-                  {{ s.subtitulo }}
-                </h3>
-
-                <!-- Si NO usa H3 o si ya pasó de los primeros 2 -->
-                <h4 *ngIf="!c.usaH3 || i >= 2" class="fw-bolder" style="font-size: 16px;">
-                  {{ s.subtitulo }}
-                </h4>
-
-                <p [innerHTML]="s.texto"></p>
-
-              </li>
-            </ol>
-          </div>
-
-     
-        
-        
-
-        
-      </div>
-    
-
-      <div class="d-flex justify-content-between align-items-center mt-5">
-        <a routerLink="/blog" class="btn btn-outline-secondary btn-sm">
-          ← Volver al Blog
-        </a>
 
         <div>
+          <ol>
+            <li *ngFor="let s of c.subsecciones; let i = index">
+
+              <h3 *ngIf="c.usaH3 && i < 2" class="fw-bolder" style="font-size: 20px;">
+                {{ s.subtitulo }}
+              </h3>
+
+              <h4 *ngIf="!c.usaH3 || i >= 2" class="fw-bolder" style="font-size: 16px;">
+                {{ s.subtitulo }}
+              </h4>
+
+              <p [innerHTML]="s.texto"></p>
+
+            </li>
+          </ol>
+        </div>
+
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-5 flex-wrap">
+        <a routerLink="/blog" class="btn btn-outline-secondary btn-sm mb-2">← Volver al Blog</a>
+
+        <div class="mb-2">
           <span class="me-2">Compartir:</span>
           <a href="https://www.facebook.com/p/Peruviansecom-61580124444332/" target="_blank" class="text-primary me-3"><i class="bi bi-facebook"></i></a>
           <a href="https://www.tiktok.com/@peruvians.ecom?_r=1&_t=ZS-91cFuowMu8K" target="_blank" class="text-dark me-3"><i class="bi bi-tiktok"></i></a>
@@ -81,66 +64,64 @@
       </div>
     </article>
 
-   <!-- 🧭 Aside derecho -->
-<aside class="col-md-3 col-lg-3">
-  <div class="" style="top: 200px; bottom: 100px;">
+    <!-- 🧭 Aside derecho -->
+    <aside class="col-12 col-lg-3">
 
-    <!-- 🔥 Promociones / Ofertas -->
-    <div class="mb-5">
-      <h5 class="fw-bold mb-3 text-center">Descubre los mejores productos para cuidar tu salud</h5>
+        <!-- 🔥 Productos -->
+        <div class="mb-5">
+          <h5 class="fw-bold mb-3 text-center">Descubre los mejores productos para cuidar tu salud</h5>
 
-      <!-- Producto 1 -->
-      <div class="card mb-3 border-0 shadow-sm" style="border-radius: 10px;">
-        <img src="https://saleor-s3.cuida.pe/products/501351-1-1_401d119b.jpg" class="card-img-top" alt="Producto">
-        <div class="card-body p-2">
-          <h6 class="fw-bold mb-1">Silimarina 90 cápsulas</h6>
-          <p class="mb-1 small text-muted">
-            <span class="text-danger fw-bold">S/ 49.90</span>
-            <del class="ms-1">S/ 79.90</del>
-          </p>
-          <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
+          <!-- Producto 1 -->
+          <div class="card mb-3 border-0 shadow-sm">
+            <img src="https://saleor-s3.cuida.pe/products/501351-1-1_401d119b.jpg" class="card-img-top" alt="Producto">
+            <div class="card-body p-2">
+              <h6 class="fw-bold mb-1">Silimarina 90 cápsulas</h6>
+              <p class="mb-1 small text-muted">
+                <span class="text-danger fw-bold">S/ 49.90</span>
+                <del class="ms-1">S/ 79.90</del>
+              </p>
+              <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
+            </div>
+          </div>
+
+          <!-- Producto 2 -->
+          <div class="card mb-3 border-0 shadow-sm">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtpKdwh8JGxQKKvxz-N9YTkjqz1_UjpIRMQg&s" class="card-img-top" alt="Producto">
+            <div class="card-body p-2">
+              <h6 class="fw-bold mb-1">Colágeno Hidrolizado</h6>
+              <p class="mb-1 small text-muted">
+                <span class="text-danger fw-bold">S/ 39.90</span>
+                <del class="ms-1">S/ 59.90</del>
+              </p>
+              <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
+            </div>
+          </div>
+
+          <!-- Producto 3 -->
+          <div class="card mb-3 border-0 shadow-sm">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpGa_qKn9HxqToH-NHrrIL1Xum7lOVgoH5Tg&s" class="card-img-top" alt="Producto">
+            <div class="card-body p-2">
+              <h6 class="fw-bold mb-1">Omega 3 Premium</h6>
+              <p class="mb-1 small text-muted">
+                <span class="text-danger fw-bold">S/ 29.90</span>
+                <del class="ms-1">S/ 49.90</del>
+              </p>
+              <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Producto 2 -->
-      <div class="card mb-3 border-0 shadow-sm" style="border-radius: 10px;">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtpKdwh8JGxQKKvxz-N9YTkjqz1_UjpIRMQg&s" class="card-img-top" alt="Producto">
-        <div class="card-body p-2">
-          <h6 class="fw-bold mb-1">Colágeno Hidrolizado</h6>
-          <p class="mb-1 small text-muted">
-            <span class="text-danger fw-bold">S/ 39.90</span>
-            <del class="ms-1">S/ 59.90</del>
-          </p>
-          <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
+        <!-- 🔗 Redes -->
+        <div>
+          <h5 class="fw-bold mb-3">Síguenos</h5>
+          <div class="d-flex gap-3">
+            <a href="#" target="_blank" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
+            <a href="#" target="_blank" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="#" target="_blank" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
+          </div>
         </div>
-      </div>
 
-      <!-- Producto 3 -->
-      <div class="card mb-3 border-0 shadow-sm" style="border-radius: 10px;">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpGa_qKn9HxqToH-NHrrIL1Xum7lOVgoH5Tg&s" class="card-img-top" alt="Producto">
-        <div class="card-body p-2">
-          <h6 class="fw-bold mb-1">Omega 3 Premium</h6>
-          <p class="mb-1 small text-muted">
-            <span class="text-danger fw-bold">S/ 29.90</span>
-            <del class="ms-1">S/ 49.90</del>
-          </p>
-          <a href="#" class="small text-primary text-decoration-none">Ver oferta →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 🔗 Redes sociales -->
-    <div>
-      <h5 class="fw-bold mb-3">Síguenos</h5>
-      <div class="d-flex gap-3">
-        <a href="https://www.facebook.com/p/Peruviansecom-61580124444332" target="_blank" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
-        <a href="https://www.instagram.com/peruvians.ecom/" target="_blank" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
-        <a href="https://www.tiktok.com/@peruvians.ecom?_r=1&_t=ZS-91cFuowMu8K" target="_blank" class="text-dark"><i class="bi bi-tiktok fs-5"></i></a>
-      </div>
-    </div>
-
-  </div>
-</aside>
+    </aside>
 
   </div>
 </section>
