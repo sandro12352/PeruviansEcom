@@ -1,367 +1,373 @@
-<div *ngIf="producto" class="detalle-producto container-fluid px-4 py-4">
-  <div class="row align-items-start mb-4 g-4">
-    
-    <app-breadcrumb
-      [pathParts]="pathParts"
-      ></app-breadcrumb>
-
-    <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
-    <div class="col-12 col-md-12 col-lg-6 ">
-      <div class="galeria-container">
-        
-        <!-- Imagen Principal del Producto -->
-        <div class="d-flex justify-content-between mb-4 p-0 gap-3">
-
-          <!-- Miniaturas del producto -->
-          <div class="d-flex flex-md-column gap-md-2 gap-1">
-            <div *ngFor="let img of producto.imagenes?.slice(0,6)"
-                 class="thumb border rounded-3 shadow-sm p-1"
-                 [class.active]="img.url === imagenSeleccionada"
-                 (click)="imagenSeleccionada = img.url"
-                 style="cursor: pointer; width: 70px; height: 70px; overflow: hidden;">
-              <img [src]="img.url"
-                   [alt]="producto.nombre"
-                   class="w-100 h-100"
-                   style="object-fit: cover; border-radius: 8px;" />
-            </div>
-          </div>
-
-
-          <div class="position-relative w-100">
-            <img [src]="imagenSeleccionada"
-                 [alt]="producto.nombre"
-                 class="img-fluid bg-light rounded-3 shadow-sm p-2 imagen-principal"
-                 style="width: 100%; height: 500px; object-fit: contain;" />
-          </div>
-
-          
-          
-        </div>
-
-        <!-- Galería de Imágenes Referenciales -->
-        <div class="galeria-referencial">
-
-            <div *ngFor="let img of producto.imagenes?.slice(1)"
-                 class="imagen-referencial mb-4">
-
-              <img [src]="img.url"
-                   [alt]="producto.nombre"
-                   class="img-fluid rounded-3 shadow-sm w-100"
-                   style="height: 100%; object-fit: cover;" />
-            </div>
-          
-        </div>
-      </div>
-    </div>
-
-    <!-- COLUMNA DERECHA: DETALLES DEL PRODUCTO (STICKY) -->
-    <div class="col-12 col-md-12 col-lg-6 detalles-sticky">
-      <div class="">
-        <div class="bg-white shadow-lg p-4 rounded-4 border">
-          
-          <!-- Header del producto -->
-          <div class="producto-header mb-4">
-            <p class="mb-2" style="color: #8d48cd; font-size: 14px; font-weight: 500;">
-              <i class="bi bi-shop me-1"></i>{{producto.tienda}} 
-              <span style="color: #666; margin-left: 8px;">| {{producto.sku}}</span>
-            </p>
-            <h1 class="chicha-title mb-3">{{ producto.titulo }}</h1>
-            
-            <!-- Descripción -->
-            <div class="border-bottom pb-3 mb-4">
-              <h2 class="fs-6 fw-bold">¿Qué es {{producto.nombre | productoNombre}}  y para qué sirve?</h2>
-              <p class="fw-light  mb-0">{{ producto.descripcion }}</p>
-            </div>
-          </div>
-
-          <!-- Sección de Precios + Envíos -->
-        <div class="d-flex justify-content-between align-items-start mb-4">
-          
-         <!-- Bloque precios -->
-        <div class="precios-container mb-4">
-          <!-- Precio original + descuento + envíos -->
-          <div class="d-flex align-items-center justify-content-between mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
-            <div>
-              <span class="chicha-precio-original me-2">
-                S/. {{ producto.precio | number:'1.2-2'}}
-              </span>
-              <span class="chicha-badge me-3">
-                -{{ producto.descuento }}
-              </span>
-            </div>
-
-          <!-- Bloque envíos -->
-        <div class="d-flex flex-column">
-          <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-truck fs-5 text-secondary"></i>
-            <span class="badge-text text-dark">
-              Envíos <span class="free-tag bg-danger text-white px-2 rounded">GRATIS</span>
-            </span>
-          </div>
-
-          <!-- Formas de pago -->
-          <div class="d-flex align-items-center gap-3 ">
-            <span class="text-muted small">Paga con:</span>
-            <img src="./visa.png" alt="Visa" width="40" height="40" class="img-fluid" />
-            <img src="./yape.png" alt="Yape" width="40" />
-            <img src="./plin.png" alt="Plin" width="40" />
-            <span class="fw-bold text-secondary">y más</span>
-          </div>
-        </div>
-
-          </div>
-
-          <!-- Precio final -->
-          <div class="precios d-flex gap-4">
-            <span class="chicha-precio-oferta fs-2 fw-bold" 
-                  [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
-              S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
-                    (producto.precio_despues | number:'1.2-2') : 
-                    (producto.precio | number:'1.2-2') }}
-            </span>
-          
-          </div>
-        </div>
-        </div>
-
-        
-         
-        <!-- Cantidad y Agregar al Carrito -->
-          <div class="compra-container">
-            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4 p-3 bg-light rounded-3">
-              <!-- Sección de Cantidad -->
-              <div class="cantidad-section d-flex align-items-center gap-3">
-                <label class="form-label fw-bold mb-0">Cantidad:</label>
-                <div class="cantidad-box d-flex align-items-center">
-                  <button class="cantidad-btn btn btn-outline-secondary" (click)="disminuirCantidad()">−</button>
-                  <span class="mx-3 fw-bold fs-5">{{ producto.cantidad }}</span>
-                  <button class="cantidad-btn btn btn-outline-secondary" (click)="aumentarCantidad()">+</button>
-                </div>
-              </div>
-
-              <!-- Botón Agregar al Carrito -->
-              <button class="btn  py-3 fs-5 fw-bold boton-animado flex-grow-1 flex-md-grow-0 w-100 w-md-auto" (click)="agregarAlCarrito()">
-                <i class="bi bi-bag-heart me-2"></i> Agregar al carrito
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-column gap-3 mt-3">
-  <!-- Beneficios -->
-  <div class="bg-white shadow-lg p-4 rounded-4 border">
-    <h2 class="fs-4 fw-semibold mb-3 ">
-      Beneficios de {{ producto.nombre | productoNombre }}:
-    </h2>
-
-    <ul class="list-unstyled">
-      <li *ngFor="let beneficio of producto.beneficios! | splitBeneficios" class="d-flex align-items-start mb-2">
-        <span class="me-2 text-success">
-          <i class="bi bi-check-circle-fill"></i>
-        </span>
-        <h3 class="fs-6 fw-normal m-0">{{ beneficio }}</h3>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Modo de uso -->
-  <div class="bg-white shadow-lg p-4 rounded-4 border">
-    <h2 class="fs-4 fw-semibold mb-3 ">
-      Modo de uso de {{ producto.nombre | productoNombre }}:
-    </h2>
-
-    <ul class="list-unstyled">
-      <li *ngFor="let uso of producto.modo_de_uso! | splitBeneficios" class="d-flex align-items-start mb-2">
-        <span class="me-2 text-success">
-          <i class="bi bi-check-circle-fill"></i>
-        </span>
-        <h3 class="fs-6 fw-normal m-0">{{ uso }}</h3>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Acordeón Bootstrap -->
-  <div class="bg-white shadow-lg p-4 rounded-4 border">
-    <h2 class="fs-4 fw-semibold mb-3">Información adicional</h2>
-
-    <div class="accordion" id="infoAdicionalAccordion">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseOne"
-            aria-expanded="false"
-            aria-controls="collapseOne"
-          >
-            ¿Quiénes deberían tomar {{producto.nombre| productoNombre}}?
-          </button>
-        </h2>
-        <div
-          id="collapseOne"
-          class="accordion-collapse collapse show"
-          aria-labelledby="headingOne"
-          data-bs-parent="#infoAdicionalAccordion"
-        >
-          <div class="accordion-body">
-           <ul>
-              <li *ngFor="let item of producto.faq_quienes_toman | splitBeneficios">
-                {{ item }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo"
-            aria-expanded="false"
-            aria-controls="collapseTwo"
-          >
-            ¿Por qué elegir nuestra {{producto.nombre| productoNombre}}?
-          </button>
-        </h2>
-        <div
-          id="collapseTwo"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingTwo"
-          data-bs-parent="#infoAdicionalAccordion"
-        >
-          <div class="accordion-body">
-            <ul>
-              <li *ngFor="let item of producto.faq_por_que_elegir | splitBeneficios">
-                {{ item }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingThree">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseThree"
-            aria-expanded="false"
-            aria-controls="collapseThree"
-          >
-            Ingredientes
-          </button>
-        </h2>
-        <div
-          id="collapseThree"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingThree"
-          data-bs-parent="#infoAdicionalAccordion"
-        >
-          <div class="accordion-body">
-            <ul>
-              <li *ngFor="let item of producto.ingredientes! | splitBeneficios">
-                {{ item }}
-              </li>
-            </ul>
-          </div>  
-        </div>
-      </div>
-    </div>
-  </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<section class="container-fluid px-md-5 mt-5 mb-5">
-  <div class="text-center mb-5">
-    <h2 class="fw-bold display-6 text-primary mb-2">Preguntas Frecuentes</h2>
-    <p class="text-muted">Todo lo que necesitas saber sobre {{producto?.nombre | productoNombre}}</p>
-  </div>
-  
-  <div class="row">
-    <div class="col-lg-12">
-      
-      <!-- Pregunta 1 -->
-      <div class="border-start border-primary border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
-        <div class="d-flex align-items-center mb-2">
-          <i class="bi bi-clock-history text-primary me-2 fs-5"></i>
-          <h3 class="fw-semibold mb-0 fs-5">¿Cuánto tiempo debo tomarlo?</h3>
-        </div>
-        <p class="text-secondary mb-0 ms-4 small">
-          {{producto?.faq_tiempo_uso}}
-        </p>
-      </div>
-
-      <!-- Pregunta 2 -->
-      <div class="border-start border-success border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
-        <div class="d-flex align-items-center mb-2">
-          <i class="bi bi-shield-check text-success me-2 fs-5"></i>
-          <h3 class="fw-semibold mb-0 fs-5">¿Tiene efectos secundarios?</h3>
-        </div>
-        <p class="text-secondary mb-0 ms-4 small">
-          {{producto?.faq_efectos_secundarios}}
-        </p>
-      </div>
-
-      <!-- Pregunta 3 -->
-      <div class="border-start border-warning border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
-        <div class="d-flex align-items-center mb-2">
-          <i class="bi bi-cup-straw text-warning me-2 fs-5"></i>
-          <h3 class="fw-semibold mb-0 fs-5">¿Puedo tomarla si consumo alcohol ocasionalmente?</h3>
-        </div>
-        <p class="text-secondary mb-0 ms-4 small">
-          {{producto?.faq_consumo_alcohol}}
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- Productos Relacionados -->
-<section *ngIf="producto" class="container-fluid px-md-5 mt-5">
-    <h3 class="fw-bold mb-4">
-      <i class="bi bi-bag-fill me-2"></i> Productos Relacionados
-    </h3>
-    
-    <!-- Loading state -->
-    <div *ngIf="loadingRelacionados" class="text-center py-4">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando productos relacionados...</span>
-      </div>
-    </div>
-
-    <!-- Carrusel de productos relacionados -->
-    <div *ngIf="!loadingRelacionados && productosRelacionados.length > 0">
-      <peruvians-carrusel-productos 
-        [productos]="productosRelacionados"
-        carouselId="carruselRelacionados"
-        [categoriasJerarquicas]="categorias">
-      </peruvians-carrusel-productos>
-    </div>
-
-    <!-- Mensaje cuando no hay productos relacionados -->
-    <div *ngIf="!loadingRelacionados && productosRelacionados.length === 0" class="text-center py-4">
-      <p class="text-muted">No se encontraron productos relacionados.</p>
-    </div>
-</section>
-  
-
-
-<!-- Fallback -->
-<div *ngIf="!producto" class="text-center mt-5">
+<!-- ===========================
+     LOADING STATE CENTRADO
+=========================== -->
+<div *ngIf="!producto" class="spinner-wrapper">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Cargando producto...</span>
   </div>
   <p class="text-muted mt-3">Cargando producto...</p>
 </div>
+
+<ng-container *ngIf="producto" >
+  <div class="detalle-producto container-fluid px-4 py-4">
+    <div class="row align-items-start mb-4 g-4">
+    
+      <app-breadcrumb
+        [pathParts]="pathParts"
+        ></app-breadcrumb>
+
+      <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+      <div class="col-12 col-md-12 col-lg-6 ">
+        <div class="galeria-container">
+          
+          <!-- Imagen Principal del Producto -->
+          <div class="d-flex justify-content-between mb-4 p-0 gap-3">
+
+            <!-- Miniaturas del producto -->
+            <div class="d-flex flex-md-column gap-md-2 gap-1">
+              <div *ngFor="let img of producto.imagenes?.slice(0,6)"
+                  class="thumb border rounded-3 shadow-sm p-1"
+                  [class.active]="img.url === imagenSeleccionada"
+                  (click)="imagenSeleccionada = img.url"
+                  style="cursor: pointer; width: 70px; height: 70px; overflow: hidden;">
+                <img [src]="img.url"
+                    [alt]="producto.nombre"
+                    class="w-100 h-100"
+                    style="object-fit: cover; border-radius: 8px;" />
+              </div>
+            </div>
+
+
+            <div class="position-relative w-100">
+              <img [src]="imagenSeleccionada"
+                  [alt]="producto.nombre"
+                  class="img-fluid bg-light rounded-3 shadow-sm p-2 imagen-principal"
+                  style="width: 100%; height: 500px; object-fit: contain;" />
+            </div>
+
+            
+            
+          </div>
+
+          <!-- Galería de Imágenes Referenciales -->
+          <div class="galeria-referencial">
+
+              <div *ngFor="let img of producto.imagenes?.slice(1)"
+                  class="imagen-referencial mb-4">
+
+                <img [src]="img.url"
+                    [alt]="producto.nombre"
+                    class="img-fluid rounded-3 shadow-sm w-100"
+                    style="height: 100%; object-fit: cover;" />
+              </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: DETALLES DEL PRODUCTO (STICKY) -->
+      <div class="col-12 col-md-12 col-lg-6 detalles-sticky">
+        <div class="">
+          <div class="bg-white shadow-lg p-4 rounded-4 border">
+            
+            <!-- Header del producto -->
+            <div class="producto-header mb-4">
+              <p class="mb-2" style="color: #8d48cd; font-size: 14px; font-weight: 500;">
+                <i class="bi bi-shop me-1"></i>{{producto.tienda}} 
+                <span style="color: #666; margin-left: 8px;">| {{producto.sku}}</span>
+              </p>
+              <h1 class="chicha-title mb-3">{{ producto.titulo }}</h1>
+              
+              <!-- Descripción -->
+              <div class="border-bottom pb-3 mb-4">
+                <h2 class="fs-6 fw-bold">¿Qué es {{producto.nombre | productoNombre}}  y para qué sirve?</h2>
+                <p class="fw-light  mb-0">{{ producto.descripcion }}</p>
+              </div>
+            </div>
+
+            <!-- Sección de Precios + Envíos -->
+          <div class="d-flex justify-content-between align-items-start mb-4">
+            
+          <!-- Bloque precios -->
+          <div class="precios-container mb-4">
+            <!-- Precio original + descuento + envíos -->
+            <div class="d-flex align-items-center justify-content-between mb-2" *ngIf="producto.descuento && producto.descuento !== '0%'">
+              <div>
+                <span class="chicha-precio-original me-2">
+                  S/. {{ producto.precio | number:'1.2-2'}}
+                </span>
+                <span class="chicha-badge me-3">
+                  -{{ producto.descuento }}
+                </span>
+              </div>
+
+            <!-- Bloque envíos -->
+          <div class="d-flex flex-column">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-truck fs-5 text-secondary"></i>
+              <span class="badge-text text-dark">
+                Envíos <span class="free-tag bg-danger text-white px-2 rounded">GRATIS</span>
+              </span>
+            </div>
+
+            <!-- Formas de pago -->
+            <div class="d-flex align-items-center gap-3 ">
+              <span class="text-muted small">Paga con:</span>
+              <img src="./visa.png" alt="Visa" width="40" height="40" class="img-fluid" />
+              <img src="./yape.png" alt="Yape" width="40" />
+              <img src="./plin.png" alt="Plin" width="40" />
+              <span class="fw-bold text-secondary">y más</span>
+            </div>
+          </div>
+
+            </div>
+
+            <!-- Precio final -->
+            <div class="precios d-flex gap-4">
+              <span class="chicha-precio-oferta fs-2 fw-bold" 
+                    [class]="(producto.descuento && producto.descuento !== '0%') ? 'chicha-precio-oferta' : 'chicha-precio-normal'">
+                S/. {{ (producto.descuento && producto.descuento !== '0%') ? 
+                      (producto.precio_despues | number:'1.2-2') : 
+                      (producto.precio | number:'1.2-2') }}
+              </span>
+            
+            </div>
+          </div>
+          </div>
+
+          
+          
+          <!-- Cantidad y Agregar al Carrito -->
+            <div class="compra-container">
+              <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4 p-3 bg-light rounded-3">
+                <!-- Sección de Cantidad -->
+                <div class="cantidad-section d-flex align-items-center gap-3">
+                  <label class="form-label fw-bold mb-0">Cantidad:</label>
+                  <div class="cantidad-box d-flex align-items-center">
+                    <button class="cantidad-btn btn btn-outline-secondary" (click)="disminuirCantidad()">−</button>
+                    <span class="mx-3 fw-bold fs-5">{{ producto.cantidad }}</span>
+                    <button class="cantidad-btn btn btn-outline-secondary" (click)="aumentarCantidad()">+</button>
+                  </div>
+                </div>
+
+                <!-- Botón Agregar al Carrito -->
+                <button class="btn  py-3 fs-5 fw-bold boton-animado flex-grow-1 flex-md-grow-0 w-100 w-md-auto" (click)="agregarAlCarrito()">
+                  <i class="bi bi-bag-heart me-2"></i> Agregar al carrito
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-3 mt-3">
+    <!-- Beneficios -->
+    <div class="bg-white shadow-lg p-4 rounded-4 border">
+      <h2 class="fs-4 fw-semibold mb-3 ">
+        Beneficios de {{ producto.nombre | productoNombre }}:
+      </h2>
+
+      <ul class="list-unstyled">
+        <li *ngFor="let beneficio of producto.beneficios! | splitBeneficios" class="d-flex align-items-start mb-2">
+          <span class="me-2 text-success">
+            <i class="bi bi-check-circle-fill"></i>
+          </span>
+          <h3 class="fs-6 fw-normal m-0">{{ beneficio }}</h3>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Modo de uso -->
+    <div class="bg-white shadow-lg p-4 rounded-4 border">
+      <h2 class="fs-4 fw-semibold mb-3 ">
+        Modo de uso de {{ producto.nombre | productoNombre }}:
+      </h2>
+
+      <ul class="list-unstyled">
+        <li *ngFor="let uso of producto.modo_de_uso! | splitBeneficios" class="d-flex align-items-start mb-2">
+          <span class="me-2 text-success">
+            <i class="bi bi-check-circle-fill"></i>
+          </span>
+          <h3 class="fs-6 fw-normal m-0">{{ uso }}</h3>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Acordeón Bootstrap -->
+    <div class="bg-white shadow-lg p-4 rounded-4 border">
+      <h2 class="fs-4 fw-semibold mb-3">Información adicional</h2>
+
+      <div class="accordion" id="infoAdicionalAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
+            >
+              ¿Quiénes deberían tomar {{producto.nombre| productoNombre}}?
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#infoAdicionalAccordion"
+          >
+            <div class="accordion-body">
+            <ul>
+                <li *ngFor="let item of producto.faq_quienes_toman | splitBeneficios">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              ¿Por qué elegir nuestra {{producto.nombre| productoNombre}}?
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingTwo"
+            data-bs-parent="#infoAdicionalAccordion"
+          >
+            <div class="accordion-body">
+              <ul>
+                <li *ngFor="let item of producto.faq_por_que_elegir | splitBeneficios">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Ingredientes
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingThree"
+            data-bs-parent="#infoAdicionalAccordion"
+          >
+            <div class="accordion-body">
+              <ul>
+                <li *ngFor="let item of producto.ingredientes! | splitBeneficios">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="container-fluid px-md-5 mt-5 mb-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold display-6 text-primary mb-2">Preguntas Frecuentes</h2>
+      <p class="text-muted">Todo lo que necesitas saber sobre {{producto.nombre | productoNombre}}</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        
+        <!-- Pregunta 1 -->
+        <div class="border-start border-primary border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-clock-history text-primary me-2 fs-5"></i>
+            <h3 class="fw-semibold mb-0 fs-5">¿Cuánto tiempo debo tomarlo?</h3>
+          </div>
+          <p class="text-secondary mb-0 ms-4 small">
+            {{producto.faq_tiempo_uso}}
+          </p>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="border-start border-success border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-shield-check text-success me-2 fs-5"></i>
+            <h3 class="fw-semibold mb-0 fs-5">¿Tiene efectos secundarios?</h3>
+          </div>
+          <p class="text-secondary mb-0 ms-4 small">
+            {{producto.faq_efectos_secundarios}}
+          </p>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div class="border-start border-warning border-4 bg-light rounded-end p-3 mb-3 shadow-sm">
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-cup-straw text-warning me-2 fs-5"></i>
+            <h3 class="fw-semibold mb-0 fs-5">¿Puedo tomarla si consumo alcohol ocasionalmente?</h3>
+          </div>
+          <p class="text-secondary mb-0 ms-4 small">
+            {{producto.faq_consumo_alcohol}}
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Productos Relacionados -->
+  <section  class="container-fluid px-md-5 mt-5">
+      <h3 class="fw-bold mb-4">
+        <i class="bi bi-bag-fill me-2"></i> Productos Relacionados
+      </h3>
+      
+      <!-- Loading state -->
+      <div *ngIf="loadingRelacionados" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando productos relacionados...</span>
+        </div>
+      </div>
+
+      <!-- Carrusel de productos relacionados -->
+      <div *ngIf="!loadingRelacionados && productosRelacionados.length > 0">
+        <peruvians-carrusel-productos 
+          [productos]="productosRelacionados"
+          carouselId="carruselRelacionados"
+          [categoriasJerarquicas]="categorias">
+        </peruvians-carrusel-productos>
+      </div>
+
+      <!-- Mensaje cuando no hay productos relacionados -->
+      <div *ngIf="!loadingRelacionados && productosRelacionados.length === 0" class="text-center py-4">
+        <p class="text-muted">No se encontraron productos relacionados.</p>
+      </div>
+  </section>
+  
+</ng-container>
+
+
+

@@ -66,7 +66,7 @@ export class ProductoService {
    */
   getProductosConFiltros(filtros: { 
   buscar?: string; 
-  categoria_id?: string;
+  categoria_id?: number;
   categoria_padre_id?: string; // NUEVO
   con_stock?: boolean; 
   per_page?: number; 
@@ -76,50 +76,9 @@ export class ProductoService {
   tienda_id?: string;
   en_oferta?: boolean;  
 }): Observable<{productos: Producto[], pagination: any}> {
-  let params = new HttpParams();
+  const httpParams = new HttpParams({ fromObject: filtros || {} });
   
-  if (filtros.buscar) {
-    params = params.set('buscar', filtros.buscar);
-  }
-  
-  if (filtros.categoria_id) {
-    params = params.set('categoria_id', filtros.categoria_id);
-  }
-  
-  // NUEVO: Soporte para categoría padre
-  if (filtros.categoria_padre_id) {
-    params = params.set('categoria_padre_id', filtros.categoria_padre_id);
-  }
-  
-  if (filtros.con_stock !== undefined) {
-    params = params.set('con_stock', filtros.con_stock.toString());
-  }
-  
-  if (filtros.per_page) {
-    params = params.set('per_page', filtros.per_page.toString());
-  }
-  
-  if (filtros.page) {
-    params = params.set('page', filtros.page.toString());
-  }
-
-  if (filtros.precio_min !== undefined) {
-    params = params.set('precio_min', filtros.precio_min.toString());
-  }
-
-  if (filtros.precio_max !== undefined) {
-    params = params.set('precio_max', filtros.precio_max.toString());
-  }
-  
-  if (filtros.en_oferta !== undefined) {
-    params = params.set('en_oferta', filtros.en_oferta.toString());
-  }
-  
-  if (filtros.tienda_id) {
-    params = params.set('tienda_id', filtros.tienda_id);
-  }
-  
-  return this.http.get<ApiResponse<ProductosResponse>>(`${envs.apiUrl}/productos`, { params })
+  return this.http.get<ApiResponse<ProductosResponse>>(`${envs.apiUrl}/productos`, { params:httpParams })
     .pipe(
       map(response => {
         if (response.success) {

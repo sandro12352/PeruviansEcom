@@ -2,7 +2,6 @@
 
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
 import { DashboardService } from '../../services/dashboard.service';
 import { CategoriaService } from '../../services/categoria.service';
 
@@ -61,18 +60,8 @@ export class InicioPageComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-
-  
-
-    
     this.cargarDatosDashboard();
   }
-
-
-  /**
-   * NUEVO: Carga las categorías con su estructura jerárquica
-   */
- 
 
   /**
    * Carga todos los datos del dashboard en una sola llamada
@@ -88,7 +77,7 @@ export class InicioPageComponent implements OnInit {
           }
 
           if (response.data.mas_vendidos) {
-            this.masVendido = this.convertirProductosDashboard(response.data.mas_vendidos);
+            this.masVendido = (response.data.mas_vendidos);
           }
 
           if (response.data.mas_nuevos) {
@@ -126,12 +115,7 @@ export class InicioPageComponent implements OnInit {
   /**
    * Convierte los productos del dashboard al formato esperado por los componentes
    */
- private convertirProductosDashboard(productosDashboard: any[]): Producto[] {
-    return productosDashboard.map(producto => ({
-      ...producto,
-      imagenes: producto.imagenes ? producto.imagenes.map((url: string) => ({ url })) : []
-    }));
-  }
+ 
 
 
   /**
@@ -141,27 +125,6 @@ export class InicioPageComponent implements OnInit {
     // Aquí puedes implementar tu lógica de manejo de errores
     // Por ejemplo, mostrar un toast o mensaje de error
     console.error('No se pudieron cargar los datos del dashboard');
-  }
-  
-  generarSlugConId(producto: Producto): string {
-    let nombreLimpio = producto.nombre
-      .toLowerCase()
-      .trim()
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i') 
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/\d+\s*(ml|mg|gr|g|kg|unidades|und|piezas|pzs|%)/gi, '')
-      .replace(/\b(100|natural|puro|premium|original|autentico|de|del|la|las|el|los|para|con|sin|y|o|u)\b/gi, '')
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const palabras = nombreLimpio.split(' ').filter(palabra => palabra.length > 0).slice(0, 2);
-    const nombreCorto = palabras.join('-');
-    return `${nombreCorto}-${producto.id}`;
   }
 
   // MÉTODO ACTUALIZADO: Para generar slug de categoría PADRE
@@ -271,11 +234,11 @@ export class InicioPageComponent implements OnInit {
         return ['/', slugPadre, slugHijo, productoSlug];
       } else if (categoriaPadre) {
         // Solo categoría padre: padre/producto
-        const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
+        const slugPadre = categoriaPadre.nombre;
         return ['/', slugPadre, productoSlug];
       } else {
         // Fallback
-        const categoriaSlug = this.getCategoriaSlug(producto.categoria.nombre);
+        const categoriaSlug = producto.categoria.categoria_slug!;
         return ['/', categoriaSlug, productoSlug];
       }
     }
@@ -369,7 +332,7 @@ export class InicioPageComponent implements OnInit {
 
  
  navegarAProducto(producto: Producto): void {
-    const slug = this.generarSlugConId(producto);
+    const slug = producto.producto_slug;
     
     if (!this.categoriasJerarquicas || this.categoriasJerarquicas.length === 0) {
       console.warn('Categorías jerárquicas no cargadas, usando fallback...');

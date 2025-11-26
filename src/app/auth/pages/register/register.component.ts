@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../peruvians-ecom/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../../peruvians-ecom/interfaces/cliente';
 
 @Component({

@@ -1,7 +1,7 @@
 // src/app/auth/pages/complete-google-profile/complete-google-profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../peruvians-ecom/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { CompletarDatosGoogleRequest } from '../../../peruvians-ecom/interfaces/cliente';
 
 @Component({

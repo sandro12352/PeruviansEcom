@@ -21,7 +21,7 @@ import {
   GoogleRedirectResponse,
   CompletarDatosGoogleRequest,
   CompletarDatosGoogleResponse
-} from '../interfaces/cliente';
+} from '../../peruvians-ecom/interfaces/cliente';
 import { envs } from '../../config/envs';
 import { isPlatformBrowser } from '@angular/common';
 

@@ -1,4 +1,12 @@
+.spinner-wrapper {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+    
     .free-tag {
       padding: 2px 8px;
       border-radius: 12px;

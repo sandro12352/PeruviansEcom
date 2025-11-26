@@ -34,7 +34,7 @@
   
   <!-- Productos más vendidos - ACTUALIZADO CON CATEGORÍAS -->
   <peruvians-carrusel-productos 
-    *ngIf="masVendido?.length && !loading.masVendido"
+    *ngIf="masVendido.length && !loading.masVendido"
     [productos]="masVendido" 
     [carouselId]="'ProductosCarrusel1'"
     [categoriasJerarquicas]="categoriasJerarquicas">

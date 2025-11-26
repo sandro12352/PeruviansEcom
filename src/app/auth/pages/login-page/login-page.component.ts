@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../../../peruvians-ecom/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { LoginRequest, LoginResponse } from "../../../peruvians-ecom/interfaces/cliente";
 
 @Component({

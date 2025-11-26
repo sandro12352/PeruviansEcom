@@ -47,21 +47,20 @@ export class DetalleProductoPageComponent implements OnInit {
     
     this.route.paramMap.subscribe(params => {
       this.nombreProducto = params.get('nombreProducto')!;
+      const id = Number(params.get('id'));
       this.categoriaPadreSlug = params.get('categoriaPadreSlug');
       this.categoriaHijoSlug = params.get('categoriaHijoSlug');
 
       this.pathParts = this.router.url
-      .split('?')[0]
+        .split('?')[0]
         .replace(/^\/+/, '')
         .split('/')
+        .filter(p => isNaN(Number(p)))               // 🚫 Quitar números puros
         .map(p => decodeURIComponent(p))
-        .map(p => p.replace(/(-\d+)+$/g, '')) // 🔥 elimina -120-16
-        .map(p => p.replace(/-/g, ' '));  
+        .map(p => p.replace(/-/g, ' '));
 
 
       if (this.nombreProducto) {
-        const idStr = this.nombreProducto.split('-').pop();
-        const id = parseInt(idStr!, 10);
 
         if (!isNaN(id)) {
           this.cargarProducto(id);

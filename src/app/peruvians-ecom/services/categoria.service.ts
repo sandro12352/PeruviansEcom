@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of, retry, tap } from 'rxjs';
 import { envs } from '../../config/envs';
 import { Categoria, CategoriaResponse } from '../interfaces/categoria';
 
@@ -26,6 +26,10 @@ export class CategoriaService {
     }
 
     
+  }
+
+  obtenerCategoriaPorSlug(categoria_slug:string):Observable<Categoria>{
+    return this.http.post<Categoria>(`${envs.apiUrl}/categoria`,{categoria_slug})
   }
 
   obtenerCategoriaPorId(id: number): Observable<any> {

@@ -5,7 +5,7 @@ import { ProductoService } from '../../services/producto.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Categoria } from '../../interfaces/categoria';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Cliente } from '../../interfaces/cliente';
 import { Subscription } from 'rxjs';
 

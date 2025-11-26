@@ -254,10 +254,14 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
   onLoQuiero(item: Carrusel): void {
     if (item.producto && item.producto.stock  && item.producto.categoria) {
       let categoriaPadre = item.producto.categoria.categoria_slug; // fallback por defecto
+      let subcategoria = item.producto.subcategoria?.categoria_slug;
+      console.log(subcategoria)
       if (item.producto.categoria.es_padre) {
-        categoriaPadre = item.producto.categoria.categoria_slug;       
+        categoriaPadre = item.producto.categoria.categoria_slug;      
+         
       }
-      this.router.navigate(['/',categoriaPadre , item.producto.nombre]);
+      console.log(categoriaPadre)
+      this.router.navigate(['/',categoriaPadre  ,subcategoria ,item.producto.producto_slug,item.producto.id]);
     } else if (item.producto && item.producto.stock) {
       const slug = item.producto.producto_slug;
       this.router.navigate(['/productos', slug]);

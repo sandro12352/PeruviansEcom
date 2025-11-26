@@ -7,14 +7,16 @@
       <h1 class="fw-bolder mb-3">{{blog?.titulo}}</h1>
 
       <app-breadcrumb [pathParts]="pathParts"></app-breadcrumb>
-
-      <img
-        width="100%"
-        height="100%"
-        [src]="blog?.portada_sec_url"
-        [alt]="blog?.titulo"
-        class="img-fluid rounded shadow-sm mb-4"
-      />
+      <div>
+         <img
+          width="100%"
+          height="100%"
+          [src]="blog?.portada_sec_url"
+          [alt]="blog?.titulo"
+          class="img-fluid rounded shadow-sm mb-4"
+        />
+      </div>
+     
 
       <p class="text-muted small">
         Publicado el <strong>3 de noviembre de 2025</strong> por <strong>Equipo Peruvian Ecom</strong>
@@ -73,7 +75,10 @@
 
           <!-- Producto 1 -->
           <div class="card mb-3 border-0 shadow-sm">
-            <img src="https://saleor-s3.cuida.pe/products/501351-1-1_401d119b.jpg" class="card-img-top" alt="Producto">
+            <div>
+               <img src="https://saleor-s3.cuida.pe/products/501351-1-1_401d119b.jpg" class="card-img-top"  alt="Producto">
+            </div>
+           
             <div class="card-body p-2">
               <h6 class="fw-bold mb-1">Silimarina 90 cápsulas</h6>
               <p class="mb-1 small text-muted">
@@ -86,7 +91,10 @@
 
           <!-- Producto 2 -->
           <div class="card mb-3 border-0 shadow-sm">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtpKdwh8JGxQKKvxz-N9YTkjqz1_UjpIRMQg&s" class="card-img-top" alt="Producto">
+            <div>
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtpKdwh8JGxQKKvxz-N9YTkjqz1_UjpIRMQg&s" class="card-img-top" alt="Producto">
+            </div>
             <div class="card-body p-2">
               <h6 class="fw-bold mb-1">Colágeno Hidrolizado</h6>
               <p class="mb-1 small text-muted">
@@ -99,7 +107,10 @@
 
           <!-- Producto 3 -->
           <div class="card mb-3 border-0 shadow-sm">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpGa_qKn9HxqToH-NHrrIL1Xum7lOVgoH5Tg&s" class="card-img-top" alt="Producto">
+            <div>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpGa_qKn9HxqToH-NHrrIL1Xum7lOVgoH5Tg&s" class="card-img-top" alt="Producto">
+
+            </div>
             <div class="card-body p-2">
               <h6 class="fw-bold mb-1">Omega 3 Premium</h6>
               <p class="mb-1 small text-muted">

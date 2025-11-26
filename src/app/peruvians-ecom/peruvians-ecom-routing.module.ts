@@ -31,22 +31,21 @@ const routes: Routes = [
       { path: 'nosotros', component: NosotrosPageComponent },
       { path: 'preguntas-frecuentes', component: PreguntasFrecuentesPageComponent },
       { path: 'nuestras-tiendas', component: NuestrasTiendasComponent },
-      { path: 'mas-vendidos', component: MostrarProductoComponent },
-      { path: 'ofertas', component: MostrarProductoComponent },
-      { path: 'mas-nuevos', component: MostrarProductoComponent },
-      { path: 'productos', component: MostrarProductoComponent },
+      { path: 'mas-vendidos', component: MostrarProductoComponent,data:{tipo:'mas-vendidos'} },
+      { path: 'ofertas', component: MostrarProductoComponent ,data:{tipo:'ofertas'}},
+      { path: 'mas-nuevos', component: MostrarProductoComponent ,data:{tipo:'mas-nuevos'}},
+      { path: 'productos', component: MostrarProductoComponent,data:{tipo:'productos'} },
       { path: 'politica-privacidad', component: PoliticaPrivacidadComponent },
       { path: 'terminos-condiciones', component: TerminosCondicionesComponent },
       { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
       { 
-        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto', 
+        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', 
         component: DetalleProductoPageComponent 
       },     
       { 
         path: ':categoriaPadreSlug/:categoriaHijoSlug', 
         component: MostrarProductoComponent 
       },      
-      { path: ':categoriaPadreSlug/:nombreProducto', component: DetalleProductoPageComponent },      
       { 
         path: ':categoriaPadreSlug', 
         component: MostrarProductoComponent 

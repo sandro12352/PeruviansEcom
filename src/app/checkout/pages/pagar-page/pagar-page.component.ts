@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Subscription, takeUntil, takeWhile, tap } from 'rxjs';
 import { CarritoService } from '../../../peruvians-ecom/services/carrito.service';
 import { CompraService, DatosTarjeta } from '../../../peruvians-ecom/services/compra.service';
-import { AuthService } from '../../../peruvians-ecom/services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Cliente } from '../../../peruvians-ecom/interfaces/cliente';
 import { Producto } from '../../../peruvians-ecom/interfaces/producto';
 import Swal from 'sweetalert2';

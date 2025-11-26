@@ -39,12 +39,9 @@ export class CardComponent {
    */
   obtenerRuta(): string[] {
 
-
     if (this.rutaProducto && this.rutaProducto.length > 0) {
       return this.rutaProducto;
     }
-    
-    
     
     if (this.producto.categoria && typeof this.producto.categoria === 'string') {
       const categoriaSlug = this.producto.categoria;

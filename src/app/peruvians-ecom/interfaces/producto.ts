@@ -16,6 +16,8 @@ export interface Producto {
   tienda?: string;
   tienda_id?: string | number;
   categoria?:Categoria;
+  rutaCalculada?:string[];
+  subcategoria?:Categoria;
   categoria_id?: string | number;
   sku?: string;
   ingredientes?: string;
