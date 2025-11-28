@@ -36,6 +36,7 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {  
     // Cargar contenido dinámico
+    this.error = null;
     this.cargarCarrusel();
   }
 
