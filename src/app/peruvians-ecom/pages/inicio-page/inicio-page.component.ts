@@ -1,11 +1,11 @@
 // src/app/peruvians-ecom/pages/inicio-page/inicio-page.component.ts
 
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
 
 // IMPORTS CORREGIDOS - Solo importar una vez cada interfaz
-import { ConfiguracionCyberwow } from '../../interfaces/dashboard.interface';
+import { ConfiguracionCyberwow, DashboardResponse } from '../../interfaces/dashboard.interface';
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria'; // SOLO UNA VEZ
 import { Etiqueta } from '../../interfaces/etiqueta.interface';
@@ -25,7 +25,6 @@ export class InicioPageComponent implements OnInit {
 
 
   // Para manejar la estructura jerárquica de categorías
-  public categoriasJerarquicas: Categoria[] = [];
 
   // CyberWow data
   public cyberwowBanners: ConfiguracionCyberwow = {
@@ -45,74 +44,66 @@ export class InicioPageComponent implements OnInit {
   };
 
   constructor(
-    private dashboardService: DashboardService,
+    private route: ActivatedRoute,
     private router: Router,
   ) {}
   
   ngOnInit(): void {
-    this.cargarDatosDashboard();
+    this.cargarDatosDesdeResolver();
+  }
+
+  private cargarDatosDesdeResolver(): void {
+    const dashboardData = this.route.snapshot.data['dashboardData'] as DashboardResponse | null;
+    
+    if (!dashboardData?.success || !dashboardData.data) {
+      console.error('No se pudieron cargar los datos del dashboard');
+      return;
+    }
+
+    const data = dashboardData.data;
+    
+    // Cargar categorías
+    if (data.categorias) {
+      this.categorias = data.categorias.items;
+    }
+
+    // Cargar productos más vendidos
+    if (data.mas_vendidos) {
+      this.masVendido = data.mas_vendidos;
+    }
+
+    // Cargar productos más nuevos
+    if (data.mas_nuevos) {
+      this.masNuevo = data.mas_nuevos;
+    }
+
+    // Cargar etiquetas
+    if (data.etiquetas) {
+      this.etiquetas = data.etiquetas;
+    }
+
+    // Cargar configuración CyberWow
+    if (data.configuracion) {
+      this.cyberwowBanners = data.configuracion;
+    }
   }
 
   /**
-   * Carga todos los datos del dashboard en una sola llamada
+   * Procesa categorías en estructura jerárquica (si es necesario)
    */
-  private cargarDatosDashboard(): void {
-    this.loading.dashboard = true;
-
-    this.dashboardService.getDashboardData('todas').subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          if (response.data.categorias) {
-            this.categorias = response.data.categorias.items;
-          }
-
-          if (response.data.mas_vendidos) {
-            this.masVendido = (response.data.mas_vendidos);
-          }
-
-          if (response.data.mas_nuevos) {
-            this.masNuevo = response.data.mas_nuevos;
-          }
-          if(response.data.etiquetas){
-            this.etiquetas = response.data.etiquetas;
-          }
-
-          if (response.data.configuracion) {
-            this.cyberwowBanners = response.data.configuracion;
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Error al cargar datos del dashboard:', error);
-        this.mostrarErrorCarga();
-      },
-      complete: () => {
-        this.loading.dashboard = false;
-      }
-    });
+  private procesarCategoriasJerarquicas(categorias: Categoria[]): Categoria[] {
+    // Implementa tu lógica si necesitas transformar las categorías
+    // Por ejemplo, filtrar solo padres o crear árbol
+    return categorias.filter(cat => cat.es_padre);
   }
-
-
-
 
   /**
-   * Muestra error de carga (opcional)
+   * Navega a productos filtrados por tiendas CyberWow
    */
-  private mostrarErrorCarga(): void {
-    // Aquí puedes implementar tu lógica de manejo de errores
-    // Por ejemplo, mostrar un toast o mensaje de error
-    console.error('No se pudieron cargar los datos del dashboard');
-  }
-
-  
-
-  // Método para navegar cuando se hace clic en el banner de tiendas
   onCyberwowTiendasClick(): void {
     if (this.cyberwowBanners.tiendas?.tiendas && this.cyberwowBanners.tiendas.tiendas.length > 0) {
-      // Obtener los IDs de las tiendas asociadas al banner
       const tiendasIds = this.cyberwowBanners.tiendas.tiendas.map(tienda => tienda.id);
       
-      // Navegar a productos con queryParams que incluyan los filtros de tiendas
       this.router.navigate(['/productos'], {
         queryParams: {
           cyberwow: 'tiendas',
@@ -120,7 +111,6 @@ export class InicioPageComponent implements OnInit {
         }
       });
     } else {
-      // Si no hay tiendas asociadas, navegar sin filtros
       this.router.navigate(['/productos'], {
         queryParams: {
           cyberwow: 'tiendas'
@@ -128,6 +118,11 @@ export class InicioPageComponent implements OnInit {
       });
     }
   }
+
+
+
+
+
 
  
 

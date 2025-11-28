@@ -13,7 +13,6 @@ declare var bootstrap: any;
 export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
   @Input() carouselId!: string;
   @Input() productos!: Producto[];
-  @Input() categoriasJerarquicas: Categoria[] = []; // NUEVO: Recibe las categorías
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
