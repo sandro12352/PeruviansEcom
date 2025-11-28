@@ -65,7 +65,7 @@ export function app(): express.Express {
       // Rutas estáticas del routing de Angular
       staticRoutes.forEach((path) => {
         const url = root.ele('url');
-        url.ele('loc').txt(`https://peruvians.com${path}`);
+        url.ele('loc').txt(`https://peruviansecom.com${path}`);
         url.ele('changefreq').txt('monthly');
       });
       
@@ -80,7 +80,6 @@ export function app(): express.Express {
       //Productos
       const respProd = await (await fetch(`${envs.apiUrl}/productos/todo`)).json();
       const productos = respProd.data.productos;
-      console.log(productos)
       categorias
       .filter((cat: any) => cat.es_padre === true)
       .forEach((cat:any) => {
