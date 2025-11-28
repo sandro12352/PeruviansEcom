@@ -74,7 +74,6 @@ export class InicioPageComponent implements OnInit {
             this.masNuevo = response.data.mas_nuevos;
           }
           if(response.data.etiquetas){
-            console.log('Etiquetas recibidas:', response.data.etiquetas);
             this.etiquetas = response.data.etiquetas;
           }
 

@@ -28,9 +28,7 @@ export class CategoriaService {
     
   }
 
-  obtenerCategoriaPorSlug(categoria_slug:string):Observable<Categoria>{
-    return this.http.post<Categoria>(`${envs.apiUrl}/categoria`,{categoria_slug})
-  }
+
 
   obtenerCategoriaPorId(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);

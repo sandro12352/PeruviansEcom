@@ -1,18 +1,18 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
-import { catchError, forkJoin, map, Observable, of } from 'rxjs';
-import { CategoriaService } from '../peruvians-ecom/services/categoria.service';
-import { EtiquetaService } from '../peruvians-ecom/services/etiqueta.service';
+import { catchError, map, Observable, of } from 'rxjs';
+import { PeruviansService } from '../peruvians-ecom/services/peruvians.service';
+import { Categoria } from '../peruvians-ecom/interfaces/categoria';
+import { Etiqueta } from '../peruvians-ecom/interfaces/etiqueta.interface';
 
  export interface TipoRecurso {
   tipo: 'categoria' | 'etiqueta' | 'ninguno';
-  datos: any;
+  datos:any;
 }
 
 export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route, state): Observable<TipoRecurso> => {
 
-  const categoriaService = inject(CategoriaService);
-  const etiquetaService = inject(EtiquetaService);
+  const peruvianService = inject(PeruviansService);
   const router = inject(Router);
   const slug = route.paramMap.get('categoriaPadreSlug');
    if (!slug) {
@@ -20,25 +20,26 @@ export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route, state):
     return of({ tipo: 'ninguno', datos: null });
   }
 
-  return forkJoin({
-    etiqueta: etiquetaService.obtenerEtiquetaPorSlug(slug).pipe(
-      catchError(() => of(null))
-    ),
-    categoria: categoriaService.obtenerCategoriaPorSlug(slug).pipe(
-      catchError(() => of(null))
-    )
-  }).pipe(
-    map(resultado => {
-      if (resultado.etiqueta) {
-        return { tipo: 'etiqueta', datos: resultado.etiqueta };
+   return peruvianService.obtenerPorSlug(slug).pipe(
+    map((resultado): TipoRecurso => {
+      // Verificar si es etiqueta (tiene etiqueta_slug)
+      if ('etiqueta_slug' in resultado) {
+        return { tipo: 'etiqueta', datos: resultado as Etiqueta };
       }
       
-      if (resultado.categoria) {
-        return { tipo: 'categoria', datos: resultado.categoria };
+      // Verificar si es categoría (tiene categoria_slug)
+      if ('categoria_slug' in resultado) {
+        return { tipo: 'categoria', datos: resultado as Categoria };
       }
 
+      // Si no es ninguno, redirigir
       router.navigate(['/']);
-      return { tipo: 'ninguno', datos: null };
+      return { tipo: 'ninguno' as const, datos: null };
+    }),
+    catchError((error) => {
+      console.error('Error al obtener recurso:', error);
+      router.navigate(['/404']);
+      return of({ tipo: 'ninguno' as const, datos: null });
     })
   );
 };

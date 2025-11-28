@@ -25,8 +25,6 @@ private etiquetasCache: Etiqueta[] | null = null;
   }}
 
 
-  obtenerEtiquetaPorSlug(etiqueta_slug:string):Observable<Etiqueta>{
-      return this.http.post<Etiqueta>(`${envs.apiUrl}/etiqueta`,{etiqueta_slug})
-  }
+
 
 }

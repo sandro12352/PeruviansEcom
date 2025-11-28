@@ -54,7 +54,8 @@ constructor(
   private carritoService: CarritoService,
   private productoService: ProductoService,
   private categoriaService: CategoriaService,
-  private etiquetaService:EtiquetaService, 
+  private etiquetaService:EtiquetaService,
+  private peruvianService:PeruviansService, 
   private tiendaService: TiendaService,
   private cdr: ChangeDetectorRef
 ) {}
@@ -135,8 +136,9 @@ ngOnInit(): void {
 
   // 1. --------- SI HAY CATEGORÍA ---------
   if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
-    this.categoriaService.obtenerCategoriaPorSlug(this.categoriaHijoSlug).subscribe(
+    this.peruvianService.obtenerPorSlug(this.categoriaHijoSlug).subscribe(
       categoria => {
+        console.log(categoria)
         this.nombreCategoriaActual = categoria.nombre;
         this.obtenerProductosPorCategoriaConFiltros(categoria.id);
       }
@@ -184,7 +186,7 @@ ngOnInit(): void {
 
 
   buscarEtiqueta(slug: string) {
-    this.etiquetaService.obtenerEtiquetaPorSlug(slug).subscribe(
+    this.peruvianService.obtenerPorSlug(slug).subscribe(
       etiqueta => {
         if (!etiqueta) return; // si no es etiqueta, sigue el flujo normal
 
