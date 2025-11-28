@@ -125,8 +125,7 @@ export class AuthService {
  * Maneja la respuesta exitosa de Google OAuth
  */
 private handleGoogleAuthSuccess(data: any): void {
-/*   console.log('Datos recibidos de Google OAuth:', data);
- */  
+
   if (data.token && data.cliente) {
     this.setAuthData(data.token, data.cliente);
     

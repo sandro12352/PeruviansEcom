@@ -1,4 +1,8 @@
 <a href="https://wa.me/51929445069" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
   <i class="bi bi-whatsapp "></i>
 </a>
+
+<div *ngIf="loading" class="progress-bar">
+  <div class="progress-bar-fill"></div>
+</div>
 <router-outlet></router-outlet>

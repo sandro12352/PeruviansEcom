@@ -13,6 +13,7 @@ import { LibroReclamacionesComponent } from './pages/libro-reclamaciones/libro-r
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
+import { categoriaEtiquetaResolver } from '../resolvers/categoria-etiqueta.resolver';
 
 const routes: Routes = [
   {
@@ -39,17 +40,20 @@ const routes: Routes = [
       { path: 'terminos-condiciones', component: TerminosCondicionesComponent },
       { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
       { 
-        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', 
-        component: DetalleProductoPageComponent 
-      },     
+        path: ':categoriaPadreSlug', 
+        component: MostrarProductoComponent ,
+        resolve:{
+          recurso:categoriaEtiquetaResolver
+        }
+      },
       { 
         path: ':categoriaPadreSlug/:categoriaHijoSlug', 
         component: MostrarProductoComponent 
       },      
       { 
-        path: ':categoriaPadreSlug', 
-        component: MostrarProductoComponent 
-      },
+        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', 
+        component: DetalleProductoPageComponent 
+      },     
     ]
   },
   {

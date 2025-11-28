@@ -25,7 +25,6 @@ export class BlogPageComponent implements OnInit {
     this.blogService.getBlogs().subscribe({
       next:(resp)=>{
         this.blogs = resp;
-        console.log(this.blogs)
       }
     })
     

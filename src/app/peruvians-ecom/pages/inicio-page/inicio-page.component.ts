@@ -3,16 +3,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
-import { CategoriaService } from '../../services/categoria.service';
 
 // IMPORTS CORREGIDOS - Solo importar una vez cada interfaz
-import { 
-  Liquidacion, 
-  ConfiguracionCyberwow, 
-  CyberwowBannerProducto,
-  Carrusel 
-} from '../../interfaces/dashboard.interface';
-
+import { ConfiguracionCyberwow } from '../../interfaces/dashboard.interface';
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria'; // SOLO UNA VEZ
 import { Etiqueta } from '../../interfaces/etiqueta.interface';
@@ -27,9 +20,7 @@ export class InicioPageComponent implements OnInit {
   public productos: Producto[] = [];
   public masVendido: Producto[] = [];
   public masNuevo: Producto[] = [];
-  public liquidacion: Liquidacion[] = [];
   public categorias: Categoria[] = []; // CAMBIAR: usar solo Categoria
-  public carrusel: Carrusel[] = [];
   public etiquetas: Etiqueta[] = [];
 
 
@@ -55,7 +46,6 @@ export class InicioPageComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private categoriaService: CategoriaService,
     private router: Router,
   ) {}
   
@@ -83,22 +73,14 @@ export class InicioPageComponent implements OnInit {
           if (response.data.mas_nuevos) {
             this.masNuevo = response.data.mas_nuevos;
           }
-
-          if (response.data.liquidaciones) {
-            this.liquidacion = response.data.liquidaciones;
-          }
           if(response.data.etiquetas){
+            console.log('Etiquetas recibidas:', response.data.etiquetas);
             this.etiquetas = response.data.etiquetas;
           }
 
           if (response.data.configuracion) {
             this.cyberwowBanners = response.data.configuracion;
           }
-
-          if (response.data.carrusel) {
-            this.carrusel = response.data.carrusel;
-          }
-
         }
       },
       error: (error) => {
@@ -112,10 +94,6 @@ export class InicioPageComponent implements OnInit {
   }
 
 
-  /**
-   * Convierte los productos del dashboard al formato esperado por los componentes
-   */
- 
 
 
   /**
@@ -127,185 +105,7 @@ export class InicioPageComponent implements OnInit {
     console.error('No se pudieron cargar los datos del dashboard');
   }
 
-  // MÉTODO ACTUALIZADO: Para generar slug de categoría PADRE
-  getCategoriaSlug(categoria: string | Categoria | Etiqueta | undefined): string {
-    if (!categoria) {
-      return '';
-    }
-    
-    // Si es un objeto con propiedad nombre
-    if (typeof categoria === 'object' && 'nombre' in categoria) {
-      return this.generarSlugCategoria(categoria.nombre);
-    }
-    
-    // Si es un string
-    if (typeof categoria === 'string') {
-      return this.generarSlugCategoria(categoria);
-    }
-    
-    return '';
-  }
-
-  // NUEVO: Método para generar slug de categoría (igual que en header y mostrar-producto)
-  private generarSlugCategoria(nombre: string): string {
-    return nombre.toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i')
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
-
-
-  private obtenerInfoCategoriasPorProducto(producto: Producto): {categoriaPadre: any | null, categoriaHijo: any | null} {
-    let categoriaPadre: any | null = null;
-    let categoriaHijo: any | null = null;
-
-    if (!producto.categoria_id) {
-      return { categoriaPadre, categoriaHijo };
-    }
-
-    for (const categoria of this.categoriasJerarquicas) {
-      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
-        const subcategoriaEncontrada = categoria.subcategorias.find(
-          (sub: any) => sub.id.toString() === producto.categoria_id?.toString()
-        );
-        
-        if (subcategoriaEncontrada) {
-          categoriaPadre = categoria;
-          categoriaHijo = subcategoriaEncontrada;
-          break;
-        }
-      }
-      
-      if (categoria.id.toString() === producto.categoria_id?.toString()) {
-        categoriaPadre = categoria;
-        break;
-      }
-    }
-
-    return { categoriaPadre, categoriaHijo };
-  }
-
-
-
-    // NUEVO: Método para obtener la ruta correcta de categoría padre
-  getCategoriaRoute(categoria: Categoria): string[] {
-      const slug = this.getCategoriaSlug(categoria);
-      
-      // Si es categoría padre (tiene subcategorías), usar ruta de categoría padre
-      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
-        return ['/', slug];
-      } else {
-        // Si es subcategoría, navegar normalmente
-        return ['/', slug];
-      }
-    }
-
-  // Métodos para generar rutas de CyberWow actualizados
-  getCyberwowCategoriaRoute(): string[] {
-    if (this.cyberwowBanners.categoria?.categoria) {
-      const categoria = this.cyberwowBanners.categoria.categoria;
-      const slug = this.getCategoriaSlug(categoria.nombre);
-      
-      // Usar nueva estructura sin prefijo 'categoria/'
-      return ['/', slug];
-    }
-    return ['/'];
-  }
-
-  // ACTUALIZADO: Método para generar ruta de producto CyberWow con nueva estructura
-  getCyberwowProductoRoute(banner: CyberwowBannerProducto): string[] {
-    if (banner.producto && banner.producto.categoria) {
-      const producto = banner.producto;
-      const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorCyberwowProducto(producto);
-      const productoSlug = this.generarSlugProductoCyberwow(producto);
-
-      if (categoriaPadre && categoriaHijo) {
-        // Ruta completa: padre/hijo/producto
-        const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-        const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
-        return ['/', slugPadre, slugHijo, productoSlug];
-      } else if (categoriaPadre) {
-        // Solo categoría padre: padre/producto
-        const slugPadre = categoriaPadre.nombre;
-        return ['/', slugPadre, productoSlug];
-      } else {
-        // Fallback
-        const categoriaSlug = producto.categoria.categoria_slug!;
-        return ['/', categoriaSlug, productoSlug];
-      }
-    }
-    return ['/'];
-  }
-
-  // NUEVO: Método auxiliar para productos CyberWow
-  private obtenerInfoCategoriasPorCyberwowProducto(producto: any): {categoriaPadre: any | null, categoriaHijo: any | null} {
-    let categoriaPadre: any | null = null;
-    let categoriaHijo: any | null = null;
-
-    if (!producto.categoria_id) {
-      return { categoriaPadre, categoriaHijo };
-    }
-
-    // Buscar en categorías jerárquicas
-    for (const categoria of this.categoriasJerarquicas) {
-      if (categoria.id.toString() === producto.categoria_id?.toString()) {
-        if (categoria.subcategorias && categoria.subcategorias.length > 0) {
-          categoriaPadre = categoria;
-        } else {
-          categoriaHijo = categoria;
-          for (const cat of this.categoriasJerarquicas) {
-            if (cat.subcategorias?.some((sub: any) => sub.id === categoria.id)) {
-              categoriaPadre = cat;
-              break;
-            }
-          }
-        }
-        break;
-      }
-      
-      if (categoria.subcategorias) {
-        const subcategoriaEncontrada = categoria.subcategorias.find(
-          (sub: any) => sub.id.toString() === producto.categoria_id?.toString()
-        );
-        if (subcategoriaEncontrada) {
-          categoriaPadre = categoria;
-          categoriaHijo = subcategoriaEncontrada;
-          break;
-        }
-      }
-    }
-
-    return { categoriaPadre, categoriaHijo };
-  }
-
-  private generarSlugProductoCyberwow(producto: any): string {
-    let nombreLimpio = producto.nombre
-      .toLowerCase()
-      .trim()
-      .replace(/[áàäâ]/g, 'a')
-      .replace(/[éèëê]/g, 'e')
-      .replace(/[íìïî]/g, 'i') 
-      .replace(/[óòöô]/g, 'o')
-      .replace(/[úùüû]/g, 'u')
-      .replace(/[ñ]/g, 'n')
-      .replace(/\d+\s*(ml|mg|gr|g|kg|unidades|und|piezas|pzs|%)/gi, '')
-      .replace(/\b(100|natural|puro|premium|original|autentico|de|del|la|las|el|los|para|con|sin|y|o|u)\b/gi, '')
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const palabras = nombreLimpio.split(' ').filter((palabra: string) => palabra.length > 0).slice(0, 2);
-    const nombreCorto = palabras.join('-');
-    return `${nombreCorto}-${producto.id}`;
-  }
+  
 
   // Método para navegar cuando se hace clic en el banner de tiendas
   onCyberwowTiendasClick(): void {
@@ -331,67 +131,9 @@ export class InicioPageComponent implements OnInit {
   }
 
  
- navegarAProducto(producto: Producto): void {
-    const slug = producto.producto_slug;
-    
-    if (!this.categoriasJerarquicas || this.categoriasJerarquicas.length === 0) {
-      console.warn('Categorías jerárquicas no cargadas, usando fallback...');
-      
-      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-      //   const categoriaCompleta = producto.categoria_completa as any;
-      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-      //     this.router.navigate(['/', padreSlug, hijoSlug, slug]);
-      //     return;
-      //   }
-      // }
-      
-      if (producto.categoria && typeof producto.categoria === 'string') {
-        const categoriaSlug = this.generarSlugCategoria(producto.categoria);
-        this.router.navigate(['/', categoriaSlug, slug]);
-        return;
-      } else {
-        this.router.navigate(['/productos', slug]);
-        return;
-      }
-    }
 
-    const { categoriaPadre, categoriaHijo } = this.obtenerInfoCategoriasPorProducto(producto);
-
-    if (categoriaPadre && categoriaHijo) {
-      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-      const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
-      this.router.navigate(['/', slugPadre, slugHijo, slug]);
-    } else if (categoriaPadre) {
-      const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-      this.router.navigate(['/', slugPadre, slug]);
-    } else {
-      // Fallbacks adicionales
-      // if (producto.categoria_completa && typeof producto.categoria_completa === 'object') {
-      //   const categoriaCompleta = producto.categoria_completa as any;
-      //   if (categoriaCompleta.padre && categoriaCompleta.padre.nombre) {
-      //     const padreSlug = this.generarSlugCategoria(categoriaCompleta.padre.nombre);
-      //     const hijoSlug = this.generarSlugCategoria(categoriaCompleta.nombre);
-      //     this.router.navigate(['/', padreSlug, hijoSlug, slug]);
-      //     return;
-      //   }
-      // }
-      
-      if (producto.categoria && typeof producto.categoria === 'string') {
-        const categoriaSlug = this.generarSlugCategoria(producto.categoria);
-        this.router.navigate(['/', categoriaSlug, slug]);
-      } else {
-        this.router.navigate(['/productos', slug]);
-      }
-    }
-  }
  
 
-  getEtiquetaRoute(etiqueta: Etiqueta): string[] {
-    const slug = this.getCategoriaSlug(etiqueta);
-    return ['/', slug];
 
-  }
 
 }

@@ -10,7 +10,7 @@
     <!-- Categorías dinámicas desde la base de datos -->
     <div class="promo-rect-card align-items-center " 
          *ngFor="let categoria of categorias" 
-         [routerLink]="getCategoriaRoute(categoria)">
+         [routerLink]="['/' , categoria.categoria_slug]">
       <div class="categoria-img-wrapper">
         <img [src]="categoria.imagen_url || 'imagenes/categorias/default.webp'" 
              loading="lazy"
@@ -79,7 +79,7 @@
     <!-- Banner de categoría -->
     <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" 
          *ngIf="cyberwowBanners.categoria"
-         [routerLink]="getCyberwowCategoriaRoute()">
+         [routerLink]="['/',cyberwowBanners.categoria.categoria.categoria_slug]">
       <img [src]="cyberwowBanners.categoria.imagen_url" 
            loading="lazy" 
            width="100%" 
@@ -98,20 +98,6 @@
           width="100%" 
           class="promo-img rounded-3" 
           [alt]="cyberwowBanners.tiendas.titulo">
-      <button class="btn btn-success promo-btn">¡Lo quiero!</button>
-    </div>
-  </div>
-
-  <!-- Fila 2: Banners de productos -->
-  <div class="row my-4" *ngIf="cyberwowBanners.productos.length > 0">
-    <div class="col-6 col-md-3 promo-card position-relative overflow-hidden rounded-3 my-2"
-         *ngFor="let banner of cyberwowBanners.productos"
-         [routerLink]="getCyberwowProductoRoute(banner)">
-      <img [src]="banner.imagen_url" 
-           loading="lazy" 
-           width="100%" 
-           class="promo-img rounded-3" 
-           [alt]="banner.titulo">
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
   </div>
@@ -136,13 +122,13 @@
   <!-- Contenido de liquidaciones - CORREGIDO -->
   <div class="row   gy-2 gap-md-3 gap-0"*ngIf="etiquetas?.length">
     <div class="promo-rect-card align-items-center col-md-3 col-6" 
-         *ngFor="let item of etiquetas" 
-         [routerLink]="getEtiquetaRoute(item)"
+         *ngFor="let etiqueta of etiquetas" 
+         [routerLink]="['/',etiqueta.etiqueta_slug]"
          >
         <!-- Imagen de liquidación -->
         <div class=" contenedor-img-liquidacion" >
-          <img [src]="item.imagen_url" 
-               [alt]="item.nombre" 
+          <img [src]="etiqueta.imagen_url" 
+               [alt]="etiqueta.nombre" 
                width="600"
                height="900"
                class="img-fluid full-image"

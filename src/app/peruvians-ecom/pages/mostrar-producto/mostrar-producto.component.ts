@@ -4,12 +4,13 @@ import { Categoria } from '../../interfaces/categoria';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PeruviansService } from '../../services/peruvians.service';
 import { CarritoService } from '../../services/carrito.service';
-import { combineLatest, distinctUntilChanged, forkJoin } from 'rxjs';
+import {forkJoin } from 'rxjs';
 import { ProductoService } from '../../services/producto.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { TiendaService } from '../../services/tienda.service';
 import { Etiqueta } from '../../interfaces/etiqueta.interface';
 import { EtiquetaService } from '../../services/etiqueta.service';
+import { TipoRecurso } from '../../../resolvers/categoria-etiqueta.resolver';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -22,11 +23,10 @@ export class MostrarProductoComponent implements OnInit {
   public categoria?:Categoria;
   public categoriaPadreId: string | null = null;
   public nombreCategoriaActual: string = '';
-  public etiquetaId:string | null=null;
-  public nombreEtiqueta?:string;
+  public etiquetaId:number | null = null;
   public categoriaHijoSlug: string | null = null;
   public categoriaPadreSlug: string | null = null;
-  public nombreCategoriaHijo: string = '';
+  public etiquetaSlug: string | null = null;
   public pathParts: string[] = [];
 
  public tipo:string = '';
@@ -42,14 +42,10 @@ export class MostrarProductoComponent implements OnInit {
   public precioMinActual = 0;
   public precioMaxActual = 100;
 
-  public categoriasSeleccionadas: (string | number)[] = [];
-
   public filtroSeleccionado = '';
   public tiendasSeleccionadas: (string | number)[] = [];
   public tiendas: any[] = [];
 
-  // NUEVO: Variable para indicar si venimos de CyberWow
-  public esCyberwowTiendas = false;
 
 constructor(
   private route: ActivatedRoute,
@@ -67,6 +63,24 @@ ngOnInit(): void {
   this.precioMinActual = this.precioMin;
   this.precioMaxActual = this.precioMax;
 
+
+    // 🔥 SUSCRIBIRSE A CAMBIOS EN LA RUTA
+  this.route.paramMap.subscribe(params => {
+    this.categoriaPadreSlug = params.get('categoriaPadreSlug');
+    this.categoriaHijoSlug = params.get('categoriaHijoSlug');
+
+    // 🔥 Actualizar breadcrumbs o pathParts si los usas
+    this.pathParts = this.router.url
+      .split('?')[0]
+      .replace(/^\/+/, '')
+      .split('/')
+      .map(p => decodeURIComponent(p));
+
+    // 🔥 VOLVER A CARGAR LA DATA
+    this.cargarCategoriaDesdeRuta();
+  });
+
+
   // 1️⃣ Primero carga categorías, etiquetas y tiendas
   forkJoin([
     this.categoriaService.obtenerCategorias(),
@@ -76,33 +90,7 @@ ngOnInit(): void {
     next: ([categoriasResp, etiquetasResp, tiendasResp]) => {
       if (categoriasResp.success) this.categorias = categoriasResp.data;  
       if (etiquetasResp.etiquetas) this.etiquetas = etiquetasResp.etiquetas;
-      if (tiendasResp.success) this.tiendas = tiendasResp.data;
-
-
-      // ✅ 2️⃣ Ahora sí: escuchar cambios en la ruta
-      combineLatest([
-        this.route.paramMap,
-        this.route.queryParamMap
-      ])
-      .subscribe(([params, query]) => {
-        this.categoriaPadreSlug = params.get('categoriaPadreSlug');
-        this.categoriaHijoSlug = params.get('categoriaHijoSlug');
-        this.etiquetaId = query.get('etiqueta');
-        this.nombreEtiqueta = query.get('nombre_etiqueta') || '';
-
-
-         // ⭐ CAPTURAR EL PATH SIN SLASH Y SIN GUIONES
-       this.pathParts = this.router.url
-          .split('?')[0]             // Quitar query params
-      .replace(/^\/+/, '')       // Quitar slash inicial
-      .split('/')                // Dividir por /
-      .map(p => decodeURIComponent(p))  // ⭐ Decodificar correctamente
-      .map(p => p.replace(/-/g, ' '));   // Reemplazar guiones por espacios
-
-        
-        // ✅ Cargar productos una vez que todo está listo
-        this.cargarCategoriaDesdeRuta();
-      });
+      if (tiendasResp.success) this.tiendas = tiendasResp.data;   
     },
     error: (err) => console.error('Error cargando datos iniciales:', err)
   });
@@ -111,12 +99,10 @@ ngOnInit(): void {
 
 
 
-
   generarRutaParaProducto(producto: Producto): string[] {
     const categoriaPadre = producto.categoria?.categoria_slug;
     const categoriaHijo = producto.subcategoria?.categoria_slug;
     const slug = producto.producto_slug;
-      console.log("padre:" + categoriaPadre,"hijo:" + categoriaHijo)
     if (categoriaPadre && categoriaHijo) {
       return ['/', categoriaPadre, categoriaHijo, slug, String(producto.id)];
     } else if (categoriaPadre) {
@@ -145,13 +131,7 @@ ngOnInit(): void {
     return this.obtenerProductosMasVendidos();
   } else if (this.filtroSeleccionado === 'masNuevos' ) {
     return this.obtenerProductosMasNuevos();
-  } else if (this.filtroSeleccionado === 'ofertas') {
-    return this.obtenerProductosEnOferta();
-  }
-
-
-     this.categoriaPadreSlug = this.route.snapshot.paramMap.get('categoriaPadreSlug');
-  this.categoriaHijoSlug = this.route.snapshot.paramMap.get('categoriaHijoSlug');
+  } 
 
   // 1. --------- SI HAY CATEGORÍA ---------
   if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
@@ -164,15 +144,26 @@ ngOnInit(): void {
     return; // <-- IMPORTANTE
   }
 
-  if (this.categoriaPadreSlug) {
-    this.categoriaService.obtenerCategoriaPorSlug(this.categoriaPadreSlug).subscribe(
-      categoria => {
-        this.nombreCategoriaActual = categoria.nombre;
-        this.obtenerProductosPorCategoriaConFiltros(categoria.id);
+   const recurso: TipoRecurso = this.route.snapshot.data['recurso'];
+
+    // ... resto de tu lógica de búsqueda y filtros ...
+
+    if (recurso && recurso.tipo !== 'ninguno') {
+      this.nombreCategoriaActual = recurso.datos.nombre;
+
+      if (recurso.tipo === 'etiqueta') {
+        this.obtenerProductosPorEtiqueta(recurso.datos.id);
+        return;
       }
-    );
-    return; // <-- IMPORTANTE
-  }
+
+      if (recurso.tipo === 'categoria') {
+        this.obtenerProductosPorCategoriaConFiltros(recurso.datos.id);
+        return;
+      }
+    }
+
+
+
 
   // 2. --------- SI NO HAY CATEGORÍA → USAR TIPO ---------
   this.tipo = this.route.snapshot.data['tipo'];
@@ -187,20 +178,45 @@ ngOnInit(): void {
       case 'productos': return this.obtenerProductosConFiltros();
     }
   }
-
   // 3. --------- SI NO ES CATEGORÍA NI TIPO → HOME ---------
   this.router.navigate(['/']);
-    
-
- 
-
 }
 
 
+  buscarEtiqueta(slug: string) {
+    this.etiquetaService.obtenerEtiquetaPorSlug(slug).subscribe(
+      etiqueta => {
+        if (!etiqueta) return; // si no es etiqueta, sigue el flujo normal
 
+        this.nombreCategoriaActual = etiqueta.nombre;
+        this.obtenerProductosPorEtiqueta(etiqueta.id);
+      }
+    );
+  }
  
-   
 
+
+   
+obtenerProductosPorEtiqueta(etiquetaId: number ): void {
+  this.isLoading = true;
+  this.productoService.getProductosPorEtiqueta(etiquetaId,{
+    precio_min: this.precioMinActual,
+    precio_max: this.precioMaxActual,
+    tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : ""
+  }).subscribe({
+    next:(resp)=>{
+      this.productos = resp.productos.map(p=>({
+        ...p,
+        rutaCalculada:this.generarRutaParaProducto(p),
+      }));
+      this.isLoading = false;
+    },
+    error:()=>{
+      this.isLoading = false;
+        this.productos = [];
+    }
+  })
+}
 
 
 
@@ -216,7 +232,10 @@ ngOnInit(): void {
 
     this.productoService.getPacks(filtros).subscribe({
       next: (data) => {
-        this.productos = data.data;
+        this.productos = data.data.map((p:any) => ({
+          ...p,
+          rutaCalculada: this.generarRutaParaProducto(p)
+        }));
         this.isLoading = false;
       },
       error: () => {
@@ -235,7 +254,10 @@ ngOnInit(): void {
       tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : ""
     }).subscribe({
       next: (resp) => {
-        this.productos = resp.productos;
+        this.productos = resp.productos.map(p => ({
+          ...p,
+          rutaCalculada: this.generarRutaParaProducto(p)
+        }));
         this.isLoading = false;
       },
       error: () => {
@@ -253,7 +275,10 @@ ngOnInit(): void {
       tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : ""
     }).subscribe({
       next: (resp) => {
-        this.productos = resp.productos;
+        this.productos = resp.productos.map(p => ({
+          ...p,
+          rutaCalculada: this.generarRutaParaProducto(p)
+        }));
         this.isLoading = false;
       },
       error: () => {
@@ -262,29 +287,31 @@ ngOnInit(): void {
     });
   }
 
-private obtenerProductosPorCategoriaConFiltros(categoria_id: number): void {
-    this.isLoading = true;
+  private obtenerProductosPorCategoriaConFiltros(categoria_id: number): void {
+      this.isLoading = true;
 
-    this.productoService.getProductosConFiltros({
-      categoria_id: categoria_id,
-      precio_min: this.precioMinActual,
-      precio_max: this.precioMaxActual,
-      tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : ""
-    }).subscribe({
-      next: (resp) => {
-        console.log(resp)
-        this.productos = [...resp.productos];
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        console.error('Error al obtener productos:', error);
-        this.productos = [];
-        this.isLoading = false; 
-        this.cdr.markForCheck();
-      }
-    });
-  } 
+      this.productoService.getProductosConFiltros({
+        categoria_id: categoria_id,
+        precio_min: this.precioMinActual,
+        precio_max: this.precioMaxActual,
+        tienda_id: this.tiendasSeleccionadas.length > 0 ? this.tiendasSeleccionadas.join(',') : ""
+      }).subscribe({
+        next: (resp) => {
+          this.productos = resp.productos.map(p => ({
+            ...p,
+            rutaCalculada: this.generarRutaParaProducto(p)
+          }));
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          console.error('Error al obtener productos:', error);
+          this.productos = [];
+          this.isLoading = false; 
+          this.cdr.markForCheck();
+        }
+      });
+    } 
 
 onFiltroEstadoChange(event: any): void {
   this.filtroSeleccionado = event.target.value;
@@ -309,13 +336,9 @@ toggleTiendaSeleccionada(tiendaId: number | string): void {
     } else {
       this.tiendasSeleccionadas.push(tiendaId);
     }
-    //console.log('Tiendas seleccionadas:', this.tiendasSeleccionadas);
     this.aplicarFiltros();
   }
 
-obtenerProductosPorCategoria(categoriaId: number ): void {
-  this.obtenerProductosPorCategoriaConFiltros(categoriaId);
-}
 
 obtenerProductosMasVendidos(): void {
     this.isLoading = true;
@@ -337,7 +360,10 @@ obtenerProductosMasVendidos(): void {
       next: (resp) => {
         this.productos = [];
         this.cdr.detectChanges();
-        this.productos = [...resp];
+        this.productos = resp.map(p => ({
+          ...p,
+          rutaCalculada: this.generarRutaParaProducto(p)
+        }));
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -369,7 +395,10 @@ obtenerProductosMasVendidos(): void {
       next: (resp) => {
         this.productos = [];
         this.cdr.detectChanges();
-        this.productos = [...resp];
+        this.productos = resp.map(p => ({
+          ...p,
+          rutaCalculada: this.generarRutaParaProducto(p)
+        }));
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -384,13 +413,11 @@ obtenerProductosMasVendidos(): void {
   // Métodos para manejar el filtro de precio
  onPrecioMinChange(event: any): void {
     this.precioMinActual = parseInt(event.target.value);
-    //console.log('Precio min cambiado a:', this.precioMinActual);
     this.aplicarFiltros();
   }
 
   onPrecioMaxChange(event: any): void {
     this.precioMaxActual = parseInt(event.target.value);
-    //console.log('Precio max cambiado a:', this.precioMaxActual);
     this.aplicarFiltros();
   }
 

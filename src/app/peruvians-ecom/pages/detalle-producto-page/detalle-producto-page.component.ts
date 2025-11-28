@@ -57,8 +57,6 @@ export class DetalleProductoPageComponent implements OnInit {
         .split('/')
         .filter(p => isNaN(Number(p)))               // 🚫 Quitar números puros
         .map(p => decodeURIComponent(p))
-        .map(p => p.replace(/-/g, ' '));
-
 
       if (this.nombreProducto) {
 

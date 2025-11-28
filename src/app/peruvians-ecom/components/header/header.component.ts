@@ -58,7 +58,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const userSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.clienteNombre = user ? user.nombre : null;
-      //console.log('Usuario actualizado en header:', this.clienteNombre);
     });
     this.subscriptions.add(userSubscription);
     
@@ -80,7 +79,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
-        //console.log('Logout exitoso');
         this.router.navigate(['/']);
       },
       error: (error) => {
@@ -147,9 +145,9 @@ navegarACategoriaPadre(categoria: any): void {
   this.router.navigate(['/', slug]); // Cambiado: sin 'categoria/'
   this.ocultarSubcategorias();
 }
-navegarACategoriaHijo(categoriaPadre: any, categoriaHijo: any): void {
-  const slugPadre = this.generarSlugCategoria(categoriaPadre.nombre);
-  const slugHijo = this.generarSlugCategoria(categoriaHijo.nombre);
+navegarACategoriaHijo(categoriaPadre: Categoria, categoriaHijo: Categoria): void {
+  const slugPadre = categoriaPadre.categoria_slug;
+  const slugHijo = categoriaHijo.categoria_slug;
   this.router.navigate(['/', slugPadre, slugHijo]); // Cambiado: sin 'categoria/'
   this.ocultarSubcategorias();
 }
@@ -165,7 +163,6 @@ navegarACategoriaHijo(categoriaPadre: any, categoriaHijo: any): void {
     this.productoService.getProductosPorCategoria(categoriaId).subscribe({
       next: (productos) => {
         this.productosFiltrados = productos;
-        //console.log('Productos filtrados:', productos);
       },
       error: (error) => {
         console.error('Error al cargar productos de la categoría:', error);
@@ -291,7 +288,6 @@ generarSlugCategoria(nombre: string): string {
     this.productoService.buscarProductos(termino).subscribe({
       next: (productos) => {
         this.productosFiltrados = productos;
-        //console.log('Resultados búsqueda:', productos);
       },
       error: (err) => {
         console.error('Error al buscar productos:', err);

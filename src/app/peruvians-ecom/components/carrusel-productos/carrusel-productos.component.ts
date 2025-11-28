@@ -73,7 +73,6 @@ export class CarruselProductosComponent implements OnChanges, AfterViewChecked {
 
   // NUEVO: Generar ruta para un producto específico
   generarRutaParaProducto(producto: Producto): string[] {
-    console.log(this.productos)
     const categoriaPadre = producto.categoria?.categoria_slug;
     const categoriaHijo = producto.subcategoria?.categoria_slug;
     const slug = producto.producto_slug;

@@ -152,7 +152,7 @@ export class ProductoService {
   );
 }
 
-getProductosPorEtiqueta(etiquetaId: string, filtros?:{
+getProductosPorEtiqueta(etiquetaId: number, filtros?:{
   precio_min?: number;
   precio_max?: number;
   tienda_id?: string;

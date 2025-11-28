@@ -16,12 +16,14 @@
       <ng-container>
         <!-- ✔ Si NO es el último, es clickeable -->
         <a class="breadcrumb-link" *ngIf="!last" [routerLink]="['/', part]">
-          {{ part | titlecase }}
+          {{ part.split('-').join(' ') | titlecase }}
         </a>
 
         <!-- ✔ Si es el último, NO es clickeable -->
         <span *ngIf="last" class="breadcrumb-active">
-          {{ part | titlecase }}
+          {{ part.split('-').join(' ') | titlecase }}
+
+
         </span>
       </ng-container>
     </li>

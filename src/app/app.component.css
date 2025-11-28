@@ -32,4 +32,34 @@ ease;
     transform: translateY(-8px);
   }
 }
+/* app.component.css */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 9999;
+  pointer-events: none;
+}
 
+.progress-bar-fill {
+  height: 100%;
+  background: #29d;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  transition: width 0.2s ease;
+  width: 0%;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  opacity: 1;
+  transform: rotate(3deg) translate(0px, -4px);
+}

@@ -498,7 +498,6 @@ this.compraService.procesarCompra(datosCompra).subscribe({
             .subscribe({
               next: res => {
                 if (!res.pedido) {
-                  console.log('⌛ Aún esperando confirmación de pago...');
                   return;
                 }
 

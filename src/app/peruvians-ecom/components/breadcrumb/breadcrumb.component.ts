@@ -8,4 +8,7 @@ import { Component, Input } from '@angular/core';
 export class BreadcrumbComponent {
     @Input()  otrasEtiquetas?: string ;
     @Input() pathParts?:string[] = [];
+
+
+ 
 }
