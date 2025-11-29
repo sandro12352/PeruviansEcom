@@ -57,13 +57,13 @@
   
   <!-- Productos más nuevos - ACTUALIZADO CON CATEGORÍAS -->
   <peruvians-carrusel-productos 
-    *ngIf="masNuevo?.length && !loading.masNuevo"
+    *ngIf="masNuevo.length && !loading.masNuevo"
     [productos]="masNuevo" 
     [carouselId]="'ProductosCarrusel2'">
   </peruvians-carrusel-productos>
 
   <!-- Estado vacío -->
-  <div *ngIf="!masNuevo?.length && !loading.masNuevo" class="alert alert-info">
+  <div *ngIf="!masNuevo.length && !loading.masNuevo" class="alert alert-info">
     No hay productos nuevos disponibles en este momento.
   </div>
 </section>

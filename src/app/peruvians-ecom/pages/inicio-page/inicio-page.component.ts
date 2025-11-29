@@ -44,57 +44,55 @@ export class InicioPageComponent implements OnInit {
   };
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
+    private dashboardService:DashboardService
   ) {}
   
   ngOnInit(): void {
+   
     this.cargarDatosDesdeResolver();
   }
 
   private cargarDatosDesdeResolver(): void {
-    const dashboardData = this.route.snapshot.data['dashboardData'] as DashboardResponse | null;
-    
-    if (!dashboardData?.success || !dashboardData.data) {
-      console.error('No se pudieron cargar los datos del dashboard');
-      return;
-    }
+   this.dashboardService.getDashboardData('todas')
+    .subscribe(dashboardData => {
+      
+      // Validación
+      if (!dashboardData?.success || !dashboardData.data) {
+        console.error('No se pudieron cargar los datos del dashboard');
+        return;
+      }
 
-    const data = dashboardData.data;
-    
-    // Cargar categorías
-    if (data.categorias) {
-      this.categorias = data.categorias.items;
-    }
+      const data = dashboardData.data;
 
-    // Cargar productos más vendidos
-    if (data.mas_vendidos) {
-      this.masVendido = data.mas_vendidos;
-    }
+      // Cargar categorías
+      if (data.categorias) {
+        this.categorias = data.categorias.items;
+      }
 
-    // Cargar productos más nuevos
-    if (data.mas_nuevos) {
-      this.masNuevo = data.mas_nuevos;
-    }
+      // Cargar productos más vendidos
+      if (data.mas_vendidos) {
+        this.masVendido = data.mas_vendidos;
+      }
 
-    // Cargar etiquetas
-    if (data.etiquetas) {
-      this.etiquetas = data.etiquetas;
-    }
+      // Cargar productos más nuevos
+      if (data.mas_nuevos) {
+        this.masNuevo = data.mas_nuevos;
+      }
 
-    // Cargar configuración CyberWow
-    if (data.configuracion) {
-      this.cyberwowBanners = data.configuracion;
-    }
-  }
+      // Cargar etiquetas
+      if (data.etiquetas) {
+        this.etiquetas = data.etiquetas;
+      }
 
-  /**
-   * Procesa categorías en estructura jerárquica (si es necesario)
-   */
-  private procesarCategoriasJerarquicas(categorias: Categoria[]): Categoria[] {
-    // Implementa tu lógica si necesitas transformar las categorías
-    // Por ejemplo, filtrar solo padres o crear árbol
-    return categorias.filter(cat => cat.es_padre);
+      // Cargar configuración CyberWow
+      if (data.configuracion) {
+        this.cyberwowBanners = data.configuracion;
+      }
+
+    }, error => {
+      console.error('Error al cargar datos del dashboard:', error);
+    });
   }
 
   /**
