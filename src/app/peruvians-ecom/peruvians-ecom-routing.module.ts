@@ -20,7 +20,7 @@ const routes: Routes = [
     path: '',
     component: LayoutPageComponent,
     children: [
-      { path: '', component: InicioPageComponent},
+      { path: '', component: InicioPageComponent },
       { 
         path: 'blog',
         loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)

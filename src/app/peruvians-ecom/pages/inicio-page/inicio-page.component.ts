@@ -46,11 +46,14 @@ export class InicioPageComponent implements OnInit {
   constructor(
     private router: Router,
     private dashboardService:DashboardService
-  ) {}
+    
+  ) {console.log("Constructor ejecutado");}
   
   ngOnInit(): void {
-   
+    
+  console.log("InicioPageComponent inicializado...");
     this.cargarDatosDesdeResolver();
+
   }
 
   private cargarDatosDesdeResolver(): void {
