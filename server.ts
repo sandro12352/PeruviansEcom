@@ -22,18 +22,25 @@ export function app(): express.Express {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
+  server.use((req, res, next) => {
+    if (req.path.endsWith('.html') || !req.path.includes('.')){
+
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+        next();
+
+    }
+  }); 
+
+
+
   server.get('*.*', express.static(browserDistFolder, {
-    maxAge: '0',
-    etag:false,
+    maxAge: '1y',
+    etag:true,
     immutable:true,
   }));
 
-  server.use((req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-      next();
-  }); 
 
 
   // server.get('/sitemap.xml' ,async (_req,res)=>{

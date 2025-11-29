@@ -1,9 +1,10 @@
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
 import { PeruviansService } from '../peruvians-ecom/services/peruvians.service';
 import { Categoria } from '../peruvians-ecom/interfaces/categoria';
 import { Etiqueta } from '../peruvians-ecom/interfaces/etiqueta.interface';
+import { isPlatformBrowser } from '@angular/common';
 
  export interface TipoRecurso {
   tipo: 'categoria' | 'etiqueta' | 'ninguno';
@@ -14,9 +15,13 @@ export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route, state):
 
   const peruvianService = inject(PeruviansService);
   const router = inject(Router);
+  const platformId = inject(PLATFORM_ID);
   const slug = route.paramMap.get('categoriaPadreSlug');
    if (!slug) {
-    router.navigate(['/']);
+    if (isPlatformBrowser(platformId)) {
+        router.navigate(['/']);
+      }
+
     return of({ tipo: 'ninguno', datos: null });
   }
 
@@ -33,12 +38,16 @@ export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route, state):
       }
 
       // Si no es ninguno, redirigir
-      router.navigate(['/']);
+      if (isPlatformBrowser(platformId)) {
+        router.navigate(['/']);
+      }
       return { tipo: 'ninguno' as const, datos: null };
     }),
     catchError((error) => {
       console.error('Error al obtener recurso:', error);
-      router.navigate(['/404']);
+      if (isPlatformBrowser(platformId)) {
+        router.navigate(['/404']);
+      }
       return of({ tipo: 'ninguno' as const, datos: null });
     })
   );
