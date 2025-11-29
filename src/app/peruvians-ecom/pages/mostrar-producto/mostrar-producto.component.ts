@@ -134,35 +134,32 @@ ngOnInit(): void {
     return this.obtenerProductosMasNuevos();
   } 
 
-  // 1. --------- SI HAY CATEGORÍA ---------
-  if (this.categoriaPadreSlug && this.categoriaHijoSlug) {
-    this.peruvianService.obtenerPorSlug(this.categoriaHijoSlug).subscribe(
-      categoria => {
-        console.log(categoria)
-        this.nombreCategoriaActual = categoria.nombre;
-        this.obtenerProductosPorCategoriaConFiltros(categoria.id);
-      }
-    );
-    return; // <-- IMPORTANTE
+  // 3. CATEGORÍA PADRE (resolver)
+  const recurso: TipoRecurso = this.route.snapshot.data['recurso'];
+
+  if (recurso && recurso.tipo !== 'ninguno' && recurso.datos) {
+    this.nombreCategoriaActual = recurso.datos.nombre;
+
+    if (recurso.tipo === 'etiqueta') {
+      this.obtenerProductosPorEtiqueta(recurso.datos.id);
+      return;
+    }
+
+    if (recurso.tipo === 'categoria') {
+      this.obtenerProductosPorCategoriaConFiltros(recurso.datos.id);
+      return;
+    }
   }
 
-   const recurso: TipoRecurso = this.route.snapshot.data['recurso'];
+  // 4. SUBCATEGORÍA (segunda parte del slug)
+  if (this.categoriaHijoSlug) {
+    this.peruvianService.obtenerPorSlug(this.categoriaHijoSlug).subscribe(categoria => {
+      this.nombreCategoriaActual = categoria.nombre;
+      this.obtenerProductosPorCategoriaConFiltros(categoria.id);
+    });
 
-    // ... resto de tu lógica de búsqueda y filtros ...
-
-    if (recurso && recurso.tipo !== 'ninguno') {
-      this.nombreCategoriaActual = recurso.datos.nombre;
-
-      if (recurso.tipo === 'etiqueta') {
-        this.obtenerProductosPorEtiqueta(recurso.datos.id);
-        return;
-      }
-
-      if (recurso.tipo === 'categoria') {
-        this.obtenerProductosPorCategoriaConFiltros(recurso.datos.id);
-        return;
-      }
-    }
+    return;
+  }
 
 
 
@@ -185,16 +182,7 @@ ngOnInit(): void {
 }
 
 
-  buscarEtiqueta(slug: string) {
-    this.peruvianService.obtenerPorSlug(slug).subscribe(
-      etiqueta => {
-        if (!etiqueta) return; // si no es etiqueta, sigue el flujo normal
-
-        this.nombreCategoriaActual = etiqueta.nombre;
-        this.obtenerProductosPorEtiqueta(etiqueta.id);
-      }
-    );
-  }
+  
  
 
 

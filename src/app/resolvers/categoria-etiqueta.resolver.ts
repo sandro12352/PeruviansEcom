@@ -4,51 +4,33 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { PeruviansService } from '../peruvians-ecom/services/peruvians.service';
 import { Categoria } from '../peruvians-ecom/interfaces/categoria';
 import { Etiqueta } from '../peruvians-ecom/interfaces/etiqueta.interface';
-import { isPlatformBrowser } from '@angular/common';
 
- export interface TipoRecurso {
+export interface TipoRecurso {
   tipo: 'categoria' | 'etiqueta' | 'ninguno';
-  datos:any;
+  datos: Categoria | Etiqueta | null;
 }
 
-export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route, state): Observable<TipoRecurso> => {
-
+export const categoriaEtiquetaResolver: ResolveFn<TipoRecurso> = (route) => {
   const peruvianService = inject(PeruviansService);
-  const router = inject(Router);
-  const platformId = inject(PLATFORM_ID);
   const slug = route.paramMap.get('categoriaPadreSlug');
-   if (!slug) {
-    if (isPlatformBrowser(platformId)) {
-        router.navigate(['/']);
-      }
 
+  if (!slug) {
     return of({ tipo: 'ninguno', datos: null });
   }
 
-   return peruvianService.obtenerPorSlug(slug).pipe(
-    map((resultado): TipoRecurso => {
-      // Verificar si es etiqueta (tiene etiqueta_slug)
+  return peruvianService.obtenerPorSlug(slug).pipe(
+    map((resultado) => {
+      // ❌ QUITA los "of()" de aquí
       if ('etiqueta_slug' in resultado) {
-        return { tipo: 'etiqueta', datos: resultado as Etiqueta };
-      }
-      
-      // Verificar si es categoría (tiene categoria_slug)
-      if ('categoria_slug' in resultado) {
-        return { tipo: 'categoria', datos: resultado as Categoria };
+        return { tipo: 'etiqueta' as const, datos: resultado as Etiqueta };
       }
 
-      // Si no es ninguno, redirigir
-      if (isPlatformBrowser(platformId)) {
-        router.navigate(['/']);
+      if ('categoria_slug' in resultado) {
+        return { tipo: 'categoria' as const, datos: resultado as Categoria };
       }
+
       return { tipo: 'ninguno' as const, datos: null };
     }),
-    catchError((error) => {
-      console.error('Error al obtener recurso:', error);
-      if (isPlatformBrowser(platformId)) {
-        router.navigate(['/404']);
-      }
-      return of({ tipo: 'ninguno' as const, datos: null });
-    })
+    catchError(() => of({ tipo: 'ninguno' as const, datos: null }))
   );
 };
