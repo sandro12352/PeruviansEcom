@@ -1,4 +1,14 @@
 .modal-overlay {
+  display: none;
+  /* resto del estilo */
+}
+
+.modal-overlay.show {
+  display: flex; /* o block según tu diseño */
+}
+
+
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
