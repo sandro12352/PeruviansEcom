@@ -47,7 +47,7 @@ export class InicioPageComponent implements OnInit {
     private router: Router,
     private dashboardService:DashboardService
     
-  ) {console.log("Constructor ejecutado");}
+  ) {}
   
   ngOnInit(): void {
     
@@ -57,9 +57,9 @@ export class InicioPageComponent implements OnInit {
 
   private cargarDatosDesdeResolver(): void {
    this.dashboardService.getDashboardData('todas')
-    .subscribe(dashboardData => {
-      
-      // Validación
+    .subscribe({
+      next:(dashboardData)=>{
+         // Validación
       if (!dashboardData?.success || !dashboardData.data) {
         console.error('No se pudieron cargar los datos del dashboard');
         return;
@@ -91,9 +91,7 @@ export class InicioPageComponent implements OnInit {
       if (data.configuracion) {
         this.cyberwowBanners = data.configuracion;
       }
-
-    }, error => {
-      console.error('Error al cargar datos del dashboard:', error);
+      }
     });
   }
 

@@ -1,4 +1,8 @@
-<!-- <app-carrusel-principal></app-carrusel-principal> -->
+<section class="h-100 w-100">
+
+  <app-carrusel-principal></app-carrusel-principal>
+
+</section>
 
 
 
@@ -33,11 +37,11 @@
   
   
   <!-- Productos más vendidos - ACTUALIZADO CON CATEGORÍAS -->
-  <peruvians-carrusel-productos 
+  <!-- <peruvians-carrusel-productos 
     *ngIf="masVendido.length && !loading.masVendido"
     [productos]="masVendido" 
     [carouselId]="'ProductosCarrusel1'">
-  </peruvians-carrusel-productos>
+  </peruvians-carrusel-productos> -->
 
 
 
@@ -49,32 +53,32 @@
   <h2 class="mb-4">Lo Más Nuevo</h2>
   
   <!-- Loading state -->
-  <div *ngIf="loading.masNuevo" class="text-center">
+  <!-- <div *ngIf="loading.masNuevo" class="text-center">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Cargando productos más nuevos...</span>
     </div>
-  </div>
+  </div> -->
   
   <!-- Productos más nuevos - ACTUALIZADO CON CATEGORÍAS -->
-  <peruvians-carrusel-productos 
+  <!-- <peruvians-carrusel-productos 
     *ngIf="masNuevo.length && !loading.masNuevo"
     [productos]="masNuevo" 
     [carouselId]="'ProductosCarrusel2'">
-  </peruvians-carrusel-productos>
+  </peruvians-carrusel-productos> -->
 
   <!-- Estado vacío -->
-  <div *ngIf="!masNuevo.length && !loading.masNuevo" class="alert alert-info">
+  <!-- <div *ngIf="!masNuevo.length && !loading.masNuevo" class="alert alert-info">
     No hay productos nuevos disponibles en este momento.
-  </div>
+  </div> -->
 </section>
 
 <!-- CyberWow Section - Ahora dinámica -->
-<section class="container-fluid px-md-5 " *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
-  <h2 class="mb-4">CyberWow</h2>
+<!-- <section class="container-fluid px-md-5 " *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
+  <h2 class="mb-4">CyberWow</h2> 
   
-  <!-- Fila 1: Banners principales (categoría y tiendas) -->
+  Fila 1: Banners principales (categoría y tiendas)
   <div class="row gy-4" *ngIf="cyberwowBanners.categoria || cyberwowBanners.tiendas"> 
-    <!-- Banner de categoría -->
+    Banner de categoría 
     <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3" 
          *ngIf="cyberwowBanners.categoria"
          [routerLink]="['/',cyberwowBanners.categoria.categoria.categoria_slug]">
@@ -86,7 +90,7 @@
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
     
-    <!-- Banner de tiendas -->
+     Banner de tiendas
     <div class="col-12 col-md-6 promo-card position-relative overflow-hidden rounded-3"
         *ngIf="cyberwowBanners.tiendas"
         (click)="onCyberwowTiendasClick()"
@@ -99,9 +103,17 @@
       <button class="btn btn-success promo-btn">¡Lo quiero!</button>
     </div>
   </div>
-</section>
+</section> -->
 
-
+<!-- Loading state para CyberWow -->
+<!-- <section class="container my-5" *ngIf="loading.cyberwow">
+  <h2 class="mb-4">CyberWow</h2>
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando ofertas CyberWow...</span>
+    </div>
+  </div>
+</section> -->
 
 
 <section class="container-fluid my-5 px-md-4">
@@ -110,12 +122,11 @@
 
 
   <!-- Contenido de liquidaciones - CORREGIDO -->
-  <div class="row   gy-2 gap-md-3 gap-0"*ngIf="etiquetas.length">
+  <!-- <div class="row   gy-2 gap-md-3 gap-0"*ngIf="etiquetas.length">
     <div class="promo-rect-card align-items-center col-md-3 col-6" 
          *ngFor="let etiqueta of etiquetas" 
          [routerLink]="['/',etiqueta.etiqueta_slug]"
          >
-        <!-- Imagen de liquidación -->
         <div class=" contenedor-img-liquidacion" >
           <img [src]="etiqueta.imagen_url" 
                [alt]="etiqueta.nombre" 
@@ -125,7 +136,7 @@
                loading="lazy" />
       </div>
     </div>
-  </div>
+  </div> -->
 </section>
 
 
