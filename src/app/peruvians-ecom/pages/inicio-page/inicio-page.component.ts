@@ -51,7 +51,7 @@ export class InicioPageComponent implements OnInit {
   
   ngOnInit(): void {
     
-    this.cargarDatosDesdeResolver();
+    // this.cargarDatosDesdeResolver();
 
   }
 
