@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MostrarProductoComponent } from './pages/mostrar-producto/mostrar-producto.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
 import { DetalleProductoPageComponent } from './pages/detalle-producto-page/detalle-producto-page.component';
-import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { NosotrosPageComponent } from './pages/nosotros-page/nosotros-page.component';
 import { PreguntasFrecuentesPageComponent } from './pages/preguntas-frecuentes-page/preguntas-frecuentes-page.component';
@@ -16,46 +15,24 @@ import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tien
 import { categoriaEtiquetaResolver } from '../resolvers/categoria-etiqueta.resolver';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutPageComponent,
-    children: [
-      { path: '', component: InicioPageComponent },
-      { 
-        path: 'blog',
-        loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)
-      },
-      
-      { path: 'perfil', component: PerfilComponent },
-      { path: 'mis-pedidos', component: PedidosComponent },  
-      { path: 'contactanos', component: ContactanosComponent },
-      { path: 'nosotros', component: NosotrosPageComponent },
-      { path: 'preguntas-frecuentes', component: PreguntasFrecuentesPageComponent },
-      { path: 'nuestras-tiendas', component: NuestrasTiendasComponent },
-      { path: 'mas-vendidos', component: MostrarProductoComponent,data:{tipo:'mas-vendidos'} },
-      { path: 'ofertas', component: MostrarProductoComponent ,data:{tipo:'ofertas'}},
-      { path: 'mas-nuevos', component: MostrarProductoComponent ,data:{tipo:'mas-nuevos'}},
-      { path: 'productos', component: MostrarProductoComponent,data:{tipo:'productos'} },
-      { path: 'politica-privacidad', component: PoliticaPrivacidadComponent },
-      { path: 'terminos-condiciones', component: TerminosCondicionesComponent },
-      { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
-      { 
-        path: ':categoriaPadreSlug', 
-        component: MostrarProductoComponent ,
-        resolve:{
-          recurso:categoriaEtiquetaResolver
-        }
-      },
-      { 
-        path: ':categoriaPadreSlug/:categoriaHijoSlug', 
-        component: MostrarProductoComponent 
-      },      
-      { 
-        path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', 
-        component: DetalleProductoPageComponent 
-      },     
-    ]
-  },
+  { path: '', component: InicioPageComponent },
+  { path: 'blog', loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)},
+  { path: 'perfil', component: PerfilComponent },
+  { path: 'mis-pedidos', component: PedidosComponent },  
+  { path: 'contactanos', component: ContactanosComponent },
+  { path: 'nosotros', component: NosotrosPageComponent },
+  { path: 'preguntas-frecuentes', component: PreguntasFrecuentesPageComponent },
+  { path: 'nuestras-tiendas', component: NuestrasTiendasComponent },
+  { path: 'mas-vendidos', component: MostrarProductoComponent,data:{tipo:'mas-vendidos'} },
+  { path: 'ofertas', component: MostrarProductoComponent ,data:{tipo:'ofertas'}},
+  { path: 'mas-nuevos', component: MostrarProductoComponent ,data:{tipo:'mas-nuevos'}},
+  { path: 'productos', component: MostrarProductoComponent,data:{tipo:'productos'} },
+  { path: 'politica-privacidad', component: PoliticaPrivacidadComponent },
+  { path: 'terminos-condiciones', component: TerminosCondicionesComponent },
+  { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
+  { path: ':categoriaPadreSlug', component: MostrarProductoComponent ,resolve:{ recurso:categoriaEtiquetaResolver}},
+  { path: ':categoriaPadreSlug/:categoriaHijoSlug', component: MostrarProductoComponent },      
+  { path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', component: DetalleProductoPageComponent },
   {
     path: '**',
     redirectTo: '',

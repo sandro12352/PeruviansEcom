@@ -7,7 +7,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class ModalEmergenteComponent {
     isVisible = false;
-    @ViewChild('modalContent', { static: false }) modalContent!: ElementRef;
+    @ViewChild('modalContent', { static: false }) modalContent?: ElementRef;
 
     ngOnInit(): void {
       // Mostrar el modal automáticamente al cargar

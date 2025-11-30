@@ -62,12 +62,13 @@ import { SharedModule } from '../shared/shared.module';
 
   ],
   exports: [
-    LayoutPageComponent,
+     HeaderComponent,   // ✅ exportar
+    FooterComponent,   // ✅ exportar
+    ModalEmergenteComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule, // ← AGREGAR ESTA LÍNEA
     PeruviansEcomRoutingModule,
     FormsModule,
     ReactiveFormsModule,
