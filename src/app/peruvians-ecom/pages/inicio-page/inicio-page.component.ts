@@ -1,7 +1,7 @@
 // src/app/peruvians-ecom/pages/inicio-page/inicio-page.component.ts
 
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
 
 // IMPORTS CORREGIDOS - Solo importar una vez cada interfaz
@@ -51,7 +51,6 @@ export class InicioPageComponent implements OnInit {
   
   ngOnInit(): void {
     
-  console.log("InicioPageComponent inicializado...");
     this.cargarDatosDesdeResolver();
 
   }
