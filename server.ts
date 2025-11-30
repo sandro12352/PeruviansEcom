@@ -114,7 +114,7 @@ export function app(): express.Express {
         const url = root.ele('url');
         url.ele('loc').txt(
           `https://peruviansecom.com/${prod.categoria.categoria_slug}/${prod.subcategoria.categoria_slug}/${prod.producto_slug}/${prod.id}`
-        );
+        ).up();
         url.ele('changefreq').txt('weekly');
       });
 
