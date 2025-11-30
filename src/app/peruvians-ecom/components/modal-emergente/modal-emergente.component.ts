@@ -11,9 +11,7 @@ export class ModalEmergenteComponent {
 
     ngOnInit(): void {
       // Mostrar el modal automáticamente al cargar
-      setTimeout(() => {
         this.isVisible = true;
-      }, 500); // medio segundo después de cargar
     }
 
     closeModal() {

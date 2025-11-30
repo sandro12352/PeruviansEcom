@@ -1,17 +1,22 @@
-<section class="h-100 w-100">
+
+
+
+
+
+
+<!-- <section class="h-100 w-100">
 
   <app-carrusel-principal></app-carrusel-principal>
 
-</section>
+</section> -->
 
 
 
 <!-- Categorias -->
-<section class="container-fluid  my-5 px-md-4">
+<!-- <section class="container-fluid  my-5 px-md-4">
   <h1 class="fs-2 mb-4">Encuentra lo que buscas</h1>
 
   <div class="categoria-wrapper">
-    <!-- Categorías dinámicas desde la base de datos -->
     <div class="promo-rect-card align-items-center " 
          *ngFor="let categoria of categorias" 
          [routerLink]="['/' , categoria.categoria_slug]">
@@ -27,13 +32,13 @@
 
     
   </div>
-</section>
+</section> -->
 
 
 
 
-<section class="container-fluid px-md-5">
-  <h2 class="mb-4">Lo Más Vendido</h2>
+<!-- <section class="container-fluid px-md-5">
+  <h2 class="mb-4">Lo Más Vendido</h2> -->
   
   
   <!-- Productos más vendidos - ACTUALIZADO CON CATEGORÍAS -->
@@ -45,14 +50,13 @@
 
 
 
-</section>
+<!-- </section> -->
 
   
 
-<section class="container-fluid px-md-5">
+<!-- <section class="container-fluid px-md-5">
   <h2 class="mb-4">Lo Más Nuevo</h2>
   
-  <!-- Loading state -->
   <!-- <div *ngIf="loading.masNuevo" class="text-center">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Cargando productos más nuevos...</span>
@@ -69,8 +73,8 @@
   <!-- Estado vacío -->
   <!-- <div *ngIf="!masNuevo.length && !loading.masNuevo" class="alert alert-info">
     No hay productos nuevos disponibles en este momento.
-  </div> -->
-</section>
+  </div> 
+</section>-->
 
 <!-- CyberWow Section - Ahora dinámica -->
 <!-- <section class="container-fluid px-md-5 " *ngIf="(cyberwowBanners.categoria || cyberwowBanners.tiendas || cyberwowBanners.productos.length > 0) && !loading.cyberwow">
@@ -116,8 +120,8 @@
 </section> -->
 
 
-<section class="container-fluid my-5 px-md-4">
-  <h2 class="mb-4">Nuestras Categorias</h2>
+<!-- <section class="container-fluid my-5 px-md-4">
+  <h2 class="mb-4">Nuestras Categorias</h2> 
   
 
 
@@ -136,13 +140,12 @@
                loading="lazy" />
       </div>
     </div>
-  </div> -->
+  </div> 
 </section>
 
 
 
 
-<!-- Tiendas -->
 <section class="container-fluid px-md-5 my-5">
   <h2 class="mb-4">Nuestras Tiendas</h2>
 
@@ -185,7 +188,6 @@
           <img src="logos/lukin4.webp" loading="lazy" alt="lukin4" class="categoria-img img-fluid bg-white">
         </div>
 
-        <!-- Duplicados para efecto infinito -->
            <div class="carrusel-item">
           <img src="logos/3boutique.jpg" loading="lazy" alt="Vitaminas" class="categoria-img img-fluid">
         </div>
@@ -226,7 +228,7 @@
 <section class="container-fluid px-md-5 ">
   <h2 class="mb-4">Testimonios</h2>
   <peruvians-carrusel-comentarios></peruvians-carrusel-comentarios>
-</section>
+</section>-->
 
 
 <app-modal-emergente></app-modal-emergente>
