@@ -81,7 +81,7 @@ export function app(): express.Express {
       const respProd = await (await fetch(`${envs.apiUrl}/productos/todo`)).json();
       const productos = respProd.data.productos;
       categorias
-      .filter((cat: any) => cat.es_padre === true)
+      .filter((cat: any) => cat.es_padre === true && cat.categoria_slug)
       .forEach((cat:any) => {
         const url = root.ele('url');
         url.ele('loc').txt(`https://peruviansecom.com/${cat.categoria_slug}`).up();
@@ -102,8 +102,8 @@ export function app(): express.Express {
 
       // 👉 Agregar etiquetas
       etiquetas.forEach((tag: any) => {
-        const url = root.ele('url');
         if(tag.etiqueta_slug){
+          const url = root.ele('url');
           url.ele('loc').txt(`https://peruviansecom.com/${tag.etiqueta_slug}`).up();
           url.ele('changefreq').txt('weekly');
         }
