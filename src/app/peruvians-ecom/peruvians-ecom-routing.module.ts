@@ -13,9 +13,10 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
 import { categoriaEtiquetaResolver } from '../resolvers/categoria-etiqueta.resolver';
+import { inicioResolver } from '../resolvers/inicio.resolver';
 
 const routes: Routes = [
-  { path: '', component: InicioPageComponent },
+  { path: '', component: InicioPageComponent},
   { path: 'blog', loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)},
   { path: 'perfil', component: PerfilComponent },
   { path: 'mis-pedidos', component: PedidosComponent },  

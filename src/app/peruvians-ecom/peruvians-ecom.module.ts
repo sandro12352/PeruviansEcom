@@ -24,8 +24,6 @@ import { TerminosCondicionesComponent } from './pages/terminos-condiciones/termi
 import { LibroReclamacionesComponent } from './pages/libro-reclamaciones/libro-reclamaciones.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
-import { AuthInterceptor } from '../peruvians-ecom/interceptors/auth.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
 import { CarruselSkeletonComponent } from './components/carrusel-skeleton/carrusel-skeleton.component';
 import { ModalEmergenteComponent } from './components/modal-emergente/modal-emergente.component';
@@ -73,9 +71,6 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule 
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
   
 })
