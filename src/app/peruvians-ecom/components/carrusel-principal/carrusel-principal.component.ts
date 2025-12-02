@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './carrusel-principal.component.html',
   styleUrls: ['./carrusel-principal.component.css']
 })
-export class CarruselPrincipalComponent implements OnInit, OnDestroy {
+export class CarruselPrincipalComponent implements OnInit {
   
   @ViewChild('carouselInicio') desktopCarousel!: ElementRef<HTMLDivElement>;
   @ViewChild('carouselInicioMobile') mobileCarousel!: ElementRef<HTMLDivElement>;
@@ -18,8 +18,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
   carruselItems: Carrusel[] = [];
   isLoading = false; // Cambiado a false inicialmente
   error: string | null = null;
-  private subscription: Subscription = new Subscription();
-
   // Propiedades para cachear los slides y evitar re-renders
   desktopSlides: Carrusel[][] = [];
   mobileSlides: Carrusel[] = [];
@@ -42,9 +40,7 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
 
  
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+ 
 
   /**
    * Inicializa los carruseles de Bootstrap
