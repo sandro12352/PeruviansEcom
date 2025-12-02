@@ -2,13 +2,6 @@
 <!-- Loading State - Solo para slides dinámicos -->
 <app-carrusel-skeleton *ngIf="isLoading && hasDynamicSlides()"></app-carrusel-skeleton>
 
-<!-- Error State - Solo para slides dinámicos -->
-<div *ngIf="error && !isLoading && !hasDynamicSlides()" class="alert alert-warning text-center" role="alert">
-  <p class="mb-2">{{ error }}</p>
-  <button type="button" class="btn btn-primary btn-sm" (click)="recargar()">
-    Reintentar
-  </button>
-</div>
 
 <!-- Carrusel Desktop - SIEMPRE visible -->
 <div id="carouselInicio" #carouselInicio class="carousel slide mb-5 d-none d-md-block" >
@@ -34,20 +27,18 @@
     <!-- Banner fijo (slide 0) - SIEMPRE PRESENTE -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img src="imagenes/principal/bannerHalloweenOptimizado.webp" 
+        <img ngOptimizedImage ngSrc="imagenes/principal/bannerHalloweenOptimizado.webp" 
             class="d-block carousel-img" 
             alt="banner principal" 
               width="1920"
               height="700"
-            fetchpriority="high" 
-            decoding="async" 
             (error)="onImageError($event)">
         <button class="btn-lo-quiero">Lo quiero</button>
       </div>
     </div>
 
     <!-- Slides dinámicos de la API - Solo si se cargaron correctamente -->
-    <div *ngFor="let slide of desktopSlides; let i = index; trackBy: trackByIndex" 
+    <div *ngFor="let slide of desktopSlides; let i = index;" 
          class="carousel-item">
       <div class="d-flex">
         <!-- Primera imagen del slide -->
@@ -61,8 +52,10 @@
           </div>
           
           <img 
-            [src]="slide[0].imagen_url" 
+            ngOptimizedImage [ngSrc]="slide[0].imagen_url" 
             loading="lazy"
+             width="960"
+             height="700"
             class="d-block carousel-img" 
             [alt]="slide[0].producto?.nombre || 'Promoción'"
             [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'"
@@ -88,8 +81,10 @@
           </div>
           
           <img 
-            [src]="slide[1].imagen_url" 
-            loading="lazy"
+            ngOptimizedImage [ngSrc]="slide[1].imagen_url" 
+            loading="lazy" 
+            width="960"
+            height="700"
             class="d-block carousel-img" 
             [alt]="slide[1].producto?.nombre || 'Promoción'"
             [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'"
@@ -171,7 +166,7 @@
     </div>
 
     <!-- Slides dinámicos móvil - Solo si se cargaron correctamente -->
-    <div *ngFor="let item of mobileSlides; let i = index; trackBy: trackByIndex" 
+    <div *ngFor="let item of mobileSlides; let i = index;" 
          class="carousel-item">
       <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
         

@@ -244,14 +244,6 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
     return this.imageErrorStates.get(imageUrl) || false;
   }
 
-  /**
-   * Genera slug optimizado para productos
-  
-
-
-  /**
-   * Maneja el clic en "Lo quiero"
-   */
   onLoQuiero(item: Carrusel): void {
     if (item.producto && item.producto.stock  && item.producto.categoria) {
       let categoriaPadre = item.producto.categoria.categoria_slug; // fallback por defecto
@@ -320,10 +312,5 @@ export class CarruselPrincipalComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * TrackBy function para optimizar rendimiento en *ngFor
-   */
-  trackByIndex(index: number, item: any): number {
-    return index;
-  }
+
 }

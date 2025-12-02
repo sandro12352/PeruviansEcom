@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http'; 
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { InicioPageComponent } from './pages/inicio-page/inicio-page.component';
@@ -70,8 +68,9 @@ import { SharedModule } from '../shared/shared.module';
     PeruviansEcomRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule 
-  ]
+    SharedModule,
+    NgOptimizedImage
+]
   
 })
 export class PeruviansEcomModule { }

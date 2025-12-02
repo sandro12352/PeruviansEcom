@@ -1,9 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
 @Component({
   selector: 'app-modal-emergente',
   templateUrl: './modal-emergente.component.html',
-  styleUrl: './modal-emergente.component.css'
+  styleUrl: './modal-emergente.component.css',
 })
 export class ModalEmergenteComponent {
     isVisible = false;
