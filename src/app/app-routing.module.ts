@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { InicioPageComponent } from './peruvians-ecom/pages/inicio-page/inicio-page.component';
 
 const routes: Routes = [
@@ -16,6 +16,10 @@ const routes: Routes = [
     component:InicioPageComponent
   },
   {
+    path:'',
+    loadChildren:()=>import('./peruvians-ecom/peruvians-ecom.module').then(m=>m.PeruviansEcomModule)
+  },
+  {
     path:'**',
     redirectTo:'',
     pathMatch:'full'
@@ -23,9 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),RouterModule.forRoot(routes, {
-    preloadingStrategy: PreloadAllModules
-  })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
