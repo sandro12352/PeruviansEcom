@@ -12,6 +12,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { NuestrasTiendasComponent } from './pages/nuestras-tiendas/nuestras-tiendas.component';
 import { categoriaEtiquetaResolver } from '../resolvers/categoria-etiqueta.resolver';
+import { detalleProductoResolver } from '../resolvers/detalle-producto.resolver';
 
 const routes: Routes = [
   { path: 'blog', loadChildren:()=>import('./pages/blog-page/blog-page.module').then(m=>m.BlogPageModule)},
@@ -30,7 +31,9 @@ const routes: Routes = [
   { path: 'libro-reclamaciones', component: LibroReclamacionesComponent },
   { path: ':categoriaPadreSlug', component: MostrarProductoComponent ,resolve:{ recurso:categoriaEtiquetaResolver}},
   { path: ':categoriaPadreSlug/:categoriaHijoSlug', component: MostrarProductoComponent },      
-  { path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', component: DetalleProductoPageComponent },
+  { path: ':categoriaPadreSlug/:categoriaHijoSlug/:nombreProducto/:id', component: DetalleProductoPageComponent , 
+    resolve:{producto:detalleProductoResolver}
+  },
   {
     path: '**',
     redirectTo: '',
