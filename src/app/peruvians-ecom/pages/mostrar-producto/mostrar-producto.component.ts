@@ -11,6 +11,7 @@ import { TiendaService } from '../../services/tienda.service';
 import { Etiqueta } from '../../interfaces/etiqueta.interface';
 import { EtiquetaService } from '../../services/etiqueta.service';
 import { TipoRecurso } from '../../../resolvers/categoria-etiqueta.resolver';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-mostrar-producto',
@@ -57,7 +58,8 @@ constructor(
   private etiquetaService:EtiquetaService,
   private peruvianService:PeruviansService, 
   private tiendaService: TiendaService,
-  private cdr: ChangeDetectorRef
+  private cdr: ChangeDetectorRef,
+  private seoService:SeoService
 ) {}
 
 ngOnInit(): void {
@@ -78,6 +80,7 @@ ngOnInit(): void {
       .map(p => decodeURIComponent(p));
 
     // 🔥 VOLVER A CARGAR LA DATA
+    this.seoService.setCanonical(this.router.url);
     this.cargarCategoriaDesdeRuta();
   });
 

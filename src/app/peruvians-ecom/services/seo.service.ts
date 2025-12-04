@@ -43,16 +43,6 @@ export class SeoService {
   }
 
 
-
-
-
-
-
-
-
-
-
-  
   setProductMeta(title: string, description: string, url: string) {
     this.setTitle(title);
     this.setDescription(description);

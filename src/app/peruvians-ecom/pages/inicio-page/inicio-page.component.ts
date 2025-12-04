@@ -9,6 +9,7 @@ import { ConfiguracionCyberwow, DashboardResponse } from '../../interfaces/dashb
 import { Producto } from '../../interfaces/producto';
 import { Categoria } from '../../interfaces/categoria'; // SOLO UNA VEZ
 import { Etiqueta } from '../../interfaces/etiqueta.interface';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-inicio-page',
@@ -45,12 +46,13 @@ export class InicioPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dashboardService:DashboardService
+    private dashboardService:DashboardService,
+    private seoService: SeoService
     
   ) {}
   
   ngOnInit(): void {
-    
+    this.seoService.setCanonical(this.router.url);
    this.cargarDatosDesdeResolver();
 
   }
