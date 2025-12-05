@@ -60,7 +60,7 @@ export class DetalleProductoPageComponent implements OnInit {
 
     this.seoService.setProductMeta(
       producto.nombre,
-      producto.descripcion,
+      producto.meta_description,
       canonicalUrl
     );
 
