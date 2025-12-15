@@ -275,8 +275,8 @@
           >
             <div class="accordion-body">
               <ul>
-                <li *ngFor="let item of producto.ingredientes! | splitBeneficios">
-                  {{ item }}
+                <li *ngFor="let item of producto.ingredientes! | splitBeneficios" 
+                [innerHTML]="item">
                 </li>
               </ul>
             </div>  
