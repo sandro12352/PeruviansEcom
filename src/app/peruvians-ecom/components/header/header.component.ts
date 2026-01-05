@@ -190,8 +190,14 @@ navegarACategoriaHijo(categoriaPadre: Categoria, categoriaHijo: Categoria): void
    * Navega al checkout
    */
   irACheckout(): void {
-    document.body.style.overflow = '';
-    document.body.style.padding = '';
+
+    const offcanvasElement = document.getElementById('offcanvasCarrito');
+    if (offcanvasElement) {
+      const bsOffcanvas = (window as any).bootstrap?.Offcanvas?.getInstance(offcanvasElement);
+      if (bsOffcanvas) {
+        bsOffcanvas.hide();
+      }
+    }
     this.router.navigate(['/checkout/carrito']);
   }
 
