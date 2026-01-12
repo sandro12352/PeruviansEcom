@@ -30,7 +30,7 @@
   .carousel-img-container img {
     width: 100%;
     height: auto;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
     margin: 0 auto;
     max-width: 100%;
@@ -52,10 +52,6 @@
     height: auto;
   }
 
-  .carousel-img-container img {
-    height: 500px;
-    object-fit: cover;
-  }
 }
 
 /* Skeleton para imágenes individuales dentro del carrusel */
