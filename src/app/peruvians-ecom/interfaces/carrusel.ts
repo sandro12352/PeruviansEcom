@@ -4,7 +4,7 @@ export interface Carrusel {
   id: number;
   imagen: string;
   imagen_url: string;
-  imgen_mobil_url:string;
+  imagen_mobile_url:string;
   orden: number;
   estado: string;
   created_at: string;

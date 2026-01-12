@@ -11,10 +11,10 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./carrusel-principal.component.css']
 })
 export class CarruselPrincipalComponent implements OnInit {
-  
+
   @ViewChild('carouselInicio') desktopCarousel!: ElementRef<HTMLDivElement>;
   @ViewChild('carouselInicioMobile') mobileCarousel!: ElementRef<HTMLDivElement>;
-  
+
   carruselItems: Carrusel[] = [];
   isLoading = false; // Cambiado a false inicialmente
   error: string | null = null;
@@ -30,41 +30,41 @@ export class CarruselPrincipalComponent implements OnInit {
     private carruselService: CarruselService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     // Cargar contenido dinámico
     this.error = null;
     this.cargarCarrusel();
   }
 
- 
 
- 
+
+
 
   /**
    * Inicializa los carruseles de Bootstrap
    */
   private initializeCarousels(): void {
     if (isPlatformBrowser(this.platformId)) {
-      
+
       const desktopCarousel = this.desktopCarousel.nativeElement;
       const mobileCarousel = this.mobileCarousel.nativeElement;
-  
+
       // Reinicializar carrusel desktop
       if (desktopCarousel && (window as any).bootstrap) {
         try {
           const carousel = new (window as any).bootstrap.Carousel(desktopCarousel, {
             interval: 3000, // ✅ 3 segundos (3000 milisegundos)
             pause: 'hover',
-            ride:'carousel',
+            ride: 'carousel',
           });
-  
+
           // Escuchar eventos de cambio de slide
           desktopCarousel.addEventListener('slide.bs.carousel', (event: any) => {
             this.preloadNextSlideImages(event.to, 'desktop');
           });
-  
+
           // Activar auto-play solo si hay slides dinámicos
           if (this.desktopSlides.length > 0) {
             setTimeout(() => {
@@ -75,7 +75,7 @@ export class CarruselPrincipalComponent implements OnInit {
           console.warn('Error inicializando carrusel desktop:', error);
         }
       }
-  
+
       // Reinicializar carrusel móvil
       if (mobileCarousel && (window as any).bootstrap) {
         try {
@@ -85,12 +85,12 @@ export class CarruselPrincipalComponent implements OnInit {
             interval: 3000, // ✅ 3 segundos (3000 milisegundos)
             pause: 'hover'
           });
-  
+
           // Escuchar eventos de cambio de slide
           mobileCarousel.addEventListener('slide.bs.carousel', (event: any) => {
             this.preloadNextSlideImages(event.to, 'mobile');
           });
-  
+
           // Activar auto-play solo si hay slides dinámicos
           if (this.mobileSlides.length > 0) {
             setTimeout(() => {
@@ -132,23 +132,23 @@ export class CarruselPrincipalComponent implements OnInit {
   /**
    * Precarga una imagen específica
    */
- private preloadImage(imageUrl: string): void {
-  if (typeof window === 'undefined') return; // Evita ejecutar en SSR
+  private preloadImage(imageUrl: string): void {
+    if (typeof window === 'undefined') return; // Evita ejecutar en SSR
 
-  if (!imageUrl || this.imageLoadingStates.has(imageUrl)) return;
+    if (!imageUrl || this.imageLoadingStates.has(imageUrl)) return;
 
-  this.imageLoadingStates.set(imageUrl, true);
+    this.imageLoadingStates.set(imageUrl, true);
 
-  const img = new Image();
-  img.onload = () => {
-    this.imageLoadingStates.set(imageUrl, false);
-  };
-  img.onerror = () => {
-    this.imageLoadingStates.set(imageUrl, false);
-    this.imageErrorStates.set(imageUrl, true);
-  };
-  img.src = imageUrl;
-}
+    const img = new Image();
+    img.onload = () => {
+      this.imageLoadingStates.set(imageUrl, false);
+    };
+    img.onerror = () => {
+      this.imageLoadingStates.set(imageUrl, false);
+      this.imageErrorStates.set(imageUrl, true);
+    };
+    img.src = imageUrl;
+  }
 
 
   /**
@@ -161,12 +161,12 @@ export class CarruselPrincipalComponent implements OnInit {
     this.carruselService.getCarrusel().subscribe({
       next: (response) => {
         this.isLoading = false;
-        
+
         if (response.success && response.data && response.data.length > 0) {
           this.carruselItems = response.data;
           this.procesarSlides();
           this.preloadInitialImages();
-          
+
           setTimeout(() => {
             this.initializeCarousels();
           }, 100);
@@ -214,16 +214,24 @@ export class CarruselPrincipalComponent implements OnInit {
    * Procesa los slides una sola vez para evitar re-renders
    */
   private procesarSlides(): void {
-    // Desktop slides (agrupando de a 2)
-    if (this.carruselItems && this.carruselItems.length > 0) {
-      for (let i = 0; i < this.carruselItems.length; i += 2) {
-        const slide = this.carruselItems.slice(i, i + 2);
+    // 1. Limpiar los slides anteriores para evitar duplicados al recargar
+    this.desktopSlides = [];
+    this.mobileSlides = [];
+
+    // 2. Filtrar solo los items activos (asumiendo que tienen una propiedad 'estado')
+    // Si tu API ya los manda filtrados, puedes omitir el .filter
+    const itemsActivos = this.carruselItems.filter(item => item.estado !== 'inactivo');
+
+    // 3. Desktop slides (agrupando de a 2)
+    if (itemsActivos.length > 0) {
+      for (let i = 0; i < itemsActivos.length; i += 1) {
+        const slide = itemsActivos.slice(i, i + 1);
         this.desktopSlides.push(slide);
       }
     }
 
-    // Mobile slides (uno por uno)
-    this.mobileSlides = [...this.carruselItems];
+    // 4. Mobile slides (uno por uno)
+    this.mobileSlides = [...itemsActivos];
   }
 
   /**
@@ -241,14 +249,14 @@ export class CarruselPrincipalComponent implements OnInit {
   }
 
   onLoQuiero(item: Carrusel): void {
-    if (item.producto && item.producto.stock  && item.producto.categoria) {
+    if (item.producto && item.producto.stock && item.producto.categoria) {
       let categoriaPadre = item.producto.categoria.categoria_slug; // fallback por defecto
       let subcategoria = item.producto.subcategoria?.categoria_slug;
       if (item.producto.categoria.es_padre) {
-        categoriaPadre = item.producto.categoria.categoria_slug;      
-         
+        categoriaPadre = item.producto.categoria.categoria_slug;
+
       }
-      this.router.navigate(['/',categoriaPadre  ,subcategoria ,item.producto.producto_slug,item.producto.id]);
+      this.router.navigate(['/', categoriaPadre, subcategoria, item.producto.producto_slug, item.producto.id]);
     } else if (item.producto && item.producto.stock) {
       const slug = item.producto.producto_slug;
       this.router.navigate(['/productos', slug]);
@@ -279,11 +287,11 @@ export class CarruselPrincipalComponent implements OnInit {
    */
   onImageError(event: any): void {
     const imageUrl = event.target.src;
-    
+
     // Marcar como error
     this.imageErrorStates.set(imageUrl, true);
     this.imageLoadingStates.set(imageUrl, false);
-    
+
     // Opcional: imagen de fallback solo para slides dinámicos
     if (!imageUrl.includes('banner')) {
       // event.target.src = 'assets/images/placeholder.jpg';

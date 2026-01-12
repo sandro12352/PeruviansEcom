@@ -172,23 +172,23 @@
       <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
         
         <!-- Skeleton por imagen individual móvil -->
-        <div *ngIf="isImageLoading(item.imgen_mobil_url)" 
+        <div *ngIf="isImageLoading(item.imagen_mobile_url)" 
              class="image-skeleton full-width-skeleton">
         </div>
         
         <img 
           ngOptimizedImage 
-          [ngSrc]="item.imgen_mobil_url" 
+          [ngSrc]="item.imagen_mobile_url" 
           width="400" 
           height="400"
           class="d-block carousel-img" 
           [alt]="item.producto?.nombre || 'Promoción'"
-          [style.display]="isImageLoading(item.imgen_mobil_url) ? 'none' : 'block'"
+          [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'"
           (load)="onImageLoad($event)"
           (error)="onImageError($event)">
         
         <button class="btn-lo-quiero"
-                [style.display]="isImageLoading(item.imgen_mobil_url) ? 'none' : 'block'">
+                [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'">
           {{ item.producto?.stock ? 'Lo quiero' : 'Ver más' }}
         </button>
       </div>
