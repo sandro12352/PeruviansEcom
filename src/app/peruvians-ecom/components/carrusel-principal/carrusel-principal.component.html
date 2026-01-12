@@ -44,25 +44,28 @@
       <div class="d-flex">
         <!-- Primera imagen del slide -->
         <div 
-          class="carousel-img-container half-width" 
+          [class.half-width]="slide[1]" 
+          [class.full-width]="!slide[1]" 
+          class="carousel-img-container" 
           (click)="onLoQuiero(slide[0])">
           
           <!-- Skeleton por imagen individual -->
           <div *ngIf="isImageLoading(slide[0].imagen_url)" 
+            [class.half-width-skeleton]="slide[1]"
+            [class.full-width-skeleton]="!slide[1]"
                class="image-skeleton half-width-skeleton">
           </div>
           
           <img 
             ngOptimizedImage [ngSrc]="slide[0].imagen_url" 
             loading="lazy"
-             width="960"
-             height="700"
+            [width]="slide[1] ? 960 : 1920" 
+            height="700"
             class="d-block carousel-img" 
             [alt]="slide[0].producto?.nombre || 'Promoción'"
             [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'"
             (load)="onImageLoad($event)"
-            (error)="onImageError($event)"
-            (loadstart)="onImageLoadStart(slide[0].imagen_url)">
+            (error)="onImageError($event)">
           
           <button class="btn-lo-quiero" 
                   [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'">
@@ -85,7 +88,7 @@
             ngOptimizedImage [ngSrc]="slide[1].imagen_url" 
             loading="lazy" 
             width="960"
-            height="700"
+            height="100"
             class="d-block carousel-img" 
             [alt]="slide[1].producto?.nombre || 'Promoción'"
             [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'"
@@ -99,10 +102,7 @@
           </button>
         </div>
 
-        <!-- Placeholder si solo hay una imagen en el slide -->
-        <div *ngIf="!slide[1]" class="carousel-img-container half-width d-flex align-items-center justify-content-center" style="background-color: #f8f9fa;">
-          <span class="text-muted">Próximamente más ofertas</span>
-        </div>
+        
       </div>
     </div>
 
