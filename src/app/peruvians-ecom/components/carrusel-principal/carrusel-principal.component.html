@@ -27,7 +27,7 @@
     <!-- Banner fijo (slide 0) - SIEMPRE PRESENTE -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img ngOptimizedImage ngSrc="imagenes/principal/bannerOptimizado.jpg" 
+        <img ngOptimizedImage [ngSrc]="slidePrincipal.imagen_url" 
             class="d-block carousel-img" 
             alt="banner principal" 
               width="1920"
@@ -156,12 +156,12 @@
     <!-- Banner fijo móvil (slide 0) - SIEMPRE PRESENTE -->
     <div class="carousel-item active">
       <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img src="imagenes/principal/bannerMovil.jpg" 
+        <img [ngSrc]="slidePrincipal.imagen_mobile_url"  width="400" height="200"
              class="d-block carousel-img" 
              fetchpriority="high" 
              decoding="async" 
              alt="banner principal móvil" 
-             (error)="onImageError($event)">
+             (error)="onImageError($event)" >
         <button class="btn-lo-quiero">Lo quiero</button>
       </div>
     </div>

@@ -21,6 +21,7 @@ export class CarruselPrincipalComponent implements OnInit {
   // Propiedades para cachear los slides y evitar re-renders
   desktopSlides: Carrusel[][] = [];
   mobileSlides: Carrusel[] = [];
+  slidePrincipal!:Carrusel;
 
   // Control de carga de imágenes individuales
   imageLoadingStates: Map<string, boolean> = new Map();
@@ -160,10 +161,12 @@ export class CarruselPrincipalComponent implements OnInit {
 
     this.carruselService.getCarrusel().subscribe({
       next: (response) => {
+        console.log(response)
         this.isLoading = false;
 
         if (response.success && response.data && response.data.length > 0) {
           this.carruselItems = response.data;
+          this.slidePrincipal = response.slide_principal;
           this.procesarSlides();
           this.preloadInitialImages();
 
@@ -232,6 +235,8 @@ export class CarruselPrincipalComponent implements OnInit {
 
     // 4. Mobile slides (uno por uno)
     this.mobileSlides = [...itemsActivos];
+
+
   }
 
   /**

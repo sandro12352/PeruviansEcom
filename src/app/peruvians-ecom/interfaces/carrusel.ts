@@ -15,5 +15,6 @@ export interface Carrusel {
 export interface CategoriaResponse {
   success: boolean;
   data: Carrusel[];
+  slide_principal:Carrusel,
   message?: string;
 }
