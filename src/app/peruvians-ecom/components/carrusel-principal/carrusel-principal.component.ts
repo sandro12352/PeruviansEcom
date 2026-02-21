@@ -16,12 +16,12 @@ export class CarruselPrincipalComponent implements OnInit {
   @ViewChild('carouselInicioMobile') mobileCarousel!: ElementRef<HTMLDivElement>;
 
   carruselItems: Carrusel[] = [];
-  isLoading = false; // Cambiado a false inicialmente
+  isLoading = true; // Cambiado a true para mostrar el skeleton inmediatamente
   error: string | null = null;
   // Propiedades para cachear los slides y evitar re-renders
   desktopSlides: Carrusel[][] = [];
   mobileSlides: Carrusel[] = [];
-  slidePrincipal!:Carrusel;
+  slidePrincipal: Carrusel | null = null; // Inicializado como null
 
   // Control de carga de imágenes individuales
   imageLoadingStates: Map<string, boolean> = new Map();

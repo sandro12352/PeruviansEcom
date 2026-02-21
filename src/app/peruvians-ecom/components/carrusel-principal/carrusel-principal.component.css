@@ -1,3 +1,9 @@
+/* Contenedor Compacto - Crea ese look "premium" y contenido */
+.carousel-container-compact {
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .half-width {
   width: 50%;
 }
@@ -6,22 +12,22 @@
   width: 100%;
 }
 
-.half-width-skeleton { width: 100%; height: 700px; }
-.full-width-skeleton { width: 100%; height: 700px; }
 /* Responsive para móviles */
 @media (max-width: 767.98px) {
-  /* Apilar imágenes si hay dos en una slide */
-  .carousel-item > .d-flex {
+  .carousel-container-compact {
+    padding: 0;
+    /* Full width en móvil para aprovechar espacio */
+  }
+
+  .carousel-item>.d-flex {
     flex-direction: column;
   }
 
-  /* Ocultar segunda imagen en móvil */
-  .carousel-item > .d-flex > .carousel-img-container.half-width:not(:first-child) {
+  .carousel-item>.d-flex>.carousel-img-container.half-width:not(:first-child) {
     display: none;
   }
 
-  /* Mostrar solo una imagen por slide */
-  .carousel-item > .d-flex > .carousel-img-container.half-width:first-child,
+  .carousel-item>.d-flex>.carousel-img-container.half-width:first-child,
   .carousel-item .carousel-img-container.full-width {
     width: 100%;
   }
@@ -46,121 +52,154 @@
   .carousel-img-container.half-width img {
     height: auto !important;
   }
-  
-  /* Responsive ajustes para móviles - carrusel inner */
-  .carousel-inner {
-    height: auto;
-  }
-
 }
 
-
-/* Pantallas medianas (Tablets y Laptops pequeñas) */
+/* Pantallas medianas */
 @media (min-width: 768px) and (max-width: 1199.98px) {
   .carousel-img {
-    height: 450px; /* Reducimos la altura para que no se vea "tan cerca" */
-  }
-  
-  .half-width-skeleton, .full-width-skeleton {
-    height: 450px;
+    height: 600px;
   }
 }
 
-/* Pantallas grandes (Escritorio estándar) */
+/* Pantallas grandes - MÁS ALTURA solicitada */
 @media (min-width: 1200px) {
   .carousel-img {
-    height: 700px;
+    height: 85vh;
+    max-height: 850px;
   }
 }
 
-/* Skeleton para imágenes individuales dentro del carrusel */
+/* Skeleton Premium */
 .image-skeleton {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #48305e50 25%, #e0e0e0ad 37%, #d8c9e848 63%);
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 37%, #f0f0f0 63%);
   background-size: 400% 100%;
-  animation: skeleton-loading 1.2s infinite ease-in-out;
-  border-radius: 8px;
+  animation: skeleton-loading 1.4s infinite ease-in-out;
   z-index: 1;
 }
 
-.image-skeleton.half-width-skeleton {
-  width: 100%;
-  height: 100%;
-}
-
-.image-skeleton.full-width-skeleton {
-  width: 100%;
-  height: 100%;
-}
-
-/* Animación skeleton para imágenes individuales */
 @keyframes skeleton-loading {
   0% {
     background-position: 100% 0;
   }
+
   100% {
     background-position: -100% 0;
   }
 }
 
-/* Estilos base del carrusel */
+/* Estilos de Imagen y Contenedor */
 .carousel-img-container {
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  /* Bordes redondeados para el look compacta/premium */
+  /* Pequeño espacio entre imágenes si hay half-width */
 }
 
 .carousel-img {
   width: 100%;
-  height: 70vh;
-  min-height: 400px;  /* Evita que sea demasiado pequeña */
-  max-height: 700px;  /* Evita que sea demasiado gigante */
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 .carousel-img-container:hover .carousel-img {
-  transform: scale(1.1) rotate(2deg);
-  filter: grayscale(10%) brightness(90%) blur(1px);
+  transform: scale(1.05);
 }
 
+.carousel-img-container:hover .carousel-overlay {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Premium "Lo quiero" */
 .btn-lo-quiero {
   position: absolute;
-  top: 50%;
+  bottom: 10%;
+  /* Posición más elegante */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 20px);
   color: white;
-  padding: 12px 20px;
+  padding: 14px 32px;
   font-size: 1.1rem;
-  font-weight: bold;
-  background-color: #ec6630;
+  font-weight: 700;
+  background: #ec6630;
   border: none;
   border-radius: 50px;
   opacity: 0;
-  box-shadow: 0 8px 15px rgba(0, 128, 0, 0.3);
-  transition: opacity 0.3s ease;
+  box-shadow: 0 10px 25px rgba(236, 102, 48, 0.4);
+  /* Sombra naranja, no verde! */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .carousel-img-container:hover .btn-lo-quiero {
   opacity: 1;
+  transform: translate(-50%, 0);
 }
 
-/* Indicadores del carrusel */
+.btn-lo-quiero:hover {
+  background: #f17b4d;
+  box-shadow: 0 15px 30px rgba(236, 102, 48, 0.6);
+  transform: translate(-50%, -5px) scale(1.05);
+}
+
+/* Indicadores Personalizados */
+.carousel-indicators {
+  bottom: 30px;
+}
+
 .carousel-indicators button {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color: #888;
-  border: none;
-  margin: 0 6px;
-  transition: background-color 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 2px solid transparent;
+  margin: 0 8px;
+  transition: all 0.3s ease;
 }
 
 .carousel-indicators button.active {
   background-color: #ffffff;
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Controles */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-container-compact:hover .carousel-control-prev,
+.carousel-container-compact:hover .carousel-control-next {
+  opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.3);
+  background-size: 50%;
+  border-radius: 50%;
+  padding: 25px;
+  backdrop-filter: blur(5px);
 }

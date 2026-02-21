@@ -1,222 +1,138 @@
-
 <!-- Loading State - Solo para slides dinámicos -->
-<app-carrusel-skeleton *ngIf="isLoading && hasDynamicSlides()"></app-carrusel-skeleton>
+<app-carrusel-skeleton *ngIf="isLoading"></app-carrusel-skeleton>
 
 
-<!-- Carrusel Desktop - SIEMPRE visible -->
-<div id="carouselInicio" #carouselInicio class="carousel slide mb-5 d-none d-md-block" >
-  
-  <!-- Indicadores - Banner siempre presente + slides dinámicos si existen -->
-  <div class="carousel-indicators d-none d-md-flex">
-    <!-- Banner fijo siempre como primer slide -->
-    <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-    
-    <!-- Slides dinámicos solo si se cargaron -->
-    <button 
-      *ngFor="let slide of desktopSlides; let i = index" 
-      type="button" 
-      data-bs-target="#carouselInicio" 
-      [attr.data-bs-slide-to]="i + 1" 
-      [attr.aria-label]="'Slide ' + (i + 2)">
+<!-- Contenedor Compacto para el Carrusel -->
+<div class="carousel-container-compact" *ngIf="!isLoading && slidePrincipal">
+
+  <!-- Carrusel Desktop - SIEMPRE visible -->
+  <div id="carouselInicio" #carouselInicio class="carousel slide mb-4 d-none d-md-block">
+
+    <!-- Indicadores -->
+    <div class="carousel-indicators d-none d-md-flex">
+      <button type="button" data-bs-target="#carouselInicio" data-bs-slide-to="0" class="active"
+        aria-label="Slide 1"></button>
+
+      <button *ngFor="let slide of desktopSlides; let i = index" type="button" data-bs-target="#carouselInicio"
+        [attr.data-bs-slide-to]="i + 1" [attr.aria-label]="'Slide ' + (i + 2)">
+      </button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+
+      <!-- Banner fijo (slide 0) -->
+      <div class="carousel-item active">
+        <div [routerLink]="['productos']" class="carousel-img-container full-width">
+          <img ngOptimizedImage [ngSrc]="slidePrincipal.imagen_url" class="d-block carousel-img" alt="banner principal"
+            width="1920" height="850" priority (error)="onImageError($event)">
+          <div class="carousel-overlay"></div>
+          <button class="btn-lo-quiero">Lo quiero</button>
+        </div>
+      </div>
+
+      <!-- Slides dinámicos -->
+      <div *ngFor="let slide of desktopSlides; let i = index;" class="carousel-item">
+        <div class="d-flex">
+          <div [class.half-width]="slide[1]" [class.full-width]="!slide[1]" class="carousel-img-container"
+            (click)="onLoQuiero(slide[0])">
+
+            <div *ngIf="isImageLoading(slide[0].imagen_url)" class="image-skeleton"></div>
+
+            <img ngOptimizedImage [ngSrc]="slide[0].imagen_url" loading="lazy" [width]="slide[1] ? 960 : 1920"
+              height="850" class="d-block carousel-img" [alt]="slide[0].producto?.nombre || 'Promoción'"
+              [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'" (load)="onImageLoad($event)"
+              (error)="onImageError($event)">
+
+            <div class="carousel-overlay"></div>
+            <button class="btn-lo-quiero" [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'">
+              {{ slide[0].producto?.stock ? 'Lo quiero' : 'Ver más' }}
+            </button>
+          </div>
+
+          <div *ngIf="slide[1]" class="carousel-img-container half-width" (click)="onLoQuiero(slide[1])">
+
+            <div *ngIf="isImageLoading(slide[1].imagen_url)" class="image-skeleton"></div>
+
+            <img ngOptimizedImage [ngSrc]="slide[1].imagen_url" loading="lazy" width="960" height="850"
+              class="d-block carousel-img" [alt]="slide[1].producto?.nombre || 'Promoción'"
+              [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'" (load)="onImageLoad($event)"
+              (error)="onImageError($event)">
+
+            <div class="carousel-overlay"></div>
+            <button class="btn-lo-quiero" [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'">
+              {{ slide[1].producto?.stock ? 'Lo quiero' : 'Ver más' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <button *ngIf="desktopSlides.length > 0" class="carousel-control-prev" type="button"
+      data-bs-target="#carouselInicio" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button *ngIf="desktopSlides.length > 0" class="carousel-control-next" type="button"
+      data-bs-target="#carouselInicio" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
     </button>
   </div>
 
-  <!-- Slides -->
-  <div class="carousel-inner">
+  <!-- Carrusel Móvil -->
+  <div id="carouselInicioMobile" #carouselInicioMobile class="carousel slide d-block d-md-none" data-bs-ride="carousel">
 
-    <!-- Banner fijo (slide 0) - SIEMPRE PRESENTE -->
-    <div class="carousel-item active">
-      <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img ngOptimizedImage [ngSrc]="slidePrincipal.imagen_url" 
-            class="d-block carousel-img" 
-            alt="banner principal" 
-              width="1920"
-              height="700"
-              priority
+    <!-- Indicadores para móviles -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="0" class="active"
+        aria-label="Slide 1"></button>
+
+      <button *ngFor="let item of mobileSlides; let i = index" type="button" data-bs-target="#carouselInicioMobile"
+        [attr.data-bs-slide-to]="i + 1" [attr.aria-label]="'Slide ' + (i + 2)">
+      </button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div [routerLink]="['productos']" class="carousel-img-container full-width">
+          <img ngOptimizedImage [ngSrc]="slidePrincipal.imagen_mobile_url" width="800" height="1200"
+            class="d-block carousel-img" priority alt="banner principal móvil" (error)="onImageError($event)">
+          <div class="carousel-overlay"></div>
+          <button class="btn-lo-quiero">Lo quiero</button>
+        </div>
+      </div>
+
+      <div *ngFor="let item of mobileSlides; let i = index;" class="carousel-item">
+        <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
+
+          <div *ngIf="isImageLoading(item.imagen_mobile_url)" class="image-skeleton"></div>
+
+          <img ngOptimizedImage [ngSrc]="item.imagen_mobile_url" width="800" height="1200" class="d-block carousel-img"
+            [alt]="item.producto?.nombre || 'Promoción'"
+            [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'" (load)="onImageLoad($event)"
             (error)="onImageError($event)">
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
 
-    <!-- Slides dinámicos de la API - Solo si se cargaron correctamente -->
-    <div *ngFor="let slide of desktopSlides; let i = index;" 
-         class="carousel-item">
-      <div class="d-flex">
-        <!-- Primera imagen del slide -->
-        <div 
-          [class.half-width]="slide[1]" 
-          [class.full-width]="!slide[1]" 
-          class="carousel-img-container" 
-          (click)="onLoQuiero(slide[0])">
-          
-          <!-- Skeleton por imagen individual -->
-          <div *ngIf="isImageLoading(slide[0].imagen_url)" 
-            [class.half-width-skeleton]="slide[1]"
-            [class.full-width-skeleton]="!slide[1]"
-               class="image-skeleton half-width-skeleton">
-          </div>
-          
-          <img 
-            ngOptimizedImage [ngSrc]="slide[0].imagen_url" 
-            loading="lazy"
-            [width]="slide[1] ? 960 : 1920" 
-            height="700"
-            class="d-block carousel-img" 
-            [alt]="slide[0].producto?.nombre || 'Promoción'"
-            [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'"
-            (load)="onImageLoad($event)"
-            (error)="onImageError($event)">
-          
-          <button class="btn-lo-quiero" 
-                  [style.display]="isImageLoading(slide[0].imagen_url) ? 'none' : 'block'">
-            {{ slide[0].producto?.stock ? 'Lo quiero' : 'Ver más' }}
-          </button>
-        </div>
-
-        <!-- Segunda imagen del slide (si existe) -->
-        <div 
-          *ngIf="slide[1]" 
-          class="carousel-img-container half-width" 
-          (click)="onLoQuiero(slide[1])">
-          
-          <!-- Skeleton por imagen individual -->
-          <div *ngIf="isImageLoading(slide[1].imagen_url)" 
-               class="image-skeleton half-width-skeleton">
-          </div>
-          
-          <img 
-            ngOptimizedImage [ngSrc]="slide[1].imagen_url" 
-            loading="lazy" 
-            width="960"
-            height="100"
-            class="d-block carousel-img" 
-            [alt]="slide[1].producto?.nombre || 'Promoción'"
-            [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'"
-            (load)="onImageLoad($event)"
-            (error)="onImageError($event)"
-            (loadstart)="onImageLoadStart(slide[1].imagen_url)">
-          
-          <button class="btn-lo-quiero"
-                  [style.display]="isImageLoading(slide[1].imagen_url) ? 'none' : 'block'">
-            {{ slide[1].producto?.stock ? 'Lo quiero' : 'Ver más' }}
-          </button>
-        </div>
-
-        
-      </div>
-    </div>
-
-    <!-- Mensaje cuando no hay slides dinámicos pero hay error -->
-    <div *ngIf="error && !isLoading && desktopSlides.length === 0" class="carousel-item">
-      <div class="d-flex align-items-center justify-content-center" style="height: 300px; background-color: #f8f9fa;">
-        <div class="text-center">
-          <p class="text-muted mb-3">No se pudieron cargar las ofertas adicionales</p>
-          <button type="button" class="btn btn-primary btn-sm" (click)="recargar()">
-            Reintentar
+          <div class="carousel-overlay"></div>
+          <button class="btn-lo-quiero" [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'">
+            {{ item.producto?.stock ? 'Lo quiero' : 'Ver más' }}
           </button>
         </div>
       </div>
     </div>
-
   </div>
-
-  <!-- Controles - Solo mostrar si hay más de un slide -->
-  <button *ngIf="desktopSlides.length > 0" 
-          class="carousel-control-prev" type="button" data-bs-target="#carouselInicio" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Anterior</span>
-  </button>
-  <button *ngIf="desktopSlides.length > 0" 
-          class="carousel-control-next" type="button" data-bs-target="#carouselInicio" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Siguiente</span>
-  </button>
 </div>
 
-<!-- Carrusel Móvil - SIEMPRE visible -->
-<div id="carouselInicioMobile" #carouselInicioMobile class="carousel slide mb-5 d-block d-md-none" data-bs-ride="carousel">
-  
-  <!-- Indicadores para móviles -->
-  <div class="carousel-indicators">
-    <!-- Banner fijo siempre como primer slide -->
-    <button type="button" data-bs-target="#carouselInicioMobile" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-    
-    <!-- Slides dinámicos solo si se cargaron -->
-    <button 
-      *ngFor="let item of mobileSlides; let i = index" 
-      type="button" 
-      data-bs-target="#carouselInicioMobile" 
-      [attr.data-bs-slide-to]="i + 1" 
-      [attr.aria-label]="'Slide ' + (i + 2)">
+<!-- Fallback Errores -->
+<div *ngIf="error && !isLoading && !slidePrincipal" class="container py-5">
+  <div class="alert alert-info text-center shadow-sm border-0 rounded-4 p-5">
+    <i class="bi bi-info-circle fs-1 text-primary mb-3"></i>
+    <h3>No se pudieron cargar las ofertas</h3>
+    <p class="text-muted">Estamos trabajando para mostrártelas pronto.</p>
+    <button type="button" class="btn btn-primary rounded-pill px-4" (click)="recargar()">
+      Reintentar
     </button>
   </div>
-
-  <div class="carousel-inner">
-    
-    <!-- Banner fijo móvil (slide 0) - SIEMPRE PRESENTE -->
-    <div class="carousel-item active">
-      <div [routerLink]="['productos']" class="carousel-img-container full-width">
-        <img [ngSrc]="slidePrincipal.imagen_mobile_url"  width="400" height="200"
-             class="d-block carousel-img" 
-             fetchpriority="high" 
-             decoding="async" 
-             alt="banner principal móvil" 
-             (error)="onImageError($event)" >
-        <button class="btn-lo-quiero">Lo quiero</button>
-      </div>
-    </div>
-
-    <!-- Slides dinámicos móvil - Solo si se cargaron correctamente -->
-    <div *ngFor="let item of mobileSlides; let i = index;" 
-         class="carousel-item">
-      <div class="carousel-img-container full-width" (click)="onLoQuiero(item)">
-        
-        <!-- Skeleton por imagen individual móvil -->
-        <div *ngIf="isImageLoading(item.imagen_mobile_url)" 
-             class="image-skeleton full-width-skeleton">
-        </div>
-        
-        <img 
-          ngOptimizedImage 
-          [ngSrc]="item.imagen_mobile_url" 
-          width="400" 
-          height="400"
-          class="d-block carousel-img" 
-          [alt]="item.producto?.nombre || 'Promoción'"
-          [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'"
-          (load)="onImageLoad($event)"
-          (error)="onImageError($event)">
-        
-        <button class="btn-lo-quiero"
-                [style.display]="isImageLoading(item.imagen_mobile_url) ? 'none' : 'block'">
-          {{ item.producto?.stock ? 'Lo quiero' : 'Ver más' }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Mensaje cuando no hay slides dinámicos pero hay error -->
-    <div *ngIf="error && !isLoading && mobileSlides.length === 0" class="carousel-item">
-      <div class="d-flex align-items-center justify-content-center" style="height: 200px; background-color: #f8f9fa;">
-        <div class="text-center">
-          <p class="text-muted mb-3">No se pudieron cargar las ofertas adicionales</p>
-          <button type="button" class="btn btn-primary btn-sm" (click)="recargar()">
-            Reintentar
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Controles - Solo mostrar si hay más de un slide -->
-  <button *ngIf="mobileSlides.length > 0" 
-          class="carousel-control-prev" type="button" data-bs-target="#carouselInicioMobile" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Anterior</span>
-  </button>
-  <button *ngIf="mobileSlides.length > 0" 
-          class="carousel-control-next" type="button" data-bs-target="#carouselInicioMobile" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Siguiente</span>
-  </button>
 </div>
